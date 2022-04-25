@@ -7,12 +7,16 @@
 #include <DirectXMath.h>
 using namespace DirectX;
 #include<d3dcompiler.h>
-
-
+#define	DIRECTINPUT_VERSION	0x0800 //DirectInputのバージョン指定
+#include<dinput.h>
 
 #pragma	comment(lib,"d3d12.lib")
 #pragma	comment(lib,"dxgi.lib")
 #pragma	comment(lib,"d3dcompiler.lib")
+#pragma	comment(lib,"dinput8.lib")
+#pragma	comment(lib,"dxguid.lib")
+
+
 
 //ウィンドウプロシージャ
 LRESULT	WindowProc(HWND hwnd, UINT	msg, WPARAM wapram, LPARAM	lparam) {
@@ -213,6 +217,32 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	UINT64	fenceVal = 0;
 
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
+	
+	//DirectInputの初期化
+	IDirectInput8* directInput = nullptr;
+	result = DirectInput8Create(
+		w.hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8,
+		(void**)&directInput, nullptr);
+	assert(SUCCEEDED(result));
+
+	//キーボードデバイスの生成
+	IDirectInputDevice8* keyboard = nullptr;
+	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
+	assert(SUCCEEDED(result));
+
+	//入力データ形式のセット
+	result = keyboard->SetDataFormat(&c_dfDIKeyboard);//標準形式
+	assert(SUCCEEDED(result));
+
+	//排他制御レベルのセット
+	result = keyboard->SetCooperativeLevel(
+		hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	assert(SUCCEEDED(result));
+
+
+
+
+
 	//DirectX初期化処理　　ここまで
 	#pragma endregion
 
@@ -429,6 +459,19 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		#pragma region 毎フレーム処理
 
+		//キーボード情報の取得開始
+		keyboard->Acquire();
+
+		//全キーの入力状態を取得する
+		BYTE	key[256] = {};
+		keyboard->GetDeviceState(sizeof(key), key);
+
+		//数字の0キーが押されてたら
+		if (key[DIK_0])
+		{
+			OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
+		}
+		
 		
 
 		//Direct毎フレーム処理　ここから
@@ -450,6 +493,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 3.画面クリア R G B A
 		FLOAT clearColor[] = { 0.1f,0.25f, 0.5f,0.0f }; // 青っぽい色
 		commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+
+		//スペースキーが押されていたら
+		if (key[DIK_SPACE])
+		{
+			FLOAT clearColor[] = { 0.5f,0.5f, 0.5f,0.0f };
+			commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+		}
 
 		// 4.描画コマンドここから
 		
