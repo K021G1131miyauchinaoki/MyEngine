@@ -504,15 +504,37 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 4.描画コマンドここから
 
 		// ビューポート設定コマンド
-		D3D12_VIEWPORT viewport{};
-		viewport.Width = window_width;
-		viewport.Height = window_height;
-		viewport.TopLeftX = 0;
-		viewport.TopLeftY = 0;
-		viewport.MinDepth = 0.0f;
-		viewport.MaxDepth = 1.0f;
-		// ビューポート設定コマンドを、コマンドリストに積む
-		commandList->RSSetViewports(1, &viewport);
+		D3D12_VIEWPORT viewport[4]{};
+		viewport[0].Width = 840;
+		viewport[0].Height = 480;
+		viewport[0].TopLeftX = 0;
+		viewport[0].TopLeftY = 0;
+		viewport[0].MinDepth = 0.0f;
+		viewport[0].MaxDepth = 1.0f;
+
+		viewport[1].Width = 440;
+		viewport[1].Height = 480;
+		viewport[1].TopLeftX = 840;
+		viewport[1].TopLeftY = 0;
+		viewport[1].MinDepth = 0.0f;
+		viewport[1].MaxDepth = 1.0f;
+
+		viewport[2].Width = 840;
+		viewport[2].Height = 240;
+		viewport[2].TopLeftX = 0;
+		viewport[2].TopLeftY = 480;
+		viewport[2].MinDepth = 0.0f;
+		viewport[2].MaxDepth = 1.0f;
+
+		viewport[3].Width =440 ;
+		viewport[3].Height =240;
+		viewport[3].TopLeftX = 840;
+		viewport[3].TopLeftY = 480;
+		viewport[3].MinDepth = 0.0f;
+		viewport[3].MaxDepth = 1.0f;
+
+
+		
 
 		//シザー矩形
 		D3D12_RECT	scissorRect{};
@@ -533,10 +555,17 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 頂点バッファビューの設定コマンド
 		commandList->IASetVertexBuffers(0, 1, &vbView);
 
-		// 描画コマンド
-		commandList->DrawInstanced(_countof(vertices), 1, 0, 0);//全ての頂点を使って描画
+		
 
+		
 
+		for (size_t i = 0; i < 4; i++)
+		{
+			// ビューポート設定コマンドを、コマンドリストに積む
+			commandList->RSSetViewports(1, &viewport[i]);
+			// 描画コマンド
+			commandList->DrawInstanced(_countof(vertices), 1, 0, 0);//全ての頂点を使って描画
+		}
 		// 4.描画コマンドここまで
 
 		// 5.リソースバリアを戻す
