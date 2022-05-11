@@ -16,7 +16,13 @@ using namespace DirectX;
 #pragma	comment(lib,"dinput8.lib")
 #pragma	comment(lib,"dxguid.lib")
 
-
+struct ConstBufferDataMaterial
+{
+	XMFLOAT4	color;//(RGBA)
+};
+float	R = 1.0f;
+float	G = 0.0f;
+float	B = 0.0f;
 
 //ウィンドウプロシージャ
 LRESULT	WindowProc(HWND hwnd, UINT	msg, WPARAM wapram, LPARAM	lparam) {
@@ -302,6 +308,36 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 頂点１つ分のデータサイズ
 	vbView.StrideInBytes = sizeof(XMFLOAT3);
 
+	// 定数バッファの設定
+	D3D12_HEAP_PROPERTIES cbHeapProp{};   // ヒープ設定
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
+	// リソース設定
+	D3D12_RESOURCE_DESC cbResourceDesc{};
+	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc.Width = (sizeof(ConstBufferDataMaterial)); // 頂点データ全体のサイズ
+	cbResourceDesc.Height = 1;
+	cbResourceDesc.DepthOrArraySize = 1;
+	cbResourceDesc.MipLevels = 1;
+	cbResourceDesc.SampleDesc.Count = 1;
+	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+
+	// 定数バッファの生成
+	ID3D12Resource* constBffMarerial = nullptr;
+	result = device->CreateCommittedResource(
+		&cbHeapProp, // ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc, // リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBffMarerial));
+	assert(SUCCEEDED(result));
+	//定数バッファのマッピング
+	ConstBufferDataMaterial* constMapMaterial = nullptr;
+	result = constBffMarerial->Map(0, nullptr, (void**)&constMapMaterial);//マッピング
+
+	
+
 
 #pragma region シェーダ
 
@@ -394,14 +430,14 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 	// ブレンドステート
-	//pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;  // RBGA全てのチャンネルを描画
+	pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;  // RBGA全てのチャンネルを描画
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
-	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	//blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
-	blenddesc.BlendEnable = true;
-	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
-	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
+	//blenddesc.BlendEnable = true;
+	//blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	//blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
+	//blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
 
 	//加算合成
 	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
@@ -436,11 +472,23 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
-// ルートシグネチャ
+//ルートパラメータの設定
+	D3D12_ROOT_PARAMETER	rootParam = {};
+	rootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParam.Descriptor.ShaderRegister = 0;
+	rootParam.Descriptor.RegisterSpace = 0;
+	rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	
+	
+	// ルートシグネチャ
 	ID3D12RootSignature* rootSignature;
 	// ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	rootSignatureDesc.pParameters = &rootParam;	//ルートパラメータの先頭アドレス
+	rootSignatureDesc.NumParameters = 1;		//ルートパラメータ数
+	
 	// ルートシグネチャのシリアライズ
 	ID3DBlob* rootSigBlob = nullptr;
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
@@ -452,6 +500,8 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	rootSigBlob->Release();
 	// パイプラインにルートシグネチャをセット
 	pipelineDesc.pRootSignature = rootSignature;
+
+
 
 
 	// パイプランステートの生成
@@ -518,7 +568,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		commandList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
 
 		// 3.画面クリア R G B A
-		FLOAT clearColor[] = { 1,1,1,1 }; // 青っぽい色
+		//値を書き込むと自動的に転送される
+		constMapMaterial->color = XMFLOAT4(R, G, B, 0.5f);
+		R -= 0.01f;
+		G += 0.01f;
+		B += 0.01f;
+
+		FLOAT clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
 		commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
 		//スペースキーが押されていたら
@@ -560,6 +616,8 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 頂点バッファビューの設定コマンド
 		commandList->IASetVertexBuffers(0, 1, &vbView);
 
+		//定数バッファビュー（CBV）の設定コマンド
+		commandList->SetGraphicsRootConstantBufferView(0, constBffMarerial->GetGPUVirtualAddress());
 		// 描画コマンド
 		commandList->DrawInstanced(_countof(vertices), 1, 0, 0);//全ての頂点を使って描画
 
