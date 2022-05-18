@@ -255,14 +255,19 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region 描画処理の初期化
 // 頂点データ
 	XMFLOAT3 vertices[] = {
-		{ -0.5f, -0.5f, 0.0f }, // 左下
-		
-		{ +0.5f, -0.5f, 0.0f }, // 右下
-		{ -0.5f, +0.0f, 0.0f }, // 左中
-		{ +0.5f, -0.0f, 0.0f }, // 右中
-		{ -0.5f, +0.5f, 0.0f }, // 左上
-		{ +0.5f, +0.5f, 0.0f }, // 右上
+		{ -0.5f, -0.5f, 0.0f }, // 左下	インディックス0
+		{ -0.5f, +0.5f, 0.0f }, // 左上	インディックス1
+		{ +0.5f, -0.5f, 0.0f }, // 右下	インディックス2
+		{ +0.5f, +0.5f, 0.0f }, // 右上	インディックス3
 	};
+	//インディックスデータ
+	uint16_t	indices[] =
+	{
+		0,1,2,//三角形1つ目
+		1,2,3,//三角形2つ目
+	};
+
+
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
 
@@ -340,10 +345,46 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	result = constBffMarerial->Map(0, nullptr, (void**)&constMapMaterial);//マッピング
 
+	//インディックスデータ全体のサイズ
+	UINT	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
+	// リソース設定
 	
+	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resDesc.Width = sizeIB; // インディックス情報が入る分のサイズ
+	resDesc.Height = 1;
+	resDesc.DepthOrArraySize = 1;
+	resDesc.MipLevels = 1;
+	resDesc.SampleDesc.Count = 1;
+	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
+	//インディックスバッファの生成
+	ID3D12Resource* indexBuff = nullptr;
+	result = device->CreateCommittedResource(
+		&heapProp,//ヒープの設定
+		D3D12_HEAP_FLAG_NONE,
+		&resDesc,//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&indexBuff));
 
-#pragma region シェーダ
+	//インディックスバッファをマッピング
+	uint16_t* indexMap = nullptr;
+	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	//全インディックスに対して
+	for (int i = 0; i < _countof(indices); i++)
+	{
+		indexMap[i] = indices[i];//インディックスをコピー
+	}
+	//マッピング解除
+	indexBuff->Unmap(0, nullptr);
+
+	//インディックスバッファビューの作成
+	D3D12_INDEX_BUFFER_VIEW	ibView{};
+	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
+	ibView.Format = DXGI_FORMAT_R16_UINT;
+	ibView.SizeInBytes = sizeIB;
+
+	#pragma region シェーダ
 
 	ID3DBlob* vsBlob = nullptr; // 頂点シェーダオブジェクト
 	ID3DBlob* psBlob = nullptr; // ピクセルシェーダオブジェクト
@@ -516,13 +557,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 
-#pragma endregion
+	#pragma endregion
 #pragma endregion
 
 
 	while (true)
 	{
-#pragma region メッセージ
+	#pragma region メッセージ
 
 
 
@@ -538,7 +579,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 #pragma endregion
 
-#pragma region 毎フレーム処理
+	#pragma region 毎フレーム処理
 
 		//キーボード情報の取得開始
 		keyboard->Acquire();
@@ -573,10 +614,8 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// 3.画面クリア R G B A
 		//値を書き込むと自動的に転送される
-		constMapMaterial->color = XMFLOAT4(R, G, B, 0.5f);
-		R -= 0.01f;
-		G += 0.01f;
-		B += 0.01f;
+		constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.5f);
+		
 
 		FLOAT clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
 		comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
@@ -622,8 +661,12 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//定数バッファビュー（CBV）の設定コマンド
 		comList->SetGraphicsRootConstantBufferView(0, constBffMarerial->GetGPUVirtualAddress());
+		
+		//インディックスバッファビューの設定コマンド
+		comList->IASetIndexBuffer(&ibView);
+		
 		// 描画コマンド
-		comList->DrawInstanced(6, 1, 0, 0);//全ての頂点を使って描画
+		comList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);//全ての頂点を使って描画
 
 
 		// 4.描画コマンドここまで
