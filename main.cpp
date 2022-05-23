@@ -20,6 +20,12 @@ struct ConstBufferDataMaterial
 {
 	XMFLOAT4	color;//(RGBA)
 };
+
+struct Vertex
+{
+	XMFLOAT3	pos;//xyz座標
+	XMFLOAT2	uv;	//uv座標
+};
 float	R = 1.0f;
 float	G = 0.0f;
 float	B = 0.0f;
@@ -254,14 +260,14 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region 描画処理の初期化
 // 頂点データ
-	XMFLOAT3 vertices[] = {
-		{ -0.5f, -0.5f, 0.0f }, // 左下	インディックス0
-		{ -0.5f, +0.5f, 0.0f }, // 左上	インディックス1
-		{ +0.5f, -0.5f, 0.0f }, // 右下	インディックス2
-		{ +0.5f, +0.5f, 0.0f }, // 右上	インディックス3
+	Vertex vertices[] = {
+			{{-0.4f,-0.7f,0.0f},{0.0f,1.0f}},
+			{{-0.4f,+0.7f,0.0f},{0.0f,0.0f}},
+			{{+0.4f,-0.7f,0.0f},{1.0f,1.0f}},
+			{{+0.4f,+0.7f,0.0f},{1.0f,0.0f}} ,
 	};
 	//インディックスデータ
-	uint16_t	indices[] =
+	unsigned	short	indices[] =
 	{
 		0,1,2,//三角形1つ目
 		1,2,3,//三角形2つ目
@@ -269,7 +275,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
-	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
+	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 
 	// 頂点バッファの設定
 	D3D12_HEAP_PROPERTIES heapProp{};   // ヒープ設定
@@ -297,7 +303,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	assert(SUCCEEDED(result));
 
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	XMFLOAT3* vertMap = nullptr;
+	Vertex* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
@@ -315,7 +321,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 頂点バッファのサイズ
 	vbView.SizeInBytes = sizeVB;
 	// 頂点１つ分のデータサイズ
-	vbView.StrideInBytes = sizeof(XMFLOAT3);
+	vbView.StrideInBytes = sizeof(vertices[0]);
 
 	// 定数バッファの設定
 	D3D12_HEAP_PROPERTIES cbHeapProp{};   // ヒープ設定
@@ -348,7 +354,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//インディックスデータ全体のサイズ
 	UINT	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 	// リソース設定
-	
+
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
 	resDesc.Width = sizeIB; // インディックス情報が入る分のサイズ
 	resDesc.Height = 1;
@@ -384,7 +390,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
 
-	#pragma region シェーダ
+#pragma region シェーダ
 
 	ID3DBlob* vsBlob = nullptr; // 頂点シェーダオブジェクト
 	ID3DBlob* psBlob = nullptr; // ピクセルシェーダオブジェクト
@@ -445,13 +451,14 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
 		{
-			"POSITION",
-			0,
-			DXGI_FORMAT_R32G32B32_FLOAT,
-			0,
+			"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
-			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-			0
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+		}, // (1行で書いたほうが見やすい)
+		{
+			"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
 		}, // (1行で書いたほうが見やすい)
 	};
 
@@ -524,8 +531,8 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	rootParam.Descriptor.RegisterSpace = 0;
 	rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
-	
-	
+
+
 	// ルートシグネチャ
 	ID3D12RootSignature* rootSignature;
 	// ルートシグネチャの設定
@@ -533,7 +540,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 	rootSignatureDesc.pParameters = &rootParam;	//ルートパラメータの先頭アドレス
 	rootSignatureDesc.NumParameters = 1;		//ルートパラメータ数
-	
+
 	// ルートシグネチャのシリアライズ
 	ID3DBlob* rootSigBlob = nullptr;
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
@@ -557,13 +564,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 
-	#pragma endregion
+#pragma endregion
 #pragma endregion
 
 
 	while (true)
 	{
-	#pragma region メッセージ
+#pragma region メッセージ
 
 
 
@@ -579,7 +586,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 #pragma endregion
 
-	#pragma region 毎フレーム処理
+#pragma region 毎フレーム処理
 
 		//キーボード情報の取得開始
 		keyboard->Acquire();
@@ -615,7 +622,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 3.画面クリア R G B A
 		//値を書き込むと自動的に転送される
 		constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.5f);
-		
+
 
 		FLOAT clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
 		comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
@@ -661,10 +668,10 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//定数バッファビュー（CBV）の設定コマンド
 		comList->SetGraphicsRootConstantBufferView(0, constBffMarerial->GetGPUVirtualAddress());
-		
+
 		//インディックスバッファビューの設定コマンド
 		comList->IASetIndexBuffer(&ibView);
-		
+
 		// 描画コマンド
 		comList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);//全ての頂点を使って描画
 
