@@ -22,6 +22,11 @@ struct ConstBufferDataMaterial
 	XMFLOAT4	color;//(RGBA)
 };
 
+struct ConstBufferDataTransform
+{
+	XMMATRIX	mat;//３D変換行列
+};
+
 struct Vertex
 {
 	XMFLOAT3	pos;//xyz座標
@@ -262,10 +267,10 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region 描画処理の初期化
 // 頂点データ
 	Vertex vertices[] = {
-			{{-0.4f,-0.7f,0.0f},{0.0f,1.0f}},
-			{{-0.4f,+0.7f,0.0f},{0.0f,0.0f}},
-			{{+0.4f,-0.7f,0.0f},{1.0f,1.0f}},
-			{{+0.4f,+0.7f,0.0f},{1.0f,0.0f}} ,
+			{{	0.0f,100.0f,0.0f},{0.0f,1.0f}},
+			{{	0.0f,  0.0f,0.0f},{0.0f,0.0f}},
+			{{100.0f,100.0f,0.0f},{1.0f,1.0f}},
+			{{100.0f,  0.0f,0.0f},{1.0f,0.0f}} ,
 	};
 	//インディックスデータ
 	unsigned	short	indices[] =
@@ -337,7 +342,6 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-
 	// 定数バッファの生成
 	ID3D12Resource* constBffMarerial = nullptr;
 	result = device->CreateCommittedResource(
@@ -352,6 +356,42 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	result = constBffMarerial->Map(0, nullptr, (void**)&constMapMaterial);//マッピング
 
+
+	ID3D12Resource* constBuffTransform = nullptr;
+	ConstBufferDataTransform* constMapTransform = nullptr;
+	{
+		//ヒープ設定
+		D3D12_HEAP_PROPERTIES	cbHeapProp{};
+		cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
+		//リソース設定
+		D3D12_RESOURCE_DESC	cbResourceDesc{};
+		cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+		cbResourceDesc.Width = (sizeof(ConstBufferDataTransform) + 0xff) & ~0xff;
+		cbResourceDesc.Height = 1;
+		cbResourceDesc.DepthOrArraySize = 1;
+		cbResourceDesc.MipLevels = 1;
+		cbResourceDesc.SampleDesc.Count = 1;
+		cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+		//定数バッファの生成
+		result = device->CreateCommittedResource(
+			&cbHeapProp,//ヒープ設定
+			D3D12_HEAP_FLAG_NONE,
+			&cbResourceDesc,//リソース設定
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&constBuffTransform));
+		assert(SUCCEEDED(result));
+		//定数バッファのマッピング
+		result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);//マッピング
+		assert(SUCCEEDED(result));
+
+		constMapTransform->mat = XMMatrixIdentity();
+	}
+	constMapTransform->mat.r[0].m128_f32[0] = 2.0f /1280 ;
+	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / 720;
+	constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
+	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
 	//インディックスデータ全体のサイズ
 	UINT	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 	// リソース設定
@@ -469,6 +509,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//SRVヒープの先頭ハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE	srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
+
 #pragma region シェーダ
 	//シェーダリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC	srvDesc{};		//設定構造体
@@ -477,7 +518,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = resDesc.MipLevels;
-
+	
 	//ハンドルの指す位置にシェーダーリソースビュー作成
 	device->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
 
@@ -636,7 +677,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
 	//ルートパラメータの設定
-	D3D12_ROOT_PARAMETER	rootParams[2] = {};
+	D3D12_ROOT_PARAMETER	rootParams[3] = {};
 	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParams[0].Descriptor.ShaderRegister = 0;
 	rootParams[0].Descriptor.RegisterSpace = 0;
@@ -646,6 +687,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;
 	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;
 	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	
+	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParams[2].Descriptor.ShaderRegister = 1;
+	rootParams[2].Descriptor.RegisterSpace = 0;
+	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	
 	// ルートシグネチャ
 	ID3D12RootSignature* rootSignature;
 	// ルートシグネチャの設定
@@ -789,11 +837,10 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		D3D12_GPU_DESCRIPTOR_HANDLE	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 		//SRVヒープの先頭にあるSRVをルートパラメータ１番に設定
 		comList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
-
-
 		//インディックスバッファビューの設定コマンド
 		comList->IASetIndexBuffer(&ibView);
-
+		//定数バッファビュー(CBV)の設定コマンド
+		comList->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
 		// 描画コマンド
 		comList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);//全ての頂点を使って描画
 
