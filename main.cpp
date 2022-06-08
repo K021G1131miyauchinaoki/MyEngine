@@ -266,11 +266,11 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region 描画処理の初期化
 // 頂点データ
-	Vertex vertices[] = {
-			{{	0.0f,100.0f,0.0f},{0.0f,1.0f}},
-			{{	0.0f,  0.0f,0.0f},{0.0f,0.0f}},
-			{{100.0f,100.0f,0.0f},{1.0f,1.0f}},
-			{{100.0f,  0.0f,0.0f},{1.0f,0.0f}} ,
+	Vertex	vertices[] = {
+	{{-50.0f,-50.0f,20.0f},{0.0f,1.0f}},//左下
+	{{-50.0f, 50.0f,20.0f},{0.0f,0.0f}},//左上
+	{{ 50.0f,-50.0f,20.0f},{1.0f,1.0f}},//右下
+	{{ 50.0f, 50.0f,20.0f},{1.0f,0.0f}},//右上
 	};
 	//インディックスデータ
 	unsigned	short	indices[] =
@@ -388,10 +388,21 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		constMapTransform->mat = XMMatrixIdentity();
 	}
-	constMapTransform->mat.r[0].m128_f32[0] = 2.0f /1280 ;
-	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / 720;
-	constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
-	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
+	constMapTransform->mat = XMMatrixOrthographicOffCenterLH(
+		0, 1280,
+		720, 0,
+		0.0f, 1.0f);
+	//射影変換行列(透視投影)
+	XMMATRIX	matProjection = XMMatrixPerspectiveLH(
+		XMConvertToRadians(45.0f),//上下画角45度
+		(float)window_width / window_height,		  //アスペクト比
+		0.1f, 1000.0f);			  //前端、奥端
+	//zikai
+
+
+	//定数バッファに転送
+	constMapTransform->mat = matProjection;
+	
 	//インディックスデータ全体のサイズ
 	UINT	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 	// リソース設定
