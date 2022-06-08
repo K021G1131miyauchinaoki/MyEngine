@@ -35,6 +35,7 @@ struct Vertex
 float	R = 1.0f;
 float	G = 0.0f;
 float	B = 0.0f;
+float	angle = 0.0f;
 
 //ウィンドウプロシージャ
 LRESULT	WindowProc(HWND hwnd, UINT	msg, WPARAM wapram, LPARAM	lparam) {
@@ -267,10 +268,10 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region 描画処理の初期化
 // 頂点データ
 	Vertex vertices[] = {
-			{{-50.0f,-50.0f,50.0f},{0.0f,1.0f}},//左下
-			{{-50.0f, 50.0f,50.0f},{0.0f,0.0f}},//左上
-			{{ 50.0f,-50.0f,50.0f},{1.0f,1.0f}},//右下
-			{{ 50.0f, 50.0f,50.0f},{1.0f,0.0f}},//右上
+			{{-50.0f,-50.0f,0.0f},{0.0f,1.0f}},//左下
+			{{-50.0f, 50.0f,0.0f},{0.0f,0.0f}},//左上
+			{{ 50.0f,-50.0f,0.0f},{1.0f,1.0f}},//右下
+			{{ 50.0f, 50.0f,0.0f},{1.0f,0.0f}},//右上
 	};
 	//インディックスデータ
 	unsigned	short	indices[] =
@@ -403,9 +404,15 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		(float)window_width / window_height,//アスペクト比
 		0.1f, 1000.0f						//前端、奥端
 	);
+	//ビュー変換行列
+	XMMATRIX	matView;
+	XMFLOAT3	eye(0, 0, -100);//視点座標
+	XMFLOAT3	target(0, 0, 0);//注視点座標
+	XMFLOAT3	up(0, 1, 0);	//上方向ベクトル
+	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 
 	//定数バッファに転送
-	constMapTransform->mat = matProjection;
+	constMapTransform->mat = matView*matProjection;
 	//インディックスデータ全体のサイズ
 	UINT	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 	// リソース設定
@@ -778,7 +785,20 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
 		}
 
+		if (key[DIK_A]||key[DIK_D])
+		{
+			if (key[DIK_D]) { angle += XMConvertToRadians(1.0f); }
+			else if (key[DIK_A]) { angle -= XMConvertToRadians(1.0f); }
 
+			//angleラジアンだけy軸周りに回転（半径は-100）
+			eye.x = -100 * sinf(angle);
+			eye.z = -100 * cosf(angle);
+			
+			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+		}
+
+		//定数バッファに転送
+		constMapTransform->mat = matView * matProjection;
 
 		//Direct毎フレーム処理　ここから
 		// バックバッファの番号を取得(2つなので0番か1番)
@@ -893,6 +913,10 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//Direct毎フレーム処理　ここまで
 #pragma endregion
+		if (key[DIK_ESCAPE])
+		{
+			break;
+		}
 	}
 	// ウィンドウクラスを登録解除
 	UnregisterClass(w.lpszClassName, w.hInstance);
