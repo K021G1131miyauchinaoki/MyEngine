@@ -266,11 +266,11 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region 描画処理の初期化
 // 頂点データ
-	Vertex	vertices[] = {
-	{{-50.0f,-50.0f,20.0f},{0.0f,1.0f}},//左下
-	{{-50.0f, 50.0f,20.0f},{0.0f,0.0f}},//左上
-	{{ 50.0f,-50.0f,20.0f},{1.0f,1.0f}},//右下
-	{{ 50.0f, 50.0f,20.0f},{1.0f,0.0f}},//右上
+	Vertex vertices[] = {
+			{{-50.0f,-50.0f,50.0f},{0.0f,1.0f}},//左下
+			{{-50.0f, 50.0f,50.0f},{0.0f,0.0f}},//左上
+			{{ 50.0f,-50.0f,50.0f},{1.0f,1.0f}},//右下
+			{{ 50.0f, 50.0f,50.0f},{1.0f,0.0f}},//右上
 	};
 	//インディックスデータ
 	unsigned	short	indices[] =
@@ -388,21 +388,24 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		constMapTransform->mat = XMMatrixIdentity();
 	}
+	//constMapTransform->mat.r[0].m128_f32[0] = 2.0f / 1280;
+	//constMapTransform->mat.r[1].m128_f32[1] = -2.0f / 720;
+	//constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
+	//constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
+	//並行投影行列の計算
 	constMapTransform->mat = XMMatrixOrthographicOffCenterLH(
-		0, 1280,
-		720, 0,
-		0.0f, 1.0f);
-	//射影変換行列(透視投影)
-	XMMATRIX	matProjection = XMMatrixPerspectiveLH(
-		XMConvertToRadians(45.0f),//上下画角45度
-		(float)window_width / window_height,		  //アスペクト比
-		0.1f, 1000.0f);			  //前端、奥端
-	//zikai
-
+		0, window_width,
+		window_height, 0,
+		0.0f,1.0f);
+	//透視投影行列の計算
+	XMMATRIX	matProjection= XMMatrixPerspectiveFovLH(
+		XMConvertToRadians(45.0f),			//上下画角45度
+		(float)window_width / window_height,//アスペクト比
+		0.1f, 1000.0f						//前端、奥端
+	);
 
 	//定数バッファに転送
 	constMapTransform->mat = matProjection;
-	
 	//インディックスデータ全体のサイズ
 	UINT	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 	// リソース設定
@@ -529,7 +532,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = resDesc.MipLevels;
-	
+
 	//ハンドルの指す位置にシェーダーリソースビュー作成
 	device->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
 
@@ -698,13 +701,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;
 	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;
 	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	
+
 	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParams[2].Descriptor.ShaderRegister = 1;
 	rootParams[2].Descriptor.RegisterSpace = 0;
 	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
-	
+
 	// ルートシグネチャ
 	ID3D12RootSignature* rootSignature;
 	// ルートシグネチャの設定
