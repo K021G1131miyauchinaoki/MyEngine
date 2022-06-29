@@ -30,6 +30,7 @@ struct ConstBufferDataTransform
 struct Vertex
 {
 	XMFLOAT3	pos;//xyz座標
+	XMFLOAT3	normal;//法線ベクトル
 	XMFLOAT2	uv;	//uv座標
 };
 float	R = 1.0f;
@@ -311,35 +312,35 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 // 頂点データ
 	Vertex vertices[] = {
 		//前
-		{{-5.0f,-5.0f,-5.0f},{0.0f,1.0f}},//左下
-		{{-5.0f, 5.0f,-5.0f},{0.0f,0.0f}},//左上
-		{{ 5.0f,-5.0f,-5.0f},{1.0f,1.0f}},//右下
-		{{ 5.0f, 5.0f,-5.0f},{1.0f,0.0f}},//右上
+		{{-5.0f,-5.0f,-5.0f},{}, {0.0f,1.0f}},//左下
+		{{-5.0f, 5.0f,-5.0f},{},{0.0f,0.0f}},//左上
+		{{ 5.0f,-5.0f,-5.0f},{},{1.0f,1.0f}},//右下
+		{{ 5.0f, 5.0f,-5.0f},{},{1.0f,0.0f}},//右上
 		//後（前面とZ座標の符号が逆）
-		{{-5.0f,-5.0f,5.0f},{0.0f,1.0f}},//左下
-		{{-5.0f, 5.0f,5.0f},{0.0f,0.0f}},//左上
-		{{ 5.0f,-5.0f,5.0f},{1.0f,1.0f}},//右下
-		{{ 5.0f, 5.0f,5.0f},{1.0f,0.0f}},//右上
+		{{-5.0f,-5.0f,5.0f},{},{0.0f,1.0f}},//左下
+		{{-5.0f, 5.0f,5.0f},{},{0.0f,0.0f}},//左上
+		{{ 5.0f,-5.0f,5.0f},{},{1.0f,1.0f}},//右下
+		{{ 5.0f, 5.0f,5.0f},{},{1.0f,0.0f}},//右上
 		//左
-		{{-5.0f,-5.0f,-5.0f},{0.0f,1.0f}},//左下
-		{{-5.0f,-5.0f, 5.0f},{0.0f,0.0f}},//左上
-		{{-5.0f, 5.0f,-5.0f},{1.0f,1.0f}},//右下
-		{{-5.0f, 5.0f, 5.0f},{1.0f,0.0f}},//右上
+		{{-5.0f,-5.0f,-5.0f},{},{0.0f,1.0f}},//左下
+		{{-5.0f,-5.0f, 5.0f},{},{0.0f,0.0f}},//左上
+		{{-5.0f, 5.0f,-5.0f},{},{1.0f,1.0f}},//右下
+		{{-5.0f, 5.0f, 5.0f},{},{1.0f,0.0f}},//右上
 		//右（前面とZ座標の符号が逆）
-		{{ 5.0f,-5.0f,-5.0f},{0.0f,1.0f}},//左下
-		{{ 5.0f,-5.0f, 5.0f},{0.0f,0.0f}},//左上
-		{{ 5.0f, 5.0f,-5.0f},{1.0f,1.0f}},//右下
-		{{ 5.0f, 5.0f, 5.0f},{1.0f,0.0f}},//右上
+		{{ 5.0f,-5.0f,-5.0f},{},{0.0f,1.0f}},//左下
+		{{ 5.0f,-5.0f, 5.0f},{},{0.0f,0.0f}},//左上
+		{{ 5.0f, 5.0f,-5.0f},{},{1.0f,1.0f}},//右下
+		{{ 5.0f, 5.0f, 5.0f},{},{1.0f,0.0f}},//右上
 		//下
-		{{-5.0f,-5.0f, 5.0f},{0.0f,1.0f}},//左下
-		{{ 5.0f,-5.0f, 5.0f},{0.0f,0.0f}},//左上
-		{{-5.0f,-5.0f,-5.0f},{1.0f,1.0f}},//右下
-		{{ 5.0f,-5.0f,-5.0f},{1.0f,0.0f}},//右上
+		{{-5.0f,-5.0f, 5.0f},{},{0.0f,1.0f}},//左下
+		{{ 5.0f,-5.0f, 5.0f},{},{0.0f,0.0f}},//左上
+		{{-5.0f,-5.0f,-5.0f},{},{1.0f,1.0f}},//右下
+		{{ 5.0f,-5.0f,-5.0f},{},{1.0f,0.0f}},//右上
 		//上（前面とZ座標の符号が逆）
-		{{-5.0f, 5.0f, 5.0f},{0.0f,1.0f}},//左下
-		{{ 5.0f, 5.0f, 5.0f},{0.0f,0.0f}},//左上
-		{{-5.0f, 5.0f,-5.0f},{1.0f,1.0f}},//右下
-		{{ 5.0f, 5.0f,-5.0f},{1.0f,0.0f}},//右上
+		{{-5.0f, 5.0f, 5.0f},{},{0.0f,1.0f}},//左下
+		{{ 5.0f, 5.0f, 5.0f},{},{0.0f,0.0f}},//左上
+		{{-5.0f, 5.0f,-5.0f},{},{1.0f,1.0f}},//右下
+		{{ 5.0f, 5.0f,-5.0f},{},{1.0f,0.0f}},//右上
 
 	};
 	//インディックスデータ
@@ -347,21 +348,21 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	{
 		//前
 		0,1,2,//三角形1つ目
-		1,2,3,//三角形2つ目
+		2,1,3,//三角形2つ目
 		//後(前の面に4加算)
-		4,5,6,
+		4,6,5,
 		5,6,7,
 		//左
 		8,9,10,
-		9,10,11,
+		10,9,11,
 		//右
-		12,13,14,
+		12,14,13,
 		13,14,15,
 		//下
 		16,17,18,
 		17,18,19,
 		//上
-		20,21,22,
+		20,22,21,
 		21,22,23,
 	};
 
@@ -715,6 +716,11 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
 		}, // (1行で書いたほうが見やすい)
+		{//法線ベクトル
+			"NORMAL",0,DXGI_FORMAT_R32G32B32_FLOAT,0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+		},
 		{
 			"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
@@ -735,7 +741,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 
 	// ラスタライザの設定
-	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;  // カリングしない
+	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;  // 背面カリング
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
@@ -958,7 +964,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 		FLOAT clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
-		comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+		comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr); 
 		comList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 		//スペースキーが押されていたら
 		if (key[DIK_SPACE])
