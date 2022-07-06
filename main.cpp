@@ -395,6 +395,35 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		IID_PPV_ARGS(&vertBuff));
 	assert(SUCCEEDED(result));
 
+	for (int i = 0; i < _countof(indices)/3; i++)
+	{//三角形1つごとに計算
+		//三角形のインディックスを取り出して、一時的な変数に入れる
+		unsigned	short indices0 = indices[i * 3 + 0];
+		unsigned	short indices1 = indices[i * 3 + 1];
+		unsigned	short indices2 = indices[i * 3 + 2];
+
+		//三角形を構成する頂点座標ベクトルに代入
+		XMVECTOR p0 = XMLoadFloat3(&vertices[indices0].pos);
+		XMVECTOR p1 = XMLoadFloat3(&vertices[indices1].pos);
+		XMVECTOR p2 = XMLoadFloat3(&vertices[indices2].pos);
+
+		//p0→p1ベクトル、p0→p2ベクトルを計算（ベクトルの減算）
+		XMVECTOR	v1 = XMVectorSubtract(p1, p0);
+		XMVECTOR	v2 = XMVectorSubtract(p2, p0);
+
+		//外積は両方から垂直なベクトル
+		XMVECTOR	normal = XMVector3Cross(v1, v2);
+
+		//正規化（長さを1にする）
+		normal = XMVector3Normalize(normal);
+
+		//求めた法線を頂点データに代入
+		XMStoreFloat3(&vertices[indices0].normal, normal);
+		XMStoreFloat3(&vertices[indices1].normal, normal);
+		XMStoreFloat3(&vertices[indices2].normal, normal);
+	}
+
+
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
 	Vertex* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
@@ -913,12 +942,14 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			
 			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 		}
-		if (key[DIK_UP] || key[DIK_DOWN] || key[DIK_RIGHT] || key[DIK_LEFT])
+		if (key[DIK_UP] || key[DIK_DOWN] || key[DIK_RIGHT] || key[DIK_LEFT]||key[DIK_W] || key[DIK_S])
 		{
 			if (key[DIK_UP]) { position.z += 1.0f; }
 			else if (key[DIK_DOWN]) { position.z -= 1.0f; }
 			if (key[DIK_RIGHT]) { position.x += 1.0f; }
 			else if (key[DIK_LEFT]) { position.x -= 1.0f; }
+			if (key[DIK_W]) { position.y += 1.0f; }
+			else if (key[DIK_S]) { position.y -= 1.0f; }
 		}
 		//単位行列を代入
 		matWorld = XMMatrixIdentity();
