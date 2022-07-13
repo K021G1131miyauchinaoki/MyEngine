@@ -110,7 +110,7 @@ void	UpdateObject3d(Object3d* object, XMMATRIX& matview, XMMATRIX& matProjection
 }
 
 void	DrawObject3d(Object3d* object, ID3D12GraphicsCommandList* commandList, D3D12_VERTEX_BUFFER_VIEW& vbView,
-	D3D12_INDEX_BUFFER_VIEW& ibView, UINT	numIndices) {
+D3D12_INDEX_BUFFER_VIEW& ibView, UINT	numIndices) {
 	//頂点バッファの設定
 	commandList->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファの設定
@@ -126,25 +126,27 @@ LRESULT	WindowProc(HWND hwnd, UINT	msg, WPARAM wapram, LPARAM	lparam) {
 	//メッセージに応じてゲーム固有の処理を行う
 	switch (msg)
 	{
+	//ウィンドウが破棄された
 	case	WM_DESTROY:
+		//OSに対して、アプリの終了を伝える
 		PostQuitMessage(0);
 		return	0;
 	}
+	//標準のメッセージを行う
 	return	DefWindowProc(hwnd, msg, wapram, lparam);
 }
 
 //windowsアプリでのエントリーポイント(main関数)
 int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region WindowsAPIの初期化
-
-
-
 	//コンソールへの文字出力
 	OutputDebugStringA("Hello,DirectX!!\n");
 
+	//ウィンドウサイズ
 	const	int	window_width = 1280;//横
 	const	int	window_height = 720;//縦
 
+	//ウィンドウクラスの設定
 	WNDCLASSEX	w{};
 	w.cbSize = sizeof(WNDCLASSEX);
 	w.lpfnWndProc = (WNDPROC)WindowProc;
@@ -152,12 +154,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	w.hInstance = GetModuleHandle(nullptr);
 	w.hCursor = LoadCursor(NULL, IDC_ARROW);
 
+	//ウィンドウクラスをOSに登録する
 	RegisterClassEx(&w);
-
+	//ウィンドウサイズ｛x,y,z,横,縦｝
 	RECT	wrc = { 0,0,window_width,window_height };
-
+	//自動でサイズを補正する
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
-
+	//ウィンドウオブジェクトの生成
 	HWND	hwnd = CreateWindow(w.lpszClassName,
 		L"DirectXGame",
 		WS_OVERLAPPEDWINDOW,
