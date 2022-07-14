@@ -23,6 +23,7 @@ struct ConstBufferDataMaterial
 float	R = 1.0f;
 float	G = 0.0f;
 float	B = 0.0f;
+float	speed = 0.01f;
 
 //ウィンドウプロシージャ
 LRESULT	WindowProc(HWND hwnd, UINT	msg, WPARAM wapram, LPARAM	lparam) {
@@ -256,12 +257,8 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 // 頂点データ
 	XMFLOAT3 vertices[] = {
 		{ -0.5f, -0.5f, 0.0f }, // 左下
-		
 		{ +0.5f, -0.5f, 0.0f }, // 右下
-		{ -0.5f, +0.0f, 0.0f }, // 左中
-		{ +0.5f, -0.0f, 0.0f }, // 右中
 		{ -0.5f, +0.5f, 0.0f }, // 左上
-		{ +0.5f, +0.5f, 0.0f }, // 右上
 	};
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
@@ -434,19 +431,19 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 	// ブレンドステート
-	pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;  // RBGA全てのチャンネルを描画
+	//pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;  // RBGA全てのチャンネルを描画
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
-	//blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
-	//blenddesc.BlendEnable = true;
-	//blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	//blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
-	//blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
+	blenddesc.BlendEnable = true;
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
 
 	//加算合成
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+	blenddesc.SrcBlend = D3D12_BLEND_ONE;
+	blenddesc.DestBlend = D3D12_BLEND_ONE;
 
 	//減算合成
 	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
@@ -574,9 +571,19 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 3.画面クリア R G B A
 		//値を書き込むと自動的に転送される
 		constMapMaterial->color = XMFLOAT4(R, G, B, 0.5f);
-		R -= 0.01f;
-		G += 0.01f;
-		B += 0.01f;
+		
+		if (R >= 1.0f && G <= 0.0f && B <= 0.0f)
+		{
+			speed = -speed;
+		}
+		else if (R <= 0.0f && G >= 1.0f && B >= 1.0f)
+		{
+			speed = -speed;
+		}
+		R += speed;
+		G -= speed;
+		B -= speed;
+
 
 		FLOAT clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
 		comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
