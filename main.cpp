@@ -269,15 +269,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 // 頂点データ
 	Vertex vertices[] = {
 			{{-50.0f,-50.0f,0.0f},{0.0f,1.0f}},//左下
-			{{-50.0f, 50.0f,0.0f},{0.0f,0.0f}},//左上
 			{{ 50.0f,-50.0f,0.0f},{1.0f,1.0f}},//右下
-			{{ 50.0f, 50.0f,0.0f},{1.0f,0.0f}},//右上
+			{{-50.0f, 50.0f,0.0f},{0.0f,0.0f}},//左上
 	};
 	//インディックスデータ
 	unsigned	short	indices[] =
 	{
-		0,1,2,//三角形1つ目
-		1,2,3,//三角形2つ目
+		0,1,2,//三角形
 	};
 
 
@@ -866,7 +864,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// 3.画面クリア R G B A
 		//値を書き込むと自動的に転送される
-		constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.5f);
+		constMapMaterial->color = XMFLOAT4(R, G, B, 0.5f);
 
 
 		FLOAT clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
