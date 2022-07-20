@@ -157,6 +157,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Basic.hlsli" />
     <None Include="ReadMe.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
