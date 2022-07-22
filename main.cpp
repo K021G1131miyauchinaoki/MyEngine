@@ -391,10 +391,10 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 	//並行投影行列の計算
-	//constMapTransform->mat = XMMatrixOrthographicOffCenterLH(
-	//	0, window_width,
-	//	window_height, 0,
-	//	0.0f, 1.0f);
+	constMapTransform->mat = XMMatrixOrthographicOffCenterLH(
+		0, window_width,
+		window_height, 0,
+		0.0f, 1.0f);
 	//透視投影行列の計算
 	XMMATRIX	matProjection = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(45.0f),			//上下画角45度
@@ -597,7 +597,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	while (true)
 	{
-#pragma region メッセージ
+		#pragma region メッセージ
 
 
 
@@ -611,9 +611,9 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (msg.message == WM_QUIT) {
 			break;
 		}
-#pragma endregion
+		#pragma endregion
 
-#pragma region 毎フレーム処理
+		#pragma region 毎フレーム処理
 
 		//キーボード情報の取得開始
 		keyboard->Acquire();
@@ -758,7 +758,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		assert(SUCCEEDED(result));
 
 		//Direct毎フレーム処理　ここまで
-#pragma endregion
+		#pragma endregion
 	}
 	// ウィンドウクラスを登録解除
 	UnregisterClass(w.lpszClassName, w.hInstance);
