@@ -650,6 +650,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
 
+	//テクスチャ読み込み
 	TexMetadata	metadata{};
 	ScratchImage	scratchImg{};
 
@@ -658,7 +659,16 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		WIC_FLAGS_NONE,
 		&metadata, scratchImg);
 
+	TexMetadata	metadata2{};
+	ScratchImage	scratchImg2{};
+
+	result = LoadFromWICFile(
+		L"Resources/reimu.png",
+		WIC_FLAGS_NONE,
+		&metadata2, scratchImg2);
+
 	ScratchImage	mipChain{};
+	//ミップマップ生成
 	result = GenerateMipMaps(
 		scratchImg.GetImages(), scratchImg.GetImageCount(), scratchImg.GetMetadata(),
 		TEX_FILTER_DEFAULT, 0, mipChain);
@@ -668,6 +678,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		metadata = scratchImg.GetMetadata();
 	}
 	metadata.format = MakeSRGB(metadata.format);
+	metadata2.format = MakeSRGB(metadata2.format);
 
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES	textureHeapProp{};
@@ -685,6 +696,15 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
+	D3D12_RESOURCE_DESC	textureResourceDesc2{};
+	textureResourceDesc2.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	textureResourceDesc2.Format = metadata2.format;
+	textureResourceDesc2.Width = metadata2.width;
+	textureResourceDesc2.Height = (UINT16)metadata2.height;
+	textureResourceDesc2.DepthOrArraySize = (UINT16)metadata2.arraySize;
+	textureResourceDesc2.MipLevels = (UINT16)metadata2.mipLevels;
+	textureResourceDesc2.SampleDesc.Count = 1;
+
 	//テクスチャバッファの生成
 	ID3D12Resource* texBuff = nullptr;
 	result = device->CreateCommittedResource(
@@ -694,6 +714,15 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&texBuff));
+	//2枚目
+	ID3D12Resource* texBuff2 = nullptr;
+	result = device->CreateCommittedResource(
+		&textureHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&textureResourceDesc2,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&texBuff2));
 
 	//全ミップマップについて
 	for (size_t i = 0; i < metadata.mipLevels; i++)
@@ -702,6 +731,21 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		const	Image* img = scratchImg.GetImage(i, 0, 0);
 		//テクスチャバッファにデータ転送
 		result = texBuff->WriteToSubresource(
+			(UINT)i,
+			nullptr,			 //全領域へコピー
+			img->pixels,		 //元データアドレス
+			(UINT)img->rowPitch, //１ラインサイズ
+			(UINT)img->slicePitch//全サイズ
+		);
+		assert(SUCCEEDED(result));
+	}
+	//2枚目
+	for (size_t i = 0; i < metadata2.mipLevels; i++)
+	{
+		//ミップマップレベルを指定してイメージを取得
+		const	Image* img = scratchImg2.GetImage(i, 0, 0);
+		//テクスチャバッファにデータ転送
+		result = texBuff2->WriteToSubresource(
 			(UINT)i,
 			nullptr,			 //全領域へコピー
 			img->pixels,		 //元データアドレス
@@ -726,10 +770,10 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	result = device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 
+#pragma region シェーダ
 	//SRVヒープの先頭ハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE	srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
 
-#pragma region シェーダ
 	//シェーダリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC	srvDesc{};		//設定構造体
 	srvDesc.Format = resDesc.Format;//RGBA	float
@@ -740,6 +784,20 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
 	device->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
+
+	//1つハンドルを進める
+	UINT	incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	srvHandle.ptr += incrementSize;
+
+	//シェーダリソースビュー設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC	srvDesc2{};		//設定構造体
+	srvDesc2.Format = textureResourceDesc2.Format;//RGBA	float
+	srvDesc2.Shader4ComponentMapping =D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc2.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc2.Texture2D.MipLevels = textureResourceDesc2.MipLevels;
+
+	//ハンドルの指す位置にシェーダーリソースビュー作成
+	device->CreateShaderResourceView(texBuff2,&srvDesc2, srvHandle);
 
 	ID3DBlob* vsBlob = nullptr; // 頂点シェーダオブジェクト
 	ID3DBlob* psBlob = nullptr; // ピクセルシェーダオブジェクト
@@ -835,16 +893,16 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 	// ブレンドステート
-	pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;  // RBGA全てのチャンネルを描画
+	//pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;  // RBGA全てのチャンネルを描画
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
 
 #pragma	region	ブレンド
-	//blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
-	//blenddesc.BlendEnable = true;
-	//blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	//blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
-	//blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
+	blenddesc.BlendEnable = true;
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
 
 	//加算合成
 	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
@@ -862,9 +920,9 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//blenddesc.DestBlend = D3D12_BLEND_ZERO;
 
 	//半透明合成
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
-	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
 #pragma	endregion
 
 // 頂点レイアウトの設定
@@ -992,7 +1050,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 			OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
 		}
-	
+		//視点の回転
 		if (key[DIK_U]||key[DIK_I])
 		{
 			if (key[DIK_I]) { angle += XMConvertToRadians(1.0f); }
@@ -1004,6 +1062,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			
 			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 		}
+		//オブジェクトの移動
 		if (key[DIK_UP] || key[DIK_DOWN] || key[DIK_RIGHT] || key[DIK_LEFT])
 		{
 			//
@@ -1037,18 +1096,18 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// 3.画面クリア R G B A
 		//値を書き込むと自動的に転送される
-		constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.5f);
+		constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 
 
 		FLOAT clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
 		comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr); 
 		comList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 		//スペースキーが押されていたら
-		if (key[DIK_SPACE])
-		{
-			FLOAT clearColor[] = { 0.5f,0.5f, 0.5f,0.0f };
-			comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-		}
+		//if (key[DIK_SPACE])
+		//{
+		//	FLOAT clearColor[] = { 0.5f,0.5f, 0.5f,0.0f };
+		//	comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+		//}
 
 		// 4.描画コマンドここから
 
@@ -1089,6 +1148,11 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//SRVヒープの先頭ハンドルを取得（SRVを指しているはず）
 		D3D12_GPU_DESCRIPTOR_HANDLE	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 		//SRVヒープの先頭にあるSRVをルートパラメータ１番に設定
+		if (key[DIK_SPACE])
+		{
+			srvGpuHandle.ptr += incrementSize;
+		}
+		//srvGpuHandle.ptr += incrementSize;
 		comList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 		//インディックスバッファビューの設定コマンド
 		comList->IASetIndexBuffer(&ibView);
