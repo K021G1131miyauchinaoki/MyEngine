@@ -110,7 +110,7 @@ void	UpdateObject3d(Object3d* object, XMMATRIX& matview, XMMATRIX& matProjection
 }
 
 void	DrawObject3d(Object3d* object, ID3D12GraphicsCommandList* commandList, D3D12_VERTEX_BUFFER_VIEW& vbView,
-D3D12_INDEX_BUFFER_VIEW& ibView, UINT	numIndices) {
+	D3D12_INDEX_BUFFER_VIEW& ibView, UINT	numIndices) {
 	//頂点バッファの設定
 	commandList->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファの設定
@@ -126,7 +126,7 @@ LRESULT	WindowProc(HWND hwnd, UINT	msg, WPARAM wapram, LPARAM	lparam) {
 	//メッセージに応じてゲーム固有の処理を行う
 	switch (msg)
 	{
-	//ウィンドウが破棄された
+		//ウィンドウが破棄された
 	case	WM_DESTROY:
 		//OSに対して、アプリの終了を伝える
 		PostQuitMessage(0);
@@ -388,7 +388,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 #ifdef _DEBUG
-	
+
 
 	ID3D12InfoQueue* infoQueue;
 	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue))))
@@ -592,7 +592,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//ここから親子構造のサンプル
 		//先頭以外なら
-		if (i>0)
+		if (i > 0)
 		{
 			//1つ前のオブジェクトを親に設定
 			//object3ds[i].parent=&object3ds[i-1];
@@ -607,7 +607,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 #pragma	region	
-	
+
 #pragma	endregion
 	//constMapTransform->mat.r[0].m128_f32[0] = 2.0f / 1280;
 	//constMapTransform->mat.r[1].m128_f32[1] = -2.0f / 720;
@@ -813,12 +813,12 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//シェーダリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC	srvDesc2{};		//設定構造体
 	srvDesc2.Format = textureResourceDesc2.Format;//RGBA	float
-	srvDesc2.Shader4ComponentMapping =D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc2.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc2.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc2.Texture2D.MipLevels = textureResourceDesc2.MipLevels;
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
-	device->CreateShaderResourceView(texBuff2,&srvDesc2, srvHandle);
+	device->CreateShaderResourceView(texBuff2, &srvDesc2, srvHandle);
 
 	ID3DBlob* vsBlob = nullptr; // 頂点シェーダオブジェクト
 	ID3DBlob* psBlob = nullptr; // ピクセルシェーダオブジェクト
@@ -944,7 +944,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
 	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
-	#pragma	endregion
+#pragma	endregion
 
 	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
@@ -1072,7 +1072,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
 		}
 		//視点の回転
-		if (key[DIK_U]||key[DIK_I])
+		if (key[DIK_U] || key[DIK_I])
 		{
 			if (key[DIK_I]) { angle += XMConvertToRadians(1.0f); }
 			else if (key[DIK_U]) { angle -= XMConvertToRadians(1.0f); }
@@ -1080,7 +1080,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//angleラジアンだけy軸周りに回転（半径は-100）
 			eye.x = -100 * sinf(angle);
 			eye.z = -100 * cosf(angle);
-			
+
 			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 		}
 		//オブジェクトの移動
@@ -1091,13 +1091,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			else if (key[DIK_DOWN]) { object3ds[0].position.y -= 1.0f; }
 			if (key[DIK_RIGHT]) { object3ds[0].position.x += 1.0f; }
 			else if (key[DIK_LEFT]) { object3ds[0].position.x -= 1.0f; }
-			
+
 		}
 		for (size_t i = 0; i < _countof(object3ds); i++)
 		{
 			UpdateObject3d(&object3ds[i], matView, matProjection);
 		}
-	
+
 		//Direct毎フレーム処理　ここから
 		// バックバッファの番号を取得(2つなので0番か1番)
 		UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
@@ -1121,7 +1121,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 		FLOAT clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
-		comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr); 
+		comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 		comList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 		//スペースキーが押されていたら
 		//if (key[DIK_SPACE])
@@ -1177,7 +1177,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		comList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 		//インディックスバッファビューの設定コマンド
 		comList->IASetIndexBuffer(&ibView);
-		
+
 		//全オブジェクトについて処理
 		for (int i = 0; i < _countof(object3ds); i++)
 		{
