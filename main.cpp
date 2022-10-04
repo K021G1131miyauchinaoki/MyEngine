@@ -40,7 +40,7 @@ float	B = 0.0f;
 struct Object3d
 {
 	//定数バッファ（行列用）
-	ID3D12Resource* constBuffTransform;
+	ID3D12Resource* constBuffTransform = 0;
 	//定数バッファマップ（行列用）
 	ConstBufferDataTransform* constMapTransform;
 	//アフィン変換情報
@@ -182,14 +182,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 //DirectX初期化処理　　ここから
 #ifdef _DEBUG
 	//デバックレイヤーをオンにする
-	ID3D12Debug* debugController;
+	ID3D12Debug1* debugController;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
 	{
 		debugController->EnableDebugLayer();
+		debugController->SetEnableGPUBasedValidation(true);
 	}
 #endif
-
-
 
 	HRESULT	result;
 	ID3D12Device* device = nullptr;
@@ -388,9 +387,31 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	assert(SUCCEEDED(result));
 
 
+#ifdef _DEBUG
+	
 
+	ID3D12InfoQueue* infoQueue;
+	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue))))
+	{
+		//抑制するエラー
+		D3D12_MESSAGE_ID	denyIds[] = {
+			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
+		};
+		//抑制する表示レベル
+		D3D12_MESSAGE_SEVERITY	severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
+		D3D12_INFO_QUEUE_FILTER	filter{};
+		filter.DenyList.NumIDs = _countof(denyIds);
+		filter.DenyList.pIDList = denyIds;
+		filter.DenyList.NumSeverities = _countof(severities);
+		filter.DenyList.pSeverityList = severities;
+		//指定したエラーの表示を抑制する
+		infoQueue->PushStorageFilter(&filter);
 
-
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+		infoQueue->Release();
+	}
+#endif
 	//DirectX初期化処理　　ここまで
 #pragma endregion
 
@@ -923,9 +944,9 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
 	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
-#pragma	endregion
+	#pragma	endregion
 
-// 頂点レイアウトの設定
+	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
 	pipelineDesc.InputLayout.NumElements = _countof(inputLayout);
 
