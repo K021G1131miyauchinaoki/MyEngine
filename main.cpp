@@ -1207,6 +1207,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 		if (input->PushKey( DIK_ESCAPE))
 		{
+			delete	input;
 			break;
 		}
 	}
