@@ -5,6 +5,8 @@
 #include<dinput.h>
 #include<cassert>
 #include<wrl.h>
+#include"WinApp.h"
+
 #pragma once
 
 
@@ -15,7 +17,7 @@ template<class T>using	ComPtr= Microsoft::WRL::ComPtr<T>;
 
 public://メンバ関数
 	//初期化
-	void	Initialize(HINSTANCE hInstance,HWND	hwnd);
+	void	Initialize(WinApp*winApp_);
 	//更新
 	void	Update();
 
@@ -24,7 +26,9 @@ public://メンバ関数
 	bool	TriggerKey(BYTE	keyNumber);
 
 private:
-	HRESULT	result;
+	WinApp* winApp = nullptr;
+
+	HRESULT	result = 0;
 
 	ComPtr<	IDirectInput8> directInput = nullptr;
 
