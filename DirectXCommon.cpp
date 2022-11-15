@@ -1,4 +1,13 @@
 #include "DirectXCommon.h"
+
+#include<cassert>
+#include<vector>
+#pragma	comment(lib, "d3d12.lib")
+#pragma	comment(lib,"dxgi.lib")
+
+using	namespace Microsoft::WRL;
+
+
 //デバイスの初期化
 void DirectXCommon::InitializeDevice() {
 #ifdef _DEBUG
@@ -70,31 +79,7 @@ void DirectXCommon::InitializeDevice() {
 
 	}
 
-#ifdef _DEBUG
 
-
-	ComPtr < ID3D12InfoQueue> infoQueue;
-	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue))))
-	{
-		//抑制するエラー
-		D3D12_MESSAGE_ID	denyIds[] = {
-			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
-		};
-		//抑制する表示レベル
-		D3D12_MESSAGE_SEVERITY	severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
-		D3D12_INFO_QUEUE_FILTER	filter{};
-		filter.DenyList.NumIDs = _countof(denyIds);
-		filter.DenyList.pIDList = denyIds;
-		filter.DenyList.NumSeverities = _countof(severities);
-		filter.DenyList.pSeverityList = severities;
-		//指定したエラーの表示を抑制する
-		infoQueue->PushStorageFilter(&filter);
-
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
-		infoQueue->Release();
-	}
-#endif
 }
 //コマンドの初期化
 void DirectXCommon::InitializeCommand() {
@@ -144,7 +129,7 @@ void DirectXCommon::InitializeSwapchain() {
 	assert(SUCCEEDED(result));
 }
 //レンダーターゲットビューの初期化
-void DirectXCommon::IntializeRenderTargetView(){
+void DirectXCommon::InitializeRenderTargetView(){
 	//デスクリプタヒープの設定
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount;
@@ -192,7 +177,7 @@ void DirectXCommon::InitializeDepthBuffer(){
 	depthClearValue.DepthStencil.Depth = 1.0f;//深度値1.0ｆ（最大値）でクリア
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
 	//リソース設定
-	ComPtr < ID3D12Resource> depthBuff = nullptr;
+	
 	result = device->CreateCommittedResource(
 		&depthHeapProp,
 		D3D12_HEAP_FLAG_NONE,
@@ -245,7 +230,7 @@ void DirectXCommon::PreDraw() {
 	// 3.画面クリア R G B A
 	//値を書き込むと自動的に転送される
 	//constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	FLOAT clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
+	FLOAT clearColor[4] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
 	comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 	comList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	//スペースキーが押されていたら
@@ -323,9 +308,35 @@ void DirectXCommon::Initialize(WinApp* winApp_) {
 	//スワップチェーンの初期化
 	InitializeSwapchain();
 	//レンダーターゲットビューの初期化
-	IntializeRenderTargetView();
+	InitializeRenderTargetView();
 	//深度バッファの初期化
 	InitializeDepthBuffer();
 	//フェンスの初期化
 	InitializeFence();
+
+#ifdef _DEBUG
+
+
+	ComPtr < ID3D12InfoQueue> infoQueue;
+	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue))))
+	{
+		//抑制するエラー
+		D3D12_MESSAGE_ID	denyIds[] = {
+			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
+		};
+		//抑制する表示レベル
+		D3D12_MESSAGE_SEVERITY	severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
+		D3D12_INFO_QUEUE_FILTER	filter{};
+		filter.DenyList.NumIDs = _countof(denyIds);
+		filter.DenyList.pIDList = denyIds;
+		filter.DenyList.NumSeverities = _countof(severities);
+		filter.DenyList.pSeverityList = severities;
+		//指定したエラーの表示を抑制する
+		infoQueue->PushStorageFilter(&filter);
+
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+		infoQueue->Release();
+	}
+#endif
 }

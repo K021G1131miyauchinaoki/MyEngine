@@ -1,14 +1,21 @@
 ﻿#include<string>
 #include <DirectXMath.h>
-using namespace DirectX;
 #include<d3dcompiler.h>
 #include"DirectXTex/DirectXTex.h"
+#include<cassert>
+#include<vector>
+
 #pragma	comment(lib,"d3dcompiler.lib")
+#pragma	comment(lib, "d3d12.lib")
+#pragma	comment(lib,"dxgi.lib")
 
 //自作クラス
 #include"Input.h"
 #include"WinApp.h"
 #include"DirectXCommon.h"
+
+using namespace DirectX;
+using	namespace Microsoft::WRL;
 
 struct ConstBufferDataMaterial
 {
@@ -274,6 +281,9 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 頂点１つ分のデータサイズ
 	vbView.StrideInBytes = sizeof(vertices[0]);
 
+	// 定数バッファの生成
+	ComPtr < ID3D12Resource> constBffMarerial = nullptr;
+
 	// 定数バッファの設定
 	D3D12_HEAP_PROPERTIES cbHeapProp{};   // ヒープ設定
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
@@ -287,8 +297,6 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	// 定数バッファの生成
-	ComPtr < ID3D12Resource> constBffMarerial = nullptr;
 	result = directXCom->GetDevice()->CreateCommittedResource(
 		&cbHeapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
@@ -509,7 +517,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	srvHeapDesc.NumDescriptors = kMaxSRVCount;
 
 	//設定をもとにSRV用デスクリプタヒープを生成
-	ComPtr < ID3D12DescriptorHeap> srvHeap = nullptr;
+	ComPtr<ID3D12DescriptorHeap> srvHeap = nullptr;
 	result = directXCom->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 
@@ -626,6 +634,12 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	pipelineDesc.PS.pShaderBytecode = psBlob->GetBufferPointer();
 	pipelineDesc.PS.BytecodeLength = psBlob->GetBufferSize();
 
+	// デプスステンシルステートの設定
+	pipelineDesc.DepthStencilState.DepthEnable = true;//深度テストを行う
+	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
+	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
+	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
+
 	// サンプルマスクの設定
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 
@@ -729,7 +743,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	rootSignatureDesc.NumStaticSamplers = 1;
 
 	// ルートシグネチャのシリアライズ
-	ComPtr < ID3DBlob> rootSigBlob = nullptr;
+	ComPtr<ID3DBlob> rootSigBlob = nullptr;
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,&rootSigBlob, &errorBlob);
 	assert(SUCCEEDED(result));
 	result = directXCom->GetDevice()->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),IID_PPV_ARGS(&rootSignature));
@@ -737,19 +751,11 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// パイプラインにルートシグネチャをセット
 	pipelineDesc.pRootSignature = rootSignature.Get();
 
-	// デプスステンシルステートの設定
-	pipelineDesc.DepthStencilState.DepthEnable = true;//深度テストを行う
-	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
-	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
-	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
 
 	// パイプランステートの生成
 	ComPtr < ID3D12PipelineState> pipelineState = nullptr;
 	result = directXCom->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
-
-
-
 
 #pragma endregion
 #pragma endregion
@@ -805,9 +811,6 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
 
-
-		
-
 		// パイプラインステートとルートシグネチャの設定コマンド
 		directXCom->GetCommandList()->SetPipelineState(pipelineState.Get());
 		directXCom->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
@@ -840,10 +843,8 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			DrawObject3d(&object3ds[i], directXCom->GetCommandList(), vbView, ibView, _countof(indices));
 		}
 
-
+		//
 		directXCom->PostDraw();
-
-		
 
 		//Direct毎フレーム処理　ここまで
 #pragma endregion

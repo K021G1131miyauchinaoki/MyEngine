@@ -17,7 +17,7 @@ LRESULT	WinApp::WindowProc(HWND hwnd, UINT	msg, WPARAM wapram, LPARAM	lparam) {
 
 void	WinApp::Initialize() {
 	//コンソールへの文字出力
-	OutputDebugStringA("Hello,DirectX!!\n");
+	//OutputDebugStringA("Hello,DirectX!!\n");
 
 	//ウィンドウクラスの設定
 
