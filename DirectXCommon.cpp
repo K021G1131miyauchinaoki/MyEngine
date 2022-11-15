@@ -146,7 +146,6 @@ void DirectXCommon::InitializeSwapchain() {
 //レンダーターゲットビューの初期化
 void DirectXCommon::IntializeRenderTargetView(){
 	//デスクリプタヒープの設定
-	D3D12_DESCRIPTOR_HEAP_DESC	rtvHeapDesc{};
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount;
 
@@ -154,7 +153,6 @@ void DirectXCommon::IntializeRenderTargetView(){
 	device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap));
 
 	//バックバッファ
-	std::vector< ComPtr<ID3D12Resource>>	backBuffers;
 	backBuffers.resize(swapChainDesc.BufferCount);
 
 	//スワップチェーンの全てのバッファについて処理する
@@ -204,10 +202,9 @@ void DirectXCommon::InitializeDepthBuffer(){
 		IID_PPV_ARGS(&depthBuff));
 
 	//深度ビュー用デスクリプタヒープ作成
-	D3D12_DESCRIPTOR_HEAP_DESC	dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;//深度ビューは1つ
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;	//デプスステンシルビュー
-	ComPtr < ID3D12DescriptorHeap> dsvHeap = nullptr;
+	
 	result = device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
 	//深度ビュー作成
 	D3D12_DEPTH_STENCIL_VIEW_DESC	dsvDesc = {};
@@ -221,10 +218,97 @@ void DirectXCommon::InitializeDepthBuffer(){
 //フェンスの初期化
 void DirectXCommon::InitializeFence() {
 	//フェンスの生成
-	ComPtr < ID3D12Fence> fence = nullptr;
-	UINT64	fenceVal = 0;
+	fence = nullptr;
+	fenceVal = 0;
 
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
+}
+
+//描画前処理
+void DirectXCommon::PreDraw() {
+	// バックバッファの番号を取得(2つなので0番か1番)
+	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
+
+	// 1.リソースバリアで書き込み可能に変更
+	barrierDesc.Transition.pResource = backBuffers[bbIndex].Get(); // バックバッファを指定
+	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // 表示状態から
+	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
+	comList->ResourceBarrier(1, &barrierDesc);
+
+	// 2.描画先の変更
+	// レンダーターゲットビューのハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
+	rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
+	D3D12_CPU_DESCRIPTOR_HANDLE	dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
+	comList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
+
+	// 3.画面クリア R G B A
+	//値を書き込むと自動的に転送される
+	//constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	FLOAT clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
+	comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+	comList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	//スペースキーが押されていたら
+	//if (key[DIK_SPACE])
+	//{
+	//	FLOAT clearColor[] = { 0.5f,0.5f, 0.5f,0.0f };
+	//	comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+	//}
+	// 4.描画コマンドここから
+
+	// ビューポート設定コマンド
+	D3D12_VIEWPORT viewport{};
+	viewport.Width = WinApp::window_width;
+	viewport.Height = WinApp::window_height;
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+	// ビューポート設定コマンドを、コマンドリストに積む
+	comList->RSSetViewports(1, &viewport);
+
+	//シザー矩形
+	D3D12_RECT	scissorRect{};
+	scissorRect.left = 0;                                       // 切り抜き座標左
+	scissorRect.right = scissorRect.left + WinApp::window_width;        // 切り抜き座標右
+	scissorRect.top = 0;                                        // 切り抜き座標上
+	scissorRect.bottom = scissorRect.top + WinApp::window_height;       // 切り抜き座標下
+	// シザー矩形設定コマンドを、コマンドリストに積む
+	comList->RSSetScissorRects(1, &scissorRect);
+}
+//描画後処理
+void DirectXCommon::PostDraw(){
+	// バックバッファの番号を取得(2つなので0番か1番)
+	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
+	// 5.リソースバリアを戻す
+	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
+	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
+	comList->ResourceBarrier(1, &barrierDesc);
+
+	// 命令のクローズ
+	result = comList->Close();
+	assert(SUCCEEDED(result));
+	// コマンドリストの実行
+	ID3D12CommandList* commandLists[] = { comList.Get() };
+	commandQueue->ExecuteCommandLists(1, commandLists);
+	// 画面に表示するバッファをフリップ(裏表の入替え)
+	result = swapChain->Present(1, 0);
+	assert(SUCCEEDED(result));
+
+	// コマンドの実行完了を待つ
+	commandQueue->Signal(fence.Get(), ++fenceVal);
+	if (fence->GetCompletedValue() != fenceVal) {
+		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
+		fence->SetEventOnCompletion(fenceVal, event);
+		WaitForSingleObject(event, INFINITE);
+		CloseHandle(event);
+	}
+	// キューをクリア
+	result = cmdAllocator->Reset();
+	assert(SUCCEEDED(result));
+	// 再びコマンドリストを貯める準備
+	result = comList->Reset(cmdAllocator.Get(), nullptr);
+	assert(SUCCEEDED(result));
 }
 
 void DirectXCommon::Initialize(WinApp* winApp_) {
