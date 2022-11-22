@@ -229,7 +229,6 @@ void DirectXCommon::PreDraw() {
 
 	// 3.画面クリア R G B A
 	//値を書き込むと自動的に転送される
-	//constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	FLOAT clearColor[4] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
 	comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 	comList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
