@@ -812,6 +812,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		directXCom->PreDraw();
 		constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 
+
 		// 4.描画コマンドここから
 		// パイプラインステートとルートシグネチャの設定コマンド
 		directXCom->GetCommandList()->SetPipelineState(pipelineState.Get());
