@@ -321,7 +321,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ScratchImage	scratchImg{};
 
 	result = LoadFromWICFile(
-		L"Resources/mario.jpg",
+		L"Resources/title.png",
 		WIC_FLAGS_NONE,
 		&metadata, scratchImg);
 
@@ -732,7 +732,10 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		switch (scene)
 		{
 		case	Scene::title:
-
+			object3ds[0].scale.x = 5.0f;
+			object3ds[0].scale.y = 3.0f;
+			object3ds[0].position.z = -50.0f;
+			
 			if (input->TriggerKey(DIK_SPACE))
 			{
 				scene = Scene::play;
@@ -817,6 +820,9 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 		case Scene::title:
 			//SRVヒープの先頭にあるSRVをルートパラメータの1番に設定
+			directXCom->GetCommondList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+
+			DrawObject3d(&object3ds[0], directXCom->GetCommondList(), vbView, ibView, _countof(indices));
 			break;
 		case Scene::play:
 			srvGpuHandle.ptr += incrementSize;
