@@ -329,7 +329,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ScratchImage	scratchImg2{};
 
 	result = LoadFromWICFile(
-		L"Resources/reimu.png",
+		L"Resources/player.png",
 		WIC_FLAGS_NONE,
 		&metadata2, scratchImg2);
 
