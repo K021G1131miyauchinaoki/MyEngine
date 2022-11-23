@@ -8,6 +8,52 @@
 using	namespace Microsoft::WRL;
 
 
+void DirectXCommon::Initialize(WinApp* winApp_) {
+	//NULL検出
+	assert(winApp_);
+	//メンバ変数に代入
+	this->winApp = winApp_;
+	//FPS固定初期化
+	void InitializeFixFPS();
+	//デバイスの初期化
+	InitializeDevice();
+	//コマンドの初期化
+	InitializeCommand();
+	//スワップチェーンの初期化
+	InitializeSwapchain();
+	//レンダーターゲットビューの初期化
+	InitializeRenderTargetView();
+	//深度バッファの初期化
+	InitializeDepthBuffer();
+	//フェンスの初期化
+	InitializeFence();
+
+#ifdef _DEBUG
+
+
+	ComPtr < ID3D12InfoQueue> infoQueue;
+	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue))))
+	{
+		//抑制するエラー
+		D3D12_MESSAGE_ID	denyIds[] = {
+			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
+		};
+		//抑制する表示レベル
+		D3D12_MESSAGE_SEVERITY	severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
+		D3D12_INFO_QUEUE_FILTER	filter{};
+		filter.DenyList.NumIDs = _countof(denyIds);
+		filter.DenyList.pIDList = denyIds;
+		filter.DenyList.NumSeverities = _countof(severities);
+		filter.DenyList.pSeverityList = severities;
+		//指定したエラーの表示を抑制する
+		infoQueue->PushStorageFilter(&filter);
+
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+		infoQueue->Release();
+	}
+#endif
+}
 //デバイスの初期化
 void DirectXCommon::InitializeDevice() {
 #ifdef _DEBUG
@@ -287,6 +333,7 @@ void DirectXCommon::PostDraw(){
 		WaitForSingleObject(event, INFINITE);
 		CloseHandle(event);
 	}
+	UpdateFixFPS();
 	// キューをクリア
 	result = cmdAllocator->Reset();
 	assert(SUCCEEDED(result));
@@ -295,47 +342,36 @@ void DirectXCommon::PostDraw(){
 	assert(SUCCEEDED(result));
 }
 
-void DirectXCommon::Initialize(WinApp* winApp_) {
-	//NULL検出
-	assert(winApp_);
-	//メンバ変数に代入
-	this->winApp = winApp_;
-	//デバイスの初期化
-	InitializeDevice();
-	//コマンドの初期化
-	InitializeCommand();
-	//スワップチェーンの初期化
-	InitializeSwapchain();
-	//レンダーターゲットビューの初期化
-	InitializeRenderTargetView();
-	//深度バッファの初期化
-	InitializeDepthBuffer();
-	//フェンスの初期化
-	InitializeFence();
 
-#ifdef _DEBUG
+//FPS固定初期化
+void	DirectXCommon::InitializeFixFPS(){
+	//現在の時間を記録する
+	reference = std::chrono::steady_clock::now();
+}
+//FPS固定更新
+void DirectXCommon::UpdateFixFPS() {
+	//　1/60秒ぴったりの時間
+	const	std::chrono::microseconds	kMinTime(uint64_t(1000000.0f / 60.0f));
+	//　1/60秒
+	const	std::chrono::microseconds	kMinCheckTime(uint64_t(1000000.0f / 65.0f));
 
+	//現在の時間を取得する
+	std::chrono::steady_clock::time_point	now = std::chrono::steady_clock::now();
+	
+	//前回記録からの経過時間を取得する
+	std::chrono::microseconds	elapsed =
+		std::chrono::duration_cast<std::chrono::microseconds>(now - reference);
 
-	ComPtr < ID3D12InfoQueue> infoQueue;
-	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue))))
+	//　1/60秒（よりわずかに短い時間）立っていない場合
+	if (elapsed<kMinTime)
 	{
-		//抑制するエラー
-		D3D12_MESSAGE_ID	denyIds[] = {
-			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
-		};
-		//抑制する表示レベル
-		D3D12_MESSAGE_SEVERITY	severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
-		D3D12_INFO_QUEUE_FILTER	filter{};
-		filter.DenyList.NumIDs = _countof(denyIds);
-		filter.DenyList.pIDList = denyIds;
-		filter.DenyList.NumSeverities = _countof(severities);
-		filter.DenyList.pSeverityList = severities;
-		//指定したエラーの表示を抑制する
-		infoQueue->PushStorageFilter(&filter);
-
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
-		infoQueue->Release();
+		//　1/60秒経過するまで微小なスリープを繰り返す
+		while (std::chrono::steady_clock::now() - reference < kMinTime)
+		{
+			//1マイクロ秒スリープ
+			std::this_thread::sleep_for(std::chrono::microseconds(1));
+		}
 	}
-#endif
+	//現在の時間を記録する
+	reference = std::chrono::steady_clock::now();
 }

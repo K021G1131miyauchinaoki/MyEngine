@@ -2,6 +2,8 @@
 #include<dxgi1_6.h>
 #include<wrl.h>
 #include<vector>
+#include<chrono>
+#include<thread>
 #include"WinApp.h"
 
 
@@ -34,6 +36,14 @@ public://メンバ関数
 	//コマンドリストの取得
 	ID3D12GraphicsCommandList* GetCommandList()const { return comList.Get(); }
 
+private: //メンバ関数
+	//FPS固定初期化
+	void InitializeFixFPS();
+	//FPS固定更新
+	void UpdateFixFPS();
+private://メンバ関数
+	//記録時間(FPS固定用)
+	std::chrono::steady_clock::time_point	reference;
 private:
 	//DirectX12デバイス
 	Microsoft::WRL::ComPtr<ID3D12Device>device;
