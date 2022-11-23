@@ -4,6 +4,7 @@
 #include"DirectXTex/DirectXTex.h"
 #include<cassert>
 #include<vector>
+#include"main.h"
 
 #pragma	comment(lib,"d3dcompiler.lib")
 #pragma	comment(lib, "d3d12.lib")
@@ -17,15 +18,14 @@
 using namespace DirectX;
 using	namespace Microsoft::WRL;
 
-struct ConstBufferDataMaterial
-{
-	XMFLOAT4	color;//(RGBA)
-};
+void	SceneInitialize(ID3D12Device* device) {
+	//プレイヤー
+	InitializeObject3d(&player, device);
+	player.position = XMFLOAT3{ 0,0,-15 };
+	hp = 3;
+}
 
-struct ConstBufferDataTransform
-{
-	XMMATRIX	mat;//３D変換行列
-};
+void	CheckAllCollisions(){}
 
 struct Vertex
 {
@@ -36,91 +36,6 @@ struct Vertex
 float	R = 1.0f;
 float	G = 0.0f;
 float	B = 0.0f;
-
-struct Object3d
-{
-	//定数バッファ（行列用）
-	ID3D12Resource* constBuffTransform = 0;
-	//定数バッファマップ（行列用）
-	ConstBufferDataTransform* constMapTransform = 0;
-	//アフィン変換情報
-	XMFLOAT3	scale = { 1,1,1 };
-	XMFLOAT3	rotation = { 0,0,0 };
-	XMFLOAT3	position = { 0,0,0 };
-	//ワールド変換行列
-	XMMATRIX	matWorld{};
-	//親オブジェクトへのポインタ
-	Object3d* parent = nullptr;
-};
-
-void	InitializeObject3d(Object3d* object, ID3D12Device* device)
-{
-	HRESULT	result;
-
-	//定数バッファのヒープ設定
-	D3D12_HEAP_PROPERTIES	heapProp{};
-	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
-	//定数バッファのリソース設定
-	D3D12_RESOURCE_DESC	resdesc{};
-	resdesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resdesc.Width = (sizeof(ConstBufferDataTransform) + 0xff) & ~0xff;
-	resdesc.Height = 1;
-	resdesc.DepthOrArraySize = 1;
-	resdesc.MipLevels = 1;
-	resdesc.SampleDesc.Count = 1;
-	resdesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	//定数バッファの生成
-	result = device->CreateCommittedResource(
-		&heapProp,//ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&resdesc,//リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&object->constBuffTransform));
-	assert(SUCCEEDED(result));
-	//定数バッファのマッピング
-	result = object->constBuffTransform->Map(0, nullptr, (void**)&object->constMapTransform);//マッピング
-	assert(SUCCEEDED(result));
-}
-
-void	UpdateObject3d(Object3d* object, XMMATRIX& matview, XMMATRIX& matProjection) {
-	XMMATRIX	matScale, matRot, matTrans;
-	//スケール、回転、平行移動の行列計算
-	matScale = XMMatrixScaling(object->scale.x, object->scale.y, object->scale.z);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(object->rotation.z);
-	matRot *= XMMatrixRotationX(object->rotation.x);
-	matRot *= XMMatrixRotationY(object->rotation.y);
-	matTrans = XMMatrixTranslation(object->position.x, object->position.y, object->position.z);
-
-	//行列の合成
-	object->matWorld = XMMatrixIdentity();
-	object->matWorld *= matScale;
-	object->matWorld *= matRot;
-	object->matWorld *= matTrans;
-
-	//親オブジェクトがあれば
-	if (object->parent != nullptr)
-	{
-		object->matWorld *= object->parent->matWorld;
-	}
-	//定数バッファへデータ転送
-	object->constMapTransform->mat = object->matWorld * matview * matProjection;
-}
-
-void	DrawObject3d(Object3d* object, ID3D12GraphicsCommandList* commandList, D3D12_VERTEX_BUFFER_VIEW& vbView,
-D3D12_INDEX_BUFFER_VIEW& ibView, UINT	numIndices) {
-	//頂点バッファの設定
-	commandList->IASetVertexBuffers(0, 1, &vbView);
-	//インデックスバッファの設定
-	commandList->IASetIndexBuffer(&ibView);
-	//定数バッファビュー(CBV)の設定コマンド
-	commandList->SetGraphicsRootConstantBufferView(2, object->constBuffTransform->GetGPUVirtualAddress());
-	//描画コマンド
-	commandList->DrawIndexedInstanced(numIndices, 1, 0, 0, 0);
-}
-
 
 
 //windowsアプリでのエントリーポイント(main関数)
@@ -764,6 +679,12 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	XMFLOAT3	position1 = { -20.0f,0.0f, 0.0f };
 	float	rotation[2] = { 0,0 };
 	float	size[2] = { 1.0f,1.0f };
+
+//--------------------------------------------//
+	//変数の初期化
+	scene = Scene::title;
+
+
 	while (true)
 	{
 #pragma region メッセージ
@@ -781,32 +702,79 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 			OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
 		}
-		//視点の回転
-		if (input->PushKey(DIK_U)|| input->PushKey(DIK_I))
-		{
-			if (input->PushKey(DIK_I)) { angle += XMConvertToRadians(1.0f); }
-			else if (input->PushKey(DIK_U)) { angle -= XMConvertToRadians(1.0f); }
-		
-			//angleラジアンだけy軸周りに回転（半径は-100）
-			eye.x = -100 * sinf(angle);
-			eye.z = -100 * cosf(angle);
-			
-			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
-		}
-		//オブジェクトの移動
-		if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
-		{
-			//
-			if (input->PushKey(DIK_UP)) { object3ds[0].position.y += 1.0f; }
-			else if (input->PushKey(DIK_DOWN)) { object3ds[0].position.y -= 1.0f; }
-			if (input->PushKey(DIK_RIGHT)) { object3ds[0].position.x += 1.0f; }
-			else if (input->PushKey(DIK_LEFT)) { object3ds[0].position.x -= 1.0f; }
-			
-		}
+		////視点の回転
+		//if (input->PushKey(DIK_U)|| input->PushKey(DIK_I))
+		//{
+		//	if (input->PushKey(DIK_I)) { angle += XMConvertToRadians(1.0f); }
+		//	else if (input->PushKey(DIK_U)) { angle -= XMConvertToRadians(1.0f); }
+		//
+		//	//angleラジアンだけy軸周りに回転（半径は-100）
+		//	eye.x = -100 * sinf(angle);
+		//	eye.z = -100 * cosf(angle);
+		//	
+		//	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+		//}
+		////オブジェクトの移動
+		//if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
+		//{
+		//	//
+		//	if (input->PushKey(DIK_UP)) { object3ds[0].position.y += 1.0f; }
+		//	else if (input->PushKey(DIK_DOWN)) { object3ds[0].position.y -= 1.0f; }
+		//	if (input->PushKey(DIK_RIGHT)) { object3ds[0].position.x += 1.0f; }
+		//	else if (input->PushKey(DIK_LEFT)) { object3ds[0].position.x -= 1.0f; }
+		//	
+		//}
 		for (size_t i = 0; i < _countof(object3ds); i++)
 		{
 			UpdateObject3d(&object3ds[i], matView, matProjection);
 		}
+		
+		switch (scene)
+		{
+		case	Scene::title:
+
+			if (input->TriggerKey(DIK_SPACE))
+			{
+				scene = Scene::play;
+				SceneInitialize(directXCom->GetDevice());
+				hp = 3;
+
+			}
+
+			break;
+		case	Scene::play:
+			//当たり判定
+			CheckAllCollisions();
+			//プレイヤー
+			if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
+			{
+				//
+				if (input->PushKey(DIK_UP)) { player.position.z += 1.0f; }
+				else if (input->PushKey(DIK_DOWN)) { player.position.z -= 1.0f; }
+				if (input->PushKey(DIK_RIGHT)) { player.position.x += 1.0f; }
+				else if (input->PushKey(DIK_LEFT)) { player.position.x -= 1.0f; }
+
+			}
+
+			UpdateObject3d(&player, matView, matProjection);
+			break;
+		case	Scene::clear:
+			break;
+		case	Scene::over:
+			break;
+		default:
+			break;
+		}
+
+
+
+
+
+
+
+
+
+
 	
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
@@ -814,38 +782,69 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// 4.描画コマンドここから
 		// パイプラインステートとルートシグネチャの設定コマンド
-		directXCom->GetCommandList()->SetPipelineState(pipelineState.Get());
-		directXCom->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
+		directXCom->GetCommondList()->SetPipelineState(pipelineState.Get());
+		directXCom->GetCommondList()->SetGraphicsRootSignature(rootSignature.Get());
 
 		// プリミティブ形状の設定コマンド
-		directXCom->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		directXCom->GetCommondList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 		// 頂点バッファビューの設定コマンド
-		directXCom->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+		directXCom->GetCommondList()->IASetVertexBuffers(0, 1, &vbView);
 
 		//定数バッファビュー（CBV）の設定コマンド
-		directXCom->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBffMarerial->GetGPUVirtualAddress());
+		directXCom->GetCommondList()->SetGraphicsRootConstantBufferView(0, constBffMarerial->GetGPUVirtualAddress());
 		//SRVヒープの設定コマンド
-		directXCom->GetCommandList()->SetDescriptorHeaps(1, srvHeap.GetAddressOf());
+		directXCom->GetCommondList()->SetDescriptorHeaps(1, srvHeap.GetAddressOf());
 		//SRVヒープの先頭ハンドルを取得（SRVを指しているはず）
 		D3D12_GPU_DESCRIPTOR_HANDLE	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 		//SRVヒープの先頭にあるSRVをルートパラメータ１番に設定
-		if (input->PushKey(DIK_SPACE))
+		/*if (input->PushKey(DIK_SPACE))
 		{
 			srvGpuHandle.ptr += incrementSize;
-		}
+		}*/
 		//srvGpuHandle.ptr += incrementSize;
-		directXCom->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+		directXCom->GetCommondList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 		//インディックスバッファビューの設定コマンド
-		directXCom->GetCommandList()->IASetIndexBuffer(&ibView);
+		directXCom->GetCommondList()->IASetIndexBuffer(&ibView);
 		
 		//全オブジェクトについて処理
-		for (int i = 0; i < _countof(object3ds); i++)
+		/*for (int i = 0; i < _countof(object3ds); i++)
 		{
 			DrawObject3d(&object3ds[i], directXCom->GetCommandList(), vbView, ibView, _countof(indices));
+		}*/
+
+		switch (scene)
+		{
+		case Scene::title:
+			//SRVヒープの先頭にあるSRVをルートパラメータの1番に設定
+			break;
+		case Scene::play:
+			srvGpuHandle.ptr += incrementSize;
+			//SRVヒープの先頭にあるSRVをルートパラメータの1番に設定
+			directXCom->GetCommondList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+			DrawObject3d(&player, directXCom->GetCommondList(), vbView, ibView, _countof(indices));
+
+			srvGpuHandle.ptr += incrementSize;
+			//SRVヒープの先頭にあるSRVをルートパラメータの1番に設定
+			//dxCommon->GetCommondList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+			////敵キャラの描画
+			//for (const std::unique_ptr<Enemy>& enemy : maneger->enemys_) {
+			//	enemy->Draw(dxCommon->GetCommondList(), vbView, ibView, _countof(indices));
+			//}
+			////敵の弾の描画
+			//for (std::unique_ptr<EnemyBullet>& bullet : maneger->bullets_) {
+			//	bullet->Draw(dxCommon->GetCommondList(), vbView, ibView, _countof(indices));
+			//}
+			break;
+		case Scene::clear:
+			break;
+		case Scene::over:
+
+			break;
 		}
 
-		//
+
+		//描画終了
 		directXCom->PostDraw();
 
 		//Direct毎フレーム処理　ここまで
@@ -856,6 +855,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 	}
 	
+
 	winApp->Finalize();
 	delete	input;
 	delete winApp;

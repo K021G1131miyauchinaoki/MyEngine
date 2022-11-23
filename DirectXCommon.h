@@ -34,7 +34,7 @@ public://メンバ関数
 	//デバイスの取得
 	ID3D12Device*GetDevice()const { return device.Get(); }
 	//コマンドリストの取得
-	ID3D12GraphicsCommandList* GetCommandList()const { return comList.Get(); }
+	ID3D12GraphicsCommandList* GetCommondList()const { return comList.Get(); }
 
 private: //メンバ関数
 	//FPS固定初期化
