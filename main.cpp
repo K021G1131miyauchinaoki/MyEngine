@@ -37,7 +37,6 @@ float	R = 1.0f;
 float	G = 0.0f;
 float	B = 0.0f;
 
-
 //windowsアプリでのエントリーポイント(main関数)
 int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region WindowsAPIの初期化

@@ -18,8 +18,47 @@ int scene;
 //プレイヤー
 struct Player
 {
+	//関数
+		//初期化
+	void Initialize(ID3D12Device* device, uint32_t textureHandle);
 
+	//ループ内の初期化
+	void State();
+
+	//更新
+	void Update(int	movie);
+
+	//移動
+	void Move();
+
+	//回転
+	void Rotate();
+
+	//攻撃
+	void Attack();
+
+	//描画
+	void Draw(XMMATRIX matView);
+
+	//ワールド座標を取得
+	XMFLOAT3 GetWorldPosition();
+
+	//衝突を検出したら呼び出されるコールバック関数
+	void OnCollision();
+
+	//半径を返す関数
+	float GetRadius();
+
+	int32_t GetHP()const { return HP_; }
 	//変数
+
+	// //ワールドトランスフォーム
+	Object3d object3d_;
+	// モデル
+	ID3D12Device* device_ = nullptr;
+	//テクスチャハンドル
+	uint32_t textureHandle_ = 0u;
+	//体力
 	int32_t HP_ = 3;
 	//半径
 	float radius = 1.0f;
