@@ -13,6 +13,8 @@
 #include"Input.h"
 #include"WinApp.h"
 #include"DirectXCommon.h"
+#include"SpriteCommon.h"
+#include"Sprite.h"
 
 using namespace DirectX;
 using	namespace Microsoft::WRL;
@@ -125,14 +127,15 @@ D3D12_INDEX_BUFFER_VIEW& ibView, UINT	numIndices) {
 
 //windowsアプリでのエントリーポイント(main関数)
 int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-#pragma region WindowsAPIの初期化
+#pragma	region	基盤システムの初期化
+	#pragma region WindowsAPIの初期化
 	WinApp* winApp = nullptr;
 	winApp = new	WinApp;
 	winApp->Initialize();
-#pragma endregion
+	#pragma endregion
 
-#pragma region DirectX初期化処理
-//DirectX初期化処理　　ここから
+	#pragma region DirectX初期化処理
+	//DirectX初期化処理　　ここから
 	DirectXCommon* directXCom = nullptr;
 	directXCom = new DirectXCommon;
 	directXCom->Initialize(winApp);
@@ -141,8 +144,18 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	input = new	Input;
 	input->Initialize(winApp);
 	//DirectX初期化処理　　ここまで
-#pragma endregion
+	#pragma endregion
+	//スプライト
+	SpriteCommon* spriteCommon = nullptr;
+	//スプライト共通部分の初期化
+	spriteCommon = new	SpriteCommon;
+	spriteCommon->Initialize(directXCom);
 
+#pragma	endregion
+#pragma	region	最初のシーンの初期化
+	Sprite* sprite = new	Sprite();
+	sprite->Initialize(spriteCommon);
+#pragma	endregion
 	while (true)
 	{
 
@@ -176,11 +189,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		}
 	}
-	
+#pragma	region	最初のシーンの終了
 	winApp->Finalize();
 	delete	input;
 	delete winApp;
 	delete	directXCom;
-
+	delete	spriteCommon;
+	delete	sprite;
+#pragma	endregion
 	return 0;
 }

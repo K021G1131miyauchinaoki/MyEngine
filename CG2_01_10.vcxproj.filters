@@ -3,6 +3,8 @@
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl" />
     <FxCompile Include="BasicVS.hlsl" />
+    <FxCompile Include="Resources\shaders\SpriteVS.hlsl" />
+    <FxCompile Include="Resources\shaders\SpritePS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -15,6 +17,12 @@
     <ClCompile Include="DirectXCommon.cpp">
       <Filter>ソースファイル\DirectXCommon</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteCommon.cpp">
+      <Filter>ソースファイル\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>ソースファイル\Sprite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -26,6 +34,13 @@
     <ClInclude Include="DirectXCommon.h">
       <Filter>ヘッダーファイル\DirectXCommon</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteCommon.h">
+      <Filter>ヘッダーファイル\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>ヘッダーファイル\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.hlsli" />
@@ -56,5 +71,14 @@
     <Filter Include="ソースファイル\DirectXCommon">
       <UniqueIdentifier>{f3616409-e7cc-41b8-a34e-c6ffb86e0c2b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソースファイル\Sprite">
+      <UniqueIdentifier>{0894f1ca-b0bd-473a-82d0-71febf0d6994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Sprite">
+      <UniqueIdentifier>{3179ded5-69a5-4e41-9a2d-ef9a9502877a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CG2.rc" />
   </ItemGroup>
 </Project>
