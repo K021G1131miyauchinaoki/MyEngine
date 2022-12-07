@@ -18,14 +18,75 @@
 using namespace DirectX;
 using	namespace Microsoft::WRL;
 
-void	SceneInitialize(ID3D12Device* device) {
+const XMFLOAT3 CatmullRomSpline(XMFLOAT3 P0, XMFLOAT3 P1, XMFLOAT3 P2, XMFLOAT3 P3, float t) {
+	XMFLOAT3 a;
+	a.x = (P1.x * 2) + ((-P0.x + P2.x) * t);
+	a.y = (P1.y * 2) + ((-P0.y + P2.y) * t);
+	a.z = (P1.z * 2) + ((-P0.z + P2.z) * t);
+
+	XMFLOAT3 b;
+	b.x = ((2 * P0.x) - (5 * P1.x) + (4 * P2.x) - P3.x) * t * t;
+	b.y = ((2 * P0.y) - (5 * P1.y) + (4 * P2.y) - P3.y) * t * t;
+	b.z = ((2 * P0.z) - (5 * P1.z) + (4 * P2.z) - P3.z) * t * t;
+
+	XMFLOAT3 c;
+	c.x = (-P0.x + (3 * P1.x) - (3 * P2.x) + P3.x) * t * t * t;
+	c.y = (-P0.y + (3 * P1.y) - (3 * P2.y) + P3.y) * t * t * t;
+	c.z = (-P0.z + (3 * P1.z) - (3 * P2.z) + P3.z) * t * t * t;
+
+	XMFLOAT3	d;
+	d.x = 0.5f * (a.x + b.x + c.x);
+	d.y = 0.5f * (a.y + b.y + c.y);
+	d.z = 0.5f * (a.z + b.z + c.z);
+
+	return d;
+}
+XMFLOAT3	splinePosition(const std::vector<XMFLOAT3>& points, size_t startIndex, float t) {
+	//補間すべき点の数
+	size_t n = points.size() - 2;
+
+	if (startIndex > n)return points[n];//pnの値を返す
+	if (startIndex < 1)return points[1];//p1の値を返す
+
+	//p0～p3の制御点を取得する※p1～p2を補間する
+	XMFLOAT3 p0 = points[startIndex - 1];
+	XMFLOAT3 p1 = points[startIndex];
+	XMFLOAT3 p2 = points[startIndex + 1];
+	XMFLOAT3 p3 = points[startIndex + 2];
+
+	//Catmull-Romの式による補間
+	XMFLOAT3 position = CatmullRomSpline(p0, p1, p2, p3, t);
+
+	return position;
+}
+
+void	PlayerInitialize(ID3D12Device* device) {
 	//プレイヤー
 	InitializeObject3d(&player, device);
 	player.position = XMFLOAT3{ 0,0,-15 };
-	hp = 3;
+	hpP = 3;
+	isPlayer = false;
 }
 
-void	CheckAllCollisions(){}
+void	EnemyInitialize(ID3D12Device* device) {
+	//プレイヤー
+	InitializeObject3d(&enemy, device);
+	enemy.scale = { 15.0f,15.0f, 15.0f };
+	enemy.position = XMFLOAT3{ 0,0,-15 };
+	hpE = 20;
+	isEnemy = false;
+}
+
+void	CheckAllCollisions(){
+	//AとBの座標
+	XMFLOAT3	posA, posB;
+
+	const	float	r = 1.0f;
+	const	float	enemyR = 15.0f;
+
+
+
+}
 
 struct Vertex
 {
@@ -1050,7 +1111,11 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 //--------------------------------------------//
 	//変数の初期化
 	scene = Scene::title;
-
+	movie = Movie::appearance;
+	eye = { 0, 0, -100 };//視点座標
+	target = { 0, 0, 0 };//注視点座標
+	up = { 0, 1, 0 };	//上方向ベクトル
+	points = { start,start,p2,p3,p4,end,end };
 
 	while (true)
 	{
@@ -1102,28 +1167,74 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			object3ds[0].scale.x = 5.0f;
 			object3ds[0].scale.y = 3.0f;
 			object3ds[0].position.z = -50.0f;
-			
+
 			if (input->TriggerKey(DIK_SPACE))
 			{
+				//シーン切り替え
 				scene = Scene::play;
-				SceneInitialize(directXCom->GetDevice());
-				hp = 3;
-
+				//初期化処理
+				PlayerInitialize(directXCom->GetDevice());
+				hpP = 3;
+				switchTimer = 0.0f;
+				timeRate = 0.0f;
+				timerTrans = 0.0f;
+				movie = Movie::appearance;
+				enemy.position = { 0,0,28 };
+				player.position = { 0,0,-15 };
 			}
 
 			break;
 		case	Scene::play:
 			//当たり判定
 			CheckAllCollisions();
-			//プレイヤー
-			if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
+			if (movie == Movie::nonMovie)
 			{
-				//
-				if (input->PushKey(DIK_UP)) { player.position.z += 1.0f; }
-				else if (input->PushKey(DIK_DOWN)) { player.position.z -= 1.0f; }
-				if (input->PushKey(DIK_RIGHT)) { player.position.x += 1.0f; }
-				else if (input->PushKey(DIK_LEFT)) { player.position.x -= 1.0f; }
+				eye = { 0,50,0 };
+				target = { 0,-1,1 };
 
+				//プレイヤー
+				if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
+				{
+					//移動処理
+					if (input->PushKey(DIK_UP)) { player.position.z += 1.0f; }
+					else if (input->PushKey(DIK_DOWN)) { player.position.z -= 1.0f; }
+					if (input->PushKey(DIK_RIGHT)) { player.position.x += 1.0f; }
+					else if (input->PushKey(DIK_LEFT)) { player.position.x -= 1.0f; }
+
+				}
+				if (input->PushKey(DIK_SPACE))
+				{
+					//発射処理
+				}
+			}
+			else
+			{
+				target = { 0,0,28 };
+				timerTrans++;
+				timeRate = timerTrans / timerTransMax;
+				if (timeRate >= 1.0f)
+				{
+					if (startIndex < points.size() - 3)
+					{
+						startIndex++;
+						timerTrans -= timerTransMax;
+						timeRate -= 1.0f;
+					}
+					else
+					{
+						timerTrans = timerTransMax;
+						timeRate = 1.0f;
+					}
+				}
+				eye = splinePosition(points, startIndex, timeRate);
+				if (eye.x == end.x &&eye.y == end.y &&eye.z == end.z)
+				{
+					switchTimer++;
+					if (switchTimer==50)
+					{
+						movie = Movie::nonMovie;
+					}
+				}
 			}
 			if (input->TriggerKey(DIK_B))
 			{
@@ -1135,14 +1246,20 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 
 			UpdateObject3d(&player, matView, matProjection);
+			UpdateObject3d(&enemy, matView, matProjection);
 			break;
 		default:
+			//ビュー変換行列
+			eye = { 0, 0, -100 };//視点座標
+			target={0, 0, 0};//注視点座標
+			up={0, 1, 0};	//上方向ベクトル
 			if (input->TriggerKey(DIK_SPACE))
 			{
 				scene = Scene::title;
 			}
 			break;
 		}
+		matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 
 
 	
