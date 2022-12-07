@@ -1,5 +1,8 @@
 #pragma once
 #include"SpriteCommon.h"
+#include"DirectXCommon.h"
+#include<DirectXMath.h>
+using namespace DirectX;
 
 class Sprite
 {
@@ -9,6 +12,7 @@ public://ƒƒ“ƒoŠÖ”
 
 private:
 	SpriteCommon* spriteCommon;
-
+	DirectXCommon* directXCom;
+	HRESULT result;
 };
 

@@ -33,6 +33,9 @@ public://メンバ関数
 	ID3D12Device*GetDevice()const { return device.Get(); }
 	//コマンドリストの取得
 	ID3D12GraphicsCommandList* GetCommandList()const { return comList.Get(); }
+	//resultのゲッター
+	HRESULT GetResult()const { return result; }
+
 
 private:
 	//DirectX12デバイス
