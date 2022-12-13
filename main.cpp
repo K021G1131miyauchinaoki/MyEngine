@@ -179,6 +179,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
 
+		sprite->Draw();
 		//
 		directXCom->PostDraw();
 

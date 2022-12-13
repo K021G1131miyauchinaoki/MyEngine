@@ -1,17 +1,17 @@
 #include "Sprite.h"
 
+//頂点データ
+XMFLOAT3 vertices[] = {
+	{-0.5f,-0.5f,0.0f},
+	{-0.5f,+0.5f,0.0f},
+	{+0.5f,-0.5f,0.0f},
+};
 
 void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	//変数へコピー
 	spriteCommon = spriteCommon_;
 	directXCom = spriteCommon_->GetdxCom();
 
-	//頂点データ
-	XMFLOAT3 vertices[] = {
-		{-0.5f,-0.5f,0.0f},
-		{-0.5f,+0.5f,0.0f},
-		{+0.5f,-0.5f,0.0f},
-	};
 	UINT	sizeVB=static_cast<UINT>(sizeof(XMFLOAT3)*_countof(vertices));
 	//頂点バッファ
 	D3D12_HEAP_PROPERTIES heapProp{};//ヒープ設定
@@ -46,12 +46,29 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	}
 	//繋がりの解除
 	vertBuff->Unmap(0, nullptr);
+
 	//頂点バッファビューの作成
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
+	//D3D12_VERTEX_BUFFER_VIEW vbView{};
 	//GPU仮想アドレス
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
 	//頂点バッファのサイズ
 	vbView.SizeInBytes = sizeVB;
 	//頂点1つ分のデータサイズ
 	vbView.StrideInBytes = sizeof(XMFLOAT3);
+}
+
+void Sprite::Draw() {
+	comList = directXCom->GetCommandList();
+	// パイプラインステートとルートシグネチャの設定コマンド
+	comList->SetPipelineState(spriteCommon->GetPipelineState());
+	comList->SetGraphicsRootSignature(spriteCommon->GetRootSignature());
+
+	// プリミティブ形状の設定コマンド
+	comList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+
+	// 頂点バッファビューの設定コマンド
+	comList->IASetVertexBuffers(0, 1, &vbView);
+
+	// 描画コマンド
+	comList->DrawInstanced(_countof(vertices), 1, 0, 0);//全ての頂点を使って描画
 }
