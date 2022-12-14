@@ -96,22 +96,22 @@ void	SpriteCommon::Initialize(DirectXCommon* directXCom_) {
 	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
+	{
+		//加算合成
+		//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+		//blenddesc.SrcBlend = D3D12_BLEND_ONE;
+		//blenddesc.DestBlend = D3D12_BLEND_ONE;
 
-	//加算合成
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;
+		//減算合成
+		//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
+		//blenddesc.SrcBlend = D3D12_BLEND_ONE;
+		//blenddesc.DestBlend = D3D12_BLEND_ONE;
 
-	//減算合成
-	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;
-
-	//色反転
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
-	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;
-	//blenddesc.DestBlend = D3D12_BLEND_ZERO;
-
+		//色反転
+		//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+		//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;
+		//blenddesc.DestBlend = D3D12_BLEND_ZERO;
+	}
 	//半透明合成
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
@@ -129,10 +129,21 @@ void	SpriteCommon::Initialize(DirectXCommon* directXCom_) {
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//0～255指定のRGBA
 	pipelineDesc.SampleDesc.Count = 1;//1ピクセルにつき1回サンプリング
 
+	//ルートパラメータの設定
+	D3D12_ROOT_PARAMETER rootParam = {};
+	rootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParam.Descriptor.ShaderRegister = 0;
+	rootParam.Descriptor.RegisterSpace = 0;
+	rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+
+
 	//ルートシグネチャ
 	//ID3D12RootSignature* rootSignature;
 	D3D12_ROOT_SIGNATURE_DESC	rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	rootSignatureDesc.pParameters = &rootParam;
+	rootSignatureDesc.NumParameters = 1;
 
 	//ルートシグネチャのシリアライズ
 	ID3DBlob* rootSigBlob = nullptr;

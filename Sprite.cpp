@@ -55,10 +55,40 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	vbView.SizeInBytes = sizeVB;
 	//頂点1つ分のデータサイズ
 	vbView.StrideInBytes = sizeof(XMFLOAT3);
+	// 定数バッファの設定
+	D3D12_HEAP_PROPERTIES cbHeapProp{};   // ヒープ設定
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
+	// リソース設定
+	D3D12_RESOURCE_DESC cbResourceDesc{};
+	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc.Width = (sizeof(ConstBufferDataMaterial)); // 頂点データ全体のサイズ
+	cbResourceDesc.Height = 1;
+	cbResourceDesc.DepthOrArraySize = 1;
+	cbResourceDesc.MipLevels = 1;
+	cbResourceDesc.SampleDesc.Count = 1;
+	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+
+	// 定数バッファの生成
+	//ID3D12Resource* constBffMarerial = nullptr;
+	result = directXCom->GetDevice()->CreateCommittedResource(
+		&cbHeapProp, // ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc, // リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBffMarerial));
+	assert(SUCCEEDED(result));
+	//定数バッファのマッピング
+	//ConstBufferDataMaterial* constMapMaterial = nullptr;
+	result = constBffMarerial->Map(0, nullptr, (void**)&constMapMaterial);//マッピング
 }
 
 void Sprite::Draw() {
 	comList = directXCom->GetCommandList();
+
+	constMapMaterial->color = XMFLOAT4(1, 0, 0, 0.5f);
+
 	// パイプラインステートとルートシグネチャの設定コマンド
 	comList->SetPipelineState(spriteCommon->GetPipelineState());
 	comList->SetGraphicsRootSignature(spriteCommon->GetRootSignature());
@@ -68,6 +98,9 @@ void Sprite::Draw() {
 
 	// 頂点バッファビューの設定コマンド
 	comList->IASetVertexBuffers(0, 1, &vbView);
+
+	//定数バッファビュー
+	comList->SetGraphicsRootConstantBufferView(0,constBffMarerial->GetGPUVirtualAddress());
 
 	// 描画コマンド
 	comList->DrawInstanced(_countof(vertices), 1, 0, 0);//全ての頂点を使って描画
