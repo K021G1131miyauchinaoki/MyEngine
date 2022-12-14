@@ -2,9 +2,12 @@
 
 //頂点データ
 XMFLOAT3 vertices[] = {
-	{-0.5f,-0.5f,0.0f},
-	{-0.5f,+0.5f,0.0f},
-	{+0.5f,-0.5f,0.0f},
+	{ -0.5f, -0.5f, 0.0f }, // 左下
+	{ +0.5f, -0.5f, 0.0f }, // 右下
+	{ -0.5f, +0.5f, 0.0f }, // 左中
+	{ +0.5f, -0.5f, 0.0f }, // 右中
+	{ -0.5f, +0.5f, 0.0f }, // 左上
+	{ +0.5f, +0.5f, 0.0f }, // 右上
 };
 
 void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
@@ -87,7 +90,7 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 void Sprite::Draw() {
 	comList = directXCom->GetCommandList();
 
-	constMapMaterial->color = XMFLOAT4(1, 0, 0, 0.5f);
+	constMapMaterial->color = XMFLOAT4(1, 1, 1, 0.5f);
 
 	// パイプラインステートとルートシグネチャの設定コマンド
 	comList->SetPipelineState(spriteCommon->GetPipelineState());
@@ -95,7 +98,11 @@ void Sprite::Draw() {
 
 	// プリミティブ形状の設定コマンド
 	comList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-
+	//三角形リスト		TRIANGLELIST
+	//三角形ストリップ	TRIANGLESTRIP
+	//線リスト			LINELIST
+	//線ストリップ		LINESTRIP
+	//点リスト			POINTLIST
 	// 頂点バッファビューの設定コマンド
 	comList->IASetVertexBuffers(0, 1, &vbView);
 
@@ -103,5 +110,5 @@ void Sprite::Draw() {
 	comList->SetGraphicsRootConstantBufferView(0,constBffMarerial->GetGPUVirtualAddress());
 
 	// 描画コマンド
-	comList->DrawInstanced(_countof(vertices), 1, 0, 0);//全ての頂点を使って描画
+	comList->DrawInstanced(6, 1, 0, 0);//全ての頂点を使って描画
 }
