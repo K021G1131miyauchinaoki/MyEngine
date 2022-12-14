@@ -24,6 +24,7 @@ private:
 	HRESULT result;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>comList;
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
+	D3D12_INDEX_BUFFER_VIEW	ibView{};
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	ID3D12Resource* constBffMarerial = nullptr;
 

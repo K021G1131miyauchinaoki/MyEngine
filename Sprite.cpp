@@ -89,6 +89,45 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	//定数バッファのマッピング
 	//ConstBufferDataMaterial* constMapMaterial = nullptr;
 	result = constBffMarerial->Map(0, nullptr, (void**)&constMapMaterial);//マッピング
+
+	//インディックスデータ全体のサイズ
+	UINT	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
+	// リソース設定
+
+	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resDesc.Width = sizeIB; // インディックス情報が入る分のサイズ
+	resDesc.Height = 1;
+	resDesc.DepthOrArraySize = 1;
+	resDesc.MipLevels = 1;
+	resDesc.SampleDesc.Count = 1;
+	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	//インディックスバッファの生成
+	ID3D12Resource* indexBuff = nullptr;
+	result = directXCom->GetDevice()->CreateCommittedResource(
+		&heapProp,//ヒープの設定
+		D3D12_HEAP_FLAG_NONE,
+		&resDesc,//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&indexBuff));
+
+	//インディックスバッファをマッピング
+	uint16_t* indexMap = nullptr;
+	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	//全インディックスに対して
+	for (int i = 0; i < _countof(indices); i++)
+	{
+		indexMap[i] = indices[i];//インディックスをコピー
+	}
+	//マッピング解除
+	indexBuff->Unmap(0, nullptr);
+
+	//インディックスバッファビューの作成
+	//D3D12_INDEX_BUFFER_VIEW	ibView{};
+	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
+	ibView.Format = DXGI_FORMAT_R16_UINT;
+	ibView.SizeInBytes = sizeIB;
 }
 
 void Sprite::Draw() {
@@ -113,6 +152,9 @@ void Sprite::Draw() {
 	//定数バッファビュー
 	comList->SetGraphicsRootConstantBufferView(0,constBffMarerial->GetGPUVirtualAddress());
 
+	//インディックスバッファビューの設定コマンド
+	comList->IASetIndexBuffer(&ibView);
+
 	// 描画コマンド
-	comList->DrawInstanced(6, 1, 0, 0);//全ての頂点を使って描画
+	comList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);//全ての頂点を使って描画
 }
