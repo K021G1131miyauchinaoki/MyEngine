@@ -12,6 +12,12 @@ public://メンバ関数
 	//描画
 	void Draw();
 private://構造体
+	//頂点データ
+	struct Vertex {
+		XMFLOAT3	pos;//xyz座標
+		XMFLOAT2	uv;//uv座標
+	};
+
 	//定数バッファ用データ
 	struct ConstBufferDataMaterial {
 		XMFLOAT4	color;//色（RGB）
@@ -27,6 +33,5 @@ private:
 	D3D12_INDEX_BUFFER_VIEW	ibView{};
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	ID3D12Resource* constBffMarerial = nullptr;
-
 };
 
