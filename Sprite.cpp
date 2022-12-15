@@ -131,6 +131,38 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
+
+	//横方向ピクセル数
+	const size_t	textureWidth = 256;
+	//縦方向ピクセル数
+	const size_t	textureHeight = 256;
+	//配列の要素数
+	const size_t	imgeDataCount = textureWidth * textureHeight;
+	//画像イメージデータ配列
+	XMFLOAT4*	imageData = new	XMFLOAT4[imgeDataCount];
+
+	//全ピクセルの色を初期化
+	for (size_t i = 0; i < imgeDataCount; i++) {
+		imageData[i].x = 1.0f;//R
+		imageData[i].y = 0.0f;//G
+		imageData[i].z = 0.0f;//B
+		imageData[i].w = 1.0f;//A
+	}
+	//テクスチャバッファ設定
+	//ヒープ設定
+	D3D12_HEAP_PROPERTIES	textureHeapProp{};
+	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	//リソース設定
+	D3D12_RESOURCE_DESC	textureResourceDesc{};
+	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	textureResourceDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	textureResourceDesc.Width = textureWidth;//幅
+	textureResourceDesc.Height = textureHeight;//高さ
+	textureResourceDesc.DepthOrArraySize = 1;
+	textureResourceDesc.MipLevels = 1;
+	textureResourceDesc.SampleDesc.Count = 1;
 }
 
 void Sprite::Draw() {
