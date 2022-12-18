@@ -32,6 +32,8 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	D3D12_INDEX_BUFFER_VIEW	ibView{};
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
+	D3D12_DESCRIPTOR_HEAP_DESC	srvHeapDesc = {};
+	ID3D12DescriptorHeap* srvHeap = nullptr;
 	ID3D12Resource* constBffMarerial = nullptr;
 };
 

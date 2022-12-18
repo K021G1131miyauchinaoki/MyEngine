@@ -137,14 +137,14 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	//縦方向ピクセル数
 	const size_t	textureHeight = 256;
 	//配列の要素数
-	const size_t	imgeDataCount = textureWidth * textureHeight;
+	const size_t	imageDataCount = textureWidth * textureHeight;
 	//画像イメージデータ配列
-	XMFLOAT4*	imageData = new	XMFLOAT4[imgeDataCount];
+	XMFLOAT4*	imageData = new	XMFLOAT4[imageDataCount];
 
 	//全ピクセルの色を初期化
-	for (size_t i = 0; i < imgeDataCount; i++) {
-		imageData[i].x = 1.0f;//R
-		imageData[i].y = 0.0f;//G
+	for (size_t i = 0; i < imageDataCount; i++) {
+		imageData[i].x = 0.0f;//R
+		imageData[i].y = 1.0f;//G
 		imageData[i].z = 0.0f;//B
 		imageData[i].w = 1.0f;//A
 	}
@@ -163,6 +163,58 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	textureResourceDesc.DepthOrArraySize = 1;
 	textureResourceDesc.MipLevels = 1;
 	textureResourceDesc.SampleDesc.Count = 1;
+
+	//テクスチャバッファの生成
+	ID3D12Resource* texBuff = nullptr;
+	result =directXCom->GetDevice()->CreateCommittedResource(
+		&textureHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&textureResourceDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&texBuff));
+
+	//テクスチャバッファにデータ転送
+	result = texBuff->WriteToSubresource(
+		0,
+		nullptr,						 //全領域へコピー
+		imageData,						 //元データアドレス
+		sizeof(XMFLOAT4) * textureWidth, //１ラインサイズ
+		sizeof(XMFLOAT4) * imageDataCount//全サイズ
+	);
+	//元データ解放
+	delete[]	imageData;
+	//srvの最大個数
+	const	size_t	kMaxSRVCount = 2056;
+	//デスクリプタヒープの設定
+	//D3D12_DESCRIPTOR_HEAP_DESC	srvHeapDesc = {};
+	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	srvHeapDesc.NumDescriptors = kMaxSRVCount;
+
+	//設定をもとにSRV用デスクリプタヒープを生成
+	//ID3D12DescriptorHeap* srvHeap = nullptr;
+	result = directXCom->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+	assert(SUCCEEDED(result));
+
+	//SRVヒープの先頭ハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE	srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
+
+	//シェーダリソースビュー設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC	srvDesc{};		//設定構造体
+	srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;//RGBA	float
+	srvDesc.Shader4ComponentMapping =
+		D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+
+	//ハンドルの指す位置にシェーダーリソースビュー作成
+	directXCom->GetDevice()->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
+
+	ID3DBlob* vsBlob = nullptr; // 頂点シェーダオブジェクト
+	ID3DBlob* psBlob = nullptr; // ピクセルシェーダオブジェクト
+	ID3DBlob* errorBlob = nullptr; // エラーオブジェクト
+
 }
 
 void Sprite::Draw() {
@@ -183,9 +235,14 @@ void Sprite::Draw() {
 	//点リスト			POINTLIST
 	// 頂点バッファビューの設定コマンド
 	comList->IASetVertexBuffers(0, 1, &vbView);
-
-	//定数バッファビュー
-	comList->SetGraphicsRootConstantBufferView(0,constBffMarerial->GetGPUVirtualAddress());
+	//定数バッファビュー（CBV）の設定コマンド
+	comList->SetGraphicsRootConstantBufferView(0, constBffMarerial->GetGPUVirtualAddress());
+	//SRVヒープの設定コマンド
+	comList->SetDescriptorHeaps(1, &srvHeap);
+	//SRVヒープの先頭ハンドルを取得（SRVを指しているはず）
+	D3D12_GPU_DESCRIPTOR_HANDLE	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+	//SRVヒープの先頭にあるSRVをルートパラメータ１番に設定
+	comList->SetGraphicsRootDescriptorTable(1, srvGpuHandle); 
 
 	//インディックスバッファビューの設定コマンド
 	comList->IASetIndexBuffer(&ibView);
