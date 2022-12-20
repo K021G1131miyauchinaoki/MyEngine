@@ -1,5 +1,5 @@
 #include "Sprite.h"
-
+#include"DirectXTex/DirectXTex.h"
 
 
 //インデックスデータ
@@ -15,10 +15,10 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 
 	//頂点データ
 	Vertex	vertices[] = {
-	{{ -0.5f, -0.5f, 0.0f },{0.0f,1.0f}}, // 左下
-	{{ -0.5f, +0.5f, 0.0f },{0.0f,0.0f}}, // 左上
-	{{ +0.5f, -0.5f, 0.0f },{1.0f,1.0f}}, // 右下
-	{{ +0.5f, +0.5f, 0.0f },{1.0f,0.0f}}, // 右上
+	{{-0.4f,-0.7f,0.0f},{0.0f,1.0f}}, // 左下
+	{{-0.4f,+0.7f,0.0f},{0.0f,0.0f}}, // 左上
+	{{+0.4f,-0.7f,0.0f},{1.0f,1.0f}}, // 右下
+	{{+0.4f,+0.7f,0.0f},{1.0f,0.0f}} , // 右上
 	};
 
 
@@ -132,22 +132,26 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
 
-	//横方向ピクセル数
-	const size_t	textureWidth = 256;
-	//縦方向ピクセル数
-	const size_t	textureHeight = 256;
-	//配列の要素数
-	const size_t	imageDataCount = textureWidth * textureHeight;
-	//画像イメージデータ配列
-	XMFLOAT4*	imageData = new	XMFLOAT4[imageDataCount];
+	TexMetadata	metadata{};
+	ScratchImage	scratchImg{};
 
-	//全ピクセルの色を初期化
-	for (size_t i = 0; i < imageDataCount; i++) {
-		imageData[i].x = 0.0f;//R
-		imageData[i].y = 1.0f;//G
-		imageData[i].z = 0.0f;//B
-		imageData[i].w = 1.0f;//A
+	result = LoadFromWICFile(
+		L"Resources/tex.png",
+		WIC_FLAGS_NONE,
+		&metadata, scratchImg);
+
+
+	ScratchImage	mipChain{};
+	result = GenerateMipMaps(
+		scratchImg.GetImages(), scratchImg.GetImageCount(), scratchImg.GetMetadata(),
+		TEX_FILTER_DEFAULT, 0, mipChain);
+	if (SUCCEEDED(result))
+	{
+		scratchImg = std::move(mipChain);
+		metadata = scratchImg.GetMetadata();
 	}
+	metadata.format = MakeSRGB(metadata.format);
+
 	//テクスチャバッファ設定
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES	textureHeapProp{};
@@ -157,11 +161,11 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	//リソース設定
 	D3D12_RESOURCE_DESC	textureResourceDesc{};
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	textureResourceDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	textureResourceDesc.Width = textureWidth;//幅
-	textureResourceDesc.Height = textureHeight;//高さ
-	textureResourceDesc.DepthOrArraySize = 1;
-	textureResourceDesc.MipLevels = 1;
+	textureResourceDesc.Format = metadata.format;
+	textureResourceDesc.Width = metadata.width;
+	textureResourceDesc.Height = (UINT16)metadata.height;
+	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
+	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
 	//テクスチャバッファの生成
@@ -174,16 +178,24 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 		nullptr,
 		IID_PPV_ARGS(&texBuff));
 
-	//テクスチャバッファにデータ転送
-	result = texBuff->WriteToSubresource(
-		0,
-		nullptr,						 //全領域へコピー
-		imageData,						 //元データアドレス
-		sizeof(XMFLOAT4) * textureWidth, //１ラインサイズ
-		sizeof(XMFLOAT4) * imageDataCount//全サイズ
-	);
+	//全ミップマップについて
+	for (size_t i = 0; i < metadata.mipLevels; i++)
+	{
+		//ミップマップレベルを指定してイメージを取得
+		const	Image* img = scratchImg.GetImage(i, 0, 0);
+		//テクスチャバッファにデータ転送
+		result = texBuff->WriteToSubresource(
+			(UINT)i,
+			nullptr,			 //全領域へコピー
+			img->pixels,		 //元データアドレス
+			(UINT)img->rowPitch, //１ラインサイズ
+			(UINT)img->slicePitch//全サイズ
+		);
+		assert(SUCCEEDED(result));
+	}
+
 	//元データ解放
-	delete[]	imageData;
+	//delete[]	imageData;
 	//srvの最大個数
 	const	size_t	kMaxSRVCount = 2056;
 	//デスクリプタヒープの設定
@@ -202,11 +214,11 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 
 	//シェーダリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC	srvDesc{};		//設定構造体
-	srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;//RGBA	float
+	srvDesc.Format = resDesc.Format;//RGBA	float
 	srvDesc.Shader4ComponentMapping =
 		D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = 1;
+	srvDesc.Texture2D.MipLevels = resDesc.MipLevels;
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
 	directXCom->GetDevice()->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
