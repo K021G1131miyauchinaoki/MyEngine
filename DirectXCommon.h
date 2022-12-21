@@ -28,14 +28,15 @@ public://メンバ関数
 	void PreDraw();
 	//描画後処理
 	void PostDraw();
-	
-	//デバイスの取得
+public://ゲッター
+	//デバイス
 	ID3D12Device*GetDevice()const { return device.Get(); }
-	//コマンドリストの取得
+	//コマンドリスト
 	ID3D12GraphicsCommandList* GetCommandList()const { return comList.Get(); }
-	//resultのゲッター
+	//result
 	HRESULT GetResult()const { return result; }
-
+	//スワップチェーン
+	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; }
 
 private:
 	//DirectX12デバイス

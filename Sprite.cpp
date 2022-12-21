@@ -14,11 +14,11 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	directXCom = spriteCommon_->GetdxCom();
 
 	//頂点データ
-	Vertex	vertices[] = {
-	{{-0.4f,-0.7f,0.0f},{0.0f,1.0f}}, // 左下
-	{{-0.4f,+0.7f,0.0f},{0.0f,0.0f}}, // 左上
-	{{+0.4f,-0.7f,0.0f},{1.0f,1.0f}}, // 右下
-	{{+0.4f,+0.7f,0.0f},{1.0f,0.0f}} , // 右上
+	Vertex vertices[] = {
+		{{	0.0f,100.0f,0.0f},{0.0f,1.0f}},
+		{{	0.0f,  0.0f,0.0f},{0.0f,0.0f}},
+		{{100.0f,100.0f,0.0f},{1.0f,1.0f}},
+		{{100.0f,  0.0f,0.0f},{1.0f,0.0f}},
 	};
 
 
@@ -77,7 +77,37 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	cbResourceDesc.MipLevels = 1;
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
+	{//関数化
+		// 定数バッファの設定
+		D3D12_HEAP_PROPERTIES cbHeapProp{};   // ヒープ設定
+		cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
+		// リソース設定
+		D3D12_RESOURCE_DESC cbResourceDesc{};
+		cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+		cbResourceDesc.Width = (sizeof(ConstBufferDataTransfrom)+0xff)&~0xff; // 頂点データ全体のサイズ
+		cbResourceDesc.Height = 1;
+		cbResourceDesc.DepthOrArraySize = 1;
+		cbResourceDesc.MipLevels = 1;
+		cbResourceDesc.SampleDesc.Count = 1;
+		cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+		//定数バッファの生成
+		result = directXCom->GetDevice()->CreateCommittedResource(
+			&cbHeapProp,//ヒープ設定
+			D3D12_HEAP_FLAG_NONE,
+			&cbResourceDesc,//リソース設定
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&constBuffTransform));
+		assert(SUCCEEDED(result));
+		//定数バッファのマッピング
+		result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);//マッピング
+		assert(SUCCEEDED(result));
+		constMapTransform->mat = XMMatrixIdentity();
+	}
+	constMapTransform->mat.r[0].m128_f32[0] = 2.0f / directXCom->GetSwapChainDesc().Width;
+	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / directXCom->GetSwapChainDesc().Height;
+	constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
+	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
 
 	// 定数バッファの生成
 	//ID3D12Resource* constBffMarerial = nullptr;
@@ -258,7 +288,8 @@ void Sprite::Draw() {
 
 	//インディックスバッファビューの設定コマンド
 	comList->IASetIndexBuffer(&ibView);
-
+	//定数バッファビュー(CBV)の設定コマンド
+	comList->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
 	// 描画コマンド
 	comList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);//全ての頂点を使って描画
 }

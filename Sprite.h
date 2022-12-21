@@ -18,11 +18,16 @@ private://構造体
 		XMFLOAT2	uv;//uv座標
 	};
 
-	//定数バッファ用データ
+	//定数バッファ用データ（マテリアル）
 	struct ConstBufferDataMaterial {
 		XMFLOAT4	color;//色（RGB）
 	};
 
+	//定数バッファ用データ（3D変換行列）
+	struct ConstBufferDataTransfrom
+	{
+		XMMATRIX	mat;
+	};
 
 private:
 	SpriteCommon* spriteCommon;
@@ -35,5 +40,7 @@ private:
 	D3D12_DESCRIPTOR_HEAP_DESC	srvHeapDesc = {};
 	ID3D12DescriptorHeap* srvHeap = nullptr;
 	ID3D12Resource* constBffMarerial = nullptr;
+	ID3D12Resource* constBuffTransform = nullptr;
+	ConstBufferDataTransfrom* constMapTransform = nullptr;
 };
 

@@ -154,7 +154,7 @@ void	SpriteCommon::Initialize(DirectXCommon* directXCom_) {
 	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
 	//ルートパラメータの設定
-	D3D12_ROOT_PARAMETER	rootParams[2] = {};
+	D3D12_ROOT_PARAMETER	rootParams[3] = {};
 	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParams[0].Descriptor.ShaderRegister = 0;
 	rootParams[0].Descriptor.RegisterSpace = 0;
@@ -165,6 +165,10 @@ void	SpriteCommon::Initialize(DirectXCommon* directXCom_) {
 	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;
 	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
+	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParams[2].Descriptor.ShaderRegister = 1;
+	rootParams[2].Descriptor.RegisterSpace = 0;
+	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
 
 	//ルートシグネチャ
