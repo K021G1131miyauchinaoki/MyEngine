@@ -102,12 +102,10 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 		//定数バッファのマッピング
 		result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);//マッピング
 		assert(SUCCEEDED(result));
-		constMapTransform->mat = XMMatrixIdentity();
 	}
-	constMapTransform->mat.r[0].m128_f32[0] = 2.0f / directXCom->GetSwapChainDesc().Width;
-	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / directXCom->GetSwapChainDesc().Height;
-	constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
-	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
+	
+	constMapTransform->mat = XMMatrixIdentity();
+	
 
 	// 定数バッファの生成
 	//ID3D12Resource* constBffMarerial = nullptr;
@@ -261,9 +259,17 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 
 void Sprite::Draw() {
 	comList = directXCom->GetCommandList();
+	//constMapTransform->mat.r[0].m128_f32[0] = 2.0f / directXCom->GetSwapChainDesc().Width;
+	//constMapTransform->mat.r[1].m128_f32[1] = -2.0f / directXCom->GetSwapChainDesc().Height;
+	matWorld = XMMatrixIdentity();
+	matWorld.r[0].m128_f32[0] = 2.0f / directXCom->GetSwapChainDesc().Width;
+	matWorld.r[1].m128_f32[1] = -2.0f / directXCom->GetSwapChainDesc().Height;
+	matWorld *= XMMatrixScaling(1.0f, 1.0f, 0.0f);
+	matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
+	matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
-	constMapMaterial->color = XMFLOAT4(1, 1, 1, 0.5f);
-
+	constMapMaterial->color = XMFLOAT4(1, 0, 0, 0.5f);
+	constMapTransform->mat = matWorld;
 	// パイプラインステートとルートシグネチャの設定コマンド
 	comList->SetPipelineState(spriteCommon->GetPipelineState());
 	comList->SetGraphicsRootSignature(spriteCommon->GetRootSignature());

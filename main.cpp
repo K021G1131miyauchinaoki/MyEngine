@@ -155,6 +155,8 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma	region	最初のシーンの初期化
 	Sprite* sprite = new	Sprite();
 	sprite->Initialize(spriteCommon);
+
+	//変数
 #pragma	endregion
 	while (true)
 	{
@@ -174,8 +176,41 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 			OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
 		}
-		
-	
+		//スプライトの回転
+		{
+			float rotation = sprite->GetRotation();
+			if (input->PushKey(DIK_O))
+			{
+				rotation += 10.0f;
+			}
+			else if (input->PushKey(DIK_P))
+			{
+				rotation -= 10.0f;
+			}
+			sprite->SetRotation(rotation);
+		}
+		//スプライトの座標
+		{
+			XMFLOAT2 position = sprite->GetPosition();
+			if (input->PushKey(DIK_UP))
+			{
+				position.y += 0.01f;
+			}
+			else if (input->PushKey(DIK_DOWN))
+			{
+				position.y -= 0.01f;
+			}
+			if (input->PushKey(DIK_LEFT))
+			{
+				position.x -= 0.01f;
+			}
+			else if (input->PushKey(DIK_RIGHT))
+			{
+				position.x += 0.01f;
+
+			}
+			sprite->SetPosition(position);
+		}
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
 
