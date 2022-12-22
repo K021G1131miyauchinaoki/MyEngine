@@ -1,10 +1,6 @@
-cbuffer CounstbufferDataMaterial:register(b0)
+cbuffer CounstbufferData:register(b0)
 {
 	float4 color;//F
-}
-
-cbuffer CounstbufferDataTransfrom : register(b1)
-{
 	matrix mat;//3D•ÏŠ·s—ñ
 }
 

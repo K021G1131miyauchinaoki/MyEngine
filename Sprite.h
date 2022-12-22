@@ -27,14 +27,9 @@ private://構造体
 	};
 
 	//定数バッファ用データ（マテリアル）
-	struct ConstBufferDataMaterial {
+	struct ConstBufferData {
 		XMFLOAT4	color;//色（RGB）
-	};
-
-	//定数バッファ用データ（3D変換行列）
-	struct ConstBufferDataTransfrom
-	{
-		XMMATRIX	mat;
+		XMMATRIX	mat;//3D変換行列
 	};
 
 private:
@@ -46,10 +41,8 @@ private:
 	D3D12_INDEX_BUFFER_VIEW	ibView{};
 	D3D12_DESCRIPTOR_HEAP_DESC	srvHeapDesc = {};
 	ID3D12DescriptorHeap* srvHeap = nullptr;
-	ID3D12Resource* constBffMarerial = nullptr;
-	ID3D12Resource* constBuffTransform = nullptr;
-	ConstBufferDataMaterial* constMapMaterial = nullptr;
-	ConstBufferDataTransfrom* constMapTransform = nullptr;
+	ID3D12Resource* constBuff = nullptr;
+	ConstBufferData* constMap = nullptr;
 	XMMATRIX	matWorld;
 	float	rotation = 0;
 	XMFLOAT2	position={-1.0f,1.0f};
