@@ -13,30 +13,24 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	spriteCommon = spriteCommon_;
 	directXCom = spriteCommon_->GetdxCom();
 
-	//頂点データ
-	Vertex vertices[] = {
-		{{	0.0f,100.0f,0.0f},{0.0f,1.0f}},
-		{{	0.0f,  0.0f,0.0f},{0.0f,0.0f}},
-		{{100.0f,100.0f,0.0f},{1.0f,1.0f}},
-		{{100.0f,  0.0f,0.0f},{1.0f,0.0f}},
-	};
+	
 
 
-	UINT	sizeVB=static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
+	//UINT	sizeVB=static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 	//頂点バッファ
 	D3D12_HEAP_PROPERTIES heapProp{};//ヒープ設定
 	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送
 	//リソース設定
 	D3D12_RESOURCE_DESC resDesc{};
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeVB;
+	resDesc.Width = sizeof(Vertex)*4;
 	resDesc.Height = 1;
 	resDesc.DepthOrArraySize = 1;
 	resDesc.MipLevels = 1;
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 	//頂点バッファの生成
-	ID3D12Resource* vertBuff = nullptr;
+	//ID3D12Resource* vertBuff = nullptr;
 	result = directXCom->GetResult();
 	result = directXCom->GetDevice()->CreateCommittedResource(
 		&heapProp,//ヒープ設定
@@ -46,25 +40,16 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 		nullptr,
 		IID_PPV_ARGS(&vertBuff));
 	//GPU上のバッファに対応した仮想メモリ（メインメモリ上）を取得
-	Vertex* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result));
-	//全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++)
-	{
-		vertMap[i] = vertices[i];
-	}
-	//繋がりの解除
-	vertBuff->Unmap(0, nullptr);
+	TransferVertices();
 
 	//頂点バッファビューの作成
 	//D3D12_VERTEX_BUFFER_VIEW vbView{};
 	//GPU仮想アドレス
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
 	//頂点バッファのサイズ
-	vbView.SizeInBytes = sizeVB;
+	vbView.SizeInBytes = sizeof(Vertex)*4;
 	//頂点1つ分のデータサイズ
-	vbView.StrideInBytes = sizeof(vertices[0]);
+	vbView.StrideInBytes = sizeof(Vertex);
 	// 定数バッファの設定
 	D3D12_HEAP_PROPERTIES cbHeapProp{};   // ヒープ設定
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
@@ -92,6 +77,11 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	
 	
 	constMap->mat = XMMatrixIdentity();
+	//並行投影行列の計算
+	//constMap->mat = XMMatrixOrthographicOffCenterLH(
+	//	0, 1280,
+	//	720, 0,
+	//	0.0f, 1.0f);
 	
 	//インディックスデータ全体のサイズ
 	UINT	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
@@ -104,7 +94,6 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	resDesc.MipLevels = 1;
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
 	//インディックスバッファの生成
 	ID3D12Resource* indexBuff = nullptr;
 	result = directXCom->GetDevice()->CreateCommittedResource(
@@ -228,11 +217,44 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	ID3DBlob* errorBlob = nullptr; // エラーオブジェクト
 
 }
+void	Sprite::SetRotation(const float& rotation_) {
+	rotation = rotation_;
+	TransferVertices();
+
+}
+
+void	Sprite::SetPosition(const XMFLOAT2& position_) { 
+	position = position_;
+	TransferVertices();
+}
+
+void	Sprite::SetColor(const XMFLOAT4& color_) {
+	color =	color_;
+	TransferVertices();
+}
+
+void	Sprite::SetSize(const XMFLOAT2& size_) {
+	size = size_;
+	TransferVertices();
+}
+
+void	Sprite::SetAnchorPoint(const XMFLOAT2& anchorPoint_) {
+	anchorPoint = anchorPoint_;
+	TransferVertices();
+}
+
+/// 左右反転の設定
+void Sprite::SetIsFlipX(bool isFlipX_){
+	isFlipX = isFlipX_;
+}
+
+/// 上下反転の設定
+void Sprite::SetIsFlipY(bool isFlipY_){
+	isFlipY = isFlipY_;
+}
 
 void Sprite::Draw() {
 	comList = directXCom->GetCommandList();
-	//constMapTransform->mat.r[0].m128_f32[0] = 2.0f / directXCom->GetSwapChainDesc().Width;
-	//constMapTransform->mat.r[1].m128_f32[1] = -2.0f / directXCom->GetSwapChainDesc().Height;
 	matWorld = XMMatrixIdentity();
 	matWorld.r[0].m128_f32[0] = 2.0f / directXCom->GetSwapChainDesc().Width;
 	matWorld.r[1].m128_f32[1] = -2.0f / directXCom->GetSwapChainDesc().Height;
@@ -240,8 +262,9 @@ void Sprite::Draw() {
 	matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
 	matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
-	constMap->color = XMFLOAT4(1, 0, 0, 0.5f);
+	constMap->color = color;
 	constMap->mat = matWorld;
+
 	// パイプラインステートとルートシグネチャの設定コマンド
 	comList->SetPipelineState(spriteCommon->GetPipelineState());
 	comList->SetGraphicsRootSignature(spriteCommon->GetRootSignature());
@@ -270,4 +293,51 @@ void Sprite::Draw() {
 	comList->SetGraphicsRootConstantBufferView(2, constBuff->GetGPUVirtualAddress());
 	// 描画コマンド
 	comList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);//全ての頂点を使って描画
+}
+
+void Sprite::TransferVertices()
+{
+	enum vertexNum
+	{
+		LB,//左下
+		LT,//左上
+		RB,//右下
+		RT,//右上
+	};
+	float left = (0.0f - anchorPoint.x) * size.x;
+	float right = (1.0f - anchorPoint.x) * size.x;
+	float top = (0.0f - anchorPoint.x) * size.y;
+	float bottom = (1.0f - anchorPoint.x) * size.y;
+
+	if (isFlipX)
+	{// 左右入れ替え
+		left = -left;
+		right = -right;
+	}
+
+	if (isFlipY)
+	{// 上下入れ替え
+		top = -top;
+		bottom = -bottom;
+	}
+
+	//頂点データ
+	Vertex vertices[4];
+	vertices[LB].pos = { left,	bottom,	0.0f }; // 左下
+	vertices[LT].pos = { left,	top,	0.0f }; // 左上
+	vertices[RB].pos = { right,	bottom,	0.0f }; // 右下
+	vertices[RT].pos = { right,	top,	0.0f }; // 右上
+
+	vertices[LB].uv = {0.0f,1.0f }; // 左下
+	vertices[LT].uv = {0.0f,0.0f }; // 左上
+	vertices[RB].uv = {1.0f,1.0f }; // 右下
+	vertices[RT].uv = {1.0f,0.0f }; // 右上
+
+	// 頂点バッファへのデータ転送
+	Vertex* vertMap = nullptr;
+	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	if (SUCCEEDED(result)) {
+		memcpy(vertMap, vertices, sizeof(vertices));
+		vertBuff->Unmap(0, nullptr);
+	}
 }
