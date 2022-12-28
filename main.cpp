@@ -157,11 +157,11 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	sprite->Initialize(spriteCommon);
 	Sprite* sprite2 = new	Sprite();
 	sprite2->Initialize(spriteCommon);
-	sprite2->SetPosition(XMFLOAT2( 0.0f, 0.0f));
+	sprite2->SetPosition(XMFLOAT2( 50.0f, 50.0f));
 	sprite2->SetColor(XMFLOAT4(0.1f, 0.0f, 0.0f, 0.5f));
 	sprite2->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
-	sprite2->SetIsFlipX(true);
-	sprite2->SetIsFlipY(true);
+	//sprite2->SetIsFlipX(true);
+	//sprite2->SetIsFlipY(true);
 	sprite->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
 
 	//変数
@@ -196,7 +196,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				rotation -= 10.0f;
 			}
 			sprite->SetRotation(rotation);
-			sprite2->SetSize(XMFLOAT2(150.0f, 50.0f));
+			//sprite2->SetSize(XMFLOAT2(150.0f, 50.0f));
 			sprite2->SetRotation(rotation);
 		}
 		//スプライトの座標
@@ -204,26 +204,26 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			XMFLOAT2 position = sprite->GetPosition();
 			if (input->PushKey(DIK_UP))
 			{
-				position.y += 0.01f;
+				position.y -= 10.0f;
 			}
 			else if (input->PushKey(DIK_DOWN))
 			{
-				position.y -= 0.01f;
+				position.y += 10.0f;
 			}
 			if (input->PushKey(DIK_LEFT))
 			{
-				position.x -= 0.01f;
+				position.x -= 10.0f;
 			}
 			else if (input->PushKey(DIK_RIGHT))
 			{
-				position.x += 0.01f;
+				position.x += 10.0f;
 
 			}
 			sprite->SetPosition(position);
 		}
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
-
+		//sprite->SetIsInvisible(true);
 		sprite->Draw();
 		sprite2->Draw();
 

@@ -30,13 +30,15 @@ public://ゲッター、セッター
 	void	SetAnchorPoint(const XMFLOAT2& anchorPoint_);
 	const XMFLOAT2& GetAnchorPoint()const { return anchorPoint; }
 	
-	/// 左右反転の設定
+	// 左右反転の設定
 	void SetIsFlipX(bool isFlipX_);
 
-	/// 上下反転の設定
+	// 上下反転の設定
 	void SetIsFlipY(bool isFlipY_);
 
-	void	
+	//非表示
+	void	SetIsInvisible(bool isInvisible_);
+
 private://構造体
 	//頂点データ
 	struct Vertex {
@@ -63,14 +65,23 @@ private:
 	ID3D12Resource* constBuff = nullptr;
 	ConstBufferData* constMap = nullptr;
 	XMMATRIX	matWorld;
+	//回転
 	float	rotation = 0;
+	//座標
 	XMFLOAT2	position={-1.0f,1.0f};
+	//カラー
 	XMFLOAT4	color = { 1,1,1,1 };
+	//サイズ
 	XMFLOAT2	size = { 100.0f,100.0f };
+	//アンカーポイント
 	XMFLOAT2	anchorPoint = { 0.0f,0.0f };
 	// 左右反転
 	bool isFlipX = false;
 	// 上下反転
 	bool isFlipY = false;
+	//非表示
+	bool	isInvisible = false;
+	// 射影行列計算
+	static	XMMATRIX	matProjection;
 };
 

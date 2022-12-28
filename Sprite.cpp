@@ -8,6 +8,8 @@ unsigned	short	indices[] = {
 	1,2,3,
 };
 
+XMMATRIX Sprite::matProjection;
+
 void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	//変数へコピー
 	spriteCommon = spriteCommon_;
@@ -74,9 +76,15 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	//定数バッファのマッピング
 	result = constBuff->Map(0, nullptr, (void**)&constMap);//マッピング
 	assert(SUCCEEDED(result));
-	
+	constMap->color = color;
+	constMap->mat = matProjection;
 	
 	constMap->mat = XMMatrixIdentity();
+	// 射影行列計算
+	matProjection = XMMatrixOrthographicOffCenterLH(
+		0.0f, (float)directXCom->GetSwapChainDesc().Width,
+		(float)directXCom->GetSwapChainDesc().Height, 0.0f,
+		0.0f, 1.0f);
 	//並行投影行列の計算
 	//constMap->mat = XMMatrixOrthographicOffCenterLH(
 	//	0, 1280,
@@ -243,27 +251,40 @@ void	Sprite::SetAnchorPoint(const XMFLOAT2& anchorPoint_) {
 	TransferVertices();
 }
 
-/// 左右反転の設定
+// 左右反転の設定
 void Sprite::SetIsFlipX(bool isFlipX_){
 	isFlipX = isFlipX_;
+	TransferVertices();
 }
 
-/// 上下反転の設定
+// 上下反転の設定
 void Sprite::SetIsFlipY(bool isFlipY_){
 	isFlipY = isFlipY_;
+	TransferVertices();
+}
+
+// 非表示
+void Sprite::SetIsInvisible(bool isInvisible_) {
+	isInvisible = isInvisible_;
+	TransferVertices();
 }
 
 void Sprite::Draw() {
+	//非表示
+	if (isInvisible)
+	{
+		return;
+	}
 	comList = directXCom->GetCommandList();
 	matWorld = XMMatrixIdentity();
-	matWorld.r[0].m128_f32[0] = 2.0f / directXCom->GetSwapChainDesc().Width;
-	matWorld.r[1].m128_f32[1] = -2.0f / directXCom->GetSwapChainDesc().Height;
-	matWorld *= XMMatrixScaling(1.0f, 1.0f, 0.0f);
+	//matWorld.r[0].m128_f32[0] = 2.0f / directXCom->GetSwapChainDesc().Width;
+	//matWorld.r[1].m128_f32[1] = -2.0f / directXCom->GetSwapChainDesc().Height;
+	//matWorld *= XMMatrixScaling(1.0f, 1.0f, 0.0f);
 	matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
 	matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
 	constMap->color = color;
-	constMap->mat = matWorld;
+	constMap->mat = matWorld*matProjection;
 
 	// パイプラインステートとルートシグネチャの設定コマンド
 	comList->SetPipelineState(spriteCommon->GetPipelineState());
