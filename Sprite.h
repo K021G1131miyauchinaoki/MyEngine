@@ -2,16 +2,24 @@
 #include"SpriteCommon.h"
 #include"DirectXCommon.h"
 #include<DirectXMath.h>
+#include<array>
 using namespace DirectX;
 
 class Sprite
 {
+private://静的メンバ変数
+	// 射影行列計算
+	static	XMMATRIX	matProjection;
+	//SRVの最大枚数
+	static const size_t	maxSRVCount = 2056;
 public://メンバ関数
 	//初期化
 	void	Initialize(SpriteCommon* spriteCommon_);
 	//描画
 	void Draw();
 	void TransferVertices();
+	//テクスチャ読み込み
+	void	Loadtexture(uint32_t index);
 
 public://ゲッター、セッター
 	//回転
@@ -64,7 +72,7 @@ private:
 	ID3D12DescriptorHeap* srvHeap = nullptr;
 	ID3D12Resource* constBuff = nullptr;
 	ConstBufferData* constMap = nullptr;
-	XMMATRIX	matWorld;
+	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>,maxSRVCount>texBuffers;
 	//回転
 	float	rotation = 0;
 	//座標
@@ -81,7 +89,8 @@ private:
 	bool isFlipY = false;
 	//非表示
 	bool	isInvisible = false;
-	// 射影行列計算
-	static	XMMATRIX	matProjection;
+	//3D変換行列
+	XMMATRIX	matWorld;
+
 };
 
