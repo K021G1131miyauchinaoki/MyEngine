@@ -17,9 +17,8 @@ public://メンバ関数
 	void	Initialize(SpriteCommon* spriteCommon_);
 	//描画
 	void Draw();
-	void TransferVertices();
-	//テクスチャ読み込み
-	void	Loadtexture(uint32_t index);
+	void Update();
+	
 
 public://ゲッター、セッター
 	//回転
@@ -37,15 +36,15 @@ public://ゲッター、セッター
 	//アンカーポイント
 	void	SetAnchorPoint(const XMFLOAT2& anchorPoint_);
 	const XMFLOAT2& GetAnchorPoint()const { return anchorPoint; }
-	
 	// 左右反転の設定
 	void SetIsFlipX(bool isFlipX_);
-
 	// 上下反転の設定
 	void SetIsFlipY(bool isFlipY_);
-
 	//非表示
 	void	SetIsInvisible(bool isInvisible_);
+	//テクスチャ番号
+	void	SetTexIndex(const uint32_t texIndex) { textureIndex = texIndex; }
+	const	uint32_t& GetTexIndex()const { return textureIndex; }
 
 private://構造体
 	//頂点データ
@@ -72,7 +71,6 @@ private:
 	ID3D12DescriptorHeap* srvHeap = nullptr;
 	ID3D12Resource* constBuff = nullptr;
 	ConstBufferData* constMap = nullptr;
-	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>,maxSRVCount>texBuffers;
 	//回転
 	float	rotation = 0;
 	//座標
@@ -91,6 +89,7 @@ private:
 	bool	isInvisible = false;
 	//3D変換行列
 	XMMATRIX	matWorld;
-
+	//テクスチャの番号
+	uint32_t textureIndex = 0;
 };
 

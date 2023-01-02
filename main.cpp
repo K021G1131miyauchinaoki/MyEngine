@@ -150,6 +150,9 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//スプライト共通部分の初期化
 	spriteCommon = new	SpriteCommon;
 	spriteCommon->Initialize(directXCom);
+	spriteCommon->Loadtexture(1, "mario.jpg");
+	spriteCommon->Loadtexture(2, "tex.png");
+
 
 #pragma	endregion
 #pragma	region	最初のシーンの初期化
@@ -163,7 +166,6 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//sprite2->SetIsFlipX(true);
 	//sprite2->SetIsFlipY(true);
 	sprite->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
-
 	//変数
 #pragma	endregion
 	while (true)
@@ -224,6 +226,8 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
 		//sprite->SetIsInvisible(true);
+		sprite->SetTexIndex(1);
+		sprite2->SetTexIndex(2);
 		sprite->Draw();
 		sprite2->Draw();
 

@@ -45,6 +45,7 @@ private:
 	Microsoft::WRL::ComPtr<IDXGIFactory7>dxgiFactory;
 	//コマンドキューの設定
 	D3D12_COMMAND_QUEUE_DESC	commandQueueDesc{};
+	Microsoft::WRL::ComPtr <IDXGISwapChain1>swapChain1;
 	Microsoft::WRL::ComPtr<IDXGISwapChain4>swapChain = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator>cmdAllocator = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>comList = nullptr;

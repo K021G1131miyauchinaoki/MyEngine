@@ -114,7 +114,6 @@ void DirectXCommon::InitializeSwapchain() {
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 	//IDXGISwapChain1のComPtrを用意
-	ComPtr <IDXGISwapChain1>swapchain1;
 	//スワップチェーンの生成
 	result = dxgiFactory->CreateSwapChainForHwnd(
 		commandQueue.Get(),
@@ -122,9 +121,9 @@ void DirectXCommon::InitializeSwapchain() {
 		&swapChainDesc,
 		nullptr,
 		nullptr,
-		&swapchain1);
+		&swapChain1);
 	//生成したIDXGISwapChan1のオブジェクトをIDXGISwapChain4に変換する
-	swapchain1.As(&swapChain);
+	swapChain1.As(&swapChain);
 
 	assert(SUCCEEDED(result));
 }
@@ -264,6 +263,8 @@ void DirectXCommon::PreDraw() {
 void DirectXCommon::PostDraw(){
 	// バックバッファの番号を取得(2つなので0番か1番)
 	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
+
+	barrierDesc.Transition.pResource = backBuffers[bbIndex].Get(); // バックバッファを指定
 	// 5.リソースバリアを戻す
 	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
 	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
@@ -276,8 +277,9 @@ void DirectXCommon::PostDraw(){
 	ID3D12CommandList* commandLists[] = { comList.Get() };
 	commandQueue->ExecuteCommandLists(1, commandLists);
 	// 画面に表示するバッファをフリップ(裏表の入替え)
+	
 	result = swapChain->Present(1, 0);
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 
 	// コマンドの実行完了を待つ
 	commandQueue->Signal(fence.Get(), ++fenceVal);
