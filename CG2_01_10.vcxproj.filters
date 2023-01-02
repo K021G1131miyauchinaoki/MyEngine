@@ -23,6 +23,7 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>ソースファイル\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="Object3d.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -41,6 +42,7 @@
       <Filter>ヘッダーファイル\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Object3d.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.hlsli" />
