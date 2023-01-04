@@ -10,7 +10,7 @@ class SpriteCommon
 {
 private://Ã“Iƒƒ“ƒo•Ï”
 	//SRV‚ÌÅ‘å–‡”
-	static const size_t	maxSRVCount = 2056;
+	static const size_t	maxSRVCount = 2048;
 	static	std::string defaultTextureDirectoryPath;
 public://ƒƒ“ƒoŠÖ”
 	//‰Šú‰»
