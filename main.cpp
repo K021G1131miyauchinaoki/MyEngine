@@ -157,15 +157,19 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma	endregion
 #pragma	region	最初のシーンの初期化
 	Sprite* sprite = new	Sprite();
-	sprite->Initialize(spriteCommon);
+	sprite->Initialize(spriteCommon,1);
 	Sprite* sprite2 = new	Sprite();
-	sprite2->Initialize(spriteCommon);
+	sprite2->Initialize(spriteCommon,2);
 	sprite2->SetPosition(XMFLOAT2( 50.0f, 50.0f));
 	sprite2->SetColor(XMFLOAT4(0.1f, 0.0f, 0.0f, 0.5f));
 	sprite2->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
 	//sprite2->SetIsFlipX(true);
 	//sprite2->SetIsFlipY(true);
 	sprite->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
+
+	sprite->SetSize(XMFLOAT2(100.0f, 100.0f));
+	sprite2->SetSize(XMFLOAT2(100.0f, 100.0f));
+
 	//変数
 #pragma	endregion
 	while (true)
@@ -225,11 +229,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
+		spriteCommon->PreDraw();
 		//sprite->SetIsInvisible(true);
 		sprite->SetTexIndex(1);
 		sprite2->SetTexIndex(2);
 		sprite->Draw();
 		sprite2->Draw();
+		spriteCommon->PostDraw();
 
 		//
 		directXCom->PostDraw();
