@@ -28,6 +28,7 @@
       <Filter>ソースファイル\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Object3d.cpp" />
+    <ClCompile Include="Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -47,6 +48,7 @@
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="Object3d.h" />
+    <ClInclude Include="Model.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.hlsli" />

@@ -5,6 +5,7 @@
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include "DirectXTex/d3dx12.h"
+#include"Model.h"
 
 /// <summary>
 /// 3Dオブジェクト
