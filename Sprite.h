@@ -18,7 +18,7 @@ public://メンバ関数
 	//描画
 	void Draw();
 	void Update();
-	
+
 
 public://ゲッター、セッター
 	//回転
@@ -26,7 +26,7 @@ public://ゲッター、セッター
 	const float& GetRotation()const { return rotation; }
 	//座標
 	void	SetPosition(const XMFLOAT2& position_);
-	const XMFLOAT2& GetPosition()const {return position; }
+	const XMFLOAT2& GetPosition()const { return position; }
 	//色
 	void	SetColor(const XMFLOAT4& color_);
 	const XMFLOAT4& GetColor()const { return color; }
@@ -74,7 +74,7 @@ private:
 	//回転
 	float	rotation = 0;
 	//座標
-	XMFLOAT2	position={-1.0f,1.0f};
+	XMFLOAT2	position = { -1.0f,1.0f };
 	//カラー
 	XMFLOAT4	color = { 1,1,1,1 };
 	//サイズ

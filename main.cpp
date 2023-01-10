@@ -72,7 +72,6 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	spriteCommon->Loadtexture(1, "mario.jpg");
 	spriteCommon->Loadtexture(2, "tex.png");
 
-
 #pragma	endregion
 #pragma	region	最初のシーンの初期化
 	Sprite* sprite = new	Sprite();
@@ -85,6 +84,11 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//sprite2->SetIsFlipX(true);
 	//sprite2->SetIsFlipY(true);
 	sprite->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
+	
+	Object3d::StaticInitialize(directXCom->GetDevice(), WinApp::window_width, WinApp::window_height);
+	//3dオブジェクト生成
+	Object3d* obj3d = Object3d::Create();
+
 	//変数
 #pragma	endregion
 	while (true)
@@ -142,8 +146,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			sprite->SetPosition(position);
 		}
+		obj3d->Update();
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
+		Object3d::PreDraw(directXCom->GetCommandList());
+		obj3d->Draw();
+		Object3d::PostDraw();
+
 		//sprite->SetIsInvisible(true);
 		sprite->SetTexIndex(1);
 		sprite2->SetTexIndex(2);

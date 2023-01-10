@@ -9,96 +9,13 @@ unsigned	short	indices[] = {
 };
 
 XMMATRIX Sprite::matProjection;
-//void	Sprite::Loadtexture(uint32_t index) {
-//
-//	TexMetadata	metadata{};
-//	ScratchImage	scratchImg{};
-//
-//	result = LoadFromWICFile(
-//		L"Resources/tex.png",
-//		WIC_FLAGS_NONE,
-//		&metadata, scratchImg);
-//
-//
-//	ScratchImage	mipChain{};
-//	result = GenerateMipMaps(
-//		scratchImg.GetImages(), scratchImg.GetImageCount(), scratchImg.GetMetadata(),
-//		TEX_FILTER_DEFAULT, 0, mipChain);
-//	if (SUCCEEDED(result))
-//	{
-//		scratchImg = std::move(mipChain);
-//		metadata = scratchImg.GetMetadata();
-//	}
-//	metadata.format = MakeSRGB(metadata.format);
-//	//テクスチャバッファ設定
-//	//ヒープ設定
-//	D3D12_HEAP_PROPERTIES	textureHeapProp{};
-//	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-//	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-//	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-//	//リソース設定
-//	D3D12_RESOURCE_DESC	textureResourceDesc{};
-//	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-//	textureResourceDesc.Format = metadata.format;
-//	textureResourceDesc.Width = metadata.width;
-//	textureResourceDesc.Height = (UINT16)metadata.height;
-//	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
-//	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
-//	textureResourceDesc.SampleDesc.Count = 1;
-//
-//	//テクスチャバッファの生成
-//	ID3D12Resource* texBuff = nullptr;
-//	result = directXCom->GetDevice()->CreateCommittedResource(
-//		&textureHeapProp,
-//		D3D12_HEAP_FLAG_NONE,
-//		&textureResourceDesc,
-//		D3D12_RESOURCE_STATE_GENERIC_READ,
-//		nullptr,
-//		IID_PPV_ARGS(&texBuffers[index]));
-//
-//	//全ミップマップについて
-//	for (size_t i = 0; i < metadata.mipLevels; i++)
-//	{
-//		//ミップマップレベルを指定してイメージを取得
-//		const	Image* img = scratchImg.GetImage(i, 0, 0);
-//		//テクスチャバッファにデータ転送
-//		result = texBuffers[index]->WriteToSubresource(
-//			(UINT)i,
-//			nullptr,			 //全領域へコピー
-//			img->pixels,		 //元データアドレス
-//			(UINT)img->rowPitch, //１ラインサイズ
-//			(UINT)img->slicePitch//全サイズ
-//		);
-//		assert(SUCCEEDED(result));
-//	}
-//
-//	
-//
-//	//SRVヒープの先頭ハンドルを取得
-//	D3D12_CPU_DESCRIPTOR_HANDLE	srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
-//
-//	//シェーダリソースビュー設定
-//	D3D12_SHADER_RESOURCE_VIEW_DESC	srvDesc{};		//設定構造体
-//	D3D12_RESOURCE_DESC	resDesc = texBuffers[index]->GetDesc();
-//	srvDesc.Format = resDesc.Format;//RGBA	float
-//	srvDesc.Shader4ComponentMapping =
-//		D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-//	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-//	srvDesc.Texture2D.MipLevels = resDesc.MipLevels;
-//
-//	//ハンドルの指す位置にシェーダーリソースビュー作成
-//	srvHandle.ptr += index;
-//	directXCom->GetDevice()->CreateShaderResourceView(texBuffers[index].Get(), 
-//		&srvDesc, 
-//		srvHandle);
-//
-//}
+
 void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	//変数へコピー
 	spriteCommon = spriteCommon_;
 	directXCom = spriteCommon_->GetdxCom();
 
-	
+
 
 
 	//UINT	sizeVB=static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
@@ -108,7 +25,7 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	//リソース設定
 	D3D12_RESOURCE_DESC resDesc{};
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeof(Vertex)*4;
+	resDesc.Width = sizeof(Vertex) * 4;
 	resDesc.Height = 1;
 	resDesc.DepthOrArraySize = 1;
 	resDesc.MipLevels = 1;
@@ -132,7 +49,7 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	//GPU仮想アドレス
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
 	//頂点バッファのサイズ
-	vbView.SizeInBytes = sizeof(Vertex)*4;
+	vbView.SizeInBytes = sizeof(Vertex) * 4;
 	//頂点1つ分のデータサイズ
 	vbView.StrideInBytes = sizeof(Vertex);
 	// 定数バッファの設定
@@ -141,7 +58,7 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	// リソース設定
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (sizeof(ConstBufferData)+0xff)&~0xff; // 頂点データ全体のサイズ
+	cbResourceDesc.Width = (sizeof(ConstBufferData) + 0xff) & ~0xff; // 頂点データ全体のサイズ
 	cbResourceDesc.Height = 1;
 	cbResourceDesc.DepthOrArraySize = 1;
 	cbResourceDesc.MipLevels = 1;
@@ -161,7 +78,7 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	assert(SUCCEEDED(result));
 	constMap->color = color;
 	constMap->mat = matProjection;
-	
+
 	constMap->mat = XMMatrixIdentity();
 	// 射影行列計算
 	matProjection = XMMatrixOrthographicOffCenterLH(
@@ -173,7 +90,7 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	//	0, 1280,
 	//	720, 0,
 	//	0.0f, 1.0f);
-	
+
 	//インディックスデータ全体のサイズ
 	UINT	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 	// リソース設定
@@ -213,14 +130,14 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	ibView.SizeInBytes = sizeIB;
 
 
-	
+
 
 	//元データ解放
 	//delete[]	imageData;
 	//srvの最大個数
 	const	size_t	kMaxSRVCount = 2056;
-	
-		
+
+
 	ID3DBlob* vsBlob = nullptr; // 頂点シェーダオブジェクト
 	ID3DBlob* psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ID3DBlob* errorBlob = nullptr; // エラーオブジェクト
@@ -232,13 +149,13 @@ void	Sprite::SetRotation(const float& rotation_) {
 
 }
 
-void	Sprite::SetPosition(const XMFLOAT2& position_) { 
+void	Sprite::SetPosition(const XMFLOAT2& position_) {
 	position = position_;
 	Update();
 }
 
 void	Sprite::SetColor(const XMFLOAT4& color_) {
-	color =	color_;
+	color = color_;
 	Update();
 }
 
@@ -253,13 +170,13 @@ void	Sprite::SetAnchorPoint(const XMFLOAT2& anchorPoint_) {
 }
 
 // 左右反転の設定
-void Sprite::SetIsFlipX(bool isFlipX_){
+void Sprite::SetIsFlipX(bool isFlipX_) {
 	isFlipX = isFlipX_;
 	Update();
 }
 
 // 上下反転の設定
-void Sprite::SetIsFlipY(bool isFlipY_){
+void Sprite::SetIsFlipY(bool isFlipY_) {
 	isFlipY = isFlipY_;
 	Update();
 }
@@ -281,7 +198,7 @@ void Sprite::Draw() {
 	matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
 	constMap->color = color;
-	constMap->mat = matWorld*matProjection;
+	constMap->mat = matWorld * matProjection;
 
 	//非表示
 	if (isInvisible)
@@ -290,12 +207,12 @@ void Sprite::Draw() {
 	}
 
 	spriteCommon->SetTextureCommands(textureIndex);
-	
+
 	// 頂点バッファビューの設定コマンド
 	comList->IASetVertexBuffers(0, 1, &vbView);
 	//定数バッファビュー（CBV）の設定コマンド
 	comList->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
-	
+
 
 	//インディックスバッファビューの設定コマンド
 	comList->IASetIndexBuffer(&ibView);
@@ -338,10 +255,10 @@ void Sprite::Update()
 	vertices[RB].pos = { right,	bottom,	0.0f }; // 右下
 	vertices[RT].pos = { right,	top,	0.0f }; // 右上
 
-	vertices[LB].uv = {0.0f,1.0f }; // 左下
-	vertices[LT].uv = {0.0f,0.0f }; // 左上
-	vertices[RB].uv = {1.0f,1.0f }; // 右下
-	vertices[RT].uv = {1.0f,0.0f }; // 右上
+	vertices[LB].uv = { 0.0f,1.0f }; // 左下
+	vertices[LT].uv = { 0.0f,0.0f }; // 左上
+	vertices[RB].uv = { 1.0f,1.0f }; // 右下
+	vertices[RT].uv = { 1.0f,0.0f }; // 右上
 
 	// 頂点バッファへのデータ転送
 	Vertex* vertMap = nullptr;

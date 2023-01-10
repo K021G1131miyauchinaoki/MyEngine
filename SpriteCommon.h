@@ -28,8 +28,8 @@ public://静的メンバ関数
 	//ID3D12PipelineState* GetPipelineState()const { return pipelineState; }
 	//ID3D12RootSignature* GetRootSignature()const { return rootSignature; }
 private://メンバ変数
-	DirectXCommon* directXCom;
-	ID3D12Device* device;
+	DirectXCommon* directXCom = nullptr;
+	ID3D12Device* device = nullptr;
 	HRESULT	result;
 	ID3D12PipelineState* pipelineState = nullptr;
 	ID3D12DescriptorHeap* srvHeap = nullptr;
@@ -37,5 +37,4 @@ private://メンバ変数
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>comList;
 	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, maxSRVCount>texBuffers;
 	UINT	incrementSize;
-
 };

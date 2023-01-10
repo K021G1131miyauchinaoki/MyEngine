@@ -7,6 +7,8 @@
     <FxCompile Include="Resources\shaders\SpritePS.hlsl" />
     <FxCompile Include="Resources\shaders\Object3dPS.hlsl" />
     <FxCompile Include="Resources\shaders\Object3dVS.hlsl" />
+    <FxCompile Include="Resources\shaders\ObjPS.hlsl" />
+    <FxCompile Include="Resources\shaders\ObjVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -51,6 +53,7 @@
     <None Include="ReadMe.md" />
     <None Include="Resources\shaders\Sprite.hlsli" />
     <None Include="Resources\shaders\Object3d.hlsli" />
+    <None Include="Resources\shaders\Obj.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ヘッダーファイル">
