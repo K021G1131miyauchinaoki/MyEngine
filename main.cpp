@@ -16,6 +16,7 @@
 #include"SpriteCommon.h"
 #include"Sprite.h"
 #include"Object3d.h"
+#include"Model.h"
 
 using namespace DirectX;
 using	namespace Microsoft::WRL;
@@ -74,6 +75,9 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma	endregion
 #pragma	region	最初のシーンの初期化
+	//一度しか宣言しない
+	Object3d::StaticInitialize(directXCom->GetDevice(), WinApp::window_width, WinApp::window_height);
+	//スプライト
 	Sprite* sprite = new	Sprite();
 	sprite->Initialize(spriteCommon);
 	Sprite* sprite2 = new	Sprite();
@@ -84,11 +88,17 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//sprite2->SetIsFlipX(true);
 	//sprite2->SetIsFlipY(true);
 	sprite->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
-	
-	Object3d::StaticInitialize(directXCom->GetDevice(), WinApp::window_width, WinApp::window_height);
+	//モデル
+	Model* model = Model::LoadFromOBJ("triangle_mat");
+	Model* model2 = Model::LoadFromOBJ("box_mat");
 	//3dオブジェクト生成
 	Object3d* obj3d = Object3d::Create();
-
+	Object3d* obj3d2 = Object3d::Create();
+	//modelクラスをひも付け
+	obj3d->SetModel(model);
+	obj3d2->SetModel(model2);
+	obj3d->SetPosition({ -5,0,-5 });
+	obj3d2->SetPosition({ +5,0,+50 });
 	//変数
 #pragma	endregion
 	while (true)
@@ -147,10 +157,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			sprite->SetPosition(position);
 		}
 		obj3d->Update();
+		obj3d2->Update();
+		//-------------------描画処理-------------------
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
 		Object3d::PreDraw(directXCom->GetCommandList());
 		obj3d->Draw();
+		obj3d2->Draw();
 		Object3d::PostDraw();
 
 		//sprite->SetIsInvisible(true);
@@ -176,6 +189,10 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete	directXCom;
 	delete	spriteCommon;
 	delete	sprite;
+	delete model;
+	delete model2;
+	delete obj3d;
+	delete obj3d2;
 #pragma	endregion
 	return 0;
 }
