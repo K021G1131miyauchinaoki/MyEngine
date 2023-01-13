@@ -4,6 +4,8 @@
 #include"DirectXTex/DirectXTex.h"
 #include<cassert>
 #include<vector>
+#include<list>
+#include<memory>
 
 #pragma	comment(lib,"d3dcompiler.lib")
 #pragma	comment(lib, "d3d12.lib")
@@ -17,6 +19,11 @@
 #include"Sprite.h"
 #include"Object3d.h"
 #include"Model.h"
+#include<time.h>
+#include<stdio.h>
+#include<stdlib.h>
+
+#include<random>
 
 using namespace DirectX;
 using	namespace Microsoft::WRL;
@@ -42,8 +49,15 @@ float	G = 0.0f;
 float	B = 0.0f;
 
 
+float length(XMFLOAT3 vec) { return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);}
 
-
+XMFLOAT3 lens(XMFLOAT3 vec1, XMFLOAT3 vec2) {
+	XMFLOAT3 vec;
+	vec.x = vec1.x - vec2.x;
+	vec.y = vec1.y - vec2.y;
+	vec.z=	vec1.z - vec2.z;
+	return vec;
+}
 
 //windowsアプリでのエントリーポイント(main関数)
 int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -70,36 +84,50 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//スプライト共通部分の初期化
 	spriteCommon = new	SpriteCommon;
 	spriteCommon->Initialize(directXCom);
-	spriteCommon->Loadtexture(1, "mario.jpg");
-	spriteCommon->Loadtexture(2, "tex.png");
+	spriteCommon->Loadtexture(1, "title.png");
+	spriteCommon->Loadtexture(2, "gameover.png");
 
 #pragma	endregion
 #pragma	region	最初のシーンの初期化
 	//一度しか宣言しない
 	Object3d::StaticInitialize(directXCom->GetDevice(), WinApp::window_width, WinApp::window_height);
 	//スプライト
-	Sprite* sprite = new	Sprite();
-	sprite->Initialize(spriteCommon);
-	Sprite* sprite2 = new	Sprite();
-	sprite2->Initialize(spriteCommon);
-	sprite2->SetPosition(XMFLOAT2( 50.0f, 50.0f));
-	sprite2->SetColor(XMFLOAT4(0.1f, 0.0f, 0.0f, 0.5f));
-	sprite2->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
-	//sprite2->SetIsFlipX(true);
-	//sprite2->SetIsFlipY(true);
-	sprite->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
+	Sprite* spriteTitle = new	Sprite();
+	spriteTitle->Initialize(spriteCommon,1);
+	Sprite* spriteOver = new	Sprite();
+	spriteOver->Initialize(spriteCommon,2);
+	//サイズ
+	spriteTitle->SetSize({ 1280,720 });
+	spriteOver->SetSize({1280,720});
+	//座標
+	spriteTitle->SetPosition({ 0,0 });
+	spriteOver->SetPosition({ 0,0 });
 	//モデル
-	Model* model = Model::LoadFromOBJ("triangle_mat");
-	Model* model2 = Model::LoadFromOBJ("box_mat");
+	Model* modelPlayer = Model::LoadFromOBJ("circle");
+	Model* modelObstacle = Model::LoadFromOBJ("box");
 	//3dオブジェクト生成
-	Object3d* obj3d = Object3d::Create();
-	Object3d* obj3d2 = Object3d::Create();
+	Object3d* player = Object3d::Create();
+	std::list<std::unique_ptr<Object3d>>obstacle;
+	//= Object3d::Create();
 	//modelクラスをひも付け
-	obj3d->SetModel(model);
-	obj3d2->SetModel(model2);
-	obj3d->SetPosition({ -5,0,-5 });
-	obj3d2->SetPosition({ +5,0,+50 });
+	player->SetModel(modelPlayer);
+	player->SetPosition({ 0,0,-100 });
+	//obj3ds->SetModel(model2);
+	//obj3ds->SetPosition({ 0,0,+50 });
+
 	//変数
+	Object3d::SetEye({0,30,-250});
+	Object3d::SetTarget({0,-1,10});
+	enum Scene
+	{
+		title,
+		play,
+		over,
+	};
+	int	scene = Scene::title;
+	int	timer = 20;
+	const float rangeX = 150.0f;
+	const float rangeY = 80.0f;
 #pragma	endregion
 	while (true)
 	{
@@ -114,65 +142,159 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		input->Update();
 
-		//数字の0キーが押されてたら
-		if (input->TriggerKey(DIK_0))
+		switch (scene)
 		{
-			OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
-		}
-		//スプライトの回転
-		{
-			float rotation = sprite->GetRotation();
-			if (input->PushKey(DIK_O))
+		//----------タイトル---------------	
+		case Scene::title:
+			//スペースキーを押したら
+			if (input->TriggerKey(DIK_SPACE))
 			{
-				rotation += 10.0f;
-			}
-			else if (input->PushKey(DIK_P))
-			{
-				rotation -= 10.0f;
-			}
-			sprite->SetRotation(rotation);
-			//sprite2->SetSize(XMFLOAT2(150.0f, 50.0f));
-			sprite2->SetRotation(rotation);
-		}
-		//スプライトの座標
-		{
-			XMFLOAT2 position = sprite->GetPosition();
-			if (input->PushKey(DIK_UP))
-			{
-				position.y -= 10.0f;
-			}
-			else if (input->PushKey(DIK_DOWN))
-			{
-				position.y += 10.0f;
-			}
-			if (input->PushKey(DIK_LEFT))
-			{
-				position.x -= 10.0f;
-			}
-			else if (input->PushKey(DIK_RIGHT))
-			{
-				position.x += 10.0f;
+				scene = Scene::play;
+				//
+				player->SetPosition({ 0,0,-100 });
+				//強制消去
+				obstacle.remove_if([](std::unique_ptr<Object3d>& obj) { return true; });
+				//タイム
+				timer = 20;
 
 			}
-			sprite->SetPosition(position);
+			break;
+		//----------プレイ-----------
+		case Scene::play:
+		{
+			//デスフラグが立ったら消去
+			obstacle.remove_if([](std::unique_ptr<Object3d>& obj) { return obj->IsDead(); });
+			//当たり判定
+			for (const std::unique_ptr<Object3d>& obj : obstacle)
+			{
+				//プレイヤーの座標
+				XMFLOAT3 playerPos = player->GetPosition();
+				//一つの障害物の座標
+				XMFLOAT3  obstaclePos = obj->GetPosition();
+				XMFLOAT3 vecPos = lens(playerPos, obstaclePos);
+				float dis = length(vecPos);
+				float	radius = 25.0f;
+				//当たったら
+				if (dis <= radius)
+				{
+					scene = Scene::over;
+				}
+			}
+
+			//オブジェクトの生成
+			if (timer-- < 0)
+			{
+				//生成
+				std::unique_ptr<Object3d>newObj = std::make_unique<Object3d>();
+				//初期化
+				newObj->Initialize();
+				newObj->SetScale({ 10,10,10 });
+				//乱数シード生成器
+				std::random_device seed_gen;
+				//メルセンヌ・ツイスター
+				std::mt19937_64 enigine(seed_gen());
+				//x
+				std::uniform_real_distribution<float> x(-rangeX, rangeX);
+				//y
+				std::uniform_real_distribution<float> y(-rangeY, rangeY);
+				//位置
+				newObj->SetPosition(XMFLOAT3{ x(enigine),y(enigine),50 });
+				//モデル
+				newObj->SetModel(modelObstacle);
+				//登録
+				obstacle.push_back(std::move(newObj));
+				//タイムのリセット
+				timer = 10;
+			}
+
+			// オブジェクト移動
+			if (input->PushKey(DIK_W) || input->PushKey(DIK_S) || input->PushKey(DIK_A) || input->PushKey(DIK_D))
+			{
+				// 現在の座標を取得
+				XMFLOAT3 position = player->GetPosition();
+
+				// 移動後の座標を計算
+				if (input->PushKey(DIK_W)) { position.y += 1.0f; }
+				else if (input->PushKey(DIK_S)) { position.y -= 1.0f; }
+				if (input->PushKey(DIK_D)) { position.x += 1.0f; }
+				else if (input->PushKey(DIK_A)) { position.x -= 1.0f; }
+			
+				//移動範囲の設定
+				position.x = max(position.x, -rangeX);
+				position.x = min(position.x, +rangeX);
+				position.y = max(position.y, -rangeY);
+				position.y = min(position.y, +rangeY);
+				// 座標の変更を反映
+				player->SetPosition(position);
+			}
+			//プレイヤーの更新
+			player->Update();
+			//障害物達の更新
+			for (std::unique_ptr<Object3d>& obj : obstacle)
+			{
+				XMFLOAT3 pos = obj->GetPosition();
+				pos.z -= 1.0f;
+				if (pos.z < -250)
+				{
+					obj->OnCollision();
+				}
+				obj->SetPosition(pos);
+				obj->Update();
+			}
 		}
-		obj3d->Update();
-		obj3d2->Update();
+			break;
+		//----------ゲームオーバー----------
+		case Scene::over:
+			//スペースキーを押したら
+			if (input->TriggerKey(DIK_SPACE))
+			{
+				scene = Scene::title;
+			}
+			break;
+		}
+		
 		//-------------------描画処理-------------------
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
+		//---------------3D描画-------------------
 		Object3d::PreDraw(directXCom->GetCommandList());
-		obj3d->Draw();
-		obj3d2->Draw();
+		switch (scene)
+		{
+		case Scene::title:
+			break;
+		case Scene::play:
+			//プレイヤー
+			player->Draw();
+			//障害物
+			for (std::unique_ptr<Object3d>& obj : obstacle)
+			{
+				obj->Draw();
+			}
+			break;
+		case Scene::over:
+			break;
+		}
 		Object3d::PostDraw();
 
+		//---------------2D描画-------------------
+		spriteCommon->PreDraw();
 		//sprite->SetIsInvisible(true);
-		sprite->SetTexIndex(1);
-		sprite2->SetTexIndex(2);
-		sprite->Draw();
-		sprite2->Draw();
+		switch (scene)
+		{
+		case Scene::title:
+			spriteTitle->SetTexIndex(1);
+			spriteTitle->Draw();
+			break;
+		case Scene::play:
+			break;
+		case Scene::over:
+			spriteOver->SetTexIndex(2);
+			spriteOver->Draw();				
+			break;
+		}
 
 		//
+		spriteCommon->PostDraw();
 		directXCom->PostDraw();
 
 		//Direct毎フレーム処理　ここまで
@@ -188,11 +310,11 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete winApp;
 	delete	directXCom;
 	delete	spriteCommon;
-	delete	sprite;
-	delete model;
-	delete model2;
-	delete obj3d;
-	delete obj3d2;
+	delete	spriteTitle;
+	delete modelPlayer;
+	delete modelObstacle;
+	delete player;
+	//delete obj3ds;
 #pragma	endregion
 	return 0;
 }

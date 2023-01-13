@@ -10,13 +10,73 @@ unsigned	short	indices[] = {
 
 XMMATRIX Sprite::matProjection;
 
-void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
+void	Sprite::SetRotation(const float& rotation_) {
+	rotation = rotation_;
+	Update();
+
+}
+
+void	Sprite::SetPosition(const XMFLOAT2& position_) {
+	position = position_;
+	Update();
+}
+
+void	Sprite::SetColor(const XMFLOAT4& color_) {
+	color = color_;
+	Update();
+}
+
+void	Sprite::SetSize(const XMFLOAT2& size_) {
+	size = size_;
+	Update();
+}
+
+void	Sprite::SetAnchorPoint(const XMFLOAT2& anchorPoint_) {
+	anchorPoint = anchorPoint_;
+	Update();
+}
+
+// 左右反転の設定
+void Sprite::SetIsFlipX(bool isFlipX_) {
+	isFlipX = isFlipX_;
+	Update();
+}
+
+void	Sprite::SetTexSize(const XMFLOAT2& texSize_) {
+	texSize = texSize_;
+	Update();
+}
+void	Sprite::SetTexLeftTop(const XMFLOAT2& texLeftTop_) {
+	texLeftTop = texLeftTop_;
+	Update();
+}
+
+// 上下反転の設定
+void Sprite::SetIsFlipY(bool isFlipY_) {
+	isFlipY = isFlipY_;
+	Update();
+}
+
+// 非表示
+void Sprite::SetIsInvisible(bool isInvisible_) {
+	isInvisible = isInvisible_;
+	Update();
+}
+
+void	Sprite::AdjustTexSize() {
+	ID3D12Resource* texBuff = spriteCommon->GetTexBuff(texIndex);
+	assert(texBuff);
+	//テクスチャ情報取得
+	D3D12_RESOURCE_DESC resDesc = texBuff->GetDesc();
+	texSize.x = static_cast<float>(resDesc.Width);
+	texSize.y = static_cast<float>(resDesc.Height);
+}
+
+
+void	Sprite::Initialize(SpriteCommon* spriteCommon_, uint32_t texIndex_) {
 	//変数へコピー
 	spriteCommon = spriteCommon_;
 	directXCom = spriteCommon_->GetdxCom();
-
-
-
 
 	//UINT	sizeVB=static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 	//頂点バッファ
@@ -129,97 +189,16 @@ void	Sprite::Initialize(SpriteCommon* spriteCommon_) {
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
 
-
-
-
 	//元データ解放
 	//delete[]	imageData;
-	//srvの最大個数
-	const	size_t	kMaxSRVCount = 2056;
-
-
-	ID3DBlob* vsBlob = nullptr; // 頂点シェーダオブジェクト
-	ID3DBlob* psBlob = nullptr; // ピクセルシェーダオブジェクト
-	ID3DBlob* errorBlob = nullptr; // エラーオブジェクト
-
-}
-void	Sprite::SetRotation(const float& rotation_) {
-	rotation = rotation_;
-	Update();
-
-}
-
-void	Sprite::SetPosition(const XMFLOAT2& position_) {
-	position = position_;
-	Update();
-}
-
-void	Sprite::SetColor(const XMFLOAT4& color_) {
-	color = color_;
-	Update();
-}
-
-void	Sprite::SetSize(const XMFLOAT2& size_) {
-	size = size_;
-	Update();
-}
-
-void	Sprite::SetAnchorPoint(const XMFLOAT2& anchorPoint_) {
-	anchorPoint = anchorPoint_;
-	Update();
-}
-
-// 左右反転の設定
-void Sprite::SetIsFlipX(bool isFlipX_) {
-	isFlipX = isFlipX_;
-	Update();
-}
-
-// 上下反転の設定
-void Sprite::SetIsFlipY(bool isFlipY_) {
-	isFlipY = isFlipY_;
-	Update();
-}
-
-// 非表示
-void Sprite::SetIsInvisible(bool isInvisible_) {
-	isInvisible = isInvisible_;
-	Update();
-}
-
-void Sprite::Draw() {
-	//srvHeap = spriteCommon->GetSrvHeap();
-	comList = directXCom->GetCommandList();
-	matWorld = XMMatrixIdentity();
-	//matWorld.r[0].m128_f32[0] = 2.0f / directXCom->GetSwapChainDesc().Width;
-	//matWorld.r[1].m128_f32[1] = -2.0f / directXCom->GetSwapChainDesc().Height;
-	//matWorld *= XMMatrixScaling(1.0f, 1.0f, 0.0f);
-	matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
-	matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
-
-	constMap->color = color;
-	constMap->mat = matWorld * matProjection;
-
-	//非表示
-	if (isInvisible)
+	//テクスチャサイズをイメージに合わせる
+	if (texIndex_ != UINT32_MAX)
 	{
-		return;
+		texIndex = texIndex_;
+		AdjustTexSize();
+		//テクスチャサイズをスプライトサイズに合わせる
+		size = texSize;
 	}
-
-	spriteCommon->SetTextureCommands(textureIndex);
-
-	// 頂点バッファビューの設定コマンド
-	comList->IASetVertexBuffers(0, 1, &vbView);
-	//定数バッファビュー（CBV）の設定コマンド
-	comList->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
-
-
-	//インディックスバッファビューの設定コマンド
-	comList->IASetIndexBuffer(&ibView);
-	//定数バッファビュー(CBV)の設定コマンド
-	//comList->SetGraphicsRootConstantBufferView(2, constBuff->GetGPUVirtualAddress());
-	// 描画コマンド
-	comList->DrawIndexedInstanced(_countof(indices), textureIndex, 0, 0, 0);//全ての頂点を使って描画
 }
 
 void Sprite::Update()
@@ -260,6 +239,23 @@ void Sprite::Update()
 	vertices[RB].uv = { 1.0f,1.0f }; // 右下
 	vertices[RT].uv = { 1.0f,0.0f }; // 右上
 
+	ID3D12Resource* texBuff = spriteCommon->GetTexBuff(texIndex);
+	if (texBuff)
+	{
+		D3D12_RESOURCE_DESC resDesc = texBuff->GetDesc();
+
+		//テクスチャ情報取得
+		float tex_left = texLeftTop.x / resDesc.Width;
+		float tex_right = (texLeftTop.x + texSize.x) / resDesc.Width;
+		float tex_top = texLeftTop.y / resDesc.Height;
+		float tex_bottom = (texLeftTop.y + texSize.y) / resDesc.Height;
+
+		vertices[LB].uv = { tex_left,	tex_bottom }; // 左下
+		vertices[LT].uv = { tex_left,	tex_top }; // 左上
+		vertices[RB].uv = { tex_right,	tex_bottom }; // 右下
+		vertices[RT].uv = { tex_right,	tex_top }; // 右上
+	}
+
 	// 頂点バッファへのデータ転送
 	Vertex* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
@@ -267,4 +263,39 @@ void Sprite::Update()
 		memcpy(vertMap, vertices, sizeof(vertices));
 		vertBuff->Unmap(0, nullptr);
 	}
+}
+
+void Sprite::Draw() {
+	//srvHeap = spriteCommon->GetSrvHeap();
+	comList = directXCom->GetCommandList();
+	matWorld = XMMatrixIdentity();
+	//matWorld.r[0].m128_f32[0] = 2.0f / directXCom->GetSwapChainDesc().Width;
+	//matWorld.r[1].m128_f32[1] = -2.0f / directXCom->GetSwapChainDesc().Height;
+	//matWorld *= XMMatrixScaling(1.0f, 1.0f, 0.0f);
+	matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
+	matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
+
+	constMap->color = color;
+	constMap->mat = matWorld * matProjection;
+
+	//非表示
+	if (isInvisible)
+	{
+		return;
+	}
+
+	spriteCommon->SetTextureCommands(texIndex);
+
+	// 頂点バッファビューの設定コマンド
+	comList->IASetVertexBuffers(0, 1, &vbView);
+	//定数バッファビュー（CBV）の設定コマンド
+	comList->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
+
+
+	//インディックスバッファビューの設定コマンド
+	comList->IASetIndexBuffer(&ibView);
+	//定数バッファビュー(CBV)の設定コマンド
+	//comList->SetGraphicsRootConstantBufferView(2, constBuff->GetGPUVirtualAddress());
+	// 描画コマンド
+	comList->DrawIndexedInstanced(_countof(indices), texIndex, 0, 0, 0);//全ての頂点を使って描画
 }

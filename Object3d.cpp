@@ -79,7 +79,7 @@ Object3d* Object3d::Create()
 		return nullptr;
 	}
 	//スケールをセット
-	float	scele_val = 20;
+	float	scele_val =10;
 	object3d->scale = { scele_val,scele_val, scele_val };
 
 

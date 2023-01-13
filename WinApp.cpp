@@ -35,7 +35,7 @@ void	WinApp::Initialize() {
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 	//ウィンドウオブジェクトの生成
 	hwnd = CreateWindow(w.lpszClassName,
-		L"DirectXGame",
+		L"Avoid",
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
