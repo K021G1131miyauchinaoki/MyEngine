@@ -158,8 +158,9 @@ public: // メンバ関数
 	//セッター
 	void	SetModel(Model* model_) { model = model_; }
 
-
-
+	void SetScale(const XMFLOAT3& scale_) { scale = scale_; }
+	void OnCollision() { isDead = true; }
+	bool IsDead() { return isDead; }
 
 private: // メンバ変数
 	//ComPtr<ID3D12Resource> constBuff; // 定数バッファ
@@ -179,4 +180,6 @@ private: // メンバ変数
 	Object3d* parent = nullptr;
 	//モデル
 	Model* model = nullptr;
+
+	bool isDead = false;
 };
