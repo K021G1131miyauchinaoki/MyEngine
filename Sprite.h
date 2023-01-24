@@ -14,7 +14,7 @@ private://静的メンバ変数
 	static const size_t	maxSRVCount = 2056;
 public://メンバ関数
 	//初期化
-	void	Initialize(SpriteCommon* spriteCommon_);
+	void	Initialize(SpriteCommon* spriteCommon_, uint32_t texIndex_ = UINT32_MAX);
 	//描画
 	void Draw();
 	void Update();
@@ -37,14 +37,24 @@ public://ゲッター、セッター
 	void	SetAnchorPoint(const XMFLOAT2& anchorPoint_);
 	const XMFLOAT2& GetAnchorPoint()const { return anchorPoint; }
 	// 左右反転の設定
-	void SetIsFlipX(bool isFlipX_);
+	void SetIsFlipX(const	bool isFlipX_);
 	// 上下反転の設定
-	void SetIsFlipY(bool isFlipY_);
+	void SetIsFlipY(const	bool isFlipY_);
 	//非表示
-	void	SetIsInvisible(bool isInvisible_);
+	void	SetIsInvisible(const	bool isInvisible_);
 	//テクスチャ番号
-	void	SetTexIndex(const uint32_t texIndex) { textureIndex = texIndex; }
-	const	uint32_t& GetTexIndex()const { return textureIndex; }
+	void	SetTexIndex(const uint32_t texIndex_) { texIndex = texIndex_; }
+	const	uint32_t& GetTexIndex()const { return texIndex; }
+	//サイズ
+	void	SetTexSize(const XMFLOAT2& texSize_);
+	const XMFLOAT2& GetTexSize()const { return texSize; }
+	//サイズ
+	void	SetTexLeftTop(const XMFLOAT2& texLeftTop_);
+	const XMFLOAT2& GetTexLeftTop()const { return texLeftTop; }
+
+private:
+	//テクスチャサイズをイメージに合わせる
+	void	AdjustTexSize();
 
 private://構造体
 	//頂点データ
@@ -90,6 +100,10 @@ private:
 	//3D変換行列
 	XMMATRIX	matWorld;
 	//テクスチャの番号
-	uint32_t textureIndex = 0;
-};
+	uint32_t texIndex = 0;
+	//テクスチャ左上座標
+	XMFLOAT2	texLeftTop = { 0.0f,0.0f };
+	//サイズ
+	XMFLOAT2	texSize = { 256.0f,256.0f };
 
+};

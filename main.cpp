@@ -79,15 +79,18 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Object3d::StaticInitialize(directXCom->GetDevice(), WinApp::window_width, WinApp::window_height);
 	//スプライト
 	Sprite* sprite = new	Sprite();
-	sprite->Initialize(spriteCommon);
+	sprite->Initialize(spriteCommon, 1);
 	Sprite* sprite2 = new	Sprite();
-	sprite2->Initialize(spriteCommon);
-	sprite2->SetPosition(XMFLOAT2( 50.0f, 50.0f));
+	sprite2->Initialize(spriteCommon, 2);
+	sprite2->SetPosition(XMFLOAT2(50.0f, 50.0f));
 	sprite2->SetColor(XMFLOAT4(0.1f, 0.0f, 0.0f, 0.5f));
 	sprite2->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
 	//sprite2->SetIsFlipX(true);
 	//sprite2->SetIsFlipY(true);
 	sprite->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
+
+	sprite->SetSize(XMFLOAT2(100.0f, 100.0f));
+	sprite2->SetSize(XMFLOAT2(100.0f, 100.0f));
 	//モデル
 	Model* model = Model::LoadFromOBJ("triangle_mat");
 	Model* model2 = Model::LoadFromOBJ("box_mat");

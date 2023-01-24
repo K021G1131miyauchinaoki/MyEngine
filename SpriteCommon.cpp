@@ -78,6 +78,8 @@ void	SpriteCommon::Loadtexture(uint32_t index, std::string fileName) {
 		assert(SUCCEEDED(result));
 	}
 
+
+
 	//SRVヒープの先頭ハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE	srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
 
@@ -333,3 +335,24 @@ void	SpriteCommon::Initialize(DirectXCommon* directXCom_) {
 	result = directXCom->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 }
+
+void	SpriteCommon::PreDraw() {
+	comList = directXCom->GetCommandList();
+	// パイプラインステートとルートシグネチャの設定コマンド
+	comList->SetPipelineState(pipelineState);
+	comList->SetGraphicsRootSignature(rootSignature);
+
+	// プリミティブ形状の設定コマンド
+	comList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	//三角形リスト		TRIANGLELIST
+	//三角形ストリップ	TRIANGLESTRIP
+	//線リスト			LINELIST
+	//線ストリップ		LINESTRIP
+	//点リスト			POINTLIST
+	//SRVヒープの設定コマンド
+	comList->SetDescriptorHeaps(1, &srvHeap);
+	//SRVヒープの先頭ハンドルを取得（SRVを指しているはず）
+	D3D12_GPU_DESCRIPTOR_HANDLE	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+}
+
+void	SpriteCommon::PostDraw() {}
