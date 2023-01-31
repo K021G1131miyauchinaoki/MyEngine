@@ -37,6 +37,8 @@ public://ゲッター
 	HRESULT GetResult()const { return result; }
 	//スワップチェーン
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; }
+	//バックバッファ数を取得
+	size_t GetBackBufferCount()const { return backBuffers.size(); }
 
 private:
 	//DirectX12デバイス

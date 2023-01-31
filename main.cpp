@@ -4,6 +4,7 @@
 #include"DirectXTex/DirectXTex.h"
 #include<cassert>
 #include<vector>
+#include"imgui/imgui.h"
 
 #pragma	comment(lib,"d3dcompiler.lib")
 #pragma	comment(lib, "d3d12.lib")
@@ -17,6 +18,7 @@
 #include"Sprite.h"
 #include"Object3d.h"
 #include"Model.h"
+#include"ImguiManager.h"
 
 using namespace DirectX;
 using	namespace Microsoft::WRL;
@@ -80,6 +82,9 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//スプライト
 	Sprite* sprite = new	Sprite();
 	sprite->Initialize(spriteCommon, 1);
+	sprite->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
+	sprite->SetPosition(XMFLOAT2(100.0f, 100.0f));
+	sprite->SetSize(XMFLOAT2(100.0f, 100.0f));
 	Sprite* sprite2 = new	Sprite();
 	sprite2->Initialize(spriteCommon, 2);
 	sprite2->SetPosition(XMFLOAT2(50.0f, 50.0f));
@@ -87,9 +92,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	sprite2->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
 	//sprite2->SetIsFlipX(true);
 	//sprite2->SetIsFlipY(true);
-	sprite->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
 
-	sprite->SetSize(XMFLOAT2(100.0f, 100.0f));
 	sprite2->SetSize(XMFLOAT2(100.0f, 100.0f));
 	//モデル
 	Model* model = Model::LoadFromOBJ("triangle_mat");
@@ -102,7 +105,12 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	obj3d2->SetModel(model2);
 	obj3d->SetPosition({ -5,0,-5 });
 	obj3d2->SetPosition({ +5,0,+50 });
+	//imguiクラス
+	ImguiManager* imguiM = new ImguiManager;
+	imguiM->Initialize(winApp, directXCom);
 	//変数
+	float position[2] = {100,100};
+
 #pragma	endregion
 	while (true)
 	{
@@ -116,6 +124,14 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	#pragma region 毎フレーム処理
 
 		input->Update();
+		//imgui関連
+		imguiM->Begin();
+		//ここから中身を書いていく
+		//デモウィンドウの表示オン
+		ImGui::ShowDemoWindow();
+		ImGui::SliderFloat2("mario",position ,  0.0f, WinApp::window_width);
+		imguiM->End();
+		sprite->SetPosition(XMFLOAT2{ position[0], position[1] });
 
 		//数字の0キーが押されてたら
 		if (input->TriggerKey(DIK_0))
@@ -175,7 +191,9 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		sprite->Draw();
 		sprite2->Draw();
 
-		//
+		//imgui
+		imguiM->Draw();
+
 		directXCom->PostDraw();
 
 		//Direct毎フレーム処理　ここまで
@@ -187,6 +205,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 #pragma	region	最初のシーンの終了
 	winApp->Finalize();
+	imguiM->Finalize();
 	delete	input;
 	delete winApp;
 	delete	directXCom;
@@ -196,6 +215,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete model2;
 	delete obj3d;
 	delete obj3d2;
+	delete imguiM;
 #pragma	endregion
 	return 0;
 }

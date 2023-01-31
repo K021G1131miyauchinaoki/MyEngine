@@ -1,5 +1,6 @@
-#include<Windows.h>
 #pragma once
+#include<Windows.h>
+#include"imgui/imgui_impl_win32.h"
 
 class WinApp
 {
@@ -19,8 +20,8 @@ public://メンバ関数
 	HWND	GetHwnd() { return hwnd; };
 public:
 	//ウィンドウサイズ
-	static	const	int	window_width = 1280;//横
-	static	const	int	window_height = 720;//縦
+	static	int	window_width ;//横
+	static	int	window_height;//縦
 
 private:
 	WNDCLASSEX	w{};

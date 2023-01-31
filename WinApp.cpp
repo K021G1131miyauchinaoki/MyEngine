@@ -1,7 +1,16 @@
 ﻿#include "WinApp.h"
+#include"imgui/imgui_impl_win32.h"
+
+int	WinApp::window_width = 1280; 
+int	WinApp::window_height = 720;
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //ウィンドウプロシージャ
-LRESULT	WinApp::WindowProc(HWND hwnd, UINT	msg, WPARAM wapram, LPARAM	lparam) {
+LRESULT	WinApp::WindowProc(HWND hwnd, UINT	msg, WPARAM wparam, LPARAM	lparam) {
+	//ImGui用ウィンドウプロシージャ呼び出し
+	if (ImGui_ImplWin32_WndProcHandler(hwnd,msg,wparam,lparam)){return true;}
+	
 	//メッセージに応じてゲーム固有の処理を行う
 	switch (msg)
 	{
@@ -12,7 +21,7 @@ LRESULT	WinApp::WindowProc(HWND hwnd, UINT	msg, WPARAM wapram, LPARAM	lparam) {
 		return	0;
 	}
 	//標準のメッセージを行う
-	return	DefWindowProc(hwnd, msg, wapram, lparam);
+	return	DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
 void	WinApp::Initialize() {

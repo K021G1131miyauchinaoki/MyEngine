@@ -1,17 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <FxCompile Include="BasicPS.hlsl" />
-    <FxCompile Include="BasicVS.hlsl" />
-    <FxCompile Include="Resources\shaders\SpriteVS.hlsl" />
-    <FxCompile Include="Resources\shaders\SpritePS.hlsl" />
-    <FxCompile Include="Resources\shaders\Object3dPS.hlsl" />
-    <FxCompile Include="Resources\shaders\Object3dVS.hlsl" />
-    <FxCompile Include="Resources\shaders\ObjPS.hlsl" />
-    <FxCompile Include="Resources\shaders\ObjVS.hlsl" />
+    <FxCompile Include="Resources\shaders\SpriteVS.hlsl">
+      <Filter>hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\SpritePS.hlsl">
+      <Filter>hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ObjVS.hlsl">
+      <Filter>hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ObjPS.hlsl">
+      <Filter>hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\Object3dVS.hlsl">
+      <Filter>hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\Object3dPS.hlsl">
+      <Filter>hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicVS.hlsl">
+      <Filter>hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicPS.hlsl">
+      <Filter>hlsl</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Input.cpp">
       <Filter>ソースファイル\Input</Filter>
     </ClCompile>
@@ -27,8 +42,18 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>ソースファイル\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Object3d.cpp" />
-    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ImguiManager.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3d.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -49,13 +74,22 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ImguiManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Basic.hlsli" />
     <None Include="ReadMe.md" />
-    <None Include="Resources\shaders\Sprite.hlsli" />
-    <None Include="Resources\shaders\Object3d.hlsli" />
-    <None Include="Resources\shaders\Obj.hlsli" />
+    <None Include="Basic.hlsli">
+      <Filter>hlsl</Filter>
+    </None>
+    <None Include="Resources\shaders\Sprite.hlsli">
+      <Filter>hlsl</Filter>
+    </None>
+    <None Include="Resources\shaders\Object3d.hlsli">
+      <Filter>hlsl</Filter>
+    </None>
+    <None Include="Resources\shaders\Obj.hlsli">
+      <Filter>hlsl</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ヘッダーファイル">
@@ -87,6 +121,9 @@
     </Filter>
     <Filter Include="ヘッダーファイル\Sprite">
       <UniqueIdentifier>{3179ded5-69a5-4e41-9a2d-ef9a9502877a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hlsl">
+      <UniqueIdentifier>{841b0bb9-6c44-499a-9c3e-aa23e89d1b3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
