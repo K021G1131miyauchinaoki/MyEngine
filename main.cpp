@@ -19,33 +19,136 @@
 #include"Object3d.h"
 #include"Model.h"
 #include"ImguiManager.h"
+#include"SoundManager.h"
+
+//bgm
+#include<xaudio2.h>
+#pragma comment(lib,"xaudio2.lib")
 
 using namespace DirectX;
 using	namespace Microsoft::WRL;
 
-struct ConstBufferDataMaterial
-{
-	XMFLOAT4	color;//(RGBA)
-};
-
-struct ConstBufferDataTransform
-{
-	XMMATRIX	mat;//３D変換行列
-};
-
-struct Vertex
-{
-	XMFLOAT3	pos;//xyz座標
-	XMFLOAT3	normal;//法線ベクトル
-	XMFLOAT2	uv;	//uv座標
-};
-float	R = 1.0f;
-float	G = 0.0f;
-float	B = 0.0f;
-
-
-
-
+////チャンクヘッダ
+//struct ChunkHeader
+//{
+//	char id[4];
+//	int32_t size;
+//};
+////RIFFヘッダチャンク
+//struct RiffHeader
+//{
+//	ChunkHeader chunk;
+//	char type[4];
+//};
+////FMTチャンク
+//struct FormatChunk
+//{
+//	ChunkHeader chunk;
+//	WAVEFORMATEX fmt;
+//};
+//
+////音声データ
+//struct SoundData
+//{
+//	//波形フォーマット
+//	WAVEFORMATEX wfex;
+//	//バッファの先頭アドレス
+//	BYTE* pBuffer;
+//	//バッファのサイズ
+//	unsigned int bufferSize;
+//};
+//
+//SoundData SoundLoadWave(const char* filename)
+//{
+//	HRESULT result;
+//	std::string filePath = defaultPath + filename;
+//	//ファイル入力ストリームのインスタンス
+//	std::ifstream file;
+//	//.wavファイルをバイナリモードで開く
+//	file.open(filePath, std::ios_base::binary);
+//	//ファイルオープン失敗を検出する
+//	assert(file.is_open());
+//	//RIFFヘッダーの読み込み
+//	RiffHeader riff;
+//	file.read((char*)&riff, sizeof(riff));
+//	//ファイルがRIFFがチェック
+//	if (strncmp(riff.chunk.id,"RIFF",4)!=0)
+//	{
+//		assert(0);
+//	}
+//	//タイプがWAVEかチェック
+//	if (strncmp(riff.type, "WAVE", 4) != 0)
+//	{
+//		assert(0);
+//	}
+//	//Formatチャンクの読み込み
+//	FormatChunk format = {};
+//	//チャンクヘッダーの確認
+//	file.read((char*)&format, sizeof(ChunkHeader));
+//	if (strncmp(format.chunk.id, "fmt", 4) != 0)
+//	{
+//		assert(0);
+//	}
+//	//チャンク本体の読み込み
+//	assert(format.chunk.size <= sizeof(format.fmt));
+//	file.read((char*)&format.fmt, format.chunk.size);
+//	//Dataチャンクの読み込み
+//	ChunkHeader data;
+//	file.read((char*)& data, sizeof(data));
+//	//JUNKチャンクを検出した場合
+//	if (strncmp(data.id,"JUNK",4)==0)
+//	{
+//		//読み取り位置をJUNKチャンクの終わりまで進める
+//		file.seekg(data.size, std::ios_base::cur);
+//		//再読み込み
+//		file.read((char*)&data, sizeof(data));
+//	}
+//	if (strncmp(data.id,"data",4)!=0)
+//	{
+//		assert(0);
+//	}
+//	//Dataチャンクのデータ部の読み込み
+//	char* pBuffer = new char[data.size];
+//	file.read(pBuffer, data.size);
+//	//waveファイルを閉じる
+//	file.close();
+//	//returnするための音声データ
+//	SoundData soundData = {};
+//
+//	soundData.wfex = format.fmt;
+//	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
+//	soundData.bufferSize = data.size;
+//
+//	return soundData;
+//}
+//
+//void SoundUnLoad(SoundData* soundData) {
+//	//バッファのメモリを解放
+//	delete[] soundData->pBuffer;
+//
+//	soundData->pBuffer = 0;
+//	soundData->bufferSize = 0;
+//	soundData->wfex = {};
+//}
+//
+//void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData) {
+//	HRESULT result;
+//	//波形フォーマットをもとにSourceVoiceの生成
+//	IXAudio2SourceVoice* pSourceVoice = nullptr;
+//	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
+//	assert(SUCCEEDED(result));
+//
+//	//再生するデータの設定
+//	XAUDIO2_BUFFER buf{};
+//	buf.pAudioData = soundData.pBuffer;
+//	buf.AudioBytes = soundData.bufferSize;
+//	buf.Flags = XAUDIO2_END_OF_STREAM;
+//
+//	//波形データの再生
+//	result = pSourceVoice->SubmitSourceBuffer(&buf);
+//	result = pSourceVoice->Start();
+//
+//}
 
 //windowsアプリでのエントリーポイント(main関数)
 int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -57,10 +160,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	#pragma endregion
 
 	#pragma region DirectX初期化処理
+	//音
+	HRESULT result;
 	//DirectX初期化処理　　ここから
 	DirectXCommon* directXCom = nullptr;
 	directXCom = new DirectXCommon;
 	directXCom->Initialize(winApp);
+	SoundManager::CreateAudio(result);
 
 	Input* input = nullptr;
 	input = new	Input;
@@ -111,6 +217,8 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//変数
 	float position[2] = {100,100};
 
+	SoundManager* se = new SoundManager;
+	se->SoundLoadWave("0321.wav");
 #pragma	endregion
 	while (true)
 	{
@@ -136,7 +244,10 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//数字の0キーが押されてたら
 		if (input->TriggerKey(DIK_0))
 		{
-			OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
+			//音声再生
+			se->SoundPlayWave();
+			
+			//OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
 		}
 		//スプライトの回転
 		{
@@ -216,6 +327,8 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete obj3d;
 	delete obj3d2;
 	delete imguiM;
+	delete se;
+
 #pragma	endregion
 	return 0;
 }
