@@ -2,10 +2,13 @@
 
 Microsoft::WRL::ComPtr<IXAudio2>SoundManager::xAudio2;
 IXAudio2MasteringVoice* SoundManager::masterVoice;
+HRESULT SoundManager::result;
+
 
 std::string defaultPath = "Resources/";
 
-void SoundManager::CreateAudio(HRESULT result) {
+void SoundManager::CreateAudio() {
+
 	result = XAudio2Create(&xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
 	result = xAudio2->CreateMasteringVoice(&masterVoice);
 }
@@ -78,26 +81,26 @@ SoundManager::SoundData SoundManager::SoundLoadWave(std::string filename)
 
 void SoundManager::SoundUnLoad() {
 	xAudio2.Reset();
+	SoundData *soundData_=&soundData;
 
 	//バッファのメモリを解放
-	delete[] soundData->pBuffer;
+	delete[] soundData_->pBuffer;
 
-	soundData->pBuffer = 0;
-	soundData->bufferSize = 0;
-	soundData->wfex = {};
+	soundData_->pBuffer = 0;
+	soundData_->bufferSize = 0;
+	soundData_->wfex = {};
 }
 
 void SoundManager::SoundPlayWave() {
-	HRESULT result;
 	//波形フォーマットをもとにSourceVoiceの生成
 	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData->wfex);
+	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
 	assert(SUCCEEDED(result));
 
 	//再生するデータの設定
 	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = soundData->pBuffer;
-	buf.AudioBytes = soundData->bufferSize;
+	buf.pAudioData = soundData.pBuffer;
+	buf.AudioBytes = soundData.bufferSize;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
 
 	//波形データの再生

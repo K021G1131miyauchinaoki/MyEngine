@@ -49,11 +49,13 @@ public:
 
 	void SoundPlayWave();
 
-	static void CreateAudio(HRESULT result);
+	static void CreateAudio();
 private:
 	
 	static	Microsoft::WRL::ComPtr<IXAudio2>xAudio2;
 	static IXAudio2MasteringVoice* masterVoice;
-	SoundData* soundData;
+	static	HRESULT result;
+
+	SoundData soundData;
 };
 

@@ -166,7 +166,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	DirectXCommon* directXCom = nullptr;
 	directXCom = new DirectXCommon;
 	directXCom->Initialize(winApp);
-	SoundManager::CreateAudio(result);
+	SoundManager::CreateAudio();
 
 	Input* input = nullptr;
 	input = new	Input;
