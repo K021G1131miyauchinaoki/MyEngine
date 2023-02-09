@@ -1,6 +1,7 @@
-cbuffer cbuff0 : register(b0)
+cbuffer CounstbufferData:register(b0)
 {
-	matrix mat; // ‚R‚c•ÏŠ·s—ñ
+	float4 color;//F
+	matrix mat;//3D•ÏŠ·s—ñ
 };
 
 cbuffer cbuff1:register(b1)

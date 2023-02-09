@@ -23,7 +23,9 @@ ComPtr<ID3D12RootSignature> Object3d::rootsignature;
 ComPtr<ID3D12PipelineState> Object3d::pipelinestate;
 XMMATRIX Object3d::matView{};
 XMMATRIX Object3d::matProjection{};
-XMFLOAT3 Object3d::eye = { 0, 0, -50.0f };
+Matrix4 Object3d::matV{};
+Matrix4 Object3d::matPro{};
+XMFLOAT3 Object3d::eye = { 0, 50, -200.0f };
 XMFLOAT3 Object3d::target = { 0, 0, 0 };
 XMFLOAT3 Object3d::up = { 0, 1, 0 };
 
@@ -124,6 +126,7 @@ void Object3d::InitializeCamera(int window_width, int window_height)
 		XMLoadFloat3(&eye),
 		XMLoadFloat3(&target),
 		XMLoadFloat3(&up));
+	matV = ConvertXMMATRIXtoMatrix4(matView);
 
 	// 平行投影による射影行列の生成
 	//constMap->mat = XMMatrixOrthographicOffCenterLH(
@@ -136,6 +139,7 @@ void Object3d::InitializeCamera(int window_width, int window_height)
 		(float)window_width / window_height,
 		0.1f, 1000.0f
 	);
+	matPro = ConvertXMMATRIXtoMatrix4(matProjection);
 }
 
 void Object3d::InitializeGraphicsPipeline()
@@ -300,7 +304,7 @@ bool Object3d::Initialize()
 	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	// リソース設定
 	CD3DX12_RESOURCE_DESC resourceDesc =
-		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB0) + 0xff) & ~0xff);
+		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
 
 	HRESULT result;
 
@@ -311,30 +315,32 @@ bool Object3d::Initialize()
 		&resourceDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuffB0));
+		IID_PPV_ARGS(&constBuff));
 	assert(SUCCEEDED(result));
+
+	worldTransform.Initialize();
 
 	return true;
 }
 
 void Object3d::Update()
 {
+	worldTransform.Update();
+
 	HRESULT result;
-	XMMATRIX matScale, matRot, matTrans;
+	Matrix4 matScale, matRot, matTrans;
 
 	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
-	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+	matScale = MatScale(scale);
+	matRot = MatIdentity();
+	matRot *= MatRot(rotation);
+	matTrans = MatTrans(position);
 
 	// ワールド行列の合成
-	matWorld = XMMatrixIdentity(); // 変形をリセット
-	matWorld *= matScale; // ワールド行列にスケーリングを反映
-	matWorld *= matRot; // ワールド行列に回転を反映
-	matWorld *= matTrans; // ワールド行列に平行移動を反映
+	worldTransform.matWorld = MatIdentity(); // 変形をリセット
+	worldTransform.matWorld *= matScale; // ワールド行列にスケーリングを反映
+	worldTransform.matWorld *= matRot; // ワールド行列に回転を反映
+	worldTransform.matWorld *= matTrans; // ワールド行列に平行移動を反映
 
 	// 親オブジェクトがあれば
 	if (parent != nullptr) {
@@ -342,11 +348,14 @@ void Object3d::Update()
 		matWorld *= parent->matWorld;
 	}
 	// 定数バッファへデータ転送
-	ConstBufferDataB0* constMap = nullptr;
-	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
-	//constMap->color = color;
-	constMap->mat = matWorld * matView * matProjection;	// 行列の合成
-	constBuffB0->Unmap(0, nullptr);
+	ConstBufferData* constMap = nullptr;
+	result = constBuff->Map(0, nullptr, (void**)&constMap);
+	constMap->color = color;
+	// 行列の合成
+	constMap->mat = worldTransform.matWorld;
+	constMap->mat *= matV;
+	constMap->mat *= ConvertXMMATRIXtoMatrix4(matProjection);
+	constBuff->Unmap(0, nullptr);
 }
 
 void Object3d::Draw() {
@@ -356,7 +365,7 @@ void Object3d::Draw() {
 
 	if (model == nullptr)return;
 
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 
 	model->Draw(cmdList, 1);
 }

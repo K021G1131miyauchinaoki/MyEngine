@@ -19,6 +19,7 @@
 #include"Object3d.h"
 #include"Model.h"
 #include"ImguiManager.h"
+#include"Collision.h"
 
 using namespace DirectX;
 using	namespace Microsoft::WRL;
@@ -72,44 +73,39 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//スプライト共通部分の初期化
 	spriteCommon = new	SpriteCommon;
 	spriteCommon->Initialize(directXCom);
-	spriteCommon->Loadtexture(1, "mario.jpg");
-	spriteCommon->Loadtexture(2, "tex.png");
 
 #pragma	endregion
 #pragma	region	最初のシーンの初期化
 	//一度しか宣言しない
 	Object3d::StaticInitialize(directXCom->GetDevice(), WinApp::window_width, WinApp::window_height);
 	//スプライト
-	Sprite* sprite = new	Sprite();
-	sprite->Initialize(spriteCommon, 1);
-	sprite->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
-	sprite->SetPosition(XMFLOAT2(100.0f, 100.0f));
-	sprite->SetSize(XMFLOAT2(100.0f, 100.0f));
-	Sprite* sprite2 = new	Sprite();
-	sprite2->Initialize(spriteCommon, 2);
-	sprite2->SetPosition(XMFLOAT2(50.0f, 50.0f));
-	sprite2->SetColor(XMFLOAT4(0.1f, 0.0f, 0.0f, 0.5f));
-	sprite2->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
-	//sprite2->SetIsFlipX(true);
-	//sprite2->SetIsFlipY(true);
-
-	sprite2->SetSize(XMFLOAT2(100.0f, 100.0f));
+	
 	//モデル
-	Model* model = Model::LoadFromOBJ("triangle_mat");
-	Model* model2 = Model::LoadFromOBJ("box_mat");
+	Model* modelPlane = Model::LoadFromOBJ("Plane");
+	Model* modelSphere = Model::LoadFromOBJ("Sphere");
 	//3dオブジェクト生成
-	Object3d* obj3d = Object3d::Create();
-	Object3d* obj3d2 = Object3d::Create();
+	Object3d* planeObj = Object3d::Create();
+	Object3d* sphereObj = Object3d::Create();
 	//modelクラスをひも付け
-	obj3d->SetModel(model);
-	obj3d2->SetModel(model2);
-	obj3d->SetPosition({ -5,0,-5 });
-	obj3d2->SetPosition({ +5,0,+50 });
+	//平面
+	planeObj->SetModel(modelPlane);
+	planeObj->SetPos({ 0,0,0 });
+	planeObj->SetScale({255,1,255 });
+	//球
+	sphereObj->SetModel(modelSphere);
+	sphereObj->SetPos({ +5,20,0 });
+	sphereObj->SetScale({10,10,10});
+
 	//imguiクラス
 	ImguiManager* imguiM = new ImguiManager;
 	imguiM->Initialize(winApp, directXCom);
 	//変数
 	float position[2] = {100,100};
+	Sphere sphere;
+	sphere.radius = 10.0f;
+	Plane plane;
+	plane.distance = 0.0f;
+	plane.normal = { 0,1,0 };
 
 #pragma	endregion
 	while (true)
@@ -128,68 +124,62 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imguiM->Begin();
 		//ここから中身を書いていく
 		//デモウィンドウの表示オン
-		ImGui::ShowDemoWindow();
-		ImGui::SliderFloat2("mario",position ,  0.0f, WinApp::window_width);
+		//ImGui::ShowDemoWindow();
+		//ImGui::SliderFloat2("mario",position ,  0.0f, WinApp::window_width);
 		imguiM->End();
-		sprite->SetPosition(XMFLOAT2{ position[0], position[1] });
-
+		
 		//数字の0キーが押されてたら
 		if (input->TriggerKey(DIK_0))
 		{
 			OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
 		}
-		//スプライトの回転
+		//球の移動処理
 		{
-			float rotation = sprite->GetRotation();
-			if (input->PushKey(DIK_O))
-			{
-				rotation += 10.0f;
-			}
-			else if (input->PushKey(DIK_P))
-			{
-				rotation -= 10.0f;
-			}
-			sprite->SetRotation(rotation);
-			//sprite2->SetSize(XMFLOAT2(150.0f, 50.0f));
-			sprite2->SetRotation(rotation);
-		}
-		//スプライトの座標
-		{
-			XMFLOAT2 position = sprite->GetPosition();
-			if (input->PushKey(DIK_UP))
-			{
-				position.y -= 10.0f;
-			}
-			else if (input->PushKey(DIK_DOWN))
-			{
-				position.y += 10.0f;
-			}
+			Vector3 move=sphereObj->GetPos();
+			sphere.center = sphereObj->GetPos();
 			if (input->PushKey(DIK_LEFT))
 			{
-				position.x -= 10.0f;
+				move.x -= 1.0f;
 			}
 			else if (input->PushKey(DIK_RIGHT))
 			{
-				position.x += 10.0f;
-
+				move.x += 1.0f;
 			}
-			sprite->SetPosition(position);
+			if (input->PushKey(DIK_DOWN))
+			{
+				move.y -= 1.0f;
+			}
+			if (input->PushKey(DIK_UP))
+			{
+				move.y += 1.0f;
+			}
+			sphereObj->SetPos(move);
 		}
-		obj3d->Update();
-		obj3d2->Update();
+		//球と平面の当たり判定
+		{
+			bool hit = Collision::CheckAphere2Plane(sphere, plane);
+			if (hit)
+			{
+				sphereObj->SetColor({ 1,0,0,1 });
+			}
+			else
+			{
+				sphereObj->SetColor({ 1,1,1,1 });
+			}
+		}
+		
+		planeObj->Update();
+		sphereObj->Update();
 		//-------------------描画処理-------------------
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
+		//3Dオブジェクト
 		Object3d::PreDraw(directXCom->GetCommandList());
-		obj3d->Draw();
-		obj3d2->Draw();
+		planeObj->Draw();
+		sphereObj->Draw();
 		Object3d::PostDraw();
 
-		//sprite->SetIsInvisible(true);
-		sprite->SetTexIndex(1);
-		sprite2->SetTexIndex(2);
-		sprite->Draw();
-		sprite2->Draw();
+		//スプライト
 
 		//imgui
 		imguiM->Draw();
@@ -210,11 +200,10 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete winApp;
 	delete	directXCom;
 	delete	spriteCommon;
-	delete	sprite;
-	delete model;
-	delete model2;
-	delete obj3d;
-	delete obj3d2;
+	delete modelPlane;
+	delete modelSphere;
+	delete planeObj;
+	delete sphereObj;
 	delete imguiM;
 #pragma	endregion
 	return 0;

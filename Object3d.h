@@ -6,6 +6,8 @@
 #include <DirectXMath.h>
 #include "DirectXTex/d3dx12.h"
 #include"Model.h"
+#include"WorldTransform.h"
+#include"Vector4.h"
 
 /// <summary>
 /// 3Dオブジェクト
@@ -23,10 +25,10 @@ private: // エイリアス
 
 public: // サブクラス
 	// 定数バッファ用データ構造体
-	struct ConstBufferDataB0
+	struct ConstBufferData
 	{
-		//XMFLOAT4 color;	// 色 (RGBA)
-		XMMATRIX mat;	// ３Ｄ変換行列
+		Vector4 color;	// 色 (RGBA)
+		Matrix4 mat;	// ３Ｄ変換行列
 	};
 
 private: // 定数
@@ -103,8 +105,10 @@ private: // 静的メンバ変数
 	static ComPtr<ID3D12PipelineState> pipelinestate;
 	// ビュー行列
 	static XMMATRIX matView;
+	static Matrix4 matV;
 	// 射影行列
 	static XMMATRIX matProjection;
+	static Matrix4 matPro;
 	// 視点座標
 	static XMFLOAT3 eye;
 	// 注視点座標
@@ -147,36 +151,41 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT3& GetPosition() const { return position; }
+	const Vector3& GetPos() const { return position; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(const XMFLOAT3& position) { this->position = position; }
+	void SetPos(const Vector3& position) { this->position = position; }
+	void SetScale(const Vector3& scale) { this->scale = scale; }
 
 	//セッター
 	void	SetModel(Model* model_) { model = model_; }
 
+	void SetColor(const Vector4& color) { this->color = color; }
 
 
 
 private: // メンバ変数
 	//ComPtr<ID3D12Resource> constBuff; // 定数バッファ
-	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
+	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
 	//ComPtr<ID3D12Resource> constBuffB1; // 定数バッファ
 	// 色
-	XMFLOAT4 color = { 1,1,1,1 };
+	Vector4 color = { 1,1,1,1 };
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	Vector3 scale = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0,0,0 };
+	Vector3 rotation = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	Vector3 position = { 0,0,0 };
 	// ローカルワールド変換行列
-	XMMATRIX matWorld;
+	Matrix4 matWorld;
 	// 親オブジェクト
 	Object3d* parent = nullptr;
 	//モデル
 	Model* model = nullptr;
+public:
+	//ワールド変換
+	WorldTransform worldTransform;
 };
