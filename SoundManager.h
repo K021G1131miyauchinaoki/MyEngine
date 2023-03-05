@@ -1,13 +1,11 @@
 #pragma once
-#include <Windows.h>
 #include <wrl.h>
-#include<cassert>
 #include <DirectXMath.h>
-#include<xaudio2.h>
 #include<string>
 #include<fstream>
 #include<sstream>
-#pragma comment(lib,"xaudio2.lib")
+#include<map>
+#include<xaudio2.h>
 
 
 class SoundManager
@@ -43,19 +41,20 @@ public:
 		unsigned int bufferSize;
 	};
 public:
-	SoundData SoundLoadWave(std::string filename);
-
-	void SoundUnLoad();
-
-	void SoundPlayWave();
-
-	static void CreateAudio();
+	//初期化
+	void Initialize();
+	//終了処理
+	void Finalize();
+	//サウンドデータの解放
+	void UnLoad(SoundData*sounData);
+	// wav読み込み
+	void LoadWave(const std::string& filename);
+	//再生
+	void PlayWave(const std::string& filename);
 private:
-	
-	static	Microsoft::WRL::ComPtr<IXAudio2>xAudio2;
-	static IXAudio2MasteringVoice* masterVoice;
-	static	HRESULT result;
-
-	SoundData soundData;
+	//xAudio2のインスタンス
+	Microsoft::WRL::ComPtr<IXAudio2>xAudio2;
+	//サウンドデータの連想配列
+	std::map<std::string, SoundData>soundDatas;
 };
 

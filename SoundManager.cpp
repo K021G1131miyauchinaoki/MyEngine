@@ -1,24 +1,33 @@
 #include "SoundManager.h"
+#include <windows.h>
+#include<cassert>
+#pragma comment(lib,"xaudio2.lib")
 
-Microsoft::WRL::ComPtr<IXAudio2>SoundManager::xAudio2;
-IXAudio2MasteringVoice* SoundManager::masterVoice;
-HRESULT SoundManager::result;
+std::string directoryPath = "Resources/";
 
-
-std::string defaultPath = "Resources/";
-
-void SoundManager::CreateAudio() {
-
+void SoundManager::Initialize() {
+	HRESULT result;
+	IXAudio2MasteringVoice* masterVoice;
+	//xAudioエンジンのインスタンスを生成
 	result = XAudio2Create(&xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
+	assert(SUCCEEDED(result));
+	//マスターボイスを生成
 	result = xAudio2->CreateMasteringVoice(&masterVoice);
+	assert(SUCCEEDED(result));
+
 }
 
 
 
-SoundManager::SoundData SoundManager::SoundLoadWave(std::string filename)
+void SoundManager::LoadWave(const std::string& filename)
 {
+	//重複の場合抜ける
+	if (soundDatas.find(filename)!=soundDatas.end())
+	{
+		return;
+	}
 	HRESULT result;
-	std::string filePath = defaultPath + filename;
+	std::string filePath = directoryPath + filename;
 	//ファイル入力ストリームのインスタンス
 	std::ifstream file;
 	//.wavファイルをバイナリモードで開く
@@ -76,22 +85,39 @@ SoundManager::SoundData SoundManager::SoundLoadWave(std::string filename)
 	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
 	soundData.bufferSize = data.size;
 
-	return soundData;
+	//サウンドデータを連想配列に格納
+	soundDatas.insert(std::make_pair(filename, soundData));
 }
 
-void SoundManager::SoundUnLoad() {
+void SoundManager::Finalize() {
 	xAudio2.Reset();
-	SoundData *soundData_=&soundData;
-
-	//バッファのメモリを解放
-	delete[] soundData_->pBuffer;
-
-	soundData_->pBuffer = 0;
-	soundData_->bufferSize = 0;
-	soundData_->wfex = {};
+	
+	//音声データを解放
+	std::map<std::string, SoundData>::iterator it = soundDatas.begin();
+	for (;it!=soundDatas.end(); ++it)
+	{
+		UnLoad(&it->second);
+	}
+	soundDatas.clear();
 }
 
-void SoundManager::SoundPlayWave() {
+void SoundManager::UnLoad(SoundData* soundData) {
+	//バッファのメモリを解放
+	delete[] soundData->pBuffer;
+
+	soundData->pBuffer = 0;
+	soundData->bufferSize = 0;
+	soundData->wfex = {};
+}
+
+void SoundManager::PlayWave(const std::string& filename) {
+	HRESULT	result;
+	
+	std::map<std::string, SoundData>::iterator it=soundDatas.find(filename);
+	//未読み込みの検出
+	assert(it != soundDatas.end());
+	//サウンドデータの参照を取得
+	SoundData& soundData = it->second;
 	//波形フォーマットをもとにSourceVoiceの生成
 	IXAudio2SourceVoice* pSourceVoice = nullptr;
 	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex);

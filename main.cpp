@@ -57,79 +57,8 @@ using	namespace Microsoft::WRL;
 //	//バッファのサイズ
 //	unsigned int bufferSize;
 //};
-//
-//SoundData SoundLoadWave(const char* filename)
-//{
-//	HRESULT result;
-//	std::string filePath = defaultPath + filename;
-//	//ファイル入力ストリームのインスタンス
-//	std::ifstream file;
-//	//.wavファイルをバイナリモードで開く
-//	file.open(filePath, std::ios_base::binary);
-//	//ファイルオープン失敗を検出する
-//	assert(file.is_open());
-//	//RIFFヘッダーの読み込み
-//	RiffHeader riff;
-//	file.read((char*)&riff, sizeof(riff));
-//	//ファイルがRIFFがチェック
-//	if (strncmp(riff.chunk.id,"RIFF",4)!=0)
-//	{
-//		assert(0);
-//	}
-//	//タイプがWAVEかチェック
-//	if (strncmp(riff.type, "WAVE", 4) != 0)
-//	{
-//		assert(0);
-//	}
-//	//Formatチャンクの読み込み
-//	FormatChunk format = {};
-//	//チャンクヘッダーの確認
-//	file.read((char*)&format, sizeof(ChunkHeader));
-//	if (strncmp(format.chunk.id, "fmt", 4) != 0)
-//	{
-//		assert(0);
-//	}
-//	//チャンク本体の読み込み
-//	assert(format.chunk.size <= sizeof(format.fmt));
-//	file.read((char*)&format.fmt, format.chunk.size);
-//	//Dataチャンクの読み込み
-//	ChunkHeader data;
-//	file.read((char*)& data, sizeof(data));
-//	//JUNKチャンクを検出した場合
-//	if (strncmp(data.id,"JUNK",4)==0)
-//	{
-//		//読み取り位置をJUNKチャンクの終わりまで進める
-//		file.seekg(data.size, std::ios_base::cur);
-//		//再読み込み
-//		file.read((char*)&data, sizeof(data));
-//	}
-//	if (strncmp(data.id,"data",4)!=0)
-//	{
-//		assert(0);
-//	}
-//	//Dataチャンクのデータ部の読み込み
-//	char* pBuffer = new char[data.size];
-//	file.read(pBuffer, data.size);
-//	//waveファイルを閉じる
-//	file.close();
-//	//returnするための音声データ
-//	SoundData soundData = {};
-//
-//	soundData.wfex = format.fmt;
-//	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
-//	soundData.bufferSize = data.size;
-//
-//	return soundData;
-//}
-//
-//void SoundUnLoad(SoundData* soundData) {
-//	//バッファのメモリを解放
-//	delete[] soundData->pBuffer;
-//
-//	soundData->pBuffer = 0;
-//	soundData->bufferSize = 0;
-//	soundData->wfex = {};
-//}
+
+
 //
 //void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData) {
 //	HRESULT result;
@@ -160,13 +89,11 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	#pragma endregion
 
 	#pragma region DirectX初期化処理
-	//音
-	HRESULT result;
 	//DirectX初期化処理　　ここから
 	DirectXCommon* directXCom = nullptr;
 	directXCom = new DirectXCommon;
 	directXCom->Initialize(winApp);
-	SoundManager::CreateAudio();
+	//SoundManager::CreateAudio();
 
 	Input* input = nullptr;
 	input = new	Input;
@@ -217,8 +144,10 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//変数
 	float position[2] = {100,100};
 
-	SoundManager* se = new SoundManager;
-	se->SoundLoadWave("0321.wav");
+	//wav読み込み
+	SoundManager* audio = new SoundManager;
+	audio->Initialize();
+	audio->LoadWave("0321.wav");
 #pragma	endregion
 	while (true)
 	{
@@ -245,7 +174,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (input->TriggerKey(DIK_0))
 		{
 			//音声再生
-			se->SoundPlayWave();
+			audio->PlayWave("0321.wav");
 			
 			//OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
 		}
@@ -317,6 +246,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma	region	最初のシーンの終了
 	winApp->Finalize();
 	imguiM->Finalize();
+	audio->Finalize();
 	delete	input;
 	delete winApp;
 	delete	directXCom;
@@ -327,7 +257,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete obj3d;
 	delete obj3d2;
 	delete imguiM;
-	delete se;
+	delete audio;
 
 #pragma	endregion
 	return 0;
