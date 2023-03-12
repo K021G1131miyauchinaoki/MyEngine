@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
     <ClCompile Include="ImguiManager.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -231,6 +232,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="DirectXCommon.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="Input.h" />

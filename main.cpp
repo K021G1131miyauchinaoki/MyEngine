@@ -6,6 +6,7 @@
 #include<vector>
 #include"imgui/imgui.h"
 
+
 #pragma	comment(lib,"d3dcompiler.lib")
 #pragma	comment(lib, "d3d12.lib")
 #pragma	comment(lib,"dxgi.lib")
@@ -20,6 +21,7 @@
 #include"Model.h"
 #include"ImguiManager.h"
 #include"SoundManager.h"
+#include"Camera.h"
 
 //bgm
 #include<xaudio2.h>
@@ -28,56 +30,7 @@
 using namespace DirectX;
 using	namespace Microsoft::WRL;
 
-////チャンクヘッダ
-//struct ChunkHeader
-//{
-//	char id[4];
-//	int32_t size;
-//};
-////RIFFヘッダチャンク
-//struct RiffHeader
-//{
-//	ChunkHeader chunk;
-//	char type[4];
-//};
-////FMTチャンク
-//struct FormatChunk
-//{
-//	ChunkHeader chunk;
-//	WAVEFORMATEX fmt;
-//};
-//
-////音声データ
-//struct SoundData
-//{
-//	//波形フォーマット
-//	WAVEFORMATEX wfex;
-//	//バッファの先頭アドレス
-//	BYTE* pBuffer;
-//	//バッファのサイズ
-//	unsigned int bufferSize;
-//};
 
-
-//
-//void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData) {
-//	HRESULT result;
-//	//波形フォーマットをもとにSourceVoiceの生成
-//	IXAudio2SourceVoice* pSourceVoice = nullptr;
-//	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
-//	assert(SUCCEEDED(result));
-//
-//	//再生するデータの設定
-//	XAUDIO2_BUFFER buf{};
-//	buf.pAudioData = soundData.pBuffer;
-//	buf.AudioBytes = soundData.bufferSize;
-//	buf.Flags = XAUDIO2_END_OF_STREAM;
-//
-//	//波形データの再生
-//	result = pSourceVoice->SubmitSourceBuffer(&buf);
-//	result = pSourceVoice->Start();
-//
-//}
 
 //windowsアプリでのエントリーポイント(main関数)
 int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -110,8 +63,11 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma	endregion
 #pragma	region	最初のシーンの初期化
+	//カメラ初期化
+	std::unique_ptr<Camera>camera = std::make_unique<Camera>();
+	camera->Initialeze();
 	//一度しか宣言しない
-	Object3d::StaticInitialize(directXCom->GetDevice(), WinApp::window_width, WinApp::window_height);
+	Object3d::StaticInitialize(directXCom->GetDevice(), WinApp::window_width, WinApp::window_height,camera.get());
 	//スプライト
 	Sprite* sprite = new	Sprite();
 	sprite->Initialize(spriteCommon, 1);
@@ -139,15 +95,17 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	obj3d->SetPosition({ -5,0,-5 });
 	obj3d2->SetPosition({ +5,0,+50 });
 	//imguiクラス
-	ImguiManager* imguiM = new ImguiManager;
-	imguiM->Initialize(winApp, directXCom);
+	//ImguiManager* imguiM = new ImguiManager;
+	//imguiM->Initialize(winApp, directXCom);
 	//変数
-	float position[2] = {100,100};
+	//float position[2] = {100,100};
 
 	//wav読み込み
 	SoundManager* audio = new SoundManager;
 	audio->Initialize();
 	audio->LoadWave("0321.wav");
+
+
 #pragma	endregion
 	while (true)
 	{
@@ -161,14 +119,23 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	#pragma region 毎フレーム処理
 
 		input->Update();
-		//imgui関連
-		imguiM->Begin();
-		//ここから中身を書いていく
-		//デモウィンドウの表示オン
-		ImGui::ShowDemoWindow();
-		ImGui::SliderFloat2("mario",position ,  0.0f, WinApp::window_width);
-		imguiM->End();
-		sprite->SetPosition(XMFLOAT2{ position[0], position[1] });
+		////imgui関連
+		//imguiM->Begin();
+		////ここから中身を書いていく
+		////デモウィンドウの表示オン
+		//ImGui::ShowDemoWindow();
+		//ImGui::SliderFloat2("mario",position ,  0.0f, WinApp::window_width);
+		//imguiM->End();
+		//sprite->SetPosition(XMFLOAT2{ position[0], position[1] });
+
+		{
+			XMFLOAT3 eye = camera->GetEye();
+			XMFLOAT3 traget = camera->GetTarget();
+			eye.z -= 0.1f;
+
+			camera->SetEye(eye);
+			camera->Update();
+		}
 
 		//数字の0キーが押されてたら
 		if (input->TriggerKey(DIK_0))
@@ -232,7 +199,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		sprite2->Draw();
 
 		//imgui
-		imguiM->Draw();
+		//imguiM->Draw();
 
 		directXCom->PostDraw();
 
@@ -245,7 +212,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 #pragma	region	最初のシーンの終了
 	winApp->Finalize();
-	imguiM->Finalize();
+	//imguiM->Finalize();
 	audio->Finalize();
 	delete	input;
 	delete winApp;
@@ -256,7 +223,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete model2;
 	delete obj3d;
 	delete obj3d2;
-	delete imguiM;
+	//delete imguiM;
 	delete audio;
 
 #pragma	endregion

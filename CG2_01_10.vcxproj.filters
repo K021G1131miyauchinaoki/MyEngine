@@ -57,6 +57,9 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -79,6 +82,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
