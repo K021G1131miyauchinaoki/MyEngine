@@ -2,28 +2,37 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <FxCompile Include="Resources\shaders\SpriteVS.hlsl">
-      <Filter>hlsl</Filter>
+      <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\SpritePS.hlsl">
-      <Filter>hlsl</Filter>
+      <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\ObjVS.hlsl">
-      <Filter>hlsl</Filter>
+      <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\ObjPS.hlsl">
-      <Filter>hlsl</Filter>
+      <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\Object3dVS.hlsl">
-      <Filter>hlsl</Filter>
+      <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\Object3dPS.hlsl">
-      <Filter>hlsl</Filter>
+      <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="BasicVS.hlsl">
-      <Filter>hlsl</Filter>
+      <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="BasicPS.hlsl">
-      <Filter>hlsl</Filter>
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleGS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticlePS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +69,7 @@
     <ClCompile Include="Camera.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -78,25 +88,39 @@
       <Filter>ヘッダーファイル\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Object3d.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="ImguiManager.h" />
-    <ClInclude Include="SoundManager.h" />
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Object3d.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ImguiManager.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
     <None Include="Basic.hlsli">
-      <Filter>hlsl</Filter>
+      <Filter>シェーダーファイル</Filter>
     </None>
     <None Include="Resources\shaders\Sprite.hlsli">
-      <Filter>hlsl</Filter>
+      <Filter>シェーダーファイル</Filter>
     </None>
     <None Include="Resources\shaders\Object3d.hlsli">
-      <Filter>hlsl</Filter>
+      <Filter>シェーダーファイル</Filter>
     </None>
     <None Include="Resources\shaders\Obj.hlsli">
-      <Filter>hlsl</Filter>
+      <Filter>シェーダーファイル</Filter>
+    </None>
+    <None Include="Resources\shaders\Particle.hlsli">
+      <Filter>シェーダーファイル</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -130,7 +154,7 @@
     <Filter Include="ヘッダーファイル\Sprite">
       <UniqueIdentifier>{3179ded5-69a5-4e41-9a2d-ef9a9502877a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="hlsl">
+    <Filter Include="シェーダーファイル">
       <UniqueIdentifier>{841b0bb9-6c44-499a-9c3e-aa23e89d1b3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

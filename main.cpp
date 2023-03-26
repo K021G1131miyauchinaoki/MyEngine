@@ -21,6 +21,7 @@
 #include"Model.h"
 #include"ImguiManager.h"
 #include"SoundManager.h"
+#include "ParticleManager.h"
 #include"Camera.h"
 
 //bgm
@@ -60,7 +61,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	spriteCommon->Initialize(directXCom);
 	spriteCommon->Loadtexture(1, "mario.jpg");
 	spriteCommon->Loadtexture(2, "tex.png");
-
+	
 #pragma	endregion
 #pragma	region	最初のシーンの初期化
 	//カメラ初期化
@@ -104,7 +105,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SoundManager* audio = new SoundManager;
 	audio->Initialize();
 	audio->LoadWave("0321.wav");
-
+	//パーティクル
+	ParticleManager::StaticInitialize(directXCom->GetDevice(), camera.get());
+	ParticleManager::LoadTexture(1, "effect1.png");
+	ParticleManager::LoadTexture(2, "effect2.png");
+	ParticleManager* particle = nullptr;
+	particle = ParticleManager::Create(1);
+	particle->Update();
 
 #pragma	endregion
 	while (true)
@@ -131,12 +138,50 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 			XMFLOAT3 eye = camera->GetEye();
 			XMFLOAT3 traget = camera->GetTarget();
-			eye.z -= 0.1f;
+			//eye.z -= 0.1f;
 
 			camera->SetEye(eye);
 			camera->Update();
 		}
+		//パーティクル
+		if (input->TriggerKey(DIK_F))
+		{
+			//パーティクル
+			for (int i = 0; i < 100; i++)
+			{
+				//XYZ全て[-5.0f,+5.0f]でランダムに分布
+				const	float	rnd_pos = 20.0f;
+				XMFLOAT3	pos{};
+				pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+				pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+				pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
 
+				//XYZ全て[-0.05f,+0.05f]でランダムに分布
+				const	float	rnd_vel = 0.1f;
+				XMFLOAT3	vel{};
+				vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+				vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+				vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+				//重力に見立ててYのみ[-0.001f,0]でランダムに分布
+				const	float	rnd_acc = 0.001f;
+				XMFLOAT3	acc{};
+				acc.y = (float)rand() / RAND_MAX * rnd_acc;
+
+				particle->Add(100, pos, vel, acc, 1.0f, 0.0f);
+			}
+		}
+		//テクスチャの切り替え
+		//一枚目
+		if (input->TriggerKey(DIK_V))
+		{
+			particle->SetTexIndex(1);
+		}
+		//二枚目
+		if (input->TriggerKey(DIK_C))
+		{
+			particle->SetTexIndex(2);
+		}
 		//数字の0キーが押されてたら
 		if (input->TriggerKey(DIK_0))
 		{
@@ -184,6 +229,8 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		obj3d->Update();
 		obj3d2->Update();
+		particle->Update();
+
 		//-------------------描画処理-------------------
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
@@ -191,7 +238,19 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		obj3d->Draw();
 		obj3d2->Draw();
 		Object3d::PostDraw();
+		// 3Dオブジェクト描画前処理
+		ParticleManager::PreDraw(directXCom->GetCommandList());
 
+		// 3Dオブクジェクトの描画
+		
+		particle->Draw();
+
+		/// <summary>
+		/// ここに3Dオブジェクトの描画処理を追加できる
+		/// </summary>
+
+		// 3Dオブジェクト描画後処理
+		ParticleManager::PostDraw();
 		//sprite->SetIsInvisible(true);
 		sprite->SetTexIndex(1);
 		sprite2->SetTexIndex(2);
@@ -225,6 +284,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete obj3d2;
 	//delete imguiM;
 	delete audio;
+	
 
 #pragma	endregion
 	return 0;
