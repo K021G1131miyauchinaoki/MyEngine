@@ -70,36 +70,36 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//一度しか宣言しない
 	Object3d::StaticInitialize(directXCom->GetDevice(), WinApp::window_width, WinApp::window_height,camera.get());
 	//スプライト
-	Sprite* sprite = new	Sprite();
-	sprite->Initialize(spriteCommon, 1);
-	sprite->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
-	sprite->SetPosition(XMFLOAT2(100.0f, 100.0f));
-	sprite->SetSize(XMFLOAT2(100.0f, 100.0f));
-	Sprite* sprite2 = new	Sprite();
-	sprite2->Initialize(spriteCommon, 2);
-	sprite2->SetPosition(XMFLOAT2(50.0f, 50.0f));
-	sprite2->SetColor(XMFLOAT4(0.1f, 0.0f, 0.0f, 0.5f));
-	sprite2->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
+	Sprite* mario = new	Sprite();
+	mario->Initialize(spriteCommon, 1);
+	mario->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
+	mario->SetPosition(XMFLOAT2(100.0f, 100.0f));
+	mario->SetSize(XMFLOAT2(100.0f, 100.0f));
+	Sprite* flies = new	Sprite();
+	flies->Initialize(spriteCommon, 2);
+	flies->SetPosition(XMFLOAT2(50.0f, 50.0f));
+	flies->SetColor(XMFLOAT4(0.1f, 0.0f, 0.0f, 0.5f));
+	flies->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
 	//sprite2->SetIsFlipX(true);
 	//sprite2->SetIsFlipY(true);
 
-	sprite2->SetSize(XMFLOAT2(100.0f, 100.0f));
+	flies->SetSize(XMFLOAT2(100.0f, 100.0f));
 	//モデル
 	Model* model = Model::LoadFromOBJ("triangle_mat");
 	Model* model2 = Model::LoadFromOBJ("box_mat");
 	//3dオブジェクト生成
-	Object3d* obj3d = Object3d::Create();
-	Object3d* obj3d2 = Object3d::Create();
+	Object3d* triangle = Object3d::Create();
+	Object3d* square = Object3d::Create();
 	//modelクラスをひも付け
-	obj3d->SetModel(model);
-	obj3d2->SetModel(model2);
-	obj3d->SetPosition({ -5,0,-5 });
-	obj3d2->SetPosition({ +5,0,+50 });
+	triangle->SetModel(model);
+	square->SetModel(model2);
+	triangle->SetPosition({ -5,0,-5 });
+	square->SetPosition({ +5,0,+50 });
 	//imguiクラス
-	//ImguiManager* imguiM = new ImguiManager;
-	//imguiM->Initialize(winApp, directXCom);
+	ImguiManager* imguiM = new ImguiManager;
+	imguiM->Initialize(winApp, directXCom);
 	//変数
-	//float position[2] = {100,100};
+	float position[2] = {100,100};
 
 	//wav読み込み
 	SoundManager* audio = new SoundManager;
@@ -126,24 +126,38 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	#pragma region 毎フレーム処理
 
 		input->Update();
-		////imgui関連
-		//imguiM->Begin();
-		////ここから中身を書いていく
-		////デモウィンドウの表示オン
+		//imgui関連
+		imguiM->Begin();
+		//ここから中身を書いていく
+		//デモウィンドウの表示オン
 		//ImGui::ShowDemoWindow();
-		//ImGui::SliderFloat2("mario",position ,  0.0f, WinApp::window_width);
-		//imguiM->End();
-		//sprite->SetPosition(XMFLOAT2{ position[0], position[1] });
-
+		ImGui::SliderFloat2("flies", position, 0.0f, WinApp::window_width);
+		imguiM->End();
+		flies->SetPosition(XMFLOAT2{ position[0], position[1] });
+		//------------------------------
 		{
 			XMFLOAT3 eye = camera->GetEye();
-			XMFLOAT3 traget = camera->GetTarget();
-			//eye.z -= 0.1f;
-
+			if (input->PushKey(DIK_W))
+			{
+				eye.y += 0.5f;
+			}
+			else if (input->PushKey(DIK_S))
+			{
+				eye.y += -0.5f;
+			}
+			else if (input->PushKey(DIK_D))
+			{
+				eye.x += 0.5f;
+			}
+			else if (input->PushKey(DIK_A))
+			{
+				eye.x += -0.5f;
+			}
 			camera->SetEye(eye);
+			camera->SetTarget({eye.x, eye.y, 0});
 			camera->Update();
 		}
-		//パーティクル
+		//--------------パーティクル--------------
 		if (input->TriggerKey(DIK_F))
 		{
 			//パーティクル
@@ -182,17 +196,19 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 			particle->SetTexIndex(2);
 		}
-		//数字の0キーが押されてたら
+
+		//--------------音声再生-----------------
 		if (input->TriggerKey(DIK_0))
 		{
-			//音声再生
 			audio->PlayWave("0321.wav");
 			
 			//OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
 		}
-		//スプライトの回転
+		//--------------スプライト-----------------
+
+		//回転
 		{
-			float rotation = sprite->GetRotation();
+			float rotation = mario->GetRotation();
 			if (input->PushKey(DIK_O))
 			{
 				rotation += 10.0f;
@@ -201,13 +217,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			{
 				rotation -= 10.0f;
 			}
-			sprite->SetRotation(rotation);
+			mario->SetRotation(rotation);
 			//sprite2->SetSize(XMFLOAT2(150.0f, 50.0f));
-			sprite2->SetRotation(rotation);
+			flies->SetRotation(rotation);
 		}
-		//スプライトの座標
+		//座標
 		{
-			XMFLOAT2 position = sprite->GetPosition();
+			XMFLOAT2 position = mario->GetPosition();
 			if (input->PushKey(DIK_UP))
 			{
 				position.y -= 10.0f;
@@ -225,18 +241,27 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				position.x += 10.0f;
 
 			}
-			sprite->SetPosition(position);
+			mario->SetPosition(position);
 		}
-		obj3d->Update();
-		obj3d2->Update();
+		//---------オブジェクト---------------
+		{
+			XMFLOAT3 pos = triangle->GetRotation();
+			pos.y += 1.0f;
+			triangle->SetRotation(pos);
+			square->SetRotation(pos);
+		}
+
+
+		triangle->Update();
+		square->Update();
 		particle->Update();
 
 		//-------------------描画処理-------------------
 		//Direct毎フレーム処理　ここから
 		directXCom->PreDraw();
 		Object3d::PreDraw(directXCom->GetCommandList());
-		obj3d->Draw();
-		obj3d2->Draw();
+		triangle->Draw();
+		square->Draw();
 		Object3d::PostDraw();
 		// 3Dオブジェクト描画前処理
 		ParticleManager::PreDraw(directXCom->GetCommandList());
@@ -252,13 +277,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 3Dオブジェクト描画後処理
 		ParticleManager::PostDraw();
 		//sprite->SetIsInvisible(true);
-		sprite->SetTexIndex(1);
-		sprite2->SetTexIndex(2);
-		sprite->Draw();
-		sprite2->Draw();
+		mario->SetTexIndex(1);
+		flies->SetTexIndex(2);
+		mario->Draw();
+		flies->Draw();
 
 		//imgui
-		//imguiM->Draw();
+		imguiM->Draw();
 
 		directXCom->PostDraw();
 
@@ -271,18 +296,18 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 #pragma	region	最初のシーンの終了
 	winApp->Finalize();
-	//imguiM->Finalize();
+	imguiM->Finalize();
 	audio->Finalize();
 	delete	input;
 	delete winApp;
 	delete	directXCom;
 	delete	spriteCommon;
-	delete	sprite;
+	delete	mario;
 	delete model;
 	delete model2;
-	delete obj3d;
-	delete obj3d2;
-	//delete imguiM;
+	delete triangle;
+	delete square;
+	delete imguiM;
 	delete audio;
 	
 
