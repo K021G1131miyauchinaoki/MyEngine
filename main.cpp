@@ -118,7 +118,6 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	{
 
 	#pragma region メッセージ
-
 		if (winApp->ProcessMessage()) {
 			break;
 		}
