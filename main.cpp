@@ -104,7 +104,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//wav読み込み
 	SoundManager* audio = new SoundManager;
 	audio->Initialize();
-	//audio->LoadWave("Alarm01.wav");
+	audio->LoadWave("Alarm01.wav");
 	//パーティクル
 	ParticleManager::StaticInitialize(directXCom->GetDevice(), camera.get());
 	ParticleManager::LoadTexture(1, "effect1.png");
