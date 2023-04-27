@@ -66,13 +66,13 @@
     <ClCompile Include="ParticleManager.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FbxLoader.cpp">
-      <Filter>ソースファイル\Model</Filter>
-    </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>ソースファイル\Model</Filter>
     </ClCompile>
     <ClCompile Include="Object3d.cpp">
+      <Filter>ソースファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxLoader.cpp">
       <Filter>ソースファイル\Model</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,10 +110,10 @@
     <ClInclude Include="Object3d.h">
       <Filter>ヘッダーファイル\Model</Filter>
     </ClInclude>
-    <ClInclude Include="FbxLoader.h">
+    <ClInclude Include="Model.h">
       <Filter>ヘッダーファイル\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
+    <ClInclude Include="FbxLoader.h">
       <Filter>ヘッダーファイル\Model</Filter>
     </ClInclude>
   </ItemGroup>
