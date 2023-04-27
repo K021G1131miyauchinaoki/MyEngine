@@ -9,7 +9,7 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include <DirectXMath.h>
-#include "DirectXTex/d3dx12.h"
+#include <d3dx12.h>
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
