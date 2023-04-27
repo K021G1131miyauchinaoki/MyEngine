@@ -22,7 +22,7 @@
 #include"SoundManager.h"
 #include "ParticleManager.h"
 #include"Camera.h"
-
+#include"FbxLoader.h"
 
 using namespace DirectX;
 using	namespace Microsoft::WRL;
@@ -40,9 +40,9 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	#pragma region DirectX初期化処理
 	//DirectX初期化処理　　ここから
-	DirectXCommon* directXCom = nullptr;
-	directXCom = new DirectXCommon;
-	directXCom->Initialize(winApp);
+	DirectXCommon* dxCommon = nullptr;
+	dxCommon = new DirectXCommon;
+	dxCommon->Initialize(winApp);
 	//SoundManager::CreateAudio();
 
 	Input* input = nullptr;
@@ -54,17 +54,20 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SpriteCommon* spriteCommon = nullptr;
 	//スプライト共通部分の初期化
 	spriteCommon = new	SpriteCommon;
-	spriteCommon->Initialize(directXCom);
+	spriteCommon->Initialize(dxCommon);
 	spriteCommon->Loadtexture(1, "mario.jpg");
 	spriteCommon->Loadtexture(2, "tex.png");
 	
+	//FBX
+	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+
 #pragma	endregion
 #pragma	region	最初のシーンの初期化
 	//カメラ初期化
 	std::unique_ptr<Camera>camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	//一度しか宣言しない
-	Object3d::StaticInitialize(directXCom->GetDevice(), WinApp::window_width, WinApp::window_height,camera.get());
+	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height,camera.get());
 	//スプライト
 	Sprite* mario = new	Sprite();
 	mario->Initialize(spriteCommon, 1);
@@ -93,7 +96,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	square->SetPosition({ +5,0,+50 });
 	//imguiクラス
 	ImguiManager* imguiM = new ImguiManager;
-	imguiM->Initialize(winApp, directXCom);
+	imguiM->Initialize(winApp, dxCommon);
 	//変数
 	float position[2] = {100,100};
 
@@ -102,13 +105,15 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	audio->Initialize();
 	audio->LoadWave("Alarm01.wav");
 	//パーティクル
-	ParticleManager::StaticInitialize(directXCom->GetDevice(), camera.get());
+	ParticleManager::StaticInitialize(dxCommon->GetDevice(), camera.get());
 	ParticleManager::LoadTexture(1, "effect1.png");
 	ParticleManager::LoadTexture(2, "effect2.png");
 	ParticleManager* particle = nullptr;
 	particle = ParticleManager::Create(1);
 	particle->Update();
 
+	//fbx
+	FbxLoader::GetInstance()->LoadModelFromFile("cube");
 #pragma	endregion
 	while (true)
 	{
@@ -254,13 +259,13 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//-------------------描画処理-------------------
 		//Direct毎フレーム処理　ここから
-		directXCom->PreDraw();
-		Object3d::PreDraw(directXCom->GetCommandList());
+		dxCommon->PreDraw();
+		Object3d::PreDraw(dxCommon->GetCommandList());
 		triangle->Draw();
 		square->Draw();
 		Object3d::PostDraw();
 		// 3Dオブジェクト描画前処理
-		ParticleManager::PreDraw(directXCom->GetCommandList());
+		ParticleManager::PreDraw(dxCommon->GetCommandList());
 
 		// 3Dオブクジェクトの描画
 		
@@ -281,7 +286,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//imgui
 		//imguiM->Draw();
 
-		directXCom->PostDraw();
+		dxCommon->PostDraw();
 
 		//Direct毎フレーム処理　ここまで
 	#pragma endregion
@@ -291,12 +296,15 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 	}
 #pragma	region	最初のシーンの終了
+	//解放処理
 	winApp->Finalize();
 	imguiM->Finalize();
 	audio->Finalize();
+	FbxLoader::GetInstance()->Finalize();
+
 	delete	input;
 	delete winApp;
-	delete	directXCom;
+	delete	dxCommon;
 	delete	spriteCommon;
 	delete	mario;
 	delete model;
