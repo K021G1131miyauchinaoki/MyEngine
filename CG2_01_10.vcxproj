@@ -150,6 +150,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
+    <ClCompile Include="FbxModel.cpp" />
     <ClCompile Include="ImguiManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DirectXCommon.h" />
     <ClInclude Include="FbxLoader.h" />
+    <ClInclude Include="FbxModel.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Model.h" />
