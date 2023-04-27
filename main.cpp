@@ -6,7 +6,6 @@
 #include<vector>
 #include"imgui/imgui.h"
 
-
 #pragma	comment(lib,"d3dcompiler.lib")
 #pragma	comment(lib, "d3d12.lib")
 #pragma	comment(lib,"dxgi.lib")
@@ -24,9 +23,6 @@
 #include "ParticleManager.h"
 #include"Camera.h"
 
-//bgm
-#include<xaudio2.h>
-#pragma comment(lib,"xaudio2.lib")
 
 using namespace DirectX;
 using	namespace Microsoft::WRL;
@@ -104,7 +100,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//wav読み込み
 	SoundManager* audio = new SoundManager;
 	audio->Initialize();
-	audio->LoadWave("0321.wav");
+	audio->LoadWave("Alarm01.wav");
 	//パーティクル
 	ParticleManager::StaticInitialize(directXCom->GetDevice(), camera.get());
 	ParticleManager::LoadTexture(1, "effect1.png");
@@ -200,7 +196,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//--------------音声再生-----------------
 		if (input->TriggerKey(DIK_0))
 		{
-			audio->PlayWave("0321.wav");
+			//audio->PlayWave("0321.wav");
 			
 			//OutputDebugStringA("Hit 0\n");//出力ウィンドウに表示
 		}
@@ -268,7 +264,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// 3Dオブクジェクトの描画
 		
-		particle->Draw();
+		//particle->Draw();
 
 		/// <summary>
 		/// ここに3Dオブジェクトの描画処理を追加できる
@@ -283,7 +279,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		flies->Draw();
 
 		//imgui
-		imguiM->Draw();
+		//imguiM->Draw();
 
 		directXCom->PostDraw();
 
