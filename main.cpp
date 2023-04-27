@@ -132,7 +132,7 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//ここから中身を書いていく
 		//デモウィンドウの表示オン
 		//ImGui::ShowDemoWindow();
-		ImGui::SliderFloat2("flies", position, 0.0f, WinApp::window_width);
+		ImGui::SliderFloat2("flies", position, 0.0f, (float)WinApp::window_width);
 		imguiM->End();
 		flies->SetPosition(XMFLOAT2{ position[0], position[1] });
 		//------------------------------
