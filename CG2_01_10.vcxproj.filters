@@ -54,13 +54,7 @@
     <ClCompile Include="ImguiManager.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>ソースファイル</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>ソースファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Object3d.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
@@ -69,7 +63,18 @@
     <ClCompile Include="Camera.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleManager.cpp" />
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxLoader.cpp">
+      <Filter>ソースファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>ソースファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3d.cpp">
+      <Filter>ソースファイル\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -87,23 +92,30 @@
     <ClInclude Include="Sprite.h">
       <Filter>ヘッダーファイル\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Object3d.h">
-      <Filter>ヘッダーファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ImguiManager.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>ヘッダーファイル</Filter>
-    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="ParticleManager.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3d.h">
+      <Filter>ヘッダーファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxLoader.h">
+      <Filter>ヘッダーファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>ヘッダーファイル\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
@@ -156,6 +168,12 @@
     </Filter>
     <Filter Include="シェーダーファイル">
       <UniqueIdentifier>{841b0bb9-6c44-499a-9c3e-aa23e89d1b3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Model">
+      <UniqueIdentifier>{4e704047-34f1-47e0-b682-97aa0499fdc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Model">
+      <UniqueIdentifier>{0ffbb863-8e1d-4534-9c1c-51f5ef0e72a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
