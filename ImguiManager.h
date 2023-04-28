@@ -27,6 +27,6 @@ private://ƒƒ“ƒo•Ï”
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>srvHeap;
 	WinApp* winApp = nullptr;
 	DirectXCommon* dxCom = nullptr;
-	HRESULT result;
+	HRESULT result = NULL;
 };
 

@@ -35,8 +35,8 @@ public://Ã“Iƒƒ“ƒoŠÖ”
 	//ID3D12PipelineState* GetPipelineState()const { return pipelineState; }
 	//ID3D12RootSignature* GetRootSignature()const { return rootSignature; }
 private://ƒƒ“ƒo•Ï”
-	DirectXCommon* directXCom;
-	ID3D12Device* device;
+	DirectXCommon* directXCom = nullptr;
+	ID3D12Device* device = nullptr;
 	HRESULT	result;
 	ID3D12PipelineState* pipelineState = nullptr;
 	ID3D12DescriptorHeap* srvHeap = nullptr;
