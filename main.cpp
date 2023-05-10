@@ -84,16 +84,15 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	flies->SetSize(XMFLOAT2(100.0f, 100.0f));
 	//モデル
-	Model* model = Model::LoadFromOBJ("triangle_mat");
-	Model* model2 = Model::LoadFromOBJ("box_mat");
+	Model* model = Model::LoadFromOBJ("sphere");
 	//3dオブジェクト生成
-	Object3d* triangle = Object3d::Create();
-	Object3d* square = Object3d::Create();
+	Object3d* square_1 = Object3d::Create();
+	Object3d* square_2 = Object3d::Create();
 	//modelクラスをひも付け
-	triangle->SetModel(model);
-	square->SetModel(model2);
-	triangle->SetPosition({ -5,0,-5 });
-	square->SetPosition({ +5,0,+50 });
+	square_1->SetModel(model);
+	square_2->SetModel(model);
+	square_1->SetPosition({ -25,0,10 });
+	square_2->SetPosition({ +25,0,10 });
 	//imguiクラス
 	ImguiManager* imguiM = new ImguiManager;
 	imguiM->Initialize(winApp, dxCommon);
@@ -246,23 +245,23 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		//---------オブジェクト---------------
 		{
-			XMFLOAT3 pos = triangle->GetRotation();
+			XMFLOAT3 pos = square_1->GetRotation();
 			pos.y += 1.0f;
-			triangle->SetRotation(pos);
-			square->SetRotation(pos);
+			square_1->SetRotation(pos);
+			square_2->SetRotation(pos);
 		}
 
 
-		triangle->Update();
-		square->Update();
+		square_1->Update();
+		square_2->Update();
 		particle->Update();
 
 		//-------------------描画処理-------------------
 		//Direct毎フレーム処理　ここから
 		dxCommon->PreDraw();
 		Object3d::PreDraw(dxCommon->GetCommandList());
-		triangle->Draw();
-		square->Draw();
+		square_1->Draw();
+		square_2->Draw();
 		Object3d::PostDraw();
 		// 3Dオブジェクト描画前処理
 		ParticleManager::PreDraw(dxCommon->GetCommandList());
@@ -308,9 +307,8 @@ int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete	spriteCommon;
 	delete	mario;
 	delete model;
-	delete model2;
-	delete triangle;
-	delete square;
+	delete square_1;
+	delete square_2;
 	delete imguiM;
 	delete audio;
 	
