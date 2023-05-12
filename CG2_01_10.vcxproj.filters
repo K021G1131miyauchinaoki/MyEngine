@@ -78,6 +78,9 @@
     <ClCompile Include="FbxModel.cpp">
       <Filter>ソースファイル\Model</Filter>
     </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="FbxModel.h">
       <Filter>ヘッダーファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

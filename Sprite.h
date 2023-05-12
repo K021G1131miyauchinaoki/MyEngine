@@ -70,8 +70,8 @@ private://ç\ë¢ëÃ
 	};
 
 private:
-	SpriteCommon* spriteCommon;
-	DirectXCommon* directXCom;
+	SpriteCommon* spriteCommon = nullptr;
+	DirectXCommon* directXCom = nullptr;
 	HRESULT result;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>comList;
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
