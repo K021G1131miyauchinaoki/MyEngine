@@ -21,8 +21,7 @@ public://静的メンバ関数
 	static Model*LoadFromOBJ(const	std::string& modelname);
 	//セッター
 	static void SetDevice(ID3D12Device* device_) { Model::device = device_; }
-	//描画
-	void	Draw(ID3D12GraphicsCommandList* cmdList,UINT rootParamIndexMaterial);
+	
 private://メンバ関数
 	//obj読み込み
 	void LoadFromOBJInternal(const	std::string& modelname);
@@ -34,6 +33,9 @@ private://メンバ関数
 	void InitializeDescriptorHeap();
 	//バッファ生成
 	void CreateBuffers();
+public:
+	//描画
+	void	Draw(ID3D12GraphicsCommandList* cmdList,UINT rootParamIndexMaterial);
 public: // サブクラス
 	// 頂点データ構造体
 	struct VertexPosNormalUv
@@ -81,7 +83,7 @@ private://メンバ変数
 	// デスクリプタサイズ
 	UINT descriptorHandleIncrementSize;
 	// デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> descHeap;
+	ComPtr<ID3D12DescriptorHeap> descHeap = nullptr;
 	// 頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff;
 	// インデックスバッファ

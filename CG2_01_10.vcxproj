@@ -79,12 +79,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include</IncludePath>
+    <IncludePath>$(SolutionDir)DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;C:\nlohmann-json\include</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include</IncludePath>
+    <IncludePath>$(SolutionDir)DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;C:\nlohmann-json\include</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -151,8 +151,10 @@
     <ClCompile Include="DirectXCommon.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="FbxModel.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="ImguiManager.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object3d.cpp" />
@@ -269,8 +271,10 @@
     <ClInclude Include="DirectXCommon.h" />
     <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="FbxModel.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="ParticleManager.h" />

@@ -74,9 +74,10 @@ void	Sprite::AdjustTexSize() {
 
 
 void	Sprite::Initialize(SpriteCommon* spriteCommon_, uint32_t texIndex_) {
+	assert(spriteCommon_);
 	//変数へコピー
-	spriteCommon = spriteCommon_;
 	directXCom = spriteCommon_->GetdxCom();
+	spriteCommon = spriteCommon_;
 
 	//UINT	sizeVB=static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 	//頂点バッファ
