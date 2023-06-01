@@ -11,6 +11,8 @@
 #include "ParticleManager.h"
 #include"Camera.h"
 #include"FbxLoader.h"
+#include"LevelLoader.h"
+#include<vector>
 
 class GameScene
 {
@@ -37,25 +39,34 @@ private:
 	//カメラ初期化
 	std::unique_ptr<Camera>camera = std::make_unique<Camera>();
 	//スプライト
-	Sprite* mario = nullptr;
-	Sprite* flies = nullptr;
-	
+		
 	//モデル
-	Model* model = nullptr;
-	Model* model2 = nullptr;
+
+	//json読み込み
+	LevelData* levelData = nullptr;
+
+	Model* modelSkydome = nullptr;
+	Model* modelGround = nullptr;
+	Model* modelChr = nullptr;
+	Model* modelSphere = nullptr;
+
+	/*Object3d* objSkydome = nullptr;
+	Object3d* objGround = nullptr;
+	Object3d* objChr = nullptr;
+	Object3d* objSphere = nullptr;*/
+
+	std::map<std::string, Model*> models;
+
+	std::vector<Object3d*> objects;
+
 	//3dオブジェクト生成
-	Object3d* triangle = nullptr;
-	Object3d* square = nullptr;
+	
 	//imguiクラス
-	ImguiManager* imguiM = nullptr;
-	//変数
-	float position[2] = { 100,100 };
 
 	//wav読み込み
-	SoundManager* audio = nullptr;
 	
 	//パーティクル
-	ParticleManager* particle = nullptr;
+	
 	//ゲーム終了フラグ
 	bool isEnd = false;
 };

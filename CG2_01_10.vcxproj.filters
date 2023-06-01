@@ -81,6 +81,7 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="LevelLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -128,6 +129,7 @@
     <ClInclude Include="GameScene.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
+    <ClInclude Include="LevelLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
