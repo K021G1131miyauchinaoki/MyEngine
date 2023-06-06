@@ -151,6 +151,8 @@
     <ClCompile Include="DirectXCommon.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="FbxModel.cpp" />
+    <ClCompile Include="FbxObject3d.cpp" />
+    <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="ImguiManager.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -271,6 +273,8 @@
     <ClInclude Include="DirectXCommon.h" />
     <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="FbxModel.h" />
+    <ClInclude Include="FbxObject3d.h" />
+    <ClInclude Include="Framework.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="Input.h" />

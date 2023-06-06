@@ -78,10 +78,14 @@
     <ClCompile Include="FbxModel.cpp">
       <Filter>ソースファイル\Model</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>ソースファイル</Filter>
-    </ClCompile>
     <ClCompile Include="LevelLoader.cpp" />
+    <ClCompile Include="FbxObject3d.cpp" />
+    <ClCompile Include="GameScene.cpp">
+      <Filter>ソースファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework.cpp">
+      <Filter>ソースファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -126,10 +130,14 @@
     <ClInclude Include="FbxModel.h">
       <Filter>ヘッダーファイル\Model</Filter>
     </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>ヘッダーファイル</Filter>
-    </ClInclude>
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="FbxObject3d.h" />
+    <ClInclude Include="GameScene.h">
+      <Filter>ヘッダーファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework.h">
+      <Filter>ヘッダーファイル\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
@@ -188,6 +196,12 @@
     </Filter>
     <Filter Include="ソースファイル\Model">
       <UniqueIdentifier>{0ffbb863-8e1d-4534-9c1c-51f5ef0e72a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Scene">
+      <UniqueIdentifier>{e8c09737-de30-4ad4-ad6f-7e9c4059d445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Scene">
+      <UniqueIdentifier>{a5f8301a-0bf5-498c-bea8-95b45f17bc71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

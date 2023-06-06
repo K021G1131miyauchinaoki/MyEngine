@@ -9,6 +9,10 @@ void GameScene::Initialize() {
 
 	input = new	Input;
 	input->Initialize(winApp);
+	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+	Model::SetDevice(dxCommon->GetDevice());
+	//静的初期化
+	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
 	//---------------------------2D----------------------------------
 
 	//スプライト共通部分の初期化
@@ -19,18 +23,14 @@ void GameScene::Initialize() {
 	//---------------------------3D----------------------------------
 
 	//FBX
-	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 	FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	//モデル読み込み
-	Model::SetDevice(dxCommon->GetDevice());
 	
 	//オブジェクト
-	//静的初期化
-	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height, camera.get());
 	
 	//modelクラスをひも付け
 	

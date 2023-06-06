@@ -1,4 +1,5 @@
 #pragma once
+#include<vector>
 #include"Input.h"
 #include"WinApp.h"
 #include"DirectXCommon.h"
@@ -12,21 +13,20 @@
 #include"Camera.h"
 #include"FbxLoader.h"
 #include"LevelLoader.h"
-#include<vector>
+#include"Framework.h"
 
-class GameScene
+class GameScene:public Framework
 {
 public://メンバ関数
 	//初期化
-	void Initialize();
+	void Initialize()override;
 	//終了
-	void Finalize();
+	void Finalize()override;
 	//更新
-	void Update();
+	void Update()override;
 	//描画
-	void Draw();
-	//終了フラグのチェック
-	bool IsEnd() { return isEnd; }
+	void Draw()override;
+
 private:
 	// WindowsAPI
 	WinApp* winApp = nullptr;
