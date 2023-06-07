@@ -100,6 +100,8 @@ void GameScene::Initialize() {
 		// ”z—ñ‚É“o˜^
 		objects.push_back(newObject);
 	}
+
+	//spriteCommon->Loadtexture(1,)
 }
 
 void GameScene::Update(){

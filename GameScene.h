@@ -59,13 +59,7 @@ private:
 
 	std::vector<Object3d*> objects;
 
-	//3dオブジェクト生成
-	
-	//imguiクラス
-
-	//wav読み込み
-	
-	//パーティクル
+	Sprite* s = nullptr;
 	
 	//ゲーム終了フラグ
 	bool isEnd = false;
