@@ -20,8 +20,8 @@ public://メンバ関数
 	HWND	GetHwnd() { return hwnd; };
 public:
 	//ウィンドウサイズ
-	static	int	window_width ;//横
-	static	int	window_height;//縦
+	static	int	width ;//横
+	static	int	height;//縦
 
 private:
 	WNDCLASSEX	w{};

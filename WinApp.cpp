@@ -1,8 +1,8 @@
 ﻿#include "WinApp.h"
 #include"imgui/imgui_impl_win32.h"
 
-int	WinApp::window_width = 1280; 
-int	WinApp::window_height = 720;
+int	WinApp::width = 1280; 
+int	WinApp::height = 720;
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -39,7 +39,7 @@ void	WinApp::Initialize() {
 	//ウィンドウクラスをOSに登録する
 	RegisterClassEx(&w);
 	//ウィンドウサイズ｛x,y,z,横,縦｝
-	RECT	wrc = { 0,0,window_width,window_height };
+	RECT	wrc = { 0,0,width,height };
 	//自動でサイズを補正する
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 	//ウィンドウオブジェクトの生成
