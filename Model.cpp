@@ -128,7 +128,7 @@ void Model::LoadTexture(const	std::string& directoryPath, const std::string& fil
 
 	//ユニコード文字列に変更する
 	wchar_t	wfilepath[128];
-	int	iBufferSize = MultiByteToWideChar(
+	int32_t	iBufferSize = MultiByteToWideChar(
 		CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
 
 	// WICテクスチャのロード

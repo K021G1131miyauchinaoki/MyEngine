@@ -21,13 +21,16 @@ void GameScene::Initialize() {
 	
 
 	//---------------------------3D----------------------------------
-
-	//FBX
-	FbxLoader::GetInstance()->LoadModelFromFile("cube");
-
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
+
+	//FBX
+	FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	//デバイスをセット
+	FbxObject3d::SetDevice(dxCommon->GetDevice());
+	// カメラをセット
+	FbxObject3d::SetCamera(camera.get());
 	//モデル読み込み
 	
 	//オブジェクト

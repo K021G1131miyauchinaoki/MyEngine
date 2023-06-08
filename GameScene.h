@@ -14,6 +14,7 @@
 #include"FbxLoader.h"
 #include"LevelLoader.h"
 #include"Framework.h"
+#include"FbxObject3d.h"
 
 class GameScene:public Framework
 {

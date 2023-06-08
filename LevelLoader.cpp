@@ -132,7 +132,7 @@ LevelData* LevelLoader::ImportValue(nlohmann::json& json, LevelData* levelData){
 				//nlohmann::json next=json
 				for (nlohmann::json& children : object["children"])
 				{
-					LevelData *childData;
+					//LevelData *childData;
 					//ImportValue(children, levelData->chidren);
 					
 				}

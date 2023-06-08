@@ -43,7 +43,7 @@ const	DirectX::XMFLOAT3	operator+(const	DirectX::XMFLOAT3& lhs, const DirectX::X
 	return	result;
 }
 
-void ParticleManager::Add(int life, XMFLOAT3	position, XMFLOAT3	velocity, XMFLOAT3	accel, float	start_scale, float	end_scale) {
+void ParticleManager::Add(int32_t life, XMFLOAT3	position, XMFLOAT3	velocity, XMFLOAT3	accel, float	start_scale, float	end_scale) {
 	//リストに追加
 	particles.emplace_front();
 	//参照
@@ -145,7 +145,7 @@ void ParticleManager::LoadTexture(uint32_t index, std::string fileName)
 	//ディレクトリパスとファイル名を結合
 	std::string fullPath = defaultTextureDirectoryPath + fileName;
 	//ワイド文字列に変換した際の文字列バッファサイズを計算
-	int filePathBufferSize = MultiByteToWideChar(CP_ACP, 0, fullPath.c_str(), -1, nullptr, 0);
+	uint32_t filePathBufferSize = MultiByteToWideChar(CP_ACP, 0, fullPath.c_str(), -1, nullptr, 0);
 	//ワイド文字列に変換
 	std::vector<wchar_t>wfilePath(filePathBufferSize);
 	MultiByteToWideChar(CP_ACP, 0, fullPath.c_str(), -1, wfilePath.data(), filePathBufferSize);

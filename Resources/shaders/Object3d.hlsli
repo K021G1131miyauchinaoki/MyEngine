@@ -10,6 +10,6 @@ struct VSOutput
 {
 	float4	svpos : SV_POSITION;//システム用頂点座標
 	//float3 normal:Normal;//法線ベクトル
-	flaot4 color : COLOR;//色
+	float4 color : COLOR;//色
 	float2	uv	:TEXCOORD;//uv値
 };

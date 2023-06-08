@@ -6,6 +6,7 @@
 #include<sstream>
 #include<map>
 #include<xaudio2.h>
+#include<cstdint>
 
 
 class SoundManager
@@ -38,7 +39,7 @@ public:
 		//バッファの先頭アドレス
 		BYTE* pBuffer;
 		//バッファのサイズ
-		unsigned int bufferSize;
+		uint32_t bufferSize;
 	};
 public:
 	//初期化
