@@ -1,6 +1,6 @@
 #include "ParticleManager.h"
 #include <d3dcompiler.h>
-#include "DirectXTex/DirectXTex.h"
+#include "DirectXTex.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 

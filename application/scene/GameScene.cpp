@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#define safe_delete(p)  {delete p; p = nullptr;}
 
 void GameScene::Initialize() {
 	winApp = new	WinApp;
@@ -24,23 +25,22 @@ void GameScene::Initialize() {
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
+	camera->SetTarget({ 0,20,-30 });
 
-	//FBX
-	FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	/*---------------- - FBX------------------------*/
+	modelF = FbxLoader::GetInstance()->LoadModelFromFile("cube");
 	//デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
 	// カメラをセット
 	FbxObject3d::SetCamera(camera.get());
-	//モデル読み込み
+	//グラフィックパイプライン生成
+	FbxObject3d::CreateGraphicsPipeline();
+	//3Dオブジェクト生成とモデルセット
+	objF = new FbxObject3d;
+	objF->Initialize();
+	objF->SetModel(modelF);
 	
-	//オブジェクト
-	
-	//modelクラスをひも付け
-	
-	//パーティクル
-
-	//音
-
+	/*--------------レベルエディタ----------------*/
 	// レベルデータの読み込み
 	levelData = LevelLoader::LoadJson("testScene");
 
@@ -121,45 +121,17 @@ void GameScene::Update(){
 	//ImGui::ShowDemoWindow();
 	
 	//------------------------------
-	{
-		XMFLOAT3 eye = camera->GetEye();
-		if (input->PushKey(DIK_W))
-		{
-			eye.y += 0.5f;
-		}
-		else if (input->PushKey(DIK_S))
-		{
-			eye.y += -0.5f;
-		}
-		else if (input->PushKey(DIK_D))
-		{
-			eye.x += 0.5f;
-		}
-		else if (input->PushKey(DIK_A))
-		{
-			eye.x += -0.5f;
-		}
-		else if (input->PushKey(DIK_Q))
-		{
-			eye.z += 0.5f;
-		}
-		else if (input->PushKey(DIK_E))
-		{
-			eye.z += -0.5f;
-		}
-		camera->SetEye(eye);
-		camera->SetTarget({ eye.x, eye.y, 0 });
-		camera->Update();
-	}
+	
 	/*objSkydome->Update();
 	objGround->Update();
 	objChr->Update();
 	objSphere->Update();*/
 
+	objF->Update();
 
-	for (auto object : objects) {
+	/*for (auto object : objects) {
 		object->Update();
-	}
+	}*/
 
 }
 
@@ -173,15 +145,18 @@ void GameScene::Draw(){
 	/// </summary>
 	//triangle->Draw();
 	//square->Draw();
-	for (auto object : objects) {
+	/*for (auto object : objects) {
 		object->Draw();
-	}
+	}*/
 	/*objSkydome->Draw();
 	objGround->Draw();
 	objChr->Draw();
 	objSphere->Draw();*/
+
+
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
+	objF->Draw(dxCommon->GetCommandList());
 
 	//パーティクル描画
 	
@@ -198,6 +173,8 @@ void GameScene::Finalize(){
 	winApp->Finalize();
 	
 	FbxLoader::GetInstance()->Finalize();
+	safe_delete(objF);
+	safe_delete(modelF);
 
 	delete	input;
 	delete winApp;

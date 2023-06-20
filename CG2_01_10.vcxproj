@@ -79,12 +79,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;C:\nlohmann-json\include</IncludePath>
+    <IncludePath>$(SolutionDir)imgui;$(SolutionDir)DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;C:\nlohmann-json\include;$(ProjectDir)\application\scene;$(ProjectDir)\application;$(ProjectDir)\engine\2d;$(ProjectDir)\engine\3d\camera;$(ProjectDir)\engine\3d\fbx;$(ProjectDir)\engine\3d\obj;$(ProjectDir)\engine\audio;$(ProjectDir)\engine\base\DirectXCommon;$(ProjectDir)\engine\base\input;$(ProjectDir)\engine\base\WinApp;$(ProjectDir)\engine\editor;$(ProjectDir)\engine\imgui;$(ProjectDir)\engine\math</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;C:\nlohmann-json\include</IncludePath>
+    <IncludePath>$(SolutionDir)imgui;$(SolutionDir)DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;C:\nlohmann-json\include;$(ProjectDir)\application\scene;$(ProjectDir)\application;$(ProjectDir)\engine\2d;$(ProjectDir)\engine\3d\camera;$(ProjectDir)\engine\3d\fbx;$(ProjectDir)\engine\3d\obj;$(ProjectDir)\engine\audio;$(ProjectDir)\engine\base\DirectXCommon;$(ProjectDir)\engine\base\input;$(ProjectDir)\engine\base\WinApp;$(ProjectDir)\engine\editor;$(ProjectDir)\engine\imgui;$(ProjectDir)\engine\math</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -153,38 +153,26 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="DirectXCommon.cpp" />
-    <ClCompile Include="FbxLoader.cpp" />
-    <ClCompile Include="FbxModel.cpp" />
-    <ClCompile Include="FbxObject3d.cpp" />
-    <ClCompile Include="Framework.cpp" />
-    <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="ImguiManager.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="LevelLoader.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Object3d.cpp" />
-    <ClCompile Include="ParticleManager.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="SpriteCommon.cpp" />
-    <ClCompile Include="WinApp.cpp" />
+    <ClCompile Include="engine\3d\camera\Camera.cpp" />
+    <ClCompile Include="engine\base\DirectXCommon\DirectXCommon.cpp" />
+    <ClCompile Include="engine\3d\fbx\FbxLoader.cpp" />
+    <ClCompile Include="engine\3d\fbx\FbxModel.cpp" />
+    <ClCompile Include="engine\3d\fbx\FbxObject3d.cpp" />
+    <ClCompile Include="application\scene\Framework.cpp" />
+    <ClCompile Include="application\scene\GameScene.cpp" />
+    <ClCompile Include="engine\imgui\ImguiManager.cpp" />
+    <ClCompile Include="engine\base\input\Input.cpp" />
+    <ClCompile Include="engine\editor\LevelLoader.cpp" />
+    <ClCompile Include="application\main.cpp" />
+    <ClCompile Include="engine\3d\obj\Model.cpp" />
+    <ClCompile Include="engine\3d\obj\Object3d.cpp" />
+    <ClCompile Include="application\ParticleManager.cpp" />
+    <ClCompile Include="engine\audio\SoundManager.cpp" />
+    <ClCompile Include="engine\2d\Sprite.cpp" />
+    <ClCompile Include="engine\2d\SpriteCommon.cpp" />
+    <ClCompile Include="engine\base\WinApp\WinApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="BasicPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="BasicVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
@@ -271,7 +259,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Basic.hlsli" />
     <None Include="ReadMe.md" />
     <None Include="Resources\shaders\FBX.hlsli" />
     <None Include="Resources\shaders\Obj.hlsli" />
@@ -288,24 +275,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="DirectXCommon.h" />
-    <ClInclude Include="FbxLoader.h" />
-    <ClInclude Include="FbxModel.h" />
-    <ClInclude Include="FbxObject3d.h" />
-    <ClInclude Include="Framework.h" />
-    <ClInclude Include="GameScene.h" />
-    <ClInclude Include="ImguiManager.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="LevelLoader.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="Object3d.h" />
-    <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="engine\3d\camera\Camera.h" />
+    <ClInclude Include="engine\base\DirectXCommon\DirectXCommon.h" />
+    <ClInclude Include="engine\3d\fbx\FbxLoader.h" />
+    <ClInclude Include="engine\3d\fbx\FbxModel.h" />
+    <ClInclude Include="engine\3d\fbx\FbxObject3d.h" />
+    <ClInclude Include="application\scene\Framework.h" />
+    <ClInclude Include="application\scene\GameScene.h" />
+    <ClInclude Include="engine\imgui\ImguiManager.h" />
+    <ClInclude Include="engine\base\input\Input.h" />
+    <ClInclude Include="engine\editor\LevelLoader.h" />
+    <ClInclude Include="engine\3d\obj\Model.h" />
+    <ClInclude Include="engine\3d\obj\Object3d.h" />
+    <ClInclude Include="application\ParticleManager.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="SoundManager.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="SpriteCommon.h" />
-    <ClInclude Include="WinApp.h" />
+    <ClInclude Include="engine\audio\SoundManager.h" />
+    <ClInclude Include="engine\2d\Sprite.h" />
+    <ClInclude Include="engine\2d\SpriteCommon.h" />
+    <ClInclude Include="engine\base\WinApp\WinApp.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CG2.rc" />

@@ -1,7 +1,7 @@
 #include "SpriteCommon.h"
 #include<d3dcompiler.h>
 
-#include"DirectXTex/DirectXTex.h"
+#include"DirectXTex.h"
 #pragma	comment(lib,"d3dcompiler.lib")
 
 std::string SpriteCommon::defaultTextureDirectoryPath = "Resources/";

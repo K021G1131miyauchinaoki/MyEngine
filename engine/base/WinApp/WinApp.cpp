@@ -1,5 +1,5 @@
 ﻿#include "WinApp.h"
-#include"imgui/imgui_impl_win32.h"
+#include<imgui_impl_win32.h>
 
 int	WinApp::width = 1280; 
 int	WinApp::height = 720;
