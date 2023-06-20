@@ -36,7 +36,7 @@ void FbxLoader::Finalize()
     fbxManager->Destroy();
 }
 
-void FbxLoader::LoadModelFromFile(const string&modelName)
+FbxModel* FbxLoader::LoadModelFromFile(const string&modelName)
 {
     //モデルと同じ名前のフォルダから読み込む
     const string directoryPath = baseDirectory + modelName + "/";
@@ -62,7 +62,7 @@ void FbxLoader::LoadModelFromFile(const string&modelName)
     model->name = modelName;
 
     //FBXノードの数を取得
-    int nodeCount = fbxScene->GetNodeCount();
+    int32_t nodeCount = fbxScene->GetNodeCount();
 
     //あらかじめ必要数分のメモリを確保することで、アドレスのずれを予防
     model->nodes.reserve(nodeCount);
@@ -74,6 +74,8 @@ void FbxLoader::LoadModelFromFile(const string&modelName)
 
     //バッファ生成
     model->CreateBuffers(device);
+
+    return model;
 }
 
 void FbxLoader::ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* parent)
@@ -134,7 +136,7 @@ void FbxLoader::ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* pare
     }
 
     //子ノードに対して再起呼び出し
-    for (int i = 0; i < fbxNode->GetChildCount(); i++)
+    for (size_t i = 0; i < fbxNode->GetChildCount(); i++)
     {
         ParseNodeRecursive(model, fbxNode->GetChild(i),&node);
     }
@@ -158,7 +160,7 @@ void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh)
     auto& vertices = model->vertices;
 
     //頂点座標データの数
-    const int controlPointsCount = fbxMesh->GetControlPointsCount();
+    const int32_t controlPointsCount = fbxMesh->GetControlPointsCount();
 
     //必要数だけ頂点データ配列を確保
     FbxModel::VertexPosNormalUV vert{};
@@ -168,7 +170,7 @@ void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh)
     FbxVector4* pCoord = fbxMesh->GetControlPoints();
 
     //FBXメッシュの全頂点座標をモデル内の配列にコピーする
-    for (int i = 0; i < controlPointsCount; i++)
+    for (size_t i = 0; i < controlPointsCount; i++)
     {
         FbxModel::VertexPosNormalUV& vertex = vertices[i];
         //座標のコピー
@@ -186,24 +188,24 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
     //1ファイルに複数メッシュのモデルは非対応
     assert(indices.size() == 0);
     //面の数
-    const int polygonCount = fbxMesh->GetPolygonCount();
+    const uint32_t polygonCount = fbxMesh->GetPolygonCount();
     //uvデータの数
-    const int textureUVCount = fbxMesh->GetTextureUVCount();
+    const uint32_t textureUVCount = fbxMesh->GetTextureUVCount();
     //uv名リスト
     FbxStringList uvNames;
     fbxMesh->GetUVSetNames(uvNames);
     //面ごとの情報読み取り
-    for (int i = 0; i < polygonCount; i++)
+    for (size_t i = 0; i < polygonCount; i++)
     {
         //面を構成する頂点の数を取得(3なら三角形ポリゴン)
-        const int polygonSize = fbxMesh->GetPolygonSize(i);
+        const uint32_t polygonSize = fbxMesh->GetPolygonSize(i);
         assert(polygonSize <= 4);
 
         //1頂点ずつ処理
-        for (int j = 0; j < polygonSize; j++)
+        for (size_t j = 0; j < polygonSize; j++)
         {
             //FBX頂点配列のインデックス
-            int index = fbxMesh->GetPolygonVertex(i, j);
+            uint32_t index = fbxMesh->GetPolygonVertex(i, j);
             assert(index >= 0);
             //頂点法線読み込み
             FbxModel::VertexPosNormalUV& vertex = vertices[index];
@@ -240,9 +242,9 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
             {
                 //3点追加し、
                 //四角形の0,1,2,3の内　2,3,0で三角形を構築する
-                int index2 = indices[indices.size() - 1];
-                int index3 = index;
-                int index0 = indices[indices.size() - 3];
+                int32_t index2 = indices[indices.size() - 1];
+                int32_t index3 = index;
+                int32_t index0 = indices[indices.size() - 3];
                 indices.push_back(index2);
                 indices.push_back(index3);
                 indices.push_back(index0);
@@ -255,7 +257,7 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
 
 void FbxLoader::ParseMeshMaterial(FbxModel* model, FbxNode* fbxNode)
 {
-    const int materialCount = fbxNode->GetMaterialCount();
+    const int32_t materialCount = fbxNode->GetMaterialCount();
     if (materialCount>0)
     {
         //先頭のマテリアルを取得

@@ -14,6 +14,8 @@
 #include"FbxLoader.h"
 #include"LevelLoader.h"
 #include"Framework.h"
+#include"FbxObject3d.h"
+#include"FbxModel.h"
 
 class GameScene:public Framework
 {
@@ -60,6 +62,9 @@ private:
 	std::vector<Object3d*> objects;
 
 	Sprite* s = nullptr;
+	//FBX
+	FbxModel* modelF = nullptr;
+	FbxObject3d* objF = nullptr;
 	
 	//ゲーム終了フラグ
 	bool isEnd = false;
