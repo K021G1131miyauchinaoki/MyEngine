@@ -12,11 +12,11 @@ public:
 	void UpdateView();
 	void UpdateProjection();
 	//setter
-	void SetEye(XMFLOAT3 eye) { this->eye = eye; }
-	void SetTarget(XMFLOAT3 target) { this->target = target; }
-	void SetUp(XMFLOAT3 up) { this->up = up; }
-	void SetView(XMMATRIX matView) { this->matView = matView; }
-	void SetProjection(XMMATRIX matProjection) { this->matProjection = matProjection; }
+	void SetEye(XMFLOAT3 eye_) { this->eye = eye_; }
+	void SetTarget(XMFLOAT3 target_) { this->target = target_; }
+	void SetUp(XMFLOAT3 up_) { this->up = up_; }
+	void SetView(XMMATRIX matView_) { this->matView = matView_; }
+	void SetProjection(XMMATRIX matProjection_) { this->matProjection = matProjection_; }
 	//getter
 	const XMMATRIX& GetView() { return matView; }
 	const XMMATRIX& GetProjection() { return matProjection; }

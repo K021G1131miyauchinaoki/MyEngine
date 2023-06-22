@@ -14,6 +14,9 @@
 //=====================================================================================
 // Bitmask flags enumerator operators
 //=====================================================================================
+#pragma warning(push)
+//C26812ÇÃåxçêÇå©Ç»Ç©Ç¡ÇΩÇ±Ç∆Ç…Ç∑ÇÈ
+#pragma warning(disable:26812)
 DEFINE_ENUM_FLAG_OPERATORS(CP_FLAGS);
 DEFINE_ENUM_FLAG_OPERATORS(DDS_FLAGS);
 DEFINE_ENUM_FLAG_OPERATORS(TGA_FLAGS);
@@ -24,6 +27,7 @@ DEFINE_ENUM_FLAG_OPERATORS(TEX_PMALPHA_FLAGS);
 DEFINE_ENUM_FLAG_OPERATORS(TEX_COMPRESS_FLAGS);
 DEFINE_ENUM_FLAG_OPERATORS(CNMAP_FLAGS);
 DEFINE_ENUM_FLAG_OPERATORS(CMSE_FLAGS);
+#pragma warning(pop)
 
 // WIC_FILTER modes match TEX_FILTER modes
 constexpr WIC_FLAGS operator|(WIC_FLAGS a, TEX_FILTER_FLAGS b) { return static_cast<WIC_FLAGS>(static_cast<unsigned long>(a) | static_cast<unsigned long>(b & TEX_FILTER_MODE_MASK)); }

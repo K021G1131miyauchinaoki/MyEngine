@@ -79,12 +79,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)imgui;$(SolutionDir)DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;C:\nlohmann-json\include;$(ProjectDir)\application\scene;$(ProjectDir)\application;$(ProjectDir)\engine\2d;$(ProjectDir)\engine\3d\camera;$(ProjectDir)\engine\3d\fbx;$(ProjectDir)\engine\3d\obj;$(ProjectDir)\engine\audio;$(ProjectDir)\engine\base\DirectXCommon;$(ProjectDir)\engine\base\input;$(ProjectDir)\engine\base\WinApp;$(ProjectDir)\engine\editor;$(ProjectDir)\engine\imgui;$(ProjectDir)\engine\math</IncludePath>
+    <IncludePath>$(SolutionDir)imgui;$(SolutionDir)DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;C:\nlohmann-json\include;$(ProjectDir)\application\scene;$(ProjectDir)\application;$(ProjectDir)\engine\2d;$(ProjectDir)\engine\3d\camera;$(ProjectDir)\engine\3d\fbx;$(ProjectDir)\engine\3d\model;$(ProjectDir)\engine\audio;$(ProjectDir)\engine\base\DirectXCommon;$(ProjectDir)\engine\base\input;$(ProjectDir)\engine\base\WinApp;$(ProjectDir)\engine\editor;$(ProjectDir)\engine\imgui;$(ProjectDir)\engine\math</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)imgui;$(SolutionDir)DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;C:\nlohmann-json\include;$(ProjectDir)\application\scene;$(ProjectDir)\application;$(ProjectDir)\engine\2d;$(ProjectDir)\engine\3d\camera;$(ProjectDir)\engine\3d\fbx;$(ProjectDir)\engine\3d\obj;$(ProjectDir)\engine\audio;$(ProjectDir)\engine\base\DirectXCommon;$(ProjectDir)\engine\base\input;$(ProjectDir)\engine\base\WinApp;$(ProjectDir)\engine\editor;$(ProjectDir)\engine\imgui;$(ProjectDir)\engine\math</IncludePath>
+    <IncludePath>$(SolutionDir)imgui;$(SolutionDir)DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;C:\nlohmann-json\include;$(ProjectDir)\application\scene;$(ProjectDir)\application;$(ProjectDir)\engine\2d;$(ProjectDir)\engine\3d\camera;$(ProjectDir)\engine\3d\fbx;$(ProjectDir)\engine\3d\model;$(ProjectDir)\engine\audio;$(ProjectDir)\engine\base\DirectXCommon;$(ProjectDir)\engine\base\input;$(ProjectDir)\engine\base\WinApp;$(ProjectDir)\engine\editor;$(ProjectDir)\engine\imgui;$(ProjectDir)\engine\math</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -117,7 +117,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -126,6 +126,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libfbxsdk-md.lib;libxml2-md.lib;zlib-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/ignore:4099 /ignore:4049 %(AdditionalOptions)</AdditionalOptions>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -133,7 +135,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -147,6 +149,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libfbxsdk-mt.lib;libxml2-mt.lib;zlib-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/ignore:4099 /ignore:4049 %(AdditionalOptions)</AdditionalOptions>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -154,6 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="engine\3d\camera\Camera.cpp" />
+    <ClCompile Include="engine\3d\model\Object3d.cpp" />
     <ClCompile Include="engine\base\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="engine\3d\fbx\FbxLoader.cpp" />
     <ClCompile Include="engine\3d\fbx\FbxModel.cpp" />
@@ -164,13 +169,12 @@
     <ClCompile Include="engine\base\input\Input.cpp" />
     <ClCompile Include="engine\editor\LevelLoader.cpp" />
     <ClCompile Include="application\main.cpp" />
-    <ClCompile Include="engine\3d\obj\Model.cpp" />
-    <ClCompile Include="engine\3d\obj\Object3d.cpp" />
     <ClCompile Include="application\ParticleManager.cpp" />
     <ClCompile Include="engine\audio\SoundManager.cpp" />
     <ClCompile Include="engine\2d\Sprite.cpp" />
     <ClCompile Include="engine\2d\SpriteCommon.cpp" />
     <ClCompile Include="engine\base\WinApp\WinApp.cpp" />
+    <ClCompile Include="engine\3d\model\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -276,6 +280,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\3d\camera\Camera.h" />
+    <ClInclude Include="engine\3d\model\Object3d.h" />
     <ClInclude Include="engine\base\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="engine\3d\fbx\FbxLoader.h" />
     <ClInclude Include="engine\3d\fbx\FbxModel.h" />
@@ -285,9 +290,8 @@
     <ClInclude Include="engine\imgui\ImguiManager.h" />
     <ClInclude Include="engine\base\input\Input.h" />
     <ClInclude Include="engine\editor\LevelLoader.h" />
-    <ClInclude Include="engine\3d\obj\Model.h" />
-    <ClInclude Include="engine\3d\obj\Object3d.h" />
     <ClInclude Include="application\ParticleManager.h" />
+    <ClInclude Include="engine\3d\model\Model.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="engine\audio\SoundManager.h" />
     <ClInclude Include="engine\2d\Sprite.h" />

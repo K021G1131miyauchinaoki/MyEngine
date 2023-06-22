@@ -617,7 +617,9 @@ bool ParticleManager::Initialize(uint32_t texIndex_)
 void ParticleManager::Update()
 {
 	HRESULT result;
-	XMMATRIX matScale, matRot, matTrans;
+	XMMATRIX matScale = DirectX::XMMatrixIdentity();
+	XMMATRIX matRot = DirectX::XMMatrixIdentity();
+	XMMATRIX matTrans = DirectX::XMMatrixIdentity();
 
 	//パーティクルの削除
 	particles.remove_if([](Particle& x) {

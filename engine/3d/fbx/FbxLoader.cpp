@@ -105,12 +105,12 @@ void FbxLoader::ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* pare
 
     //スケール、回転、平行移動行列の計算
     XMMATRIX matScaling, matRotation, matTranslation;
-    matScaling = XMMatrixScalingFromVector(node.scaling);
-    matRotation = XMMatrixRotationRollPitchYawFromVector(node.rotation);
-    matTranslation = XMMatrixTranslationFromVector(node.translation);
+    matScaling = DirectX::XMMatrixScalingFromVector(node.scaling);
+    matRotation = DirectX::XMMatrixRotationRollPitchYawFromVector(node.rotation);
+    matTranslation = DirectX::XMMatrixTranslationFromVector(node.translation);
 
     //ローカル変形行列の計算
-    node.transform = XMMatrixIdentity();
+    node.transform = DirectX::XMMatrixIdentity();
     node.transform *= matScaling;
     node.transform *= matRotation;
     node.transform *= matTranslation;

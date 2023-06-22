@@ -13,7 +13,6 @@ void GameScene::Initialize() {
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 	Model::SetDevice(dxCommon->GetDevice());
 	//静的初期化
-	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
 	//---------------------------2D----------------------------------
 
 	//スプライト共通部分の初期化
@@ -25,10 +24,13 @@ void GameScene::Initialize() {
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
-	camera->SetTarget({ 0,20,-30 });
+	camera->SetTarget({ 0,0,0 });
+	camera->SetEye({ 0,10,-10 });
+	camera->Update();
+	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
 
 	/*---------------- - FBX------------------------*/
-	modelF = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	fbxM = FbxLoader::GetInstance()->LoadModelFromFile("cube");
 	//デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
 	// カメラをセット
@@ -36,9 +38,9 @@ void GameScene::Initialize() {
 	//グラフィックパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
 	//3Dオブジェクト生成とモデルセット
-	objF = new FbxObject3d;
-	objF->Initialize();
-	objF->SetModel(modelF);
+	fbxObj = new FbxObject3d;
+	fbxObj->Initialize();
+	fbxObj->SetModel(fbxM);
 	
 	/*--------------レベルエディタ----------------*/
 	// レベルデータの読み込み
@@ -50,20 +52,20 @@ void GameScene::Initialize() {
 	modelChr = Model::LoadFromOBJ("chr_sword");
 	modelSphere = Model::LoadFromOBJ("sphere");
 	
-	//objSkydome = Object3d::Create();
-	//objGround = Object3d::Create();
-	//objChr = Object3d::Create();
-	//objSphere = Object3d::Create();
+	objSkydome = Object3d::Create();
+	objGround = Object3d::Create();
+	objChr = Object3d::Create();
+	objSphere = Object3d::Create();
 
-	//objSkydome->SetModel(modelSkydome);
-	//objGround->SetModel(modelGround);
-	//objChr->SetModel(modelChr);
-	//objSphere->SetModel(modelSphere);
-	//
-	//objSkydome->SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
-	//objGround->SetPosition(XMFLOAT3(0.0f, 0.0f, -4.8f));
-	//objChr->SetPosition(XMFLOAT3(-7.5f, 0.0f, 0.0f));
-	//objSphere->SetPosition(XMFLOAT3(7.0f, 0.0f, 0.0f));
+	objSkydome->SetModel(modelSkydome);
+	objGround->SetModel(modelGround);
+	objChr->SetModel(modelChr);
+	objSphere->SetModel(modelSphere);
+	
+	objSkydome->SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
+	objGround->SetPosition(XMFLOAT3(0.0f, 0.0f, -4.8f));
+	objChr->SetPosition(XMFLOAT3(-7.5f, 0.0f, 0.0f));
+	objSphere->SetPosition(XMFLOAT3(7.0f, 0.0f, 0.0f));
 
 
 	models.insert(std::make_pair("skydome", modelSkydome));
@@ -114,24 +116,22 @@ void GameScene::Update(){
 	}
 #pragma endregion
 	input->Update();
-	//imgui関連
-	
-	//ここから中身を書いていく
-	//デモウィンドウの表示オン
+	//imgui
+	// デモ
 	//ImGui::ShowDemoWindow();
 	
 	//------------------------------
 	
-	/*objSkydome->Update();
+	objSkydome->Update();
 	objGround->Update();
 	objChr->Update();
-	objSphere->Update();*/
+	objSphere->Update();
 
-	objF->Update();
+	fbxObj->Update();
 
-	/*for (auto object : objects) {
+	for (auto object : objects) {
 		object->Update();
-	}*/
+	}
 
 }
 
@@ -145,18 +145,18 @@ void GameScene::Draw(){
 	/// </summary>
 	//triangle->Draw();
 	//square->Draw();
-	/*for (auto object : objects) {
+	for (auto object : objects) {
 		object->Draw();
-	}*/
-	/*objSkydome->Draw();
-	objGround->Draw();
-	objChr->Draw();
-	objSphere->Draw();*/
+	}
+	//objSkydome->Draw();
+	//objGround->Draw();
+	//objChr->Draw();
+	//objSphere->Draw();
 
 
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
-	objF->Draw(dxCommon->GetCommandList());
+	fbxObj->Draw(dxCommon->GetCommandList());
 
 	//パーティクル描画
 	
@@ -173,8 +173,8 @@ void GameScene::Finalize(){
 	winApp->Finalize();
 	
 	FbxLoader::GetInstance()->Finalize();
-	safe_delete(objF);
-	safe_delete(modelF);
+	safe_delete(fbxObj);
+	safe_delete(fbxM);
 
 	delete	input;
 	delete winApp;

@@ -30,8 +30,8 @@ public://サブクラス
 	};
 public://静的メンバ関数
 	//setter
-	static void SetDevice(ID3D12Device* device) { FbxObject3d::device = device; }
-	static void SetCamera(Camera* camera) { FbxObject3d::camera = camera; }
+	static void SetDevice(ID3D12Device* device_) { FbxObject3d::device = device_; }
+	static void SetCamera(Camera* camera_) { FbxObject3d::camera = camera_; }
 	/// <summary>
 	/// グラフィックパイプラインの生成
 	/// </summary>
@@ -67,7 +67,7 @@ public://メンバ関数
 	/// モデルのセット
 	/// </summary>
 	/// <param name="fbxModel">モデル</param>
-	void SetModel(FbxModel* fbxModel) { this->fbxModel = fbxModel; }
+	void SetModel(FbxModel* fbxModel_) { this->fbxModel = fbxModel_; }
 
 
 protected://メンバ変数
