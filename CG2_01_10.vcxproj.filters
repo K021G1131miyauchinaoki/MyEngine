@@ -81,14 +81,14 @@
     <ClCompile Include="engine\3d\fbx\FbxObject3d.cpp">
       <Filter>engine\3d\fbx</Filter>
     </ClCompile>
-    <ClCompile Include="engine\3d\obj\Model.cpp">
-      <Filter>engine\3d\obj</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\3d\obj\Object3d.cpp">
-      <Filter>engine\3d\obj</Filter>
-    </ClCompile>
     <ClCompile Include="engine\3d\camera\Camera.cpp">
       <Filter>engine\3d\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\model\Model.cpp">
+      <Filter>engine\3d\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\model\Object3d.cpp">
+      <Filter>engine\3d\obj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,14 +137,14 @@
     <ClInclude Include="engine\3d\fbx\FbxObject3d.h">
       <Filter>engine\3d\fbx</Filter>
     </ClInclude>
-    <ClInclude Include="engine\3d\obj\Object3d.h">
-      <Filter>engine\3d\obj</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\3d\obj\Model.h">
-      <Filter>engine\3d\obj</Filter>
-    </ClInclude>
     <ClInclude Include="engine\3d\camera\Camera.h">
       <Filter>engine\3d\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\model\Model.h">
+      <Filter>engine\3d\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\model\Object3d.h">
+      <Filter>engine\3d\obj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
