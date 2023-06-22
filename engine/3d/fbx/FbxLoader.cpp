@@ -25,6 +25,7 @@ void FbxLoader::Initialize(ID3D12Device* device_)
     fbxManager = FbxManager::Create();
     //FBXマネージャの入出力設定
     FbxIOSettings* ios = FbxIOSettings::Create(fbxManager,IOSROOT);
+    fbxManager->SetIOSettings(ios);
     //FBXインポータの生成
     fbxImporter = FbxImporter::Create(fbxManager, "");
 }
@@ -85,7 +86,7 @@ void FbxLoader::ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* pare
     Node& node = model->nodes.back();
     
     //ノード名を取得
-    string name = fbxNode->GetName();
+   node.name = fbxNode->GetName();
     
     //FBXノードの情報を解析してノードに記録(Todo)
     FbxDouble3 rotation = fbxNode->LclRotation.Get();
@@ -136,7 +137,7 @@ void FbxLoader::ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* pare
     }
 
     //子ノードに対して再起呼び出し
-    for (size_t i = 0; i < fbxNode->GetChildCount(); i++)
+    for (int32_t i = 0; i < fbxNode->GetChildCount(); i++)
     {
         ParseNodeRecursive(model, fbxNode->GetChild(i),&node);
     }
@@ -188,24 +189,24 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
     //1ファイルに複数メッシュのモデルは非対応
     assert(indices.size() == 0);
     //面の数
-    const uint32_t polygonCount = fbxMesh->GetPolygonCount();
+    const int32_t polygonCount = fbxMesh->GetPolygonCount();
     //uvデータの数
-    const uint32_t textureUVCount = fbxMesh->GetTextureUVCount();
+    const int32_t textureUVCount = fbxMesh->GetTextureUVCount();
     //uv名リスト
     FbxStringList uvNames;
     fbxMesh->GetUVSetNames(uvNames);
     //面ごとの情報読み取り
-    for (size_t i = 0; i < polygonCount; i++)
+    for (int32_t i = 0; i < polygonCount; i++)
     {
         //面を構成する頂点の数を取得(3なら三角形ポリゴン)
-        const uint32_t polygonSize = fbxMesh->GetPolygonSize(i);
+        const int32_t polygonSize = fbxMesh->GetPolygonSize(i);
         assert(polygonSize <= 4);
 
         //1頂点ずつ処理
-        for (size_t j = 0; j < polygonSize; j++)
+        for (int32_t j = 0; j < polygonSize; j++)
         {
             //FBX頂点配列のインデックス
-            uint32_t index = fbxMesh->GetPolygonVertex(i, j);
+            int32_t index = fbxMesh->GetPolygonVertex(i, j);
             assert(index >= 0);
             //頂点法線読み込み
             FbxModel::VertexPosNormalUV& vertex = vertices[index];
@@ -267,6 +268,8 @@ void FbxLoader::ParseMeshMaterial(FbxModel* model, FbxNode* fbxNode)
 
         if (material)
         {
+
+
             if (material->GetClassId().Is(FbxSurfaceLambert::ClassId))
             {
                 FbxSurfaceLambert* lambert = static_cast<FbxSurfaceLambert*>(material);
@@ -280,25 +283,25 @@ void FbxLoader::ParseMeshMaterial(FbxModel* model, FbxNode* fbxNode)
                 model->diffuse.x = (float)diffuse.Get()[0];
                 model->diffuse.y = (float)diffuse.Get()[1];
                 model->diffuse.z = (float)diffuse.Get()[2];
-
-                //ディフューズテクスチャを取り出す
-                const FbxProperty diffuseProperty = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
-                if (diffuseProperty.IsValid())
-                {
-                    const FbxFileTexture* texture = diffuseProperty.GetSrcObject<FbxFileTexture>();
-                    if (true)
-                    {
-                        const char* filepath = texture->GetFileName();
-                        //ファイルパスからファイル名抽出
-                        string path_str(filepath);
-                        string name = ExtractFileName(path_str);
-
-                        //テクスチャ読み込み
-                        LoadTexture(model, baseDirectory + model->name + "/" + name);
-                        textureLoaded = true;
-                    }                                      
-                }
             }
+            //ディフューズテクスチャを取り出す
+            const FbxProperty diffuseProperty = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
+            if (diffuseProperty.IsValid())
+            {
+                const FbxFileTexture* texture = diffuseProperty.GetSrcObject<FbxFileTexture>();
+                if (true)
+                {
+                    const char* filepath = texture->GetFileName();
+                    //ファイルパスからファイル名抽出
+                    string path_str(filepath);
+                    string name = ExtractFileName(path_str);
+
+                    //テクスチャ読み込み
+                    LoadTexture(model, baseDirectory + model->name + "/" + name);
+                    textureLoaded = true;
+                }                                      
+            }
+            
         }
         //テクスチャがない場合は白テクスチャを貼る
         if (!textureLoaded)

@@ -2,7 +2,7 @@
 #include"WinApp.h"
 
 void	Camera::Initialeze() {
-	eye = { 0, 20, -30.0f };
+	eye = { 0, 20, -0.0f };
 	target = { 0, 0, 0 };
 	up = { 0, 1, 0 };
 
