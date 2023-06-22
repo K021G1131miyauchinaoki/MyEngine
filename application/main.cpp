@@ -1,10 +1,10 @@
 ﻿#include<string>
 #include <DirectXMath.h>
 #include<d3dcompiler.h>
-#include"DirectXTex/DirectXTex.h"
+#include"DirectXTex.h"
 #include<cassert>
 #include<vector>
-#include"imgui/imgui.h"
+#include<imgui.h>
 #include"GameScene.h"
 #include"Framework.h"
 

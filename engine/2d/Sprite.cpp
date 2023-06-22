@@ -1,5 +1,5 @@
 #include "Sprite.h"
-#include"DirectXTex/DirectXTex.h"
+#include"DirectXTex.h"
 
 
 //インデックスデータ
