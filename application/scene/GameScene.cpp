@@ -25,7 +25,8 @@ void GameScene::Initialize() {
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
-	camera->SetTarget({ 0,20,-30 });
+	camera->SetTarget({ 0,0,0 });
+	camera->Update();
 
 	/*---------------- - FBX------------------------*/
 	modelF = FbxLoader::GetInstance()->LoadModelFromFile("cube");
@@ -72,7 +73,7 @@ void GameScene::Initialize() {
 	models.insert(std::make_pair("sphere", modelSphere));
 
 	// レベルデータからオブジェクトを生成、配置
-	for (auto& objectData : levelData->objects) {
+	/*for (auto& objectData : levelData->objects) {
 		// ファイル名から登録済みモデルを検索
 		Model* model = nullptr;
 		decltype(models)::iterator it = models.find(objectData.fileName);
@@ -102,7 +103,7 @@ void GameScene::Initialize() {
 
 		// 配列に登録
 		objects.push_back(newObject);
-	}
+	}*/
 
 	//spriteCommon->Loadtexture(1,)
 }
@@ -114,10 +115,8 @@ void GameScene::Update(){
 	}
 #pragma endregion
 	input->Update();
-	//imgui関連
-	
-	//ここから中身を書いていく
-	//デモウィンドウの表示オン
+	//imgui
+	// デモ
 	//ImGui::ShowDemoWindow();
 	
 	//------------------------------
