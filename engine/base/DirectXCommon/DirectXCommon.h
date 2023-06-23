@@ -2,6 +2,8 @@
 #include<dxgi1_6.h>
 #include<wrl.h>
 #include<vector>
+#include<wchar.h>
+#include<string>
 #include"WinApp.h"
 
 

@@ -56,6 +56,14 @@ void DirectXCommon::InitializeDevice() {
 			tmpAdapter = adapters[i];
 			break;
 		}
+
+		std::wstring strDesc = adapterDesc.Description;//アダプター名
+		//intel uhd graphics(オンボードグラフィック)を回避
+		if (strDesc.find(L"Intel")==std::wstring::npos)
+		{
+			tmpAdapter = adapters[i];//採用
+			break;
+		}
 	}
 	//対応レベルの配列
 	D3D_FEATURE_LEVEL	levels[] = {
