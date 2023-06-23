@@ -66,7 +66,12 @@
             "file_name": "chr_sword",
             "children": [
                 {
-                    "type": "MESH",
+                    
+                }
+            ]
+        },
+        {
+            "type": "MESH",
                     "name": "sphere",
                     "transform": {
                         "translation": [
@@ -86,8 +91,6 @@
                         ]
                     },
                     "file_name": "sphere"
-                }
-            ]
         },
         {
             "type": "MESH",
