@@ -12,6 +12,7 @@ void	Camera::Initialeze() {
 
 void	Camera::Update() {
 	UpdateView();
+	UpdateViewProjection();
 }
 
 void	Camera::UpdateView() {
@@ -28,4 +29,8 @@ void	Camera::UpdateProjection() {
 		XMConvertToRadians(100.0f),
 		(float)WinApp::width / WinApp::height,
 		0.1f, 1000.0f);
+}
+
+void	Camera::UpdateViewProjection() {
+	matViewProjection = matView * matProjection;
 }

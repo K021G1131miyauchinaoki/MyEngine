@@ -49,7 +49,7 @@ void FbxObject3d::Update() {
 	matWorld *= matTrans;//ワールド行列に平行移動を反映
 
 	//ビュープロジェクション行列
-	const XMMATRIX& matViewProjection = camera->GetView();
+	const XMMATRIX& matViewProjection = camera->GetViewProjection();
 	//モデルのメッシュトランスフォーム
 	const XMMATRIX& modelTransform = fbxModel->GetModelTransform();
 	//カメラ座標

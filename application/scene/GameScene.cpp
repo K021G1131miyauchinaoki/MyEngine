@@ -25,12 +25,12 @@ void GameScene::Initialize() {
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetTarget({ 0,0,0 });
-	camera->SetEye({ 0,10,-10 });
+	camera->SetEye({ 0,0,-10 });
 	camera->Update();
 	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
 
 	/*---------------- - FBX------------------------*/
-	fbxM = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	fbxM = FbxLoader::GetInstance()->LoadModelFromFile("box");
 	//デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
 	// カメラをセット
@@ -47,7 +47,7 @@ void GameScene::Initialize() {
 	levelData = LevelLoader::LoadJson("testScene");
 
 	// モデル読み込み
-	modelSkydome = Model::LoadFromOBJ("skydome");
+	/*modelSkydome = Model::LoadFromOBJ("skydome");
 	modelGround = Model::LoadFromOBJ("ground");
 	modelChr = Model::LoadFromOBJ("chr_sword");
 	modelSphere = Model::LoadFromOBJ("sphere");
@@ -71,7 +71,7 @@ void GameScene::Initialize() {
 	models.insert(std::make_pair("skydome", modelSkydome));
 	models.insert(std::make_pair("ground", modelGround));
 	models.insert(std::make_pair("chr_sword", modelChr));
-	models.insert(std::make_pair("sphere", modelSphere));
+	models.insert(std::make_pair("sphere", modelSphere));*/
 
 	// レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects) {
@@ -122,16 +122,16 @@ void GameScene::Update(){
 	
 	//------------------------------
 	
-	objSkydome->Update();
+	/*objSkydome->Update();
 	objGround->Update();
 	objChr->Update();
-	objSphere->Update();
-
+	objSphere->Update();*/
+	camera->Update();
 	fbxObj->Update();
 
-	for (auto object : objects) {
+	/*for (auto object : objects) {
 		object->Update();
-	}
+	}*/
 
 }
 
@@ -145,9 +145,9 @@ void GameScene::Draw(){
 	/// </summary>
 	//triangle->Draw();
 	//square->Draw();
-	for (auto object : objects) {
+	/*for (auto object : objects) {
 		object->Draw();
-	}
+	}*/
 	//objSkydome->Draw();
 	//objGround->Draw();
 	//objChr->Draw();
@@ -180,11 +180,11 @@ void GameScene::Finalize(){
 	delete winApp;
 	delete	dxCommon;
 	delete	spriteCommon;
-	delete modelChr;
+	/*delete modelChr;
 	delete modelGround;
 	delete modelSkydome;
 	delete modelSphere;
-	/*delete objChr;
+	delete objChr;
 	delete	objSkydome;
 	delete	objGround;
 	delete	objSphere;*/
