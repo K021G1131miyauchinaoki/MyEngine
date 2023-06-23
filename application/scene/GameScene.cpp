@@ -47,12 +47,12 @@ void GameScene::Initialize() {
 	levelData = LevelLoader::LoadJson("testScene");
 
 	// モデル読み込み
-	/*modelSkydome = Model::LoadFromOBJ("skydome");
+	modelSkydome = Model::LoadFromOBJ("skydome");
 	modelGround = Model::LoadFromOBJ("ground");
 	modelChr = Model::LoadFromOBJ("chr_sword");
 	modelSphere = Model::LoadFromOBJ("sphere");
 	
-	objSkydome = Object3d::Create();
+	/*objSkydome = Object3d::Create();
 	objGround = Object3d::Create();
 	objChr = Object3d::Create();
 	objSphere = Object3d::Create();
@@ -65,13 +65,13 @@ void GameScene::Initialize() {
 	objSkydome->SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
 	objGround->SetPosition(XMFLOAT3(0.0f, 0.0f, -4.8f));
 	objChr->SetPosition(XMFLOAT3(-7.5f, 0.0f, 0.0f));
-	objSphere->SetPosition(XMFLOAT3(7.0f, 0.0f, 0.0f));
+	objSphere->SetPosition(XMFLOAT3(7.0f, 0.0f, 0.0f));*/
 
 
 	models.insert(std::make_pair("skydome", modelSkydome));
 	models.insert(std::make_pair("ground", modelGround));
 	models.insert(std::make_pair("chr_sword", modelChr));
-	models.insert(std::make_pair("sphere", modelSphere));*/
+	models.insert(std::make_pair("sphere", modelSphere));
 
 	// レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects) {
@@ -127,11 +127,11 @@ void GameScene::Update(){
 	objChr->Update();
 	objSphere->Update();*/
 	camera->Update();
-	fbxObj->Update();
+	//fbxObj->Update();
 
-	/*for (auto object : objects) {
+	for (auto object : objects) {
 		object->Update();
-	}*/
+	}
 
 }
 
@@ -145,9 +145,9 @@ void GameScene::Draw(){
 	/// </summary>
 	//triangle->Draw();
 	//square->Draw();
-	/*for (auto object : objects) {
+	for (auto object : objects) {
 		object->Draw();
-	}*/
+	}
 	//objSkydome->Draw();
 	//objGround->Draw();
 	//objChr->Draw();
@@ -156,7 +156,7 @@ void GameScene::Draw(){
 
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
-	fbxObj->Draw(dxCommon->GetCommandList());
+	//fbxObj->Draw(dxCommon->GetCommandList());
 
 	//パーティクル描画
 	
