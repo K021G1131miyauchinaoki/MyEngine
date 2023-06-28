@@ -93,6 +93,7 @@
     <ClCompile Include="application\Player.cpp">
       <Filter>application</Filter>
     </ClCompile>
+    <ClCompile Include="application\Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\scene\GameScene.h">
@@ -152,6 +153,7 @@
     <ClInclude Include="application\Player.h">
       <Filter>application</Filter>
     </ClInclude>
+    <ClInclude Include="application\Enemy.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

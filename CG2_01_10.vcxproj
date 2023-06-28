@@ -159,6 +159,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="application\Enemy.cpp" />
     <ClCompile Include="engine\3d\camera\Camera.cpp" />
     <ClCompile Include="engine\3d\model\Object3d.cpp" />
     <ClCompile Include="engine\base\DirectXCommon\DirectXCommon.cpp" />
@@ -274,6 +275,7 @@
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="application\Enemy.h" />
     <ClInclude Include="engine\3d\camera\Camera.h" />
     <ClInclude Include="engine\3d\model\Object3d.h" />
     <ClInclude Include="engine\base\DirectXCommon\DirectXCommon.h" />
