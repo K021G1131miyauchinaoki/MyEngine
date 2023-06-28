@@ -177,6 +177,7 @@
     <ClCompile Include="engine\2d\SpriteCommon.cpp" />
     <ClCompile Include="engine\base\WinApp\WinApp.cpp" />
     <ClCompile Include="engine\3d\model\Model.cpp" />
+    <ClCompile Include="application\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -286,6 +287,7 @@
     <ClInclude Include="engine\editor\LevelLoader.h" />
     <ClInclude Include="application\ParticleManager.h" />
     <ClInclude Include="engine\3d\model\Model.h" />
+    <ClInclude Include="application\Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="engine\audio\SoundManager.h" />
     <ClInclude Include="engine\2d\Sprite.h" />

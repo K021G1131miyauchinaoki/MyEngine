@@ -90,6 +90,9 @@
     <ClCompile Include="engine\3d\model\Object3d.cpp">
       <Filter>engine\3d\obj</Filter>
     </ClCompile>
+    <ClCompile Include="application\Player.cpp">
+      <Filter>application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\scene\GameScene.h">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="engine\3d\model\Object3d.h">
       <Filter>engine\3d\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Player.h">
+      <Filter>application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
