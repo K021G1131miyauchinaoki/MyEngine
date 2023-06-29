@@ -1,6 +1,9 @@
 #include "FbxModel.h"
 
 void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList) {
+	// nullptrチェック
+	assert(cmdList);
+
 	//頂点バッファをセット(VBV)
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファをセット(IBV)

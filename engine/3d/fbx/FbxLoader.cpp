@@ -6,7 +6,7 @@ using namespace DirectX;
 /// 静的メンバ変数の実体
 /// </summary>
 const std::string FbxLoader::baseDirectory = "Resources/";
-const std::string FbxLoader::defaultTextureFileName = "white1*1.png";
+const std::string FbxLoader::defaultTextureFileName = "white1×1.png";
 
 
 FbxLoader* FbxLoader::GetInstance()
@@ -284,8 +284,6 @@ void FbxLoader::ParseMeshMaterial(FbxModel* model, FbxNode* fbxNode)
 
         if (material)
         {
-
-
             if (material->GetClassId().Is(FbxSurfaceLambert::ClassId))
             {
                 FbxSurfaceLambert* lambert = static_cast<FbxSurfaceLambert*>(material);
@@ -305,7 +303,7 @@ void FbxLoader::ParseMeshMaterial(FbxModel* model, FbxNode* fbxNode)
             if (diffuseProperty.IsValid())
             {
                 const FbxFileTexture* texture = diffuseProperty.GetSrcObject<FbxFileTexture>();
-                if (true)
+                if (texture)
                 {
                     const char* filepath = texture->GetFileName();
                     //ファイルパスからファイル名抽出
@@ -315,14 +313,13 @@ void FbxLoader::ParseMeshMaterial(FbxModel* model, FbxNode* fbxNode)
                     //テクスチャ読み込み
                     LoadTexture(model, baseDirectory + model->name + "/" + name);
                     textureLoaded = true;
-                }                                      
+                }
             }
-            
-        }
-        //テクスチャがない場合は白テクスチャを貼る
-        if (!textureLoaded)
-        {
-            LoadTexture(model, baseDirectory + defaultTextureFileName);
+            //テクスチャがない場合は白テクスチャを貼る
+            if (!textureLoaded)
+            {
+                LoadTexture(model, baseDirectory + defaultTextureFileName);
+            }
         }
     }
 }

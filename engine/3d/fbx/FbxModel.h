@@ -69,7 +69,7 @@ public://サブクラス
 		DirectX::XMFLOAT3 normal;//法線ベクトル
 		DirectX::XMFLOAT2 uv;//uv座標
 		uint32_t boneIndex[MAX_BONE_INDICES];//ボーン　番号
-		uint32_t boneWeight[MAX_BONE_INDICES];//ボーン　重み
+		float boneWeight[MAX_BONE_INDICES];//ボーン　重み
 	};
 
 	//ボーン構造体
