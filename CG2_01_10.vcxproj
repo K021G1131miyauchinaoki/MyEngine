@@ -79,12 +79,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)External\imgui;$(SolutionDir)External\DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;C:\nlohmann-json\include;$(ProjectDir)\application\scene;$(ProjectDir)\application;$(ProjectDir)\engine\2d;$(ProjectDir)\engine\3d\camera;$(ProjectDir)\engine\3d\fbx;$(ProjectDir)\engine\3d\model;$(ProjectDir)\engine\audio;$(ProjectDir)\engine\base\DirectXCommon;$(ProjectDir)\engine\base\input;$(ProjectDir)\engine\base\WinApp;$(ProjectDir)\engine\editor;$(ProjectDir)\engine\imgui;$(ProjectDir)\engine\math</IncludePath>
+    <IncludePath>$(SolutionDir)External\imgui;$(SolutionDir)External\DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)External\nlohmann-json\single_include;$(ProjectDir)\application\scene;$(ProjectDir)\application;$(ProjectDir)\engine\2d;$(ProjectDir)\engine\3d\camera;$(ProjectDir)\engine\3d\fbx;$(ProjectDir)\engine\3d\model;$(ProjectDir)\engine\audio;$(ProjectDir)\engine\base\DirectXCommon;$(ProjectDir)\engine\base\input;$(ProjectDir)\engine\base\WinApp;$(ProjectDir)\engine\editor;$(ProjectDir)\engine\imgui;$(ProjectDir)\engine\math</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)External\imgui;$(SolutionDir)External\DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;C:\nlohmann-json\include;$(ProjectDir)\application\scene;$(ProjectDir)\application;$(ProjectDir)\engine\2d;$(ProjectDir)\engine\3d\camera;$(ProjectDir)\engine\3d\fbx;$(ProjectDir)\engine\3d\model;$(ProjectDir)\engine\audio;$(ProjectDir)\engine\base\DirectXCommon;$(ProjectDir)\engine\base\input;$(ProjectDir)\engine\base\WinApp;$(ProjectDir)\engine\editor;$(ProjectDir)\engine\imgui;$(ProjectDir)\engine\math</IncludePath>
+    <IncludePath>$(SolutionDir)External\imgui;$(SolutionDir)External\DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)External\nlohmann-json\single_include;$(ProjectDir)\application\scene;$(ProjectDir)\application;$(ProjectDir)\engine\2d;$(ProjectDir)\engine\3d\camera;$(ProjectDir)\engine\3d\fbx;$(ProjectDir)\engine\3d\model;$(ProjectDir)\engine\audio;$(ProjectDir)\engine\base\DirectXCommon;$(ProjectDir)\engine\base\input;$(ProjectDir)\engine\base\WinApp;$(ProjectDir)\engine\editor;$(ProjectDir)\engine\imgui;$(ProjectDir)\engine\math</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -159,6 +159,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="application\Enemy.cpp" />
     <ClCompile Include="engine\3d\camera\Camera.cpp" />
     <ClCompile Include="engine\3d\model\Object3d.cpp" />
     <ClCompile Include="engine\base\DirectXCommon\DirectXCommon.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="engine\2d\SpriteCommon.cpp" />
     <ClCompile Include="engine\base\WinApp\WinApp.cpp" />
     <ClCompile Include="engine\3d\model\Model.cpp" />
+    <ClCompile Include="application\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -273,6 +275,7 @@
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="application\Enemy.h" />
     <ClInclude Include="engine\3d\camera\Camera.h" />
     <ClInclude Include="engine\3d\model\Object3d.h" />
     <ClInclude Include="engine\base\DirectXCommon\DirectXCommon.h" />
@@ -286,6 +289,7 @@
     <ClInclude Include="engine\editor\LevelLoader.h" />
     <ClInclude Include="application\ParticleManager.h" />
     <ClInclude Include="engine\3d\model\Model.h" />
+    <ClInclude Include="application\Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="engine\audio\SoundManager.h" />
     <ClInclude Include="engine\2d\Sprite.h" />

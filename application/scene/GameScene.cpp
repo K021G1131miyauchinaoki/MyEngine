@@ -25,12 +25,12 @@ void GameScene::Initialize() {
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetTarget({ 0,0,0 });
-	camera->SetEye({ 0,0,-10 });
+	camera->SetEye({ 0,0,-20 });
 	camera->Update();
 	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
 
 	/*---------------- - FBX------------------------*/
-	fbxM = FbxLoader::GetInstance()->LoadModelFromFile("box");
+	fbxM = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 	//デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
 	// カメラをセット
@@ -50,9 +50,9 @@ void GameScene::Initialize() {
 	/*modelSkydome = Model::LoadFromOBJ("skydome");
 	modelGround = Model::LoadFromOBJ("ground");
 	modelChr = Model::LoadFromOBJ("chr_sword");
-	modelSphere = Model::LoadFromOBJ("sphere");
+	modelSphere = Model::LoadFromOBJ("sphere");*/
 	
-	objSkydome = Object3d::Create();
+	/*objSkydome = Object3d::Create();
 	objGround = Object3d::Create();
 	objChr = Object3d::Create();
 	objSphere = Object3d::Create();
@@ -65,46 +65,46 @@ void GameScene::Initialize() {
 	objSkydome->SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
 	objGround->SetPosition(XMFLOAT3(0.0f, 0.0f, -4.8f));
 	objChr->SetPosition(XMFLOAT3(-7.5f, 0.0f, 0.0f));
-	objSphere->SetPosition(XMFLOAT3(7.0f, 0.0f, 0.0f));
+	objSphere->SetPosition(XMFLOAT3(7.0f, 0.0f, 0.0f));*/
 
 
-	models.insert(std::make_pair("skydome", modelSkydome));
+	/*models.insert(std::make_pair("skydome", modelSkydome));
 	models.insert(std::make_pair("ground", modelGround));
 	models.insert(std::make_pair("chr_sword", modelChr));
 	models.insert(std::make_pair("sphere", modelSphere));*/
 
 	// レベルデータからオブジェクトを生成、配置
-	for (auto& objectData : levelData->objects) {
-		// ファイル名から登録済みモデルを検索
-		Model* model = nullptr;
-		decltype(models)::iterator it = models.find(objectData.fileName);
-		if (it != models.end()) {
-			model = it->second;
-		}
+	//for (auto& objectData : levelData->objects) {
+	//	// ファイル名から登録済みモデルを検索
+	//	Model* model = nullptr;
+	//	decltype(models)::iterator it = models.find(objectData.fileName);
+	//	if (it != models.end()) {
+	//		model = it->second;
+	//	}
 
-		// モデルを指定して3Dオブジェクトを生成
-		Object3d* newObject = Object3d::Create();
-		newObject->SetModel(model);
-		
+	//	// モデルを指定して3Dオブジェクトを生成
+	//	Object3d* newObject = Object3d::Create();
+	//	newObject->SetModel(model);
+	//	
 
-		// 座標
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMStoreFloat3(&pos, objectData.translation);
-		newObject->SetPosition(pos);
+	//	// 座標
+	//	DirectX::XMFLOAT3 pos;
+	//	DirectX::XMStoreFloat3(&pos, objectData.translation);
+	//	newObject->SetPosition(pos);
 
-		// 回転角
-		DirectX::XMFLOAT3 rot;
-		DirectX::XMStoreFloat3(&rot, objectData.rotation);
-		newObject->SetRotation(rot);
+	//	// 回転角
+	//	DirectX::XMFLOAT3 rot;
+	//	DirectX::XMStoreFloat3(&rot, objectData.rotation);
+	//	newObject->SetRotation(rot);
 
-		// 座標
-		DirectX::XMFLOAT3 scale;
-		DirectX::XMStoreFloat3(&scale, objectData.scaling);
-		newObject->SetScale(scale);
+	//	// 座標
+	//	DirectX::XMFLOAT3 scale;
+	//	DirectX::XMStoreFloat3(&scale, objectData.scaling);
+	//	newObject->SetScale(scale);
 
-		// 配列に登録
-		objects.push_back(newObject);
-	}
+	//	// 配列に登録
+	//	objects.push_back(newObject);
+	//}
 
 	//spriteCommon->Loadtexture(1,)
 }

@@ -1,6 +1,9 @@
 #include "FbxModel.h"
 
 void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList) {
+	// nullptrチェック
+	assert(cmdList);
+
 	//頂点バッファをセット(VBV)
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファをセット(IBV)
@@ -18,7 +21,7 @@ void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList) {
 void FbxModel::CreateBuffers(ID3D12Device*device) {
 	HRESULT result;
 	//頂点データ全体のサイズ
-	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUV) * vertices.size());
+	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUVSkin) * vertices.size());
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	// リソース設定
@@ -32,7 +35,7 @@ void FbxModel::CreateBuffers(ID3D12Device*device) {
 		nullptr,
 		IID_PPV_ARGS(&vertBuff));
 	//頂点バッファへのデータ転送
-	VertexPosNormalUV* vertMap = nullptr;
+	VertexPosNormalUVSkin* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result))
 	{
@@ -126,4 +129,9 @@ void FbxModel::CreateBuffers(ID3D12Device*device) {
 		&srvDesc,//テクスチャ設定情報
 		descHeapSRV->GetCPUDescriptorHandleForHeapStart()//ヒープの先頭アドレス
 	);
+}
+
+FbxModel::~FbxModel() {
+	//FBXシーン解放
+	fbxScene->Destroy();
 }
