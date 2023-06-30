@@ -13,7 +13,7 @@ public://ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	void Initialeze();
+	void Initialeze(const Model&model_,const Input&input);
 
 	/// <summary>
 	/// XV
