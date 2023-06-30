@@ -48,24 +48,24 @@ private:
 	//json読み込み
 	LevelData* levelData = nullptr;
 
-	/*Model* modelSkydome = nullptr;
+	Model* modelSkydome = nullptr;
 	Model* modelGround = nullptr;
 	Model* modelChr = nullptr;
-	Model* modelSphere = nullptr;*/
+	Model* modelSphere = nullptr;
 
 	/*Object3d* objSkydome = nullptr;
 	Object3d* objGround = nullptr;
 	Object3d* objChr = nullptr;
 	Object3d* objSphere = nullptr;*/
 
-	//std::map<std::string, Model*> models;
+	std::map<std::string, Model*> models;
 
-	//std::vector<Object3d*> objects;
+	std::vector<Object3d*> objects;
 
 	Sprite* s = nullptr;
 	//FBX
-	FbxModel* fbxM = nullptr;
-	FbxObject3d* fbxObj = nullptr;
+	//FbxModel* fbxM = nullptr;
+	//FbxObject3d* fbxObj = nullptr;
 	
 	//ゲーム終了フラグ
 	bool isEnd = false;
