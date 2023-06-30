@@ -78,6 +78,10 @@ public://メンバ関数
 	/// <param name="fbxModel">モデル</param>
 	void SetModel(FbxModel* fbxModel_) { this->fbxModel = fbxModel_; }
 
+	/// <summary>
+	/// アニメーション開始
+	/// </summary>
+	void PlayAnimation();
 
 protected://メンバ変数
 	//定数バッファ
@@ -94,5 +98,17 @@ protected://メンバ変数
 	XMMATRIX matWorld;
 	//モデル
 	FbxModel* fbxModel = nullptr; 
+
+private:
+	//1フレームの時間
+	FbxTime frameTime;
+	//アニメーション開始時間
+	FbxTime startTime;
+	//アニメーション終了時間
+	FbxTime endTime;
+	//現在時間（アニメーション）
+	FbxTime currentTime;
+	//アニメーション再生中
+	bool isPlay = false;
 };
 

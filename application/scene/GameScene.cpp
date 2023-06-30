@@ -30,7 +30,7 @@ void GameScene::Initialize() {
 	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
 
 	/*---------------- - FBX------------------------*/
-	fbxM = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+	fbxM = FbxLoader::GetInstance()->LoadModelFromFile("cube");
 	//デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
 	// カメラをセット
@@ -41,6 +41,7 @@ void GameScene::Initialize() {
 	fbxObj = new FbxObject3d;
 	fbxObj->Initialize();
 	fbxObj->SetModel(fbxM);
+	fbxObj->PlayAnimation();
 	
 	/*--------------レベルエディタ----------------*/
 	// レベルデータの読み込み
