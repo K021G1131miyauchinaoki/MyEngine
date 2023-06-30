@@ -1,7 +1,7 @@
 #include "Player.h"
 
-void Player::Initialeze() {
-
+void Player::Initialeze(const Model& model_, const Input& input) {
+	obj = std::make_unique<Object3d>();
 }
 
 void Player::Updata() {
