@@ -5,6 +5,7 @@
 #include<memory>
 #include<list>
 #include<Bullet.h>
+#include<Aimposition.h>
 
 
 class Player
@@ -16,7 +17,7 @@ public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialeze(Model*model_,Input*input_);
+	void Initialeze(Model*model_,Input*input_,Aimposition*aim_);
 
 	/// <summary>
 	/// 更新
@@ -38,11 +39,15 @@ public://メンバ関数
 	/// </summary>
 	void Shot();
 
-
+	/// <summary>
+	/// 回転
+	/// </summary>
+	void Rotate();
 
 private://メンバ変数
 	Input*input = nullptr;
 	Model* model = nullptr;
+	Aimposition* aim;
 	std::unique_ptr<Object3d>obj = nullptr;
 	//弾
 	std::list<std::unique_ptr<Bullet>> bullets_;

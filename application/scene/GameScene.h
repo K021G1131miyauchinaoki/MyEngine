@@ -18,6 +18,7 @@
 #include"FbxModel.h"
 
 #include<Player.h>
+#include<Aimposition.h>
 
 class GameScene:public Framework
 {
@@ -30,6 +31,8 @@ public://メンバ関数
 	void Update()override;
 	//描画
 	void Draw()override;
+
+	bool IsEndRequst() override;
 
 private:
 	// WindowsAPI
@@ -69,8 +72,9 @@ private:
 	//FbxModel* fbxM = nullptr;
 	//FbxObject3d* fbxObj = nullptr;
 	std::unique_ptr<Player> player;
+	std::unique_ptr<Aimposition> aim;
 
 	//ゲーム終了フラグ
-	bool isEnd = false;
+	bool isEndRequst = false;
 };
 

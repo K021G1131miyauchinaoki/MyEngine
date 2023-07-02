@@ -10,7 +10,7 @@ public://メンバ関数
 	//更新
 	virtual	void Update();
 	//描画
-	virtual	void Draw();
+	virtual	void Draw() = 0;
 	//実行
 	void Run();
 	//終了チェック
