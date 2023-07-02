@@ -131,10 +131,11 @@ public: // メンバ関数
 	/// <param name="position">座標</param>
 	void SetScale(const XMFLOAT3& scale_) { this->scale = scale_; }
 
-	//セッター
+	//モデルセッター
 	void	SetModel(Model* model_) { model = model_; }
 
-
+	//ペアレント設定
+	void SetParent(Object3d* parent_) { parent = parent_; }
 
 
 private: // メンバ変数

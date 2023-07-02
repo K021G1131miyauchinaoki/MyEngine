@@ -63,34 +63,7 @@
                     1.0
                 ]
             },
-            "file_name": "chr_sword",
-            "children": [
-                {
-                    
-                }
-            ]
-        },
-        {
-            "type": "MESH",
-                    "name": "sphere",
-                    "transform": {
-                        "translation": [
-                            0.0,
-                            6.748951435089111,
-                            0.0
-                        ],
-                        "rotation": [
-                            0.0,
-                            -0.0,
-                            0.0
-                        ],
-                        "scaling": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ]
-                    },
-                    "file_name": "sphere"
+            "file_name": "chr_sword"
         },
         {
             "type": "MESH",
@@ -135,6 +108,28 @@
                 ]
             },
             "file_name": "skydome"
+        },
+        {
+            "type": "MESH",
+            "name": "sphere",
+            "transform": {
+                "translation": [
+                    0.0,
+                    12.903396606445312,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "sphere"
         }
     ]
 }
