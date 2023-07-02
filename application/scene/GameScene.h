@@ -17,6 +17,7 @@
 #include"FbxObject3d.h"
 #include"FbxModel.h"
 
+#include<Player.h>
 
 class GameScene:public Framework
 {
@@ -52,11 +53,12 @@ private:
 	Model* modelGround = nullptr;
 	Model* modelChr = nullptr;
 	Model* modelSphere = nullptr;
+	Model* box = nullptr;
 
-	/*Object3d* objSkydome = nullptr;
+	Object3d* objSkydome = nullptr;
 	Object3d* objGround = nullptr;
 	Object3d* objChr = nullptr;
-	Object3d* objSphere = nullptr;*/
+	std::unique_ptr < Object3d> objSphere = nullptr;
 
 	std::map<std::string, Model*> models;
 
@@ -66,7 +68,8 @@ private:
 	//FBX
 	//FbxModel* fbxM = nullptr;
 	//FbxObject3d* fbxObj = nullptr;
-	
+	std::unique_ptr<Player> player;
+
 	//ゲーム終了フラグ
 	bool isEnd = false;
 };

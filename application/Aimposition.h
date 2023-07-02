@@ -1,22 +1,16 @@
 #pragma once
-#include<Input.h>
+#include<DirectXMath.h>
 #include<Model.h>
-#include"Object3d.h"
-#include<memory>
-#include<list>
-#include<Bullet.h>
+#include<Object3d.h>
+#include<Input.h>
 
-
-class Player
+class Aimposition
 {
-public://静的メンバ関数
-	Player GetInstnce();
-
 public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialeze(Model*model_,Input*input_);
+	void Initialeze(Model* model_, Input* input_);
 
 	/// <summary>
 	/// 更新
@@ -33,21 +27,12 @@ public://メンバ関数
 	/// </summary>
 	void Move();
 
-	/// <summary>
-	/// 発射
-	/// </summary>
-	void Shot();
-
-
-
 private://メンバ変数
-	Input*input = nullptr;
+	Input* input = nullptr;
 	Model* model = nullptr;
 	std::unique_ptr<Object3d>obj = nullptr;
-	//弾
-	std::list<std::unique_ptr<Bullet>> bullets_;
-	//Bullet* one;
 	//クールタイム
 	int32_t coolTime;
 };
+
 

@@ -25,7 +25,7 @@ void GameScene::Initialize() {
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetTarget({ 0,0,0 });
-	camera->SetEye({ 0,5,-20 });
+	camera->SetEye({ 0,30,-10 });
 	camera->Update();
 	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
 
@@ -43,32 +43,18 @@ void GameScene::Initialize() {
 	//fbxObj->SetModel(fbxM);
 	//fbxObj->PlayAnimation();
 	
-	/*--------------レベルエディタ----------------*/
-	// レベルデータの読み込み
-	levelData = LevelLoader::LoadJson("testScene");
-
 	// モデル読み込み
 	modelSkydome = Model::LoadFromOBJ("skydome");
 	modelGround = Model::LoadFromOBJ("ground");
 	modelChr = Model::LoadFromOBJ("chr_sword");
 	modelSphere = Model::LoadFromOBJ("sphere");
+	box = Model::LoadFromOBJ("player");
 	
-	/*objSkydome = Object3d::Create();
-	objGround = Object3d::Create();
-	objChr = Object3d::Create();
-	objSphere = Object3d::Create();
-
-	objSkydome->SetModel(modelSkydome);
-	objGround->SetModel(modelGround);
-	objChr->SetModel(modelChr);
-	objSphere->SetModel(modelSphere);
+	/*--------------レベルエディタ----------------*/
+	// レベルデータの読み込み
+	levelData = LevelLoader::LoadJson("testScene");
 	
-	objSkydome->SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
-	objGround->SetPosition(XMFLOAT3(0.0f, 0.0f, -4.8f));
-	objChr->SetPosition(XMFLOAT3(-7.5f, 0.0f, 0.0f));
-	objSphere->SetPosition(XMFLOAT3(7.0f, 0.0f, 0.0f));*/
-
-
+	//std::mapに格納
 	models.insert(std::make_pair("skydome", modelSkydome));
 	models.insert(std::make_pair("ground", modelGround));
 	models.insert(std::make_pair("chr_sword", modelChr));
@@ -106,8 +92,8 @@ void GameScene::Initialize() {
 		// 配列に登録
 		objects.push_back(newObject);
 	}
-
-	//spriteCommon->Loadtexture(1,)
+	player = std::make_unique<Player>();
+	player->Initialeze(box,input);
 }
 
 void GameScene::Update(){
@@ -123,16 +109,14 @@ void GameScene::Update(){
 	
 	//------------------------------
 	
-	/*objSkydome->Update();
-	objGround->Update();
-	objChr->Update();
-	objSphere->Update();*/
+
 	camera->Update();
+	player->Updata();
 	//fbxObj->Update();
 
-	for (auto object : objects) {
-		object->Update();
-	}
+	//for (auto object : objects) {
+	//	object->Update();
+	//}
 
 }
 
@@ -144,17 +128,12 @@ void GameScene::Draw(){
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	//triangle->Draw();
-	//square->Draw();
-	for (auto object : objects) {
+
+	/*for (auto object : objects) {
 		object->Draw();
-	}
-	//objSkydome->Draw();
-	//objGround->Draw();
-	//objChr->Draw();
-	//objSphere->Draw();
+	}*/
 
-
+	player->Draw();
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 	//fbxObj->Draw(dxCommon->GetCommandList());

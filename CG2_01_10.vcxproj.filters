@@ -94,6 +94,10 @@
       <Filter>application</Filter>
     </ClCompile>
     <ClCompile Include="application\Enemy.cpp" />
+    <ClCompile Include="application\Bullet.cpp">
+      <Filter>application</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Aimposition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\scene\GameScene.h">
@@ -154,6 +158,10 @@
       <Filter>application</Filter>
     </ClInclude>
     <ClInclude Include="application\Enemy.h" />
+    <ClInclude Include="application\Bullet.h">
+      <Filter>application</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Aimposition.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
