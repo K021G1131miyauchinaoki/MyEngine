@@ -32,6 +32,8 @@ public://メンバ関数
 	//描画
 	void Draw()override;
 
+	bool IsEndRequst() override;
+
 private:
 	// WindowsAPI
 	WinApp* winApp = nullptr;
@@ -73,6 +75,6 @@ private:
 	std::unique_ptr<Aimposition> aim;
 
 	//ゲーム終了フラグ
-	bool isEnd = false;
+	bool isEndRequst = false;
 };
 

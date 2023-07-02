@@ -102,7 +102,7 @@ void GameScene::Initialize() {
 void GameScene::Update(){
 #pragma region メッセージ
 	if (winApp->ProcessMessage()|| input->PushKey(DIK_ESCAPE)) {
-		isEnd = true;
+		isEndRequst = true;
 	}
 #pragma endregion
 	input->Update();
@@ -151,6 +151,10 @@ void GameScene::Draw(){
 	//imguiM->Draw();
 
 	dxCommon->PostDraw();
+}
+
+bool GameScene::IsEndRequst(){
+	return isEndRequst;
 }
 
 void GameScene::Finalize(){
