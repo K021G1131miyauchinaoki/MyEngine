@@ -27,6 +27,9 @@ public://ƒƒ“ƒoŠÖ”
 	/// </summary>
 	void Move();
 
+	//
+	DirectX::XMFLOAT3 GetPosition();
+
 private://ƒƒ“ƒo•Ï”
 	Input* input = nullptr;
 	Model* model = nullptr;

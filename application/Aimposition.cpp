@@ -10,7 +10,7 @@ void Aimposition::Initialeze(Model* model_, Input* input_) {
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
-	obj->SetPosition({ 0.0f,0.0f,0.0f });
+	obj->SetPosition({ 6.0f,0.0f,0.0f });
 	obj->SetScale({ 2.0f,2.0f,2.0f });
 	obj->Update();
 	coolTime = 0;
@@ -42,4 +42,14 @@ void Aimposition::Move() {
 		move.x += speed;
 	}
 	obj->SetPosition(move);
+}
+
+//ワールド座標を渡す
+DirectX::XMFLOAT3 Aimposition::GetPosition() {
+	//座標を格納
+	DirectX::XMFLOAT3 worldPos;
+	//ワールド行列の平行移動成分を取得
+	worldPos = obj->GetPosition();
+
+	return worldPos;
 }

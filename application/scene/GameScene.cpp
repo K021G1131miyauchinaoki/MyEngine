@@ -44,10 +44,10 @@ void GameScene::Initialize() {
 	//fbxObj->PlayAnimation();
 	
 	// モデル読み込み
-	modelSkydome = Model::LoadFromOBJ("skydome");
+	/*modelSkydome = Model::LoadFromOBJ("skydome");
 	modelGround = Model::LoadFromOBJ("ground");
 	modelChr = Model::LoadFromOBJ("chr_sword");
-	modelSphere = Model::LoadFromOBJ("sphere");
+	modelSphere = Model::LoadFromOBJ("sphere");*/
 	box = Model::LoadFromOBJ("player");
 	
 	/*--------------レベルエディタ----------------*/
@@ -55,13 +55,13 @@ void GameScene::Initialize() {
 	levelData = LevelLoader::LoadJson("testScene");
 	
 	//std::mapに格納
-	models.insert(std::make_pair("skydome", modelSkydome));
+	/*models.insert(std::make_pair("skydome", modelSkydome));
 	models.insert(std::make_pair("ground", modelGround));
 	models.insert(std::make_pair("chr_sword", modelChr));
-	models.insert(std::make_pair("sphere", modelSphere));
+	models.insert(std::make_pair("sphere", modelSphere));*/
 
 	// レベルデータからオブジェクトを生成、配置
-	for (auto& objectData : levelData->objects) {
+	/*for (auto& objectData : levelData->objects) {
 		// ファイル名から登録済みモデルを検索
 		Model* model = nullptr;
 		decltype(models)::iterator it = models.find(objectData.fileName);
@@ -91,9 +91,12 @@ void GameScene::Initialize() {
 
 		// 配列に登録
 		objects.push_back(newObject);
-	}
+	}*/
+
+	aim= std::make_unique<Aimposition>();
+	aim->Initialeze(box, input);
 	player = std::make_unique<Player>();
-	player->Initialeze(box,input);
+	player->Initialeze(box,input,aim.get());
 }
 
 void GameScene::Update(){
@@ -112,6 +115,7 @@ void GameScene::Update(){
 
 	camera->Update();
 	player->Updata();
+	aim->Updata();
 	//fbxObj->Update();
 
 	//for (auto object : objects) {
@@ -134,6 +138,7 @@ void GameScene::Draw(){
 	}*/
 
 	player->Draw();
+	aim->Draw();
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 	//fbxObj->Draw(dxCommon->GetCommandList());

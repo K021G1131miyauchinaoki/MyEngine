@@ -18,6 +18,7 @@
 #include"FbxModel.h"
 
 #include<Player.h>
+#include<Aimposition.h>
 
 class GameScene:public Framework
 {
@@ -69,6 +70,7 @@ private:
 	//FbxModel* fbxM = nullptr;
 	//FbxObject3d* fbxObj = nullptr;
 	std::unique_ptr<Player> player;
+	std::unique_ptr<Aimposition> aim;
 
 	//ゲーム終了フラグ
 	bool isEnd = false;
