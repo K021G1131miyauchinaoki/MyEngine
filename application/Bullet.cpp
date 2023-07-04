@@ -11,6 +11,7 @@ void Bullet::Initialize(Model* model, const DirectX::XMFLOAT3& position, const D
 	obj->SetModel(model);
 	obj->SetPosition(position);
 	obj->Update();
+	deathTimer = kLifeTime;
 }
 
 void Bullet::Update() {
@@ -43,4 +44,13 @@ void Bullet::OnCollision() { isDead_ = true; }
 
 void Bullet::Draw() {
 	obj->Draw();
+}
+
+//コンストラクタ
+Bullet::Bullet() {
+	
+}
+//デストラクタ
+Bullet::~Bullet() {
+	
 }

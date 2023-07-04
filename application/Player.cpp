@@ -131,7 +131,8 @@ void Player::Rotate() {
 	vec.x = b.x - a.x;
 	vec.z = b.z - a.z;
 	vec = normaleize(vec);
-	float angle = -(atan2(vec.z, vec.x)) ;
+	float angle = -((atan2(vec.z, vec.x)));
+	angle = (180 / 3.14) * angle;
 	obj->SetRotation({0.0f,angle,0.0f});
 	obj->GetRotation();
 }
