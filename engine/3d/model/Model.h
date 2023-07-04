@@ -73,7 +73,7 @@ public: // サブクラス
 	};
 private:
 	//デバイス
-	static	ID3D12Device* device;
+	static ComPtr<ID3D12Device> device;
 private://メンバ変数
 	//頂点インデックス配列
 	std::vector<unsigned short>indices;

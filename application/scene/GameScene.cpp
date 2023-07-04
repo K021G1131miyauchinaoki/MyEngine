@@ -168,7 +168,6 @@ void GameScene::Finalize(){
 	delete	input;
 	delete winApp;
 	delete	dxCommon;
-	delete	spriteCommon;
 	/*delete modelChr;
 	delete modelGround;
 	delete modelSkydome;

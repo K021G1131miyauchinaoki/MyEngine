@@ -27,7 +27,7 @@ private:
 	//速度
 	DirectX::XMFLOAT3 velocity_;
 	//消滅
-	static const int32_t kLifeTime = 10;
+	static const int32_t kLifeTime = 30;
 	//デスタイマー
 	int32_t deathTimer;
 	//デスフラグ
