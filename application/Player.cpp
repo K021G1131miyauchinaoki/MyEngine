@@ -12,6 +12,26 @@ XMFLOAT3& normaleize(XMFLOAT3 vec) {
 
 	return vec;
 }
+
+//Vector3 Vec_rot(Vector3 velocity, Matrix4 amount) {
+//	Vector3 Rot;
+//
+//	Rot.x = velocity.x * amount.m[0][0];
+//	Rot.x += velocity.y * amount.m[1][0];
+//	Rot.x += velocity.z * amount.m[2][0];
+//
+//	Rot.y = velocity.x * amount.m[0][1];
+//	Rot.y += velocity.y * amount.m[1][1];
+//	Rot.y += velocity.z * amount.m[2][1];
+//
+//	Rot.z = velocity.x * amount.m[0][2];
+//	Rot.z += velocity.y * amount.m[1][2];
+//	Rot.z += velocity.z * amount.m[2][2];
+//
+//	return Rot;
+//}
+
+
 void Player::Initialeze( Model* model_, Input* input_,Aimposition* aim_) {
 	assert(model_);
 	assert(input_);
@@ -30,6 +50,8 @@ void Player::Initialeze( Model* model_, Input* input_,Aimposition* aim_) {
 }
 
 void Player::Updata() {
+	//デスフラグの立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<Bullet>& bullet) { return bullet->IsDead(); });
 	Rotate();
 	Move();
 	Shot();
@@ -102,18 +124,14 @@ void Player::Shot() {
 }
 
 void Player::Rotate() {
-	//XMFLOAT3 a = obj->GetPosition();
-	XMFLOAT3 a = obj->GetRotation();
+	XMFLOAT3 a = obj->GetPosition();
+	//XMFLOAT3 a = obj->GetRotation();
 	XMFLOAT3 b = aim->GetPosition();
-	XMFLOAT3 vec;
-	vec.x = b.x * a.x;
-	vec.y = b.y * a.y;
-	vec.z = b.z * a.z;
-	float angle = atan2(vec.z, vec.x);
-	float rotX = cos(angle);
-	float rotZ = sin(angle);
-	float rot = std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
-
-	a.y = std::sqrt(vec.x * vec.x + vec.z * vec.z);
-	obj->SetRotation({a});
+	XMFLOAT3 vec = { 0,0,0 };
+	vec.x = b.x - a.x;
+	vec.z = b.z - a.z;
+	vec = normaleize(vec);
+	float angle = -(atan2(vec.z, vec.x)) ;
+	obj->SetRotation({0.0f,angle,0.0f});
+	obj->GetRotation();
 }

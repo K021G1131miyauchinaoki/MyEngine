@@ -54,5 +54,8 @@ private://メンバ変数
 	//Bullet* one;
 	//クールタイム
 	int32_t coolTime;
+
+	float h = 0.0f;
+	float angle = 0.0f;
 };
 

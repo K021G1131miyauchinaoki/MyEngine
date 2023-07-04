@@ -52,20 +52,20 @@ private:
 	//jsonì«Ç›çûÇ›
 	LevelData* levelData = nullptr;
 
-	Model* modelSkydome = nullptr;
+	/*Model* modelSkydome = nullptr;
 	Model* modelGround = nullptr;
 	Model* modelChr = nullptr;
-	Model* modelSphere = nullptr;
+	Model* modelSphere = nullptr;*/
 	Model* box = nullptr;
 
-	Object3d* objSkydome = nullptr;
+	/*Object3d* objSkydome = nullptr;
 	Object3d* objGround = nullptr;
-	Object3d* objChr = nullptr;
-	std::unique_ptr < Object3d> objSphere = nullptr;
+	Object3d* objChr = nullptr;*/
+	//std::unique_ptr < Object3d> objSphere = nullptr;
 
 	std::map<std::string, Model*> models;
 
-	std::vector<Object3d*> objects;
+	//std::vector<Object3d*> objects;
 
 	Sprite* s = nullptr;
 	//FBX
