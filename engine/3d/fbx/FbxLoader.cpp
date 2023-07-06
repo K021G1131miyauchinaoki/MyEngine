@@ -88,7 +88,7 @@ FbxModel* FbxLoader::LoadModelFromFile(const string&modelName)
     model->fbxScene = fbxScene;
 
     //バッファ生成
-    model->CreateBuffers(device);
+    model->CreateBuffers(device.Get());
 
     return model;
 }

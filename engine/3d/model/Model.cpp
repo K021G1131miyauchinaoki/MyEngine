@@ -2,7 +2,7 @@
 #include"DirectXTex.h"
 
 //静的メンバ変数の実体
-ID3D12Device* Model::device = nullptr;
+ComPtr < ID3D12Device> Model::device = nullptr;
 
 Model* Model::LoadFromOBJ(const	std::string& modelname) {
 	//インスタンスの生成

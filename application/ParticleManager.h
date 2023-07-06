@@ -120,7 +120,7 @@ private: // 静的メンバ変数
 	static	UINT	incrementSize;
 	static	std::string defaultTextureDirectoryPath;
 	// デバイス
-	static ID3D12Device* device;
+	static ComPtr<ID3D12Device> device;
 	// デスクリプタサイズ
 	static UINT descriptorHandleIncrementSize;
 	// コマンドリスト

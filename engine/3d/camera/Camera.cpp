@@ -26,7 +26,7 @@ void	Camera::UpdateView() {
 void	Camera::UpdateProjection() {
 	// “§‹“Š‰e‚É‚æ‚éË‰es—ñ‚Ì¶¬
 	matProjection = DirectX::XMMatrixPerspectiveFovLH(
-		XMConvertToRadians(100.0f),
+		XMConvertToRadians(60.0f),
 		(float)WinApp::width / WinApp::height,
 		0.1f, 1000.0f);
 }

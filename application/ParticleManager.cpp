@@ -16,7 +16,7 @@ std::string ParticleManager::defaultTextureDirectoryPath = "Resources/";
 /// </summary>
 const float ParticleManager::radius = 5.0f;				// íÍñ ÇÃîºåa
 const float ParticleManager::prizmHeight = 8.0f;			// íåÇÃçÇÇ≥
-ID3D12Device* ParticleManager::device = nullptr;
+ComPtr<ID3D12Device> ParticleManager::device = nullptr;
 UINT ParticleManager::descriptorHandleIncrementSize = 0;
 UINT ParticleManager::incrementSize = 0;
 ID3D12GraphicsCommandList* ParticleManager::cmdList = nullptr;

@@ -6,10 +6,13 @@
 class Bullet
 {
 public:
+	Bullet();
+	~Bullet();
 	void Initialize(Model* model, const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& veclocity);
 	void Update();
 	void Draw();
 	bool IsDead() const { return isDead_; }
+
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 	//ワールド座標を取得
@@ -24,9 +27,9 @@ private:
 	//速度
 	DirectX::XMFLOAT3 velocity_;
 	//消滅
-	static const int32_t kLifeTime = 60 * 5;
+	static const int32_t kLifeTime = 30;
 	//デスタイマー
-	int32_t deathTimer = kLifeTime;
+	int32_t deathTimer;
 	//デスフラグ
 	bool isDead_ = false;
 

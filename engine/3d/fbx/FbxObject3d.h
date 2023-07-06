@@ -48,7 +48,7 @@ public://静的メンバ関数
 
 private://静的メンバ変数
 	//デバイス
-	static ID3D12Device* device;
+	static Microsoft::WRL::ComPtr <ID3D12Device> device;
 	//カメラ
 	static Camera* camera;
 	//ルートシグネチャ
