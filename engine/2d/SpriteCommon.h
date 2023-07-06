@@ -36,7 +36,7 @@ public://Ã“Iƒƒ“ƒoŠÖ”
 	//ID3D12RootSignature* GetRootSignature()const { return rootSignature; }
 private://ƒƒ“ƒo•Ï”
 	DirectXCommon* directXCom = nullptr;
-	ID3D12Device* device = nullptr;
+	Microsoft::WRL::ComPtr <ID3D12Device> device = nullptr;
 	HRESULT	result;
 	ID3D12PipelineState* pipelineState = nullptr;
 	ID3D12DescriptorHeap* srvHeap = nullptr;

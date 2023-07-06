@@ -2,7 +2,7 @@
 
 #include "fbxsdk.h"
 #include"FbxModel.h"
-
+#include<wrl.h>
 #include <d3d12.h>
 #include <d3dx12.h>
 #include<string>
@@ -89,7 +89,7 @@ public:
 
 private:
 	//d3d12デバイス
-	ID3D12Device* device = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Device> device = nullptr;
 	//FBXマネージャ
 	FbxManager* fbxManager = nullptr;
 	FbxImporter* fbxImporter = nullptr;
