@@ -221,31 +221,26 @@ void DirectXCommon::PreDraw() {
 	// バックバッファの番号を取得(2つなので0番か1番)
 	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
 
-	// 1.リソースバリアで書き込み可能に変更
+	//リソースバリアで書き込み可能に変更
 	barrierDesc.Transition.pResource = backBuffers[bbIndex].Get(); // バックバッファを指定
 	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // 表示状態から
 	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
 	comList->ResourceBarrier(1, &barrierDesc);
 
-	// 2.描画先の変更
+	// 描画先の変更
 	// レンダーターゲットビューのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
 	rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
 	D3D12_CPU_DESCRIPTOR_HANDLE	dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
 	comList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 
-	// 3.画面クリア R G B A
+	// 画面クリア R G B A
 	//値を書き込むと自動的に転送される
 	FLOAT clearColor[4] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
 	comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 	comList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-	//スペースキーが押されていたら
-	//if (key[DIK_SPACE])
-	//{
-	//	FLOAT clearColor[] = { 0.5f,0.5f, 0.5f,0.0f };
-	//	comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-	//}
-	// 4.描画コマンドここから
+
+	//描画コマンドここから
 
 	// ビューポート設定コマンド
 	D3D12_VIEWPORT viewport{};

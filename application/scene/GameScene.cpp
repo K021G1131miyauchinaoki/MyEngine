@@ -15,40 +15,40 @@ void GameScene::Initialize() {
 	//静的初期化
 	//---------------------------2D----------------------------------
 
-	//スプライト共通部分の初期化
-	
-	//imgui
-	
 
 	//---------------------------3D----------------------------------
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetTarget({ 0,0,0 });
-	camera->SetEye({ 0,30,-10 });
+	camera->SetEye({ 0,0,-20 });
 	camera->Update();
 	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
 
 	/*---------------- - FBX------------------------*/
-	//fbxM = FbxLoader::GetInstance()->LoadModelFromFile("cube");
-	////デバイスをセット
-	//FbxObject3d::SetDevice(dxCommon->GetDevice());
-	//// カメラをセット
-	//FbxObject3d::SetCamera(camera.get());
-	////グラフィックパイプライン生成
-	//FbxObject3d::CreateGraphicsPipeline();
-	////3Dオブジェクト生成とモデルセット
-	//fbxObj = new FbxObject3d;
-	//fbxObj->Initialize();
-	//fbxObj->SetModel(fbxM);
-	//fbxObj->PlayAnimation();
+	fbxM = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+	//デバイスをセット
+	FbxObject3d::SetDevice(dxCommon->GetDevice());
+	// カメラをセット
+	FbxObject3d::SetCamera(camera.get());
+	//グラフィックパイプライン生成
+	FbxObject3d::CreateGraphicsPipeline();
+	//3Dオブジェクト生成とモデルセット
+	fbxObj = new FbxObject3d;
+	fbxObj->Initialize();
+	fbxObj->SetModel(fbxM);
+	fbxObj->PlayAnimation();
 	
 	// モデル読み込み
-	/*modelSkydome = Model::LoadFromOBJ("skydome");
-	modelGround = Model::LoadFromOBJ("ground");
+	modelSkydome = Model::LoadFromOBJ("skydome");
+	/*modelGround = Model::LoadFromOBJ("ground");
 	modelChr = Model::LoadFromOBJ("chr_sword");
 	modelSphere = Model::LoadFromOBJ("sphere");*/
 	box = Model::LoadFromOBJ("player");
+
+	objSkydome = std::make_unique<Object3d>();
+	objSkydome->Initialize();
+	objSkydome->SetModel(modelSkydome);
 	
 	/*--------------レベルエディタ----------------*/
 	// レベルデータの読み込み
@@ -97,6 +97,11 @@ void GameScene::Initialize() {
 	aim->Initialeze(box, input);
 	player = std::make_unique<Player>();
 	player->Initialeze(box,input,aim.get());
+
+	//ポストエフェクト
+	PostEffect::StaticInitialize(dxCommon);
+	pe = new PostEffect;
+	pe->Initialize();
 }
 
 void GameScene::Update(){
@@ -116,12 +121,12 @@ void GameScene::Update(){
 	camera->Update();
 	player->Updata();
 	aim->Updata();
-	//fbxObj->Update();
+	objSkydome->Update();
+	fbxObj->Update();
 
 	//for (auto object : objects) {
 	//	object->Update();
 	//}
-
 }
 
 void GameScene::Draw(){
@@ -137,11 +142,12 @@ void GameScene::Draw(){
 		object->Draw();
 	}*/
 
-	player->Draw();
-	aim->Draw();
+	objSkydome->Draw();
+	//player->Draw();
+	//aim->Draw();
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
-	//fbxObj->Draw(dxCommon->GetCommandList());
+	fbxObj->Draw(dxCommon->GetCommandList());
 
 	//パーティクル描画
 	
@@ -149,6 +155,7 @@ void GameScene::Draw(){
 
 	//imgui
 	//imguiM->Draw();
+	pe->Draw(dxCommon->GetCommandList());
 
 	dxCommon->PostDraw();
 }
