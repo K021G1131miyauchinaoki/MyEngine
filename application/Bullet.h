@@ -8,7 +8,7 @@ class Bullet
 public:
 	Bullet();
 	~Bullet();
-	void Initialize(Model* model, const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& veclocity);
+	void Initialize(Model* model, const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& veclocity, const DirectX::XMFLOAT3& rotation_);
 	void Update();
 	void Draw();
 	bool IsDead() const { return isDead_; }

@@ -77,6 +77,6 @@ private:
 	bool isEndRequst = false;
 
 	//ポストエフェクト
-	PostEffect* pe;
+	//PostEffect* pe;
 };
 

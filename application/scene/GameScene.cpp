@@ -21,7 +21,7 @@ void GameScene::Initialize() {
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetTarget({ 0,0,0 });
-	camera->SetEye({ 0,0,-20 });
+	camera->SetEye({ 0,40,-20 });
 	camera->Update();
 	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
 
@@ -100,8 +100,8 @@ void GameScene::Initialize() {
 
 	//ポストエフェクト
 	PostEffect::StaticInitialize(dxCommon);
-	pe = new PostEffect;
-	pe->Initialize();
+	//pe = new PostEffect;
+	//pe->Initialize();
 }
 
 void GameScene::Update(){
@@ -143,8 +143,8 @@ void GameScene::Draw(){
 	}*/
 
 	objSkydome->Draw();
-	//player->Draw();
-	//aim->Draw();
+	player->Draw();
+	aim->Draw();
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 	fbxObj->Draw(dxCommon->GetCommandList());
@@ -155,7 +155,7 @@ void GameScene::Draw(){
 
 	//imgui
 	//imguiM->Draw();
-	pe->Draw(dxCommon->GetCommandList());
+	//pe->Draw(dxCommon->GetCommandList());
 
 	dxCommon->PostDraw();
 }

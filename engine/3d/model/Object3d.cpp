@@ -23,13 +23,13 @@ ComPtr<ID3D12RootSignature> Object3d::rootsignature;
 ComPtr<ID3D12PipelineState> Object3d::pipelinestate;
 Camera* Object3d::camera = nullptr;
 
-void Object3d::StaticInitialize(ID3D12Device* device, int window_width, int window_height, Camera* camera_)
+void Object3d::StaticInitialize(ID3D12Device* device_, int window_width, int window_height, Camera* camera_)
 {
 	// nullptrチェック
-	assert(device);
+	assert(device_);
 
-	Object3d::device = device;
-	Model::SetDevice(device);
+	Object3d::device = device_;
+	Model::SetDevice(device_);
 
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
@@ -38,20 +38,20 @@ void Object3d::StaticInitialize(ID3D12Device* device, int window_width, int wind
 	camera = camera_;
 }
 
-void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
+void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList_)
 {
 	// PreDrawとPostDrawがペアで呼ばれていなければエラー
 	assert(Object3d::cmdList == nullptr);
 
 	// コマンドリストをセット
-	Object3d::cmdList = cmdList;
+	Object3d::cmdList = cmdList_;
 
 	// パイプラインステートの設定
-	cmdList->SetPipelineState(pipelinestate.Get());
+	cmdList_->SetPipelineState(pipelinestate.Get());
 	// ルートシグネチャの設定
-	cmdList->SetGraphicsRootSignature(rootsignature.Get());
+	cmdList_->SetGraphicsRootSignature(rootsignature.Get());
 	// プリミティブ形状を設定
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 void Object3d::PostDraw()
