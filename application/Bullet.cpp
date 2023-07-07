@@ -1,7 +1,7 @@
 #include "Bullet.h"
 
 #include<assert.h>
-void Bullet::Initialize(Model* model, const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& velocity) {
+void Bullet::Initialize(Model* model, const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& velocity,const DirectX::XMFLOAT3& rotation){
 	//NULLポインタチェック
 	assert(model);
 	model_ = model;
@@ -9,6 +9,7 @@ void Bullet::Initialize(Model* model, const DirectX::XMFLOAT3& position, const D
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model);
+	obj->SetRotation(rotation);
 	obj->SetPosition(position);
 	obj->Update();
 	deathTimer = kLifeTime;

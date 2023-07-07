@@ -17,10 +17,10 @@ FbxLoader* FbxLoader::GetInstance()
 
 void FbxLoader::ConvertMatrixFromFbx(DirectX::XMMATRIX* dst, const FbxAMatrix& src) {
     //行
-    for (size_t i = 0; i < 4; i++)
+    for (int32_t i = 0; i < 4; i++)
     {
         //列
-        for (size_t j = 0; j < 4; j++)
+        for (int32_t j = 0; j < 4; j++)
         {
             //1要素コピー
             dst->r[i].m128_f32[j] = (float)src.Get(i, j);
@@ -347,7 +347,7 @@ void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh) {
     bones.reserve(clusterCount);
 
     //全てのボーンについて
-    for (size_t i = 0; i < clusterCount; i++)
+    for (int32_t i = 0; i < clusterCount; i++)
     {
         //FBXボーン情報
         FbxCluster* fbxCluster = fbxSkin->GetCluster(i);
@@ -384,7 +384,7 @@ void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh) {
     std::vector<std::list<WeightSet>>weightLists(model->vertices.size());
 
     //全てのボーンについて
-    for (size_t i = 0; i < clusterCount; i++)
+    for (int32_t i = 0; i < clusterCount; i++)
     {
         //FBXボーン情報
         FbxCluster* fbxCluster = fbxSkin->GetCluster(i);

@@ -34,6 +34,12 @@
     <FxCompile Include="Resources\shaders\FBXVS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEefectPSr.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEefectVS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\input\Input.cpp">
@@ -98,6 +104,7 @@
       <Filter>application</Filter>
     </ClCompile>
     <ClCompile Include="application\Aimposition.cpp" />
+    <ClCompile Include="engine\2d\PostEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\scene\GameScene.h">
@@ -162,6 +169,7 @@
       <Filter>application</Filter>
     </ClInclude>
     <ClInclude Include="application\Aimposition.h" />
+    <ClInclude Include="engine\2d\PostEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
@@ -178,6 +186,9 @@
       <Filter>shader</Filter>
     </None>
     <None Include="Resources\shaders\FBX.hlsli">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Resources\shaders\PostEefect.hlsli">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

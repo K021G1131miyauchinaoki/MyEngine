@@ -113,7 +113,7 @@ void Player::Shot() {
 
 		//’e‚ğ¶¬‚µA‰Šú‰»
 		std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
-		newBullet->Initialize(model, obj->GetPosition(), velocity);
+		newBullet->Initialize(model, obj->GetPosition(), velocity,obj->GetRotation());
 
 		//’e‚ğ“o˜^‚·‚é
 		bullets_.push_back(std::move(newBullet));
