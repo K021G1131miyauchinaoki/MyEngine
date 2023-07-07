@@ -1,4 +1,5 @@
 #include "ImguiManager.h"
+#include <imgui_impl_win32.h>
 
 void ImguiManager::Initialize(WinApp* winApp_, DirectXCommon* dxCom_) {
 	winApp = winApp_;
@@ -21,7 +22,7 @@ void ImguiManager::Initialize(WinApp* winApp_, DirectXCommon* dxCom_) {
 	ImGui_ImplDX12_Init(
 		dxCom->GetDevice(),
 		static_cast<int>(dxCom->GetBackBufferCount()),
-		DXGI_FORMAT_B8G8R8X8_UNORM_SRGB, srvHeap.Get(),
+		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, srvHeap.Get(),
 		srvHeap->GetCPUDescriptorHandleForHeapStart(),
 		srvHeap->GetGPUDescriptorHandleForHeapStart()
 	);

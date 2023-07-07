@@ -90,26 +90,30 @@ void Player::Move() {
 }
 
 void Player::Shot() {
-	if (input->PushKey(DIK_SPACE)&&--coolTime<0) {
-		//弾の速度
-		const float kBulletSpeed = 1.0f;
-		DirectX::XMFLOAT3 velocity(0, 0,0);
+	coolTime--;
+	//弾の速度
+	const float kBulletSpeed = 1.0f;
+	velocity.x =0.0f;
+	velocity.y =0.0f;
+	velocity.z =0.0f;
 
-		XMFLOAT3 pPos = obj->GetPosition();
-		XMFLOAT3 ePos = aim->GetPosition();
+	XMFLOAT3 pPos = obj->GetPosition();
+	XMFLOAT3 ePos = aim->GetPosition();
 
-		XMFLOAT3 len;
-		len.x = ePos.x - pPos.x;
-		len.y = ePos.y - pPos.y;
-		len.z = ePos.z - pPos.z;
-		velocity = normaleize(len);
+	XMFLOAT3 len;
+	len.x = ePos.x - pPos.x;
+	len.y = ePos.y - pPos.y;
+	len.z = ePos.z - pPos.z;
+	velocity = normaleize(len);
 
-		len.x *= kBulletSpeed;
-		len.y *= kBulletSpeed;
-		len.z *= kBulletSpeed;
+	velocity.x *= kBulletSpeed;
+	velocity.y *= kBulletSpeed;
+	velocity.z *= kBulletSpeed;
+
+	//速度ベクトルを自機の向きに合わせて回転させる
+	//velocity = Vec_rot(velocity, worldTransform_.matWorld_);
+	if (input->PushKey(DIK_SPACE)&&coolTime<0) {
 		
-		//速度ベクトルを自機の向きに合わせて回転させる
-		//velocity = Vec_rot(velocity, worldTransform_.matWorld_);
 
 		//弾を生成し、初期化
 		std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();

@@ -4,6 +4,7 @@
 #include<vector>
 #include<wchar.h>
 #include<string>
+#include<chrono>
 #include"WinApp.h"
 
 
@@ -30,11 +31,17 @@ public://メンバ関数
 	void PreDraw();
 	//描画後処理
 	void PostDraw();
+private://メンバ関数
+	//FPS固定初期化
+	void InitializeFixFPS();
+	//FPS固定更新
+	void UpdateFixFPS();
+
 public://ゲッター
 	//デバイス
 	ID3D12Device*GetDevice()const { return device.Get(); }
 	//コマンドリスト
-	ID3D12GraphicsCommandList* GetCommandList()const { return comList.Get(); }
+	ID3D12GraphicsCommandList* GetCommandList()const { return cmdList.Get(); }
 	//result
 	HRESULT GetResult()const { return result; }
 	//スワップチェーン
@@ -42,7 +49,7 @@ public://ゲッター
 	//バックバッファ数を取得
 	size_t GetBackBufferCount()const { return backBuffers.size(); }
 
-private:
+private://メンバ変数
 	//DirectX12デバイス
 	Microsoft::WRL::ComPtr<ID3D12Device>device;
 	//DXGIファクトリ
@@ -52,7 +59,7 @@ private:
 	Microsoft::WRL::ComPtr <IDXGISwapChain1>swapChain1;
 	Microsoft::WRL::ComPtr<IDXGISwapChain4>swapChain = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator>cmdAllocator = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>comList = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>cmdList = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue>commandQueue = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>rtvHeap = nullptr;
 	//スワップチェーンの設定
@@ -71,6 +78,9 @@ private:
 	UINT64	fenceVal = 0;
 	//リソースバリア
 	D3D12_RESOURCE_BARRIER barrierDesc{};
+	//記録時間（FPS固定用）
+	std::chrono::steady_clock::time_point reference_;
+
 private:
 	WinApp* winApp = nullptr;
 	HRESULT	result;

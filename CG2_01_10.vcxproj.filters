@@ -103,8 +103,25 @@
     <ClCompile Include="application\Bullet.cpp">
       <Filter>application</Filter>
     </ClCompile>
-    <ClCompile Include="application\Aimposition.cpp" />
     <ClCompile Include="engine\2d\PostEffect.cpp" />
+    <ClCompile Include="application\Aimposition.cpp">
+      <Filter>application</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\math\Matrix4.cpp">
+      <Filter>engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\math\Vector2.cpp">
+      <Filter>engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\math\Vector3.cpp">
+      <Filter>engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\math\Vector4.cpp">
+      <Filter>engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\math\WorldTransform.cpp">
+      <Filter>engine\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\scene\GameScene.h">
@@ -168,8 +185,25 @@
     <ClInclude Include="application\Bullet.h">
       <Filter>application</Filter>
     </ClInclude>
-    <ClInclude Include="application\Aimposition.h" />
     <ClInclude Include="engine\2d\PostEffect.h" />
+    <ClInclude Include="application\Aimposition.h">
+      <Filter>application</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\math\Matrix4.h">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\math\Vector2.h">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\math\Vector3.h">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\math\Vector4.h">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\math\WorldTransform.h">
+      <Filter>engine\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
@@ -240,6 +274,9 @@
     </Filter>
     <Filter Include="engine\3d\camera">
       <UniqueIdentifier>{e35513d2-cfb3-4ea9-aa87-e626dc3b402d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\math">
+      <UniqueIdentifier>{723f8049-cdde-4666-9fff-fd0fb3e57e90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

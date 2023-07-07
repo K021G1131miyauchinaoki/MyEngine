@@ -1,5 +1,5 @@
 #include "DirectXCommon.h"
-
+#include<thread>
 #include<cassert>
 #include<vector>
 #pragma	comment(lib, "d3d12.lib")
@@ -7,7 +7,36 @@
 
 using	namespace Microsoft::WRL;
 
+//FPS固定初期化
+void DirectXCommon::InitializeFixFPS() {
+	//現在時間を記録する
+	reference_ = std::chrono::steady_clock::now();
 
+}
+//FPS固定更新
+void DirectXCommon::UpdateFixFPS() {
+	//1/60秒ぴったりの時間
+	const std::chrono::microseconds kMinTime(uint64_t(1000000.0f / 60.0f));
+	//1/60秒より少し短い時間
+	const std::chrono::microseconds kMinCheckTime(uint64_t(1000000.0f / 65.0f));
+	//現在時間を取得する
+	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+	//前回記録からの経過時間を取得する
+	std::chrono::microseconds elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - reference_);
+	//1/60秒（よりわずかに短い時間）経っていない場合
+	if (elapsed<kMinCheckTime)
+	{
+		//1/60秒経過するまで微小なスリープを繰り返す
+		while (std::chrono::steady_clock::now()-reference_<kMinTime)
+		{
+			//1マイクロ秒スリープ
+			std::this_thread::sleep_for(std::chrono::microseconds(1));
+
+		}
+	}
+	//現在の時間を記録する
+	reference_ = std::chrono::steady_clock::now();
+}
 //デバイスの初期化
 void DirectXCommon::InitializeDevice() {
 #ifdef _DEBUG
@@ -101,7 +130,7 @@ void DirectXCommon::InitializeCommand() {
 	result = device->CreateCommandList(
 		0, D3D12_COMMAND_LIST_TYPE_DIRECT,
 		cmdAllocator.Get(), nullptr,
-		IID_PPV_ARGS(&comList));
+		IID_PPV_ARGS(&cmdList));
 	assert(SUCCEEDED(result));
 
 
@@ -225,20 +254,20 @@ void DirectXCommon::PreDraw() {
 	barrierDesc.Transition.pResource = backBuffers[bbIndex].Get(); // バックバッファを指定
 	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // 表示状態から
 	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
-	comList->ResourceBarrier(1, &barrierDesc);
+	cmdList->ResourceBarrier(1, &barrierDesc);
 
 	// 描画先の変更
 	// レンダーターゲットビューのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
 	rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
 	D3D12_CPU_DESCRIPTOR_HANDLE	dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
-	comList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
+	cmdList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 
 	// 画面クリア R G B A
 	//値を書き込むと自動的に転送される
 	FLOAT clearColor[4] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色
-	comList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-	comList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	cmdList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+	cmdList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	//描画コマンドここから
 
@@ -251,7 +280,7 @@ void DirectXCommon::PreDraw() {
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	// ビューポート設定コマンドを、コマンドリストに積む
-	comList->RSSetViewports(1, &viewport);
+	cmdList->RSSetViewports(1, &viewport);
 
 	//シザー矩形
 	D3D12_RECT	scissorRect{};
@@ -260,7 +289,7 @@ void DirectXCommon::PreDraw() {
 	scissorRect.top = 0;                                        // 切り抜き座標上
 	scissorRect.bottom = scissorRect.top + WinApp::height;       // 切り抜き座標下
 	// シザー矩形設定コマンドを、コマンドリストに積む
-	comList->RSSetScissorRects(1, &scissorRect);
+	cmdList->RSSetScissorRects(1, &scissorRect);
 }
 //描画後処理
 void DirectXCommon::PostDraw(){
@@ -271,13 +300,13 @@ void DirectXCommon::PostDraw(){
 	// リソースバリアを戻す
 	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
 	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
-	comList->ResourceBarrier(1, &barrierDesc);
+	cmdList->ResourceBarrier(1, &barrierDesc);
 
 	// 命令のクローズ
-	result = comList->Close();
+	result = cmdList->Close();
 	assert(SUCCEEDED(result));
 	// コマンドリストの実行
-	ID3D12CommandList* commandLists[] = { comList.Get() };
+	ID3D12CommandList* commandLists[] = { cmdList.Get() };
 	commandQueue->ExecuteCommandLists(1, commandLists);
 	// 画面に表示するバッファをフリップ(裏表の入替え)
 	
@@ -292,11 +321,13 @@ void DirectXCommon::PostDraw(){
 		WaitForSingleObject(event, INFINITE);
 		CloseHandle(event);
 	}
+	//FPS固定
+	UpdateFixFPS();
 	// キューをクリア
 	result = cmdAllocator->Reset();
 	assert(SUCCEEDED(result));
 	// 再びコマンドリストを貯める準備
-	result = comList->Reset(cmdAllocator.Get(), nullptr);
+	result = cmdList->Reset(cmdAllocator.Get(), nullptr);
 	assert(SUCCEEDED(result));
 }
 
@@ -305,6 +336,8 @@ void DirectXCommon::Initialize(WinApp* winApp_) {
 	assert(winApp_);
 	//メンバ変数に代入
 	this->winApp = winApp_;
+	//FPS固定初期化
+	InitializeFixFPS();
 	//デバイスの初期化
 	InitializeDevice();
 	//コマンドの初期化
