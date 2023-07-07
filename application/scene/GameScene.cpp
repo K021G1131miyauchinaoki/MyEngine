@@ -63,8 +63,8 @@ void GameScene::Initialize() {
 
 	//ポストエフェクト
 	PostEffect::StaticInitialize(dxCommon);
-	pe = new PostEffect;
-	pe->Initialize();
+	//pe = new PostEffect;
+	//pe->Initialize();
 }
 
 void GameScene::Update(){
@@ -127,7 +127,7 @@ void GameScene::Draw(){
 
 	//imgui
 	//imguiM->Draw();
-	pe->Draw(dxCommon->GetCommandList());
+	//pe->Draw(dxCommon->GetCommandList());
 
 	dxCommon->PostDraw();
 }
