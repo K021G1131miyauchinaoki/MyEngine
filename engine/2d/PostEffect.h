@@ -14,20 +14,25 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 public://静的メンバ関数
 	static void StaticInitialize(DirectXCommon* dxCommon_);
-	
+
 
 private://静的メンバ変数
 // 射影行列計算
 	static	XMMATRIX	matProjection;
 	//SRVの最大枚数
-	static const size_t	maxSRVCount = 2056;
+	static const size_t	maxSRVCount = 2048;
 	//DirectXCommon
 	static	DirectXCommon* dxCommon;
+	//デフォルトのディレクトリパス
+	static	std::string defaultTextureDirectoryPath;
+
 public://メンバ関数
 	//初期化
 	void	Initialize();
+
+	//更新
 	void Update();
-	
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -38,6 +43,16 @@ public://メンバ関数
 	/// </summary>
 	/// <param name="cmdList">コマンドリスト</param>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	//テクスチャ読み込み
+	void	Loadtexture(std::string fileName);
+	//描画前処理
+	void PreDraw();
+	//描画後処理
+	void PostDraw();
+
+	//描画用テクスチャコマンド
+	void	SetTextureCommands();
 
 
 public://ゲッター、セッター
@@ -64,7 +79,7 @@ private://構造体
 	};
 
 private:
-	
+
 	HRESULT result;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>comList;
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
@@ -78,6 +93,10 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 	//パイプラインステート
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelineState;
+	Microsoft::WRL::ComPtr <ID3D12Device> device = nullptr;
+	UINT	incrementSize;
+	//std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, maxSRVCount>texBuffers;
+	ID3D12Resource* texBuff = nullptr;
 
 	//回転
 	float	rotation = 0;
@@ -89,8 +108,7 @@ private:
 	XMFLOAT2	size = { 100.0f,100.0f };
 	//アンカーポイント
 	XMFLOAT2	anchorPoint = { 0.0f,0.0f };
-	
+
 	//3D変換行列
 	XMMATRIX	matWorld;
 };
-
