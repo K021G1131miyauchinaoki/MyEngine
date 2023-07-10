@@ -3,6 +3,7 @@
 #include<Model.h>
 #include<Object3d.h>
 #include<Input.h>
+#include<Vector3.h>
 
 class Aimposition
 {
@@ -28,7 +29,7 @@ public://ƒƒ“ƒoŠÖ”
 	void Move();
 
 	//
-	DirectX::XMFLOAT3 GetPosition();
+	Vector3 GetPosition();
 
 private://ƒƒ“ƒo•Ï”
 	Input* input = nullptr;

@@ -1,7 +1,7 @@
 #include "Bullet.h"
 
 #include<assert.h>
-void Bullet::Initialize(Model* model, const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& velocity,const DirectX::XMFLOAT3& rotation){
+void Bullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity,const Vector3& rotation){
 	//NULLポインタチェック
 	assert(model);
 	model_ = model;
@@ -17,7 +17,7 @@ void Bullet::Initialize(Model* model, const DirectX::XMFLOAT3& position, const D
 
 void Bullet::Update() {
 	{
-		DirectX::XMFLOAT3 pos=obj->GetPosition();
+		Vector3 pos=obj->GetPosition();
 		pos.x += velocity_.x;
 		pos.y += velocity_.y;
 		pos.z += velocity_.z;
@@ -31,9 +31,9 @@ void Bullet::Update() {
 }
 
 //ワールド座標を渡す
-DirectX::XMFLOAT3 Bullet::GetBulletPosition() {
+Vector3 Bullet::GetBulletPosition() {
 	//座標を格納
-	DirectX::XMFLOAT3 worldPos;
+	Vector3 worldPos;
 	//ワールド行列の平行移動成分を取得
 	worldPos = obj->GetPosition();
 

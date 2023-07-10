@@ -26,7 +26,7 @@ void Aimposition::Draw() {
 }
 
 void Aimposition::Move() {
-	XMFLOAT3 move = obj->GetPosition();
+	Vector3 move = obj->GetPosition();
 
 	const float speed = 0.2f;
 	if (input->PushKey(DIK_UP)) {
@@ -45,9 +45,9 @@ void Aimposition::Move() {
 }
 
 //ワールド座標を渡す
-DirectX::XMFLOAT3 Aimposition::GetPosition() {
+Vector3 Aimposition::GetPosition() {
 	//座標を格納
-	DirectX::XMFLOAT3 worldPos;
+	Vector3 worldPos;
 	//ワールド行列の平行移動成分を取得
 	worldPos = obj->GetPosition();
 

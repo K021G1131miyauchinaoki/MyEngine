@@ -65,6 +65,8 @@ void GameScene::Initialize() {
 	PostEffect::StaticInitialize(dxCommon);
 	//pe = new PostEffect;
 	//pe->Initialize();
+	velocity = new ImguiManager;
+	velocity->Initialize(winApp, dxCommon);
 }
 
 void GameScene::Update(){
@@ -85,7 +87,7 @@ void GameScene::Update(){
 	player->Updata();
 	aim->Updata();
 	objSkydome->Update();
-	float vec[2] = { player->GetVelocity().x,player->GetVelocity().z };
+	float vec[2] = { input->GetPos().x,input->GetPos().y};
 	float posA[2] = { aim->GetPosition().x,aim->GetPosition().z };
 	//imgui関連
 	velocity->Begin();
@@ -126,7 +128,8 @@ void GameScene::Draw(){
 	//スプライト描画
 
 	//imgui
-	//imguiM->Draw();
+	velocity->End();
+	velocity->Draw();
 	//pe->Draw(dxCommon->GetCommandList());
 
 	dxCommon->PostDraw();

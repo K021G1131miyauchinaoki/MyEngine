@@ -34,6 +34,8 @@ private:
 	XMMATRIX matProjection;
 	//ビュープロジェクション行列
 	XMMATRIX matViewProjection;
+	//ビューポート行列
+	XMMATRIX matViewPort;
 	// 視点座標
 	XMFLOAT3 eye;
 	// 注視点座標

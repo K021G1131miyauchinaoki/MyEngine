@@ -7,7 +7,7 @@ void	Input::Initialize(WinApp* winApp_) {
 		winApp->GetWindow().hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8,
 		(void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
-
+	/*                             キーボード                                         */
 	//キーボードデバイスの生成
 	//ComPtr < IDirectInputDevice8> keyboard = nullptr;
 	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
@@ -21,9 +21,24 @@ void	Input::Initialize(WinApp* winApp_) {
 	result = keyboard->SetCooperativeLevel(
 		winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
+
+	/*                                 マウス                                     */
+	//マウスデバイスの生成
+	result = directInput->CreateDevice(GUID_SysMouse, &mouseDev, NULL);
+	assert(SUCCEEDED(result));
+
+	//入力データ形式のセット
+	result = mouseDev->SetDataFormat(&c_dfDIMouse);//標準形式
+	assert(SUCCEEDED(result));
+
+	//排他制御レベルのセット
+	result = mouseDev->SetCooperativeLevel(
+		winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	assert(SUCCEEDED(result));
 }
 
 void	Input::Update() {
+	/*キーボード*/
 	//キーボード情報の取得開始
 	keyboard->Acquire();
 
@@ -32,6 +47,20 @@ void	Input::Update() {
 
 	//全キーの入力状態を取得する
 	keyboard->GetDeviceState(sizeof(key), key);
+
+	/*マウス*/
+	HRESULT hr;
+	hr = mouseDev->Acquire();
+	//最新にする前に保存
+	oldMouse = mouse;
+	//最新のマウス情報の取得
+	hr = mouseDev->GetDeviceState(sizeof(DIMOUSESTATE), &mouse);
+	if (FAILED(hr))return;
+	POINT p;
+	GetCursorPos(&p);
+	ScreenToClient(winApp->GetHwnd(), &p);
+	mPos.x = p.x;
+	mPos.y = p.y;
 }
 
 bool	Input::PushKey(BYTE keyNumber) {
@@ -54,4 +83,20 @@ bool	Input::TriggerKey(BYTE keyNumber) {
 
 	//そうでなければfalseを返す
 	return	false;
+}
+
+bool	Input::PushClick(Botton botton) {
+	if (mouse.rgbButtons[botton])
+	{
+		return true;
+	}
+	return false;
+}
+
+bool	Input::TriggerClick(Botton botton) {
+	if (mouse.rgbButtons[botton] && !oldMouse.rgbButtons[botton])
+	{
+		return true;
+	}
+	return false;
 }

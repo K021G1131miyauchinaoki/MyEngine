@@ -6,6 +6,7 @@
 #include<list>
 #include<Bullet.h>
 #include<Aimposition.h>
+#include<Vector3.h>
 
 class Player
 {
@@ -43,7 +44,7 @@ public://ƒƒ“ƒoŠÖ”
 	/// </summary>
 	void Rotate();
 
-	XMFLOAT3 GetVelocity(){ return velocity; }
+	Vector3 GetVelocity(){ return velocity; }
 
 private://ƒƒ“ƒo•Ï”
 	Input*input = nullptr;
@@ -57,6 +58,6 @@ private://ƒƒ“ƒo•Ï”
 	int32_t coolTime;
 
 	float angle = 0.0f;
-	DirectX::XMFLOAT3 velocity;
+	Vector3 velocity;
 };
 
