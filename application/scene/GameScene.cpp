@@ -21,23 +21,23 @@ void GameScene::Initialize() {
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetTarget({ 0,0,0 });
-	camera->SetEye({ 0,40,-20 });
+	camera->SetEye({ 0,60,-20 });
 	camera->Update();
 	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
 
 	/*---------------- - FBX------------------------*/
-	fbxM = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
-	//デバイスをセット
-	FbxObject3d::SetDevice(dxCommon->GetDevice());
-	// カメラをセット
-	FbxObject3d::SetCamera(camera.get());
-	//グラフィックパイプライン生成
-	FbxObject3d::CreateGraphicsPipeline();
-	//3Dオブジェクト生成とモデルセット
-	fbxObj = new FbxObject3d;
-	fbxObj->Initialize();
-	fbxObj->SetModel(fbxM);
-	fbxObj->PlayAnimation();
+	//fbxM = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+	////デバイスをセット
+	//FbxObject3d::SetDevice(dxCommon->GetDevice());
+	//// カメラをセット
+	//FbxObject3d::SetCamera(camera.get());
+	////グラフィックパイプライン生成
+	//FbxObject3d::CreateGraphicsPipeline();
+	////3Dオブジェクト生成とモデルセット
+	//fbxObj = new FbxObject3d;
+	//fbxObj->Initialize();
+	//fbxObj->SetModel(fbxM);
+	//fbxObj->PlayAnimation();
 	
 	// モデル読み込み
 	modelSkydome = Model::LoadFromOBJ("skydome");
@@ -54,44 +54,7 @@ void GameScene::Initialize() {
 	// レベルデータの読み込み
 	levelData = LevelLoader::LoadJson("testScene");
 	
-	//std::mapに格納
-	/*models.insert(std::make_pair("skydome", modelSkydome));
-	models.insert(std::make_pair("ground", modelGround));
-	models.insert(std::make_pair("chr_sword", modelChr));
-	models.insert(std::make_pair("sphere", modelSphere));*/
 
-	// レベルデータからオブジェクトを生成、配置
-	/*for (auto& objectData : levelData->objects) {
-		// ファイル名から登録済みモデルを検索
-		Model* model = nullptr;
-		decltype(models)::iterator it = models.find(objectData.fileName);
-		if (it != models.end()) {
-			model = it->second;
-		}
-
-		// モデルを指定して3Dオブジェクトを生成
-		Object3d* newObject = Object3d::Create();
-		newObject->SetModel(model);
-		
-
-		// 座標
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMStoreFloat3(&pos, objectData.translation);
-		newObject->SetPosition(pos);
-
-		// 回転角
-		DirectX::XMFLOAT3 rot;
-		DirectX::XMStoreFloat3(&rot, objectData.rotation);
-		newObject->SetRotation(rot);
-
-		// 座標
-		DirectX::XMFLOAT3 scale;
-		DirectX::XMStoreFloat3(&scale, objectData.scaling);
-		newObject->SetScale(scale);
-
-		// 配列に登録
-		objects.push_back(newObject);
-	}*/
 
 	aim= std::make_unique<Aimposition>();
 	aim->Initialeze(box, input);
@@ -102,6 +65,8 @@ void GameScene::Initialize() {
 	PostEffect::StaticInitialize(dxCommon);
 	//pe = new PostEffect;
 	//pe->Initialize();
+	velocity = new ImguiManager;
+	velocity->Initialize(winApp, dxCommon);
 }
 
 void GameScene::Update(){
@@ -122,7 +87,16 @@ void GameScene::Update(){
 	player->Updata();
 	aim->Updata();
 	objSkydome->Update();
-	fbxObj->Update();
+	float vec[2] = { input->GetPos().x,input->GetPos().y};
+	float posA[2] = { aim->GetPosition().x,aim->GetPosition().z };
+	//imgui関連
+	velocity->Begin();
+	//ここから中身を書いていく
+	ImGui::Begin("a");
+	ImGui::SliderFloat2("volocity", vec, 0.0f, WinApp::width);
+	ImGui::End();
+	//ImGui::SliderFloat2("pos",posA,0.0f, WinApp::width);
+	//fbxObj->Update();
 
 	//for (auto object : objects) {
 	//	object->Update();
@@ -147,14 +121,15 @@ void GameScene::Draw(){
 	aim->Draw();
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
-	fbxObj->Draw(dxCommon->GetCommandList());
+	//fbxObj->Draw(dxCommon->GetCommandList());
 
 	//パーティクル描画
 	
 	//スプライト描画
 
 	//imgui
-	//imguiM->Draw();
+	velocity->End();
+	velocity->Draw();
 	//pe->Draw(dxCommon->GetCommandList());
 
 	dxCommon->PostDraw();
@@ -175,6 +150,7 @@ void GameScene::Finalize(){
 	delete	input;
 	delete winApp;
 	delete	dxCommon;
+	delete velocity;
 	/*delete modelChr;
 	delete modelGround;
 	delete modelSkydome;

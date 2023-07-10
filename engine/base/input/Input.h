@@ -6,9 +6,15 @@
 #include<cassert>
 #include<wrl.h>
 #include"WinApp.h"
+#include<Vector2.h>
 
 #pragma once
 
+enum Botton {
+	LEFT,
+	RIGHT,
+	CENTER
+};
 
 class Input
 {
@@ -17,13 +23,22 @@ template<class T>using	ComPtr= Microsoft::WRL::ComPtr<T>;
 
 public://メンバ関数
 	//初期化
-	void	Initialize(WinApp*winApp_);
+	void Initialize(WinApp*winApp_);
 	//更新
-	void	Update();
-
-	bool	PushKey(BYTE	keyNumber);
-
-	bool	TriggerKey(BYTE	keyNumber);
+	void Update();
+	/*キーボード*/
+	//押したとき
+	bool PushKey(BYTE	keyNumber);
+	//押した瞬間
+	bool TriggerKey(BYTE	keyNumber);
+	
+	/*マウス*/
+	//押したとき
+	bool PushClick(Botton botton);
+	//押した瞬間
+	bool TriggerClick(Botton botton);
+	//2D座標の取得
+	const Vector2 GetPos() { return mPos; }
 
 private:
 	WinApp* winApp = nullptr;
@@ -33,9 +48,15 @@ private:
 	ComPtr<	IDirectInput8> directInput = nullptr;
 
 	ComPtr < IDirectInputDevice8> keyboard = nullptr;
+	ComPtr < IDirectInputDevice8> mouseDev = nullptr;
 	//全キーの入力状態を取得する
 	BYTE	key[256] = {};
 	//前回の全キーの状態
 	BYTE	keyPre[256] = {};
+
+	DIMOUSESTATE mouse;
+	DIMOUSESTATE oldMouse;
+	Vector2 mPos;
+
 };
 

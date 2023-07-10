@@ -2,13 +2,14 @@
 #include<DirectXMath.h>
 #include<Model.h>
 #include<Object3d.h>
+#include<Vector3.h>
 
 class Bullet
 {
 public:
 	Bullet();
 	~Bullet();
-	void Initialize(Model* model, const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& veclocity, const DirectX::XMFLOAT3& rotation_);
+	void Initialize(Model* model, const Vector3& position, const Vector3& veclocity, const Vector3& rotation_);
 	void Update();
 	void Draw();
 	bool IsDead() const { return isDead_; }
@@ -16,7 +17,7 @@ public:
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 	//ワールド座標を取得
-	DirectX::XMFLOAT3 GetBulletPosition();
+	Vector3 GetBulletPosition();
 	//半径を取得
 	float GetRadius() { return r; }
 
@@ -25,7 +26,7 @@ private:
 	Model* model_ = nullptr;
 	std::unique_ptr<Object3d>obj = nullptr;
 	//速度
-	DirectX::XMFLOAT3 velocity_;
+	Vector3 velocity_;
 	//消滅
 	static const int32_t kLifeTime = 30;
 	//デスタイマー

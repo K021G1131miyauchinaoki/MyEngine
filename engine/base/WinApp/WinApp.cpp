@@ -1,5 +1,6 @@
 ﻿#include "WinApp.h"
 #include<imgui_impl_win32.h>
+#pragma comment(lib,"winmm.lib")
 
 int	WinApp::width = 1280; 
 int	WinApp::height = 720;
@@ -56,6 +57,9 @@ void	WinApp::Initialize() {
 		nullptr);
 
 	ShowWindow(hwnd, SW_SHOW);
+
+	//システムタイマーの分解能を上げる
+	timeBeginPeriod(1);
 }
 
 bool	WinApp::ProcessMessage() {

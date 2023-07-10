@@ -7,6 +7,7 @@
 #include "d3dx12.h"
 #include"Model.h"
 #include"Camera.h"
+#include<Vector3.h>
 
 /// <summary>
 /// 3Dオブジェクト
@@ -99,37 +100,37 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT3& GetPosition() const { return position; }
+	const Vector3& GetPosition() const { return position; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(const XMFLOAT3& position_) { this->position = position_; }
+	void SetPosition(const Vector3& position_) { this->position = position_; }
 	
 	/// <summary>
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT3& GetRotation() const { return rotation; }
+	const Vector3& GetRotation() const { return rotation; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetRotation(const XMFLOAT3& rotation_) { this->rotation = rotation_; }
+	void SetRotation(const Vector3& rotation_) { this->rotation = rotation_; }
 
 	/// <summary>
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT3& GetScale() const { return scale; }
+	const Vector3& GetScale() const { return scale; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetScale(const XMFLOAT3& scale_) { this->scale = scale_; }
+	void SetScale(const Vector3& scale_) { this->scale = scale_; }
 
 	//モデルセッター
 	void	SetModel(Model* model_) { model = model_; }
@@ -145,11 +146,11 @@ private: // メンバ変数
 	// 色
 	XMFLOAT4 color = { 1,1,1,1 };
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	Vector3 scale = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0,0,0 };
+	Vector3 rotation = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	Vector3 position = { 0,0,0 };
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	// 親オブジェクト

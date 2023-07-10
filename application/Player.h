@@ -6,7 +6,7 @@
 #include<list>
 #include<Bullet.h>
 #include<Aimposition.h>
-
+#include<Vector3.h>
 
 class Player
 {
@@ -44,6 +44,8 @@ public://メンバ関数
 	/// </summary>
 	void Rotate();
 
+	Vector3 GetVelocity(){ return velocity; }
+
 private://メンバ変数
 	Input*input = nullptr;
 	Model* model = nullptr;
@@ -55,7 +57,7 @@ private://メンバ変数
 	//クールタイム
 	int32_t coolTime;
 
-	float h = 0.0f;
 	float angle = 0.0f;
+	Vector3 velocity;
 };
 

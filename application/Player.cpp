@@ -1,6 +1,6 @@
 #include "Player.h"
 #include<cassert>
-XMFLOAT3& normaleize(XMFLOAT3 vec) {
+Vector3& normaleize(Vector3 vec) {
 	float length = std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 	if (length != 0) {
 		 vec.x /= length;
@@ -70,7 +70,7 @@ void Player::Draw() {
 }
 
 void Player::Move() {
-	XMFLOAT3 move = obj->GetPosition();
+	Vector3 move = obj->GetPosition();
 
 	const float speed = 0.2f;
 	if (input->PushKey(DIK_W)) {
@@ -90,48 +90,67 @@ void Player::Move() {
 }
 
 void Player::Shot() {
-	if (input->PushKey(DIK_SPACE)&&--coolTime<0) {
-		//弾の速度
-		const float kBulletSpeed = 1.0f;
-		DirectX::XMFLOAT3 velocity(0, 0,0);
+	
+	//弾の速度
+	const float kBulletSpeed = 1.0f;
+	velocity.x =0.0f;
+	velocity.y =0.0f;
+	velocity.z =0.0f;
 
-		XMFLOAT3 pPos = obj->GetPosition();
-		XMFLOAT3 ePos = aim->GetPosition();
+	Vector3 pPos = {0.0f,0.0f,0.0f};
+	pPos.x = obj->GetPosition().x;
+	pPos.y = obj->GetPosition().y;
+	pPos.z = obj->GetPosition().z;
+	Vector3 ePos = aim->GetPosition();
 
-		XMFLOAT3 len;
-		len.x = ePos.x - pPos.x;
-		len.y = ePos.y - pPos.y;
-		len.z = ePos.z - pPos.z;
-		velocity = normaleize(len);
+	Vector3 len;
+	len.x = ePos.x - pPos.x;
+	len.y = ePos.y - pPos.y;
+	len.z = ePos.z - pPos.z;
+	velocity = normaleize(len);
 
-		len.x *= kBulletSpeed;
-		len.y *= kBulletSpeed;
-		len.z *= kBulletSpeed;
+	velocity.x *= kBulletSpeed;
+	velocity.y *= kBulletSpeed;
+	velocity.z *= kBulletSpeed;
+
+	//速度ベクトルを自機の向きに合わせて回転させる
+	//velocity = Vec_rot(velocity, worldTransform_.matWorld_);
+	if (input->PushKey(DIK_SPACE)||input->PushClick(Botton::LEFT)) {
+		coolTime--;
+		if (coolTime < 0)
+		{
+			//弾を生成し、初期化
+			std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
+			newBullet->Initialize(model, obj->GetPosition(), velocity,obj->GetRotation());
+
+			//弾を登録する
+			bullets_.push_back(std::move(newBullet));
+			
+			//タイムリセット
+			coolTime = 30;
+
+		}
+	}
+	if (input->TriggerClick(Botton::LEFT)) {
 		
-		//速度ベクトルを自機の向きに合わせて回転させる
-		//velocity = Vec_rot(velocity, worldTransform_.matWorld_);
-
 		//弾を生成し、初期化
 		std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
-		newBullet->Initialize(model, obj->GetPosition(), velocity,obj->GetRotation());
+		newBullet->Initialize(model, obj->GetPosition(), velocity, obj->GetRotation());
 
 		//弾を登録する
 		bullets_.push_back(std::move(newBullet));
-		
-		//タイムリセット
-		coolTime = 30;
 	}
 }
 
 void Player::Rotate() {
-	XMFLOAT3 a = obj->GetPosition();
+	Vector3 a = obj->GetPosition();
 	//XMFLOAT3 a = obj->GetRotation();
-	XMFLOAT3 b = aim->GetPosition();
-	XMFLOAT3 vec = { 0,0,0 };
+	Vector3 b = aim->GetPosition();
+	Vector3 vec = { 0,0,0 };
 	vec.x = b.x - a.x;
 	vec.z = b.z - a.z;
 	vec = normaleize(vec);
-	float angle = -((atan2(vec.z, vec.x)));
+	angle = -((atan2(vec.z, vec.x)));
 	angle = (180.0f / 3.14f) * angle;
 	obj->SetRotation({0.0f,angle,0.0f});
 	obj->GetRotation();
