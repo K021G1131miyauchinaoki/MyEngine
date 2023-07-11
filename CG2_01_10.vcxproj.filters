@@ -99,11 +99,9 @@
     <ClCompile Include="application\Player.cpp">
       <Filter>application</Filter>
     </ClCompile>
-    <ClCompile Include="application\Enemy.cpp" />
     <ClCompile Include="application\Bullet.cpp">
       <Filter>application</Filter>
     </ClCompile>
-    <ClCompile Include="engine\2d\PostEffect.cpp" />
     <ClCompile Include="application\Aimposition.cpp">
       <Filter>application</Filter>
     </ClCompile>
@@ -121,6 +119,12 @@
     </ClCompile>
     <ClCompile Include="engine\math\WorldTransform.cpp">
       <Filter>engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Enemy.cpp">
+      <Filter>application</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\2d\PostEffect.cpp">
+      <Filter>engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,11 +185,9 @@
     <ClInclude Include="application\Player.h">
       <Filter>application</Filter>
     </ClInclude>
-    <ClInclude Include="application\Enemy.h" />
     <ClInclude Include="application\Bullet.h">
       <Filter>application</Filter>
     </ClInclude>
-    <ClInclude Include="engine\2d\PostEffect.h" />
     <ClInclude Include="application\Aimposition.h">
       <Filter>application</Filter>
     </ClInclude>
@@ -203,6 +205,12 @@
     </ClInclude>
     <ClInclude Include="engine\math\WorldTransform.h">
       <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Enemy.h">
+      <Filter>application</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\2d\PostEffect.h">
+      <Filter>engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

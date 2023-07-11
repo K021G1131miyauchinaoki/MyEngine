@@ -116,9 +116,9 @@ void GameScene::Draw(){
 		object->Draw();
 	}*/
 
-	objSkydome->Draw();
+	/*objSkydome->Draw();
 	player->Draw();
-	aim->Draw();
+	aim->Draw();*/
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 	//fbxObj->Draw(dxCommon->GetCommandList());
