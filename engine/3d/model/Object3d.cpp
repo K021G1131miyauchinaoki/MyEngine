@@ -23,7 +23,7 @@ ComPtr<ID3D12RootSignature> Object3d::rootsignature;
 ComPtr<ID3D12PipelineState> Object3d::pipelinestate;
 Camera* Object3d::camera = nullptr;
 
-void Object3d::StaticInitialize(ID3D12Device* device_, int window_width, int window_height, Camera* camera_)
+void Object3d::StaticInitialize(ID3D12Device* device_, Camera* camera_)
 {
 	// nullptrチェック
 	assert(device_);

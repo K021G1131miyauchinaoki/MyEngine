@@ -7,8 +7,8 @@ Vector2::Vector2()
 
 }
 
-Vector2::Vector2(float x, float y)
-	: x(1.0f), y(3.0f)
+Vector2::Vector2(float x_, float y_)
+	: x(x_), y(y_)
 {
 	
 }

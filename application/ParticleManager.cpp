@@ -248,12 +248,12 @@ void	ParticleManager::SetTextureCommands(uint32_t index) {
 
 }
 
-void ParticleManager::StaticInitialize(ID3D12Device* device, Camera* camera_)
+void ParticleManager::StaticInitialize(ID3D12Device* device_, Camera* camera_)
 {
 	// nullptrチェック
-	assert(device);
+	assert(device_);
 
-	ParticleManager::device = device;
+	ParticleManager::device = device_;
 	incrementSize = ParticleManager::device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 	// デスクリプタヒープの初期化
@@ -698,13 +698,13 @@ void ParticleManager::Draw()
 	cmdList->DrawInstanced((UINT)std::distance(particles.begin(), particles.end()), 1, 0, 0);
 }
 
-void ParticleManager::PreDraw(ID3D12GraphicsCommandList* cmdList)
+void ParticleManager::PreDraw(ID3D12GraphicsCommandList* cmdList_)
 {
 	// PreDrawとPostDrawがペアで呼ばれていなければエラー
 	assert(ParticleManager::cmdList == nullptr);
 
 	// コマンドリストをセット
-	ParticleManager::cmdList = cmdList;
+	ParticleManager::cmdList = cmdList_;
 
 	// パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());

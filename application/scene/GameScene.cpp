@@ -23,7 +23,7 @@ void GameScene::Initialize() {
 	camera->SetTarget({ 0,0,0 });
 	camera->SetEye({ 0,60,-20 });
 	camera->Update();
-	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
+	Object3d::StaticInitialize(dxCommon->GetDevice(), camera.get());
 
 	/*---------------- - FBX------------------------*/
 	//fbxM = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
@@ -63,8 +63,9 @@ void GameScene::Initialize() {
 
 	//ポストエフェクト
 	PostEffect::StaticInitialize(dxCommon);
-	//pe = new PostEffect;
-	//pe->Initialize();
+	pe = new PostEffect;
+	pe->Initialize();
+	pe->Loadtexture("white1×1.png");
 }
 
 void GameScene::Update(){
@@ -85,20 +86,21 @@ void GameScene::Update(){
 	player->Updata();
 	aim->Updata();
 	objSkydome->Update();
-	float vec[2] = { player->GetVelocity().x,player->GetVelocity().z };
-	float posA[2] = { aim->GetPosition().x,aim->GetPosition().z };
-	//imgui関連
-	velocity->Begin();
-	//ここから中身を書いていく
-	ImGui::Begin("a");
-	ImGui::SliderFloat2("volocity", vec, 0.0f, WinApp::width);
-	ImGui::End();
+	//float vec[2] = { player->GetVelocity().x,player->GetVelocity().z };
+	//float posA[2] = { aim->GetPosition().x,aim->GetPosition().z };
+	////imgui関連
+	//velocity->Begin();
+	////ここから中身を書いていく
+	//ImGui::Begin("a");
+	//ImGui::SliderFloat2("volocity", vec, 0.0f, static_cast<float>(WinApp::width));
+	//ImGui::End();
 	//ImGui::SliderFloat2("pos",posA,0.0f, WinApp::width);
 	//fbxObj->Update();
 
 	//for (auto object : objects) {
 	//	object->Update();
 	//}
+	pe->Update();
 }
 
 void GameScene::Draw(){
@@ -127,7 +129,7 @@ void GameScene::Draw(){
 
 	//imgui
 	//imguiM->Draw();
-	//pe->Draw(dxCommon->GetCommandList());
+	pe->Draw(dxCommon->GetCommandList());
 
 	dxCommon->PostDraw();
 }
@@ -147,7 +149,7 @@ void GameScene::Finalize(){
 	delete	input;
 	delete winApp;
 	delete	dxCommon;
-	delete velocity;
+	//delete velocity;
 	/*delete modelChr;
 	delete modelGround;
 	delete modelSkydome;

@@ -7,7 +7,7 @@ public:
 public:
 	//コンストラクタ
 	Vector2();
-	Vector2(float	x,float	y);
+	Vector2(float	x_,float	y_);
 
 	//メンバ関数
 	float	length()const;

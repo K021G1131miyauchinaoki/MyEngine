@@ -46,13 +46,6 @@ public://メンバ関数
 
 	//テクスチャ読み込み
 	void	Loadtexture(std::string fileName);
-	//描画前処理
-	void PreDraw();
-	//描画後処理
-	void PostDraw();
-
-	//描画用テクスチャコマンド
-	void	SetTextureCommands();
 
 
 public://ゲッター、セッター
@@ -79,9 +72,8 @@ private://構造体
 	};
 
 private:
-
 	HRESULT result;
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>comList;
+	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>cmdList;
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	D3D12_INDEX_BUFFER_VIEW	ibView{};
 	ID3D12Resource* vertBuff = nullptr;
@@ -94,7 +86,7 @@ private:
 	//パイプラインステート
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelineState;
 	Microsoft::WRL::ComPtr <ID3D12Device> device = nullptr;
-	UINT	incrementSize;
+	uint32_t incrementSize;
 	//std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, maxSRVCount>texBuffers;
 	ID3D12Resource* texBuff = nullptr;
 
