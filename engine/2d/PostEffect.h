@@ -29,9 +29,20 @@ public: // メンバ関数
 	/// <param name="cmdList">コマンドリスト</param>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
+	void InitializeTex();
+	void InitializeSRV();
+	void InitializeRTV();
+	void InitializeDepth();
+
 private:
 	//テクスチャバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource>texBuff;
 	//SRV用デスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>descHeapSRV;
+	//深度バッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource>depthBuff;
+	//RTV用デスクリプタヒープ
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>descHeapRTV;
+	//DSV用デスクリプタヒープ
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>descHeapDSV;
 };

@@ -101,6 +101,60 @@ void PostEffect::Initialize(SpriteCommon* spriteCommon_) {
 		&srvDesc,
 		descHeapSRV->GetCPUDescriptorHandleForHeapStart());
 
+	//RTV用デスクリプタヒープ設定
+	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc{};
+	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+	rtvDescHeapDesc.NumDescriptors = 1;
+	//RTV用デスクリプタヒープを生成
+	result = dxCommon->GetDevice()->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV));
+	assert(SUCCEEDED(result));
+
+	//レンダーだーゲットビューの設定
+	D3D12_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
+	//シェーダーの計算結果をSRGBに変換して書き込む
+	renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	renderTargetViewDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+
+	//デスクリプタヒープにRTV作成
+	dxCommon->GetDevice()->CreateRenderTargetView(
+		texBuff.Get(),
+		&renderTargetViewDesc,
+		descHeapRTV->GetCPUDescriptorHandleForHeapStart());
+
+	//リソース設定
+	D3D12_RESOURCE_DESC	depthResourceDesc{};
+	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	depthResourceDesc.Width = WinApp::width;//レンダーターゲットに合わせる
+	depthResourceDesc.Height = WinApp::height;//レンダーターゲットに合わせる
+	depthResourceDesc.DepthOrArraySize = 1;
+	depthResourceDesc.Format = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
+	depthResourceDesc.SampleDesc.Count = 1;
+	depthResourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;//デプスステンシル
+
+	//深度バッファの生成
+	result = dxCommon->GetDevice()->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+		D3D12_HEAP_FLAG_NONE,
+		&depthResourceDesc,
+		D3D12_RESOURCE_STATE_DEPTH_WRITE,
+		&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT, 1.0f, 0),
+		IID_PPV_ARGS(&depthBuff));
+	assert(SUCCEEDED(result));
+
+	//DSV用デスクリプタヒープ設定
+	D3D12_DESCRIPTOR_HEAP_DESC DescHeapDesc{};
+	DescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+	DescHeapDesc.NumDescriptors = 1;
+	//DSV用デスクリプタヒープを作成
+	result = dxCommon->GetDevice()->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&descHeapDSV));
+	assert(SUCCEEDED(result));
+	//デスクリプタヒープにDSV作成
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
+	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	dxCommon->GetDevice()->CreateDepthStencilView(depthBuff.Get(),
+		&dsvDesc,
+		descHeapDSV->GetCPUDescriptorHandleForHeapStart());
 
 }
 
