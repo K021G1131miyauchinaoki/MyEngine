@@ -7,12 +7,28 @@ using namespace DirectX;
 
 class Sprite
 {
-private://静的メンバ変数
+protected://静的メンバ変数
 	// 射影行列計算
 	static	XMMATRIX	matProjection;
 	//SRVの最大枚数
 	static const size_t	maxSRVCount = 2056;
 public://メンバ関数
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	//Sprite();
+
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Sprite(uint32_t texIndex_, 
+		XMFLOAT2	position_, 
+		XMFLOAT2	size_,
+		XMFLOAT4	color_,
+		XMFLOAT2	anchorPoint_,
+		bool isFlipX_,
+		bool isFlipY_);
+
 	//初期化
 	void	Initialize(SpriteCommon* spriteCommon_, uint32_t texIndex_ = UINT32_MAX);
 	//描画
@@ -69,7 +85,7 @@ private://構造体
 		XMMATRIX	mat;//3D変換行列
 	};
 
-private:
+protected:
 	SpriteCommon* spriteCommon = nullptr;
 	DirectXCommon* directXCom = nullptr;
 	HRESULT result;

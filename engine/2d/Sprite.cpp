@@ -10,6 +10,24 @@ unsigned	short	indices[] = {
 
 XMMATRIX Sprite::matProjection;
 
+Sprite::Sprite(
+	uint32_t texIndex_,
+	XMFLOAT2	position_,
+	XMFLOAT2	size_,
+	XMFLOAT4	color_,
+	XMFLOAT2	anchorPoint_,
+	bool isFlipX_,
+	bool isFlipY_) 
+{
+	texIndex = texIndex_;
+	position =position_;
+	size = size_;
+	color =color_;
+	anchorPoint=anchorPoint_;
+	isFlipX = isFlipX_;
+	isFlipY = isFlipY_;
+}
+
 void	Sprite::SetRotation(const float& rotation_) {
 	rotation = rotation_;
 	Update();
@@ -291,8 +309,6 @@ void Sprite::Draw() {
 	comList->IASetVertexBuffers(0, 1, &vbView);
 	//定数バッファビュー（CBV）の設定コマンド
 	comList->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
-
-
 	//インディックスバッファビューの設定コマンド
 	comList->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド

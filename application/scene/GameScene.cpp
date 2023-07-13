@@ -62,10 +62,12 @@ void GameScene::Initialize() {
 	player->Initialeze(box,input,aim.get());
 
 	//ポストエフェクト
+	spriteCommon = new SpriteCommon;
+	spriteCommon->Initialize(dxCommon);
+	spriteCommon->Loadtexture(100, "white1×1.png");
 	PostEffect::StaticInitialize(dxCommon);
 	pe = new PostEffect;
-	pe->Initialize();
-	pe->Loadtexture("white1×1.png");
+	pe->Initialize(spriteCommon);
 }
 
 void GameScene::Update(){
@@ -122,14 +124,9 @@ void GameScene::Draw(){
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 	//fbxObj->Draw(dxCommon->GetCommandList());
-
-	//パーティクル描画
-	
-	//スプライト描画
-
-	//imgui
-	//imguiM->Draw();
+	spriteCommon->PreDraw();
 	pe->Draw(dxCommon->GetCommandList());
+	spriteCommon->PostDraw();
 
 	dxCommon->PostDraw();
 }

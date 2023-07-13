@@ -44,7 +44,7 @@ private:
 	//キー
 	Input* input = nullptr;
 	//スプライト
-	//SpriteCommon* spriteCommon = nullptr;
+	SpriteCommon* spriteCommon = nullptr;
 	//カメラ初期化
 	std::unique_ptr<Camera>camera = std::make_unique<Camera>();
 	//スプライト

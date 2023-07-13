@@ -30,6 +30,11 @@ public://ƒƒ“ƒoŠÖ”
 	DirectXCommon* GetdxCom()const { return directXCom; }
 
 	ID3D12Resource* GetTexBuff(uint32_t index)const { return texBuffers[index].Get(); }
+
+	ID3D12PipelineState* GetPiprlineState()const { return pipelineState; }
+
+	ID3D12RootSignature* GetRootSignature()const { return rootSignature; }
+
 public://Ã“Iƒƒ“ƒoŠÖ”
 
 	//ID3D12PipelineState* GetPipelineState()const { return pipelineState; }
