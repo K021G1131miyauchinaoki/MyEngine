@@ -73,7 +73,7 @@ private:
 	bool isEndRequst = false;
 
 	//ポストエフェクト
-	PostEffect* pe;
+	PostEffect* postEffect;
 
 	//ImguiManager* velocity;
 	//ImguiManager* pos;

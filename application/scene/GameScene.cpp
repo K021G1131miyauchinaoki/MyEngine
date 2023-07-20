@@ -66,8 +66,8 @@ void GameScene::Initialize() {
 	spriteCommon->Initialize(dxCommon);
 	spriteCommon->Loadtexture(100, "white1×1.png");
 	PostEffect::StaticInitialize(dxCommon);
-	pe = new PostEffect;
-	pe->Initialize(spriteCommon);
+	postEffect = new PostEffect;
+	postEffect->Initialize(spriteCommon);
 }
 
 void GameScene::Update(){
@@ -102,12 +102,11 @@ void GameScene::Update(){
 	//for (auto object : objects) {
 	//	object->Update();
 	//}
-	pe->Update();
+	postEffect->Update();
 }
 
 void GameScene::Draw(){
-	//Direct毎フレーム処理　ここから
-	dxCommon->PreDraw();
+	//postEffect->PreDrawScene(dxCommon->GetCommandList());
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(dxCommon->GetCommandList());
 	/// <summary>
@@ -124,8 +123,13 @@ void GameScene::Draw(){
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 	//fbxObj->Draw(dxCommon->GetCommandList());
+	//postEffect->PostDrawScene(dxCommon->GetCommandList());
+
+	//Direct毎フレーム処理　ここから
+	dxCommon->PreDraw();
+	
 	spriteCommon->PreDraw();
-	pe->Draw(dxCommon->GetCommandList());
+	postEffect->Draw(dxCommon->GetCommandList());
 	spriteCommon->PostDraw();
 
 	dxCommon->PostDraw();
