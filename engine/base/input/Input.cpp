@@ -59,8 +59,8 @@ void	Input::Update() {
 	POINT p;
 	GetCursorPos(&p);
 	ScreenToClient(winApp->GetHwnd(), &p);
-	mPos.x = p.x;
-	mPos.y = p.y;
+	mPos.x = static_cast<float>(p.x);
+	mPos.y = static_cast<float>(p.y);
 }
 
 bool	Input::PushKey(BYTE keyNumber) {
