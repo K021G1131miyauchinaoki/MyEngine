@@ -21,23 +21,23 @@ void GameScene::Initialize() {
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetTarget({ 0,0,0 });
-	camera->SetEye({ 0,60,-20 });
+	camera->SetEye({ 10,10,-20 });
 	camera->Update();
 	Object3d::StaticInitialize(dxCommon->GetDevice(), camera.get());
 
 	/*---------------- - FBX------------------------*/
-	//fbxM = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
-	////デバイスをセット
-	//FbxObject3d::SetDevice(dxCommon->GetDevice());
-	//// カメラをセット
-	//FbxObject3d::SetCamera(camera.get());
-	////グラフィックパイプライン生成
-	//FbxObject3d::CreateGraphicsPipeline();
-	////3Dオブジェクト生成とモデルセット
-	//fbxObj = new FbxObject3d;
-	//fbxObj->Initialize();
-	//fbxObj->SetModel(fbxM);
-	//fbxObj->PlayAnimation();
+	fbxM = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+	//デバイスをセット
+	FbxObject3d::SetDevice(dxCommon->GetDevice());
+	// カメラをセット
+	FbxObject3d::SetCamera(camera.get());
+	//グラフィックパイプライン生成
+	FbxObject3d::CreateGraphicsPipeline();
+	//3Dオブジェクト生成とモデルセット
+	fbxObj = new FbxObject3d;
+	fbxObj->Initialize();
+	fbxObj->SetModel(fbxM);
+	fbxObj->PlayAnimation();
 	
 	// モデル読み込み
 	modelSkydome = Model::LoadFromOBJ("skydome");
@@ -97,7 +97,7 @@ void GameScene::Update(){
 	//ImGui::SliderFloat2("volocity", vec, 0.0f, static_cast<float>(WinApp::width));
 	//ImGui::End();
 	//ImGui::SliderFloat2("pos",posA,0.0f, WinApp::width);
-	//fbxObj->Update();
+	fbxObj->Update();
 
 	//for (auto object : objects) {
 	//	object->Update();
@@ -106,7 +106,7 @@ void GameScene::Update(){
 }
 
 void GameScene::Draw(){
-	//postEffect->PreDrawScene(dxCommon->GetCommandList());
+	postEffect->PreDrawScene(dxCommon->GetCommandList());
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(dxCommon->GetCommandList());
 	/// <summary>
@@ -122,8 +122,8 @@ void GameScene::Draw(){
 	aim->Draw();*/
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
-	//fbxObj->Draw(dxCommon->GetCommandList());
-	//postEffect->PostDrawScene(dxCommon->GetCommandList());
+	fbxObj->Draw(dxCommon->GetCommandList());
+	postEffect->PostDrawScene(dxCommon->GetCommandList());
 
 	//Direct毎フレーム処理　ここから
 	dxCommon->PreDraw();

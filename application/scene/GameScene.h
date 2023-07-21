@@ -64,8 +64,8 @@ private:
 	std::map<std::string, Model*> models;
 
 	//FBX
-	//FbxModel* fbxM = nullptr;
-	//FbxObject3d* fbxObj = nullptr;
+	FbxModel* fbxM = nullptr;
+	FbxObject3d* fbxObj = nullptr;
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Aimposition> aim;
 
