@@ -21,7 +21,7 @@ void GameScene::Initialize() {
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetTarget({ 0,0,0 });
-	camera->SetEye({ 10,10,-20 });
+	camera->SetEye({ 0,0,-20 });
 	camera->Update();
 	Object3d::StaticInitialize(dxCommon->GetDevice(), camera.get());
 
