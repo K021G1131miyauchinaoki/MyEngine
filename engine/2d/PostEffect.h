@@ -33,27 +33,27 @@ public: // メンバ関数
 	/// <summary>
 	/// テクスチャ初期化
 	/// </summary>
-	void InitializeTex();
+	void CreateTex();
 	
 	/// <summary>
 	/// SRV初期化
 	/// </summary>
-	void InitializeSRV();
+	void CreateSRV();
 	
 	/// <summary>
 	/// RTV初期化
 	/// </summary>
-	void InitializeRTV();
+	void CreateRTV();
 	
 	/// <summary>
 	/// 深度バッファ初期化
 	/// </summary>
-	void InitializeDepth();
+	void CreateDepth();
 	
 	/// <summary>
 	/// DSV初期化
 	/// </summary>
-	void InitializeDSV();
+	void CreateDSV();
 
 	/// <summary>
 	/// シーン描画前
@@ -64,6 +64,13 @@ public: // メンバ関数
 	/// シーン描画後
 	/// </summary>
 	void PostDrawScene(ID3D12GraphicsCommandList* cmdList_);
+private://構造体
+//頂点データ
+	struct Vertex {
+		XMFLOAT3	pos;//xyz座標
+		XMFLOAT2	uv;//uv座標
+	};
+
 private:
 	//テクスチャバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource>texBuff;

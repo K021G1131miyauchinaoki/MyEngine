@@ -39,13 +39,13 @@ void PostEffect::Initialize(SpriteCommon* spriteCommon_) {
 	
 
 	//基底クラスとしての初期化
-	Sprite::Initialize(spriteCommon_);
+	//Sprite::Initialize(spriteCommon_);
 
 	//InitializeTex();
-	//InitializeSRV();
-	//InitializeRTV();
-	//InitializeDepth();
-	//InitializeDSV();
+	//CreateSRV();
+	//CreateRTV();
+	//CreateDepth();
+	//CreateDSV();
 	//テクスチャリソース設定
 	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
@@ -198,23 +198,23 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList_) {
 	cmdList_->DrawIndexedInstanced(_countof(indice), texIndex, 0, 0, 0);//全ての頂点を使って描画
 }
 
-void PostEffect::InitializeTex(){
+void PostEffect::CreateTex(){
 
 }
 
-void PostEffect::InitializeSRV(){
+void PostEffect::CreateSRV(){
 	
 }
 
-void PostEffect::InitializeRTV(){
+void PostEffect::CreateRTV(){
 	
 }
 
-void PostEffect::InitializeDepth(){
+void PostEffect::CreateDepth(){
 	
 }
 
-void PostEffect::InitializeDSV(){
+void PostEffect::CreateDSV(){
 	
 }
 

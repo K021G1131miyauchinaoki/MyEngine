@@ -64,7 +64,7 @@ void GameScene::Initialize() {
 	//ポストエフェクト
 	spriteCommon = new SpriteCommon;
 	spriteCommon->Initialize(dxCommon);
-	spriteCommon->Loadtexture(100, "white1×1.png");
+	spriteCommon->Loadtexture(100, "reimu.png");
 	PostEffect::StaticInitialize(dxCommon);
 	postEffect = new PostEffect;
 	postEffect->Initialize(spriteCommon);
