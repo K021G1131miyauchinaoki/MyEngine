@@ -47,8 +47,7 @@ private:
 	SpriteCommon* spriteCommon = nullptr;
 	//カメラ初期化
 	std::unique_ptr<Camera>camera = std::make_unique<Camera>();
-	//スプライト
-		
+	
 	//モデル
 
 	//json読み込み

@@ -4,6 +4,8 @@
 #include"Sprite.h"
 #include"SpriteCommon.h"
 #include<wrl.h>
+#include<Vector2.h>
+#include<Vector3.h>
 
 class PostEffect:public Sprite
 {
@@ -71,7 +73,28 @@ private://構造体
 		XMFLOAT2	uv;//uv座標
 	};
 
+	enum VertNum
+	{
+		LB,//左下
+		LT,//左上
+		RB,//右下
+		RT,//右上
+	};
+
+	//定数バッファ用データ（マテリアル）
+	struct ConstBufferData {
+		XMFLOAT4	color;//色（RGB）
+		XMMATRIX	mat;//3D変換行列
+	};
 private:
+	//頂点バッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff = nullptr;
+	//頂点バッファビュー
+	D3D12_VERTEX_BUFFER_VIEW vbView{};
+	//定数バッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuff = nullptr;
+	//定数バッファビュー
+	ConstBufferData* constMap = nullptr;
 	//テクスチャバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource>texBuff;
 	//SRV用デスクリプタヒープ
@@ -82,6 +105,8 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>descHeapRTV;
 	//DSV用デスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>descHeapDSV;
+
+	Vertex vertices_[4];
 
 	HRESULT result_;
 };

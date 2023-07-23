@@ -3,6 +3,7 @@
 #include<WinApp.h>
 #include<d3dx12.h>
 #include<d3dcompiler.h>
+#include<memory>
 
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -46,6 +47,61 @@ void PostEffect::Initialize(SpriteCommon* spriteCommon_) {
 	//CreateRTV();
 	//CreateDepth();
 	//CreateDSV();
+	
+	//頂点バッファの生成
+	CD3DX12_HEAP_PROPERTIES heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	CD3DX12_RESOURCE_DESC resDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(Vertex) * 4);
+	result_ = dxCommon->GetDevice()->CreateCommittedResource(
+		&heapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&resDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&vertBuff));
+	assert(SUCCEEDED(result_));
+
+	//頂点データ
+	Vertex vertices[4] = {
+		{{-0.5f,-0.5f,0.0f},{0.0f,1.0f}},//左下
+		{{-0.5f,+0.5f,0.0f},{0.0f,0.0f}},//左上
+		{{+0.5f,-0.5f,0.0f},{1.0f,1.0f}},//右下
+		{{+0.5f,+0.5f,0.0f},{1.0f,0.0f}},//右上
+	};
+
+	//頂点バッファへのデータ転送
+	Vertex* vertMap = nullptr;
+	result_ = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	if (SUCCEEDED(result_))
+	{
+		memcpy(vertMap, vertices, sizeof(vertices));
+		vertBuff->Unmap(0, nullptr);
+	}
+
+	//頂点バッファビューの作成
+	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
+	vbView.SizeInBytes = sizeof(Vertex) * 4;
+	vbView.StrideInBytes = sizeof(Vertex);
+
+	//定数バッファの生成
+	resDesc = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
+	result_ = dxCommon->GetDevice()->CreateCommittedResource(
+		&heapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&resDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuff));
+	assert(SUCCEEDED(result_));
+
+	//定数バッファにデータ転送
+	result_ = constBuff->Map(0, nullptr, (void**)&constMap);
+	if (SUCCEEDED(result_))
+	{
+		constMap->color = this->color;
+		constMap->mat = XMMatrixIdentity();
+		constBuff->Unmap(0, nullptr);
+	}
+
 	//テクスチャリソース設定
 	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
@@ -161,23 +217,18 @@ void PostEffect::Initialize(SpriteCommon* spriteCommon_) {
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList_) {
 
-	matWorld = XMMatrixIdentity();
-	//matWorld.r[0].m128_f32[0] = 2.0f / directXCom->GetSwapChainDesc().Width;
-	//matWorld.r[1].m128_f32[1] = -2.0f / directXCom->GetSwapChainDesc().Height;
-	//matWorld *= XMMatrixScaling(1.0f, 1.0f, 0.0f);
-	matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
-	matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
+	//matWorld = XMMatrixIdentity();
+	////matWorld.r[0].m128_f32[0] = 2.0f / directXCom->GetSwapChainDesc().Width;
+	////matWorld.r[1].m128_f32[1] = -2.0f / directXCom->GetSwapChainDesc().Height;
+	////matWorld *= XMMatrixScaling(1.0f, 1.0f, 0.0f);
+	//matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
+	//matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
-	constMap->color = color;
-	constMap->mat = matWorld * matProjection;
+	//constMap->color = color;
+	//constMap->mat = matWorld * matProjection;
 
-	//非表示
-	if (isInvisible)
-	{
-		return;
-	}
-
-	spriteCommon->SetTextureCommands(texIndex);
+	
+	//spriteCommon->SetTextureCommands(texIndex);
 	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV.Get() };
 	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	// パイプラインステートとルートシグネチャの設定コマンド
@@ -195,7 +246,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList_) {
 	D3D12_GPU_DESCRIPTOR_HANDLE descHeapSRVHandle = descHeapSRV->GetGPUDescriptorHandleForHeapStart();
 	cmdList_->SetGraphicsRootDescriptorTable(1,descHeapSRVHandle);
 	// 描画コマンド
-	cmdList_->DrawIndexedInstanced(_countof(indice), texIndex, 0, 0, 0);//全ての頂点を使って描画
+	cmdList_->DrawInstanced(_countof(vertices_), 1, 0, 0);//全ての頂点を使って描画
 }
 
 void PostEffect::CreateTex(){

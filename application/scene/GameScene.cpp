@@ -102,7 +102,7 @@ void GameScene::Update(){
 	//for (auto object : objects) {
 	//	object->Update();
 	//}
-	postEffect->Update();
+	//postEffect->Update();
 }
 
 void GameScene::Draw(){
