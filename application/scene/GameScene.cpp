@@ -17,11 +17,12 @@ void GameScene::Initialize() {
 
 
 	//---------------------------3D----------------------------------
+
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetTarget({ 0,0,0 });
-	camera->SetEye({ 0,60,-20 });
+	camera->SetEye({ 0,80,-20 });
 	camera->Update();
 	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
 
@@ -38,28 +39,26 @@ void GameScene::Initialize() {
 	//fbxObj->Initialize();
 	//fbxObj->SetModel(fbxM);
 	//fbxObj->PlayAnimation();
-	
+
 	// モデル読み込み
 	modelSkydome = Model::LoadFromOBJ("skydome");
-	/*modelGround = Model::LoadFromOBJ("ground");
-	modelChr = Model::LoadFromOBJ("chr_sword");
-	modelSphere = Model::LoadFromOBJ("sphere");*/
+	cube = Model::LoadFromOBJ("cube");
 	box = Model::LoadFromOBJ("player");
 
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
 	objSkydome->SetModel(modelSkydome);
-	
-	/*--------------レベルエディタ----------------*/
-	// レベルデータの読み込み
-	levelData = LevelLoader::LoadJson("testScene");
-	
+	objSkydome->SetScale({ 5.0f,5.0f,5.0f });
 
 
-	aim= std::make_unique<Aimposition>();
+	aim = std::make_unique<Aimposition>();
 	aim->Initialeze(box, input);
+	
 	player = std::make_unique<Player>();
-	player->Initialeze(box,input,aim.get());
+	player->Initialeze(box, input, aim.get());
+
+	enemy = std::make_unique<Enemy>();
+	enemy->Initialeze(cube, player.get());
 
 	//ポストエフェクト
 	PostEffect::StaticInitialize(dxCommon);
@@ -67,6 +66,7 @@ void GameScene::Initialize() {
 	//pe->Initialize();
 	velocity = new ImguiManager;
 	velocity->Initialize(winApp, dxCommon);
+
 }
 
 void GameScene::Update(){
@@ -83,8 +83,11 @@ void GameScene::Update(){
 	//------------------------------
 	
 
+	camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
+	camera->SetEye({ player->GetPos().x, 100, player->GetPos().z - 30 });
 	camera->Update();
 	player->Updata();
+	enemy->Updata();
 	aim->Updata();
 	objSkydome->Update();
 	float vec[2] = { input->GetPos().x,input->GetPos().y};
@@ -151,13 +154,7 @@ void GameScene::Finalize(){
 	delete winApp;
 	delete	dxCommon;
 	delete velocity;
-	/*delete modelChr;
-	delete modelGround;
 	delete modelSkydome;
-	delete modelSphere;
-	delete objChr;
-	delete	objSkydome;
-	delete	objGround;
-	delete	objSphere;*/
-
+	delete cube;
+	delete box;
 }

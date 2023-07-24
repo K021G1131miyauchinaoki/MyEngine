@@ -1,17 +1,6 @@
 #include "Player.h"
 #include<cassert>
-Vector3& normaleize(Vector3 vec) {
-	float length = std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
-	if (length != 0) {
-		 vec.x /= length;
-		 vec.y /= length;
-		 vec.z /= length;
 
-		 return vec;
-	}
-
-	return vec;
-}
 
 //Vector3 Vec_rot(Vector3 velocity, Matrix4 amount) {
 //	Vector3 Rot;
@@ -72,7 +61,7 @@ void Player::Draw() {
 void Player::Move() {
 	Vector3 move = obj->GetPosition();
 
-	const float speed = 0.2f;
+	const float speed = 0.5f;
 	if (input->PushKey(DIK_W)) {
 		move.z += speed;
 	}
@@ -107,7 +96,7 @@ void Player::Shot() {
 	len.x = ePos.x - pPos.x;
 	len.y = ePos.y - pPos.y;
 	len.z = ePos.z - pPos.z;
-	velocity = normaleize(len);
+	velocity = MyMath::normaleize(len);
 
 	velocity.x *= kBulletSpeed;
 	velocity.y *= kBulletSpeed;
@@ -115,8 +104,8 @@ void Player::Shot() {
 
 	//‘¬“xƒxƒNƒgƒ‹‚ğ©‹@‚ÌŒü‚«‚É‡‚í‚¹‚Ä‰ñ“]‚³‚¹‚é
 	//velocity = Vec_rot(velocity, worldTransform_.matWorld_);
+	coolTime--;
 	if (input->PushKey(DIK_SPACE)||input->PushClick(Botton::LEFT)) {
-		coolTime--;
 		if (coolTime < 0)
 		{
 			//’e‚ğ¶¬‚µA‰Šú‰»
@@ -131,15 +120,15 @@ void Player::Shot() {
 
 		}
 	}
-	if (input->TriggerClick(Botton::LEFT)) {
-		
-		//’e‚ğ¶¬‚µA‰Šú‰»
-		std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
-		newBullet->Initialize(model, obj->GetPosition(), velocity, obj->GetRotation());
+	//if (input->TriggerClick(Botton::LEFT)) {
+	//	
+	//	//’e‚ğ¶¬‚µA‰Šú‰»
+	//	std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
+	//	newBullet->Initialize(model, obj->GetPosition(), velocity, obj->GetRotation());
 
-		//’e‚ğ“o˜^‚·‚é
-		bullets_.push_back(std::move(newBullet));
-	}
+	//	//’e‚ğ“o˜^‚·‚é
+	//	bullets_.push_back(std::move(newBullet));
+	//}
 }
 
 void Player::Rotate() {
@@ -149,7 +138,7 @@ void Player::Rotate() {
 	Vector3 vec = { 0,0,0 };
 	vec.x = b.x - a.x;
 	vec.z = b.z - a.z;
-	vec = normaleize(vec);
+	vec = MyMath::normaleize(vec);
 	angle = -((atan2(vec.z, vec.x)));
 	angle = (180.0f / 3.14f) * angle;
 	obj->SetRotation({0.0f,angle,0.0f});

@@ -99,7 +99,6 @@
     <ClCompile Include="application\Player.cpp">
       <Filter>application</Filter>
     </ClCompile>
-    <ClCompile Include="application\Enemy.cpp" />
     <ClCompile Include="application\Bullet.cpp">
       <Filter>application</Filter>
     </ClCompile>
@@ -120,6 +119,12 @@
       <Filter>engine\math</Filter>
     </ClCompile>
     <ClCompile Include="engine\math\WorldTransform.cpp">
+      <Filter>engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Enemy.cpp">
+      <Filter>application</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\math\MyMath.cpp">
       <Filter>engine\math</Filter>
     </ClCompile>
   </ItemGroup>
@@ -181,7 +186,6 @@
     <ClInclude Include="application\Player.h">
       <Filter>application</Filter>
     </ClInclude>
-    <ClInclude Include="application\Enemy.h" />
     <ClInclude Include="application\Bullet.h">
       <Filter>application</Filter>
     </ClInclude>
@@ -202,6 +206,12 @@
       <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="engine\math\WorldTransform.h">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Enemy.h">
+      <Filter>application</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\math\MyMath.h">
       <Filter>engine\math</Filter>
     </ClInclude>
   </ItemGroup>

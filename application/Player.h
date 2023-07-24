@@ -7,11 +7,12 @@
 #include<Bullet.h>
 #include<Aimposition.h>
 #include<Vector3.h>
+#include<MyMath.h>
 
 class Player
 {
 public://静的メンバ関数
-	Player GetInstnce();
+	//Player GetInstnce();
 
 public://メンバ関数
 	/// <summary>
@@ -43,6 +44,12 @@ public://メンバ関数
 	/// 回転
 	/// </summary>
 	void Rotate();
+
+	/// <summary>
+	/// 位置
+	/// </summary>
+	/// <returns></returns>
+	const	Vector3 GetPos() {return obj->GetPosition(); }
 
 	Vector3 GetVelocity(){ return velocity; }
 

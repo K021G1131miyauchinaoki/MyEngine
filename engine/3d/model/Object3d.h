@@ -27,7 +27,7 @@ public: // サブクラス
 	// 定数バッファ用データ構造体
 	struct ConstBufferDataB0
 	{
-		//XMFLOAT4 color;	// 色 (RGBA)
+		XMFLOAT4 color;	// 色 (RGBA)
 		XMMATRIX mat;	// ３Ｄ変換行列
 	};
 
@@ -138,6 +138,8 @@ public: // メンバ関数
 	//ペアレント設定
 	void SetParent(Object3d* parent_) { parent = parent_; }
 
+	//カラー
+	void SetColor(XMFLOAT4 color_) { color = color_; }
 
 private: // メンバ変数
 	//ComPtr<ID3D12Resource> constBuff; // 定数バッファ
