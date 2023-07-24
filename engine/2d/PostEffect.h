@@ -33,29 +33,34 @@ public: // メンバ関数
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
-	/// テクスチャ初期化
+	/// テクスチャ生成
 	/// </summary>
 	void CreateTex();
 	
 	/// <summary>
-	/// SRV初期化
+	/// SRV生成
 	/// </summary>
 	void CreateSRV();
 	
 	/// <summary>
-	/// RTV初期化
+	/// RTV生成
 	/// </summary>
 	void CreateRTV();
 	
 	/// <summary>
-	/// 深度バッファ初期化
+	/// 深度バッファ生成
 	/// </summary>
 	void CreateDepth();
 	
 	/// <summary>
-	/// DSV初期化
+	/// DSV生成
 	/// </summary>
 	void CreateDSV();
+
+	/// <summary>
+	/// 
+	/// </summary>
+
 
 	/// <summary>
 	/// シーン描画前

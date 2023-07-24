@@ -10,7 +10,7 @@
 using namespace DirectX;
 
 DirectXCommon* PostEffect::dxCommon = nullptr;
-const float PostEffect::clearColor[4] = { 0.25f,0.5f,0.1f,0.0f };
+const float PostEffect::clearColor[4] = { 0.0f,0.5f,0.5f,1.0f };
 
 //インデックスデータ
 unsigned	short	indice[] = {
@@ -235,13 +235,11 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList_) {
 	//cmdList_->SetPipelineState(spriteCommon->GetPiprlineState());
 	//cmdList_->SetGraphicsRootSignature(spriteCommon->GetRootSignature());
 	// プリミティブ形状の設定コマンド
-	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP); // 三角形リスト
 	// 頂点バッファビューの設定コマンド
 	cmdList_->IASetVertexBuffers(0, 1, &vbView);
 	//定数バッファビュー（CBV）の設定コマンド
 	cmdList_->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
-	//インディックスバッファビューの設定コマンド
-	cmdList_->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(SRV)の設定コマンド
 	D3D12_GPU_DESCRIPTOR_HANDLE descHeapSRVHandle = descHeapSRV->GetGPUDescriptorHandleForHeapStart();
 	cmdList_->SetGraphicsRootDescriptorTable(1,descHeapSRVHandle);
