@@ -20,7 +20,7 @@
 #include<Player.h>
 #include<Aimposition.h>
 #include<ImguiManager.h>
-
+#include<Enemy.h>
 
 class GameScene:public Framework
 {
@@ -55,7 +55,7 @@ private:
 	LevelData* levelData = nullptr;
 
 	Model* modelSkydome = nullptr;
-
+	Model* cube = nullptr;
 	Model* box = nullptr;
 
 	std::unique_ptr <Object3d> objSkydome = nullptr;
@@ -68,7 +68,7 @@ private:
 	//FbxObject3d* fbxObj = nullptr;
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Aimposition> aim;
-
+	std::unique_ptr<Enemy>enemy;
 	//ゲーム終了フラグ
 	bool isEndRequst = false;
 
