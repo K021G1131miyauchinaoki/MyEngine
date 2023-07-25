@@ -309,9 +309,8 @@ void DirectXCommon::PostDraw(){
 	ID3D12CommandList* commandLists[] = { cmdList.Get() };
 	commandQueue->ExecuteCommandLists(1, commandLists);
 	// 画面に表示するバッファをフリップ(裏表の入替え)
-	
 	result = swapChain->Present(1, 0);
-	//assert(SUCCEEDED(result));
+	assert(SUCCEEDED(result));
 
 	// コマンドの実行完了を待つ
 	commandQueue->Signal(fence.Get(), ++fenceVal);

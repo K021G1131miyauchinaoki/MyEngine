@@ -64,10 +64,9 @@ void GameScene::Initialize() {
 	//ポストエフェクト
 	spriteCommon = new SpriteCommon;
 	spriteCommon->Initialize(dxCommon);
-	spriteCommon->Loadtexture(100, "reimu.png");
 	PostEffect::StaticInitialize(dxCommon);
 	postEffect = new PostEffect;
-	postEffect->Initialize(spriteCommon);
+	postEffect->Initialize();
 }
 
 void GameScene::Update(){
@@ -128,9 +127,7 @@ void GameScene::Draw(){
 	//Direct毎フレーム処理　ここから
 	dxCommon->PreDraw();
 	
-	spriteCommon->PreDraw();
 	postEffect->Draw(dxCommon->GetCommandList());
-	spriteCommon->PostDraw();
 
 	dxCommon->PostDraw();
 }

@@ -7,7 +7,7 @@
 #include<Vector2.h>
 #include<Vector3.h>
 
-class PostEffect:public Sprite
+class PostEffect
 {
 public: // 静的メンバ関数
 	static void	StaticInitialize(DirectXCommon* dxCommon_);
@@ -24,7 +24,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(SpriteCommon* spriteCommon_);
+	void Initialize();
 
 	/// <summary>
 	/// 描画コマンドの発行
@@ -58,9 +58,14 @@ public: // メンバ関数
 	void CreateDSV();
 
 	/// <summary>
-	/// 
+	/// 頂点バッファ生成
 	/// </summary>
+	void CreateVertexBuffer();
 
+	/// <summary>
+	/// パイプライン生成
+	/// </summary>
+	void CreateGraphicsPipelineState();
 
 	/// <summary>
 	/// シーン描画前
@@ -110,8 +115,12 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>descHeapRTV;
 	//DSV用デスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>descHeapDSV;
-
+	//グラフィックスパイプライン
+	Microsoft::WRL::ComPtr<ID3D12PipelineState>pipelineState;
+	//ルートシグネチャ
+	Microsoft::WRL::ComPtr<ID3D12RootSignature>rootSignature;
 	Vertex vertices_[4];
-
+	//カラー
+	XMFLOAT4	color = { 1,1,1,1 };
 	HRESULT result_;
 };

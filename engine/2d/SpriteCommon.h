@@ -31,7 +31,7 @@ public://ƒƒ“ƒoŠÖ”
 
 	ID3D12Resource* GetTexBuff(uint32_t index)const { return texBuffers[index].Get(); }
 
-	ID3D12PipelineState* GetPiprlineState()const { return pipelineState; }
+	ID3D12PipelineState* GetPiprlineState()const { return pipelineState.Get(); }
 
 	ID3D12RootSignature* GetRootSignature()const { return rootSignature; }
 
@@ -43,7 +43,7 @@ private://ƒƒ“ƒo•Ï”
 	DirectXCommon* directXCom = nullptr;
 	Microsoft::WRL::ComPtr <ID3D12Device> device = nullptr;
 	HRESULT	result;
-	ID3D12PipelineState* pipelineState = nullptr;
+	Microsoft::WRL::ComPtr < ID3D12PipelineState>pipelineState = nullptr;
 	ID3D12DescriptorHeap* srvHeap = nullptr;
 	ID3D12RootSignature* rootSignature;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>comList;

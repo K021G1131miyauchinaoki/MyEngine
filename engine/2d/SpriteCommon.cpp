@@ -107,7 +107,7 @@ void	SpriteCommon::Loadtexture(uint32_t index, std::string fileName) {
 void	SpriteCommon::SetTextureCommands(uint32_t index) {
 	comList = directXCom->GetCommandList();
 	// パイプラインステートとルートシグネチャの設定コマンド
-	comList->SetPipelineState(pipelineState);
+	comList->SetPipelineState(pipelineState.Get());
 	comList->SetGraphicsRootSignature(rootSignature);
 
 	// プリミティブ形状の設定コマンド
@@ -339,7 +339,7 @@ void	SpriteCommon::Initialize(DirectXCommon* directXCom_) {
 void	SpriteCommon::PreDraw() {
 	comList = directXCom->GetCommandList();
 	// パイプラインステートとルートシグネチャの設定コマンド
-	comList->SetPipelineState(pipelineState);
+	comList->SetPipelineState(pipelineState.Get());
 	comList->SetGraphicsRootSignature(rootSignature);
 
 	// プリミティブ形状の設定コマンド
