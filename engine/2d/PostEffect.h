@@ -106,7 +106,7 @@ private:
 	//定数バッファビュー
 	ConstBufferData* constMap = nullptr;
 	//テクスチャバッファ
-	Microsoft::WRL::ComPtr<ID3D12Resource>texBuff;
+	Microsoft::WRL::ComPtr<ID3D12Resource>texBuff[2];
 	//SRV用デスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>descHeapSRV;
 	//深度バッファ
