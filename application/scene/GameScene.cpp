@@ -118,7 +118,7 @@ void GameScene::Draw(){
 	/*for (auto object : objects) {
 		object->Draw();
 	}*/
-
+	enemy->Draw();
 	objSkydome->Draw();
 	player->Draw();
 	aim->Draw();
