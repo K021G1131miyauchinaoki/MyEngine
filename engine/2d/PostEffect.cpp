@@ -137,9 +137,10 @@ void PostEffect::CreateRTV(){
 	renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	renderTargetViewDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-	CD3DX12_CPU_DESCRIPTOR_HANDLE CpuDescHandle[2];
-	CpuDescHandle[0] = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapRTV->GetCPUDescriptorHandleForHeapStart(), 0, dxCommon->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-	CpuDescHandle[1] = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapRTV->GetCPUDescriptorHandleForHeapStart(), 1, dxCommon->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+	CD3DX12_CPU_DESCRIPTOR_HANDLE CpuDescHandle[2] = {
+		CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapRTV->GetCPUDescriptorHandleForHeapStart(), 0, dxCommon->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)),
+		CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapRTV->GetCPUDescriptorHandleForHeapStart(), 1, dxCommon->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV))
+	};
 	//デスクリプタヒープにRTV作成
 	for (size_t i = 0; i < 2; i++)
 	{
@@ -419,7 +420,7 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList*	 cmdList_) {
 	}
 	//レンダーターゲットビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvH[2];
-	for (size_t i = 0; i < 2; i++)
+	for (uint32_t i = 0; i < 2; i++)
 	{
 		rtvH[i] = CD3DX12_CPU_DESCRIPTOR_HANDLE(
 			descHeapRTV->GetCPUDescriptorHandleForHeapStart(), i,
@@ -455,8 +456,8 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList*	 cmdList_) {
 
 void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList_) {
 	CD3DX12_RESOURCE_BARRIER resourceBuff[2] = {
-			CD3DX12_RESOURCE_BARRIER::Transition(texBuff[1].Get(),D3D12_RESOURCE_STATE_RENDER_TARGET,D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE),
-			CD3DX12_RESOURCE_BARRIER::Transition(texBuff[2].Get(),D3D12_RESOURCE_STATE_RENDER_TARGET,D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE)
+			CD3DX12_RESOURCE_BARRIER::Transition(texBuff[0].Get(),D3D12_RESOURCE_STATE_RENDER_TARGET,D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE),
+			CD3DX12_RESOURCE_BARRIER::Transition(texBuff[1].Get(),D3D12_RESOURCE_STATE_RENDER_TARGET,D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE)
 	};
 	//リソースバリアを変更(描画可能→シェーダーリソース)
 	for (size_t i = 0; i < 2; i++)
