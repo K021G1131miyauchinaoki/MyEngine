@@ -120,7 +120,7 @@ void GameScene::Draw(){
 	//Direct–ˆƒtƒŒ[ƒ€ˆ—@‚±‚±‚©‚ç
 	dxCommon->PreDraw();
 	
-	postEffect->Draw(dxCommon->GetCommandList());
+	postEffect->Draw(dxCommon->GetCommandList(),input);
 
 	dxCommon->PostDraw();
 }

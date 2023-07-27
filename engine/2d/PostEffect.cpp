@@ -10,7 +10,7 @@
 using namespace DirectX;
 
 DirectXCommon* PostEffect::dxCommon = nullptr;
-const float PostEffect::clearColor[4] = { 0.5f,0.5f,0.0f,1.0f };
+const float PostEffect::clearColor[4] = { 0.25f,0.5f,0.1f,0.0f };
 
 PostEffect::PostEffect(){}
 
@@ -33,8 +33,24 @@ void PostEffect::Initialize() {
 
 }
 
-void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList_) {
-	
+void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList_, Input* input_) {
+	assert(input_);
+
+	if (input_->TriggerKey(DIK_0))
+	{
+		//デスクリプタヒープにSRV作成
+		static uint8_t tex = 0;
+		//テクスチャ番号0,1の切り替え
+		tex = (tex + 1) % 2;
+
+		D3D12_SHADER_RESOURCE_VIEW_DESC	srvDesc{};//設定構造体
+		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
+		srvDesc.Texture2D.MipLevels = 1;
+		dxCommon->GetDevice()->CreateShaderResourceView(texBuff[tex].Get(), &srvDesc, descHeapSRV->GetCPUDescriptorHandleForHeapStart());
+	}
+
 	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV.Get() };
 	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	// パイプラインステートとルートシグネチャの設定コマンド

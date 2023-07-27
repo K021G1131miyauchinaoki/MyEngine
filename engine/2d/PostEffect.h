@@ -6,6 +6,7 @@
 #include<wrl.h>
 #include<Vector2.h>
 #include<Vector3.h>
+#include<Input.h>
 
 class PostEffect
 {
@@ -30,7 +31,7 @@ public: // メンバ関数
 	/// 描画コマンドの発行
 	/// </summary>
 	/// <param name="cmdList">コマンドリスト</param>
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw(ID3D12GraphicsCommandList* cmdList, Input* input_);
 
 	/// <summary>
 	/// テクスチャ生成
