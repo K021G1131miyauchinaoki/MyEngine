@@ -32,6 +32,9 @@ float4 main(VSOutput input) : SV_TARGET
     {
         color = float4(1 - texcolor0.rgb, 1);
     }
+    float grayScale = texcolor0.r * 0.299 + texcolor0.g * 0.587 + texcolor0.b * 0.114;
+    float sepia = 0.2f;
+    //color = float4(grayScale+sepia, grayScale, grayScale-sepia, 1);
     
     return color;
 }
