@@ -28,7 +28,7 @@ void Aimposition::Draw() {
 void Aimposition::Move() {
 	Vector3 move = obj->GetPosition();
 
-	const float speed = 0.2f;
+	const float speed = 0.4f;
 	if (input->PushKey(DIK_UP)) {
 		move.z += speed;
 	}

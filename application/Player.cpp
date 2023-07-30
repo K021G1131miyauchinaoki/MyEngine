@@ -141,6 +141,8 @@ void Player::Rotate() {
 	vec = MyMath::normaleize(vec);
 	angle = -((atan2(vec.z, vec.x)));
 	angle = (180.0f / 3.14f) * angle;
-	obj->SetRotation({0.0f,angle,0.0f});
+	Vector3 rot = { 0,angle,0 };
+
+	obj->SetRotation(rot);
 	obj->GetRotation();
 }

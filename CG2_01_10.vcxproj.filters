@@ -34,10 +34,10 @@
     <FxCompile Include="Resources\shaders\FBXVS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\PostEefectPSr.hlsl">
+    <FxCompile Include="Resources\shaders\PostEffectPSr.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\PostEefectVS.hlsl">
+    <FxCompile Include="Resources\shaders\PostEffectVS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
   </ItemGroup>
@@ -232,7 +232,7 @@
     <None Include="Resources\shaders\FBX.hlsli">
       <Filter>shader</Filter>
     </None>
-    <None Include="Resources\shaders\PostEefect.hlsli">
+    <None Include="Resources\shaders\PostEffect.hlsli">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

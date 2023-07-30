@@ -1,5 +1,6 @@
 #include "MyMath.h"
 #include<cmath>	
+#define PI (3.14f)
 
 namespace MyMath
 {
@@ -14,5 +15,17 @@ namespace MyMath
 		}
 
 		return vec;
+	}
+
+	//ƒ‰ƒWƒAƒ“•ÏŠ·
+	float RadianTransform(float degree) {
+		float radian = degree * (PI / 180.0f);
+		return radian;
+	}
+
+	//“x”•ÏŠ·
+	float DegreeTransform(float radian) {
+		float degree = radian * (180.0f / PI);
+		return degree;
 	}
 }
