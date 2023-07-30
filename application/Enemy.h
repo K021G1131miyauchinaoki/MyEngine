@@ -13,6 +13,14 @@
 //自機クラスの前方前言
 class Player;
 
+
+//行動フェーズ
+enum class Phase {
+	wait,//待機
+	move, //移動する
+	atack,    //攻撃する
+};
+
 class Enemy
 {
 public://メンバ関数
@@ -32,6 +40,11 @@ public://メンバ関数
 	void Draw();
 
 	/// <summary>
+	/// 待機
+	/// </summary>
+	void Wait();
+
+	/// <summary>
 	/// 移動
 	/// </summary>
 	void Move();
@@ -46,6 +59,14 @@ public://メンバ関数
 	/// </summary>
 	void Rotate();
 
+	/// <summary>
+	///デスフラグ 
+	/// </summary>
+	bool IsDead() { return isDead; }
+private://構造体
+	
+
+
 private://メンバ変数
 	Input* input = nullptr;
 	Model* model = nullptr;
@@ -53,13 +74,31 @@ private://メンバ変数
 	std::unique_ptr<Object3d>obj = nullptr;
 	//弾
 	std::list<std::unique_ptr<Bullet>> bullets_;
-	//Bullet* one;
-	//クールタイム
-	int32_t coolTime;
-
+	//移動フラグ
+	bool isMove = false;
+	//移動時間
+	int16_t moveTimer;
+	const int16_t  moveTime = 120;
+	//発射するまでの時間
+	int16_t shotTimer;
+	const int16_t  shotTime = 10;
+	//待機フラグ
+	bool isWait = false;
+	//待機時間
+	int16_t waitTimer;
+	int16_t waitTime[2] = { 5,10 };
 	//自キャラ
 	Player* player = nullptr;
 
 	float angle = 0.0f;
+	//速度
 	Vector3 velocity;
+	//移動
+	Vector3 move;
+	//フェーズ
+	Phase phase = Phase::move;
+	//乱数値格納
+	float value;
+	//デスフラグ
+	bool isDead = false;
 };

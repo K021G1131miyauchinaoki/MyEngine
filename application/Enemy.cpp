@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include<cassert>
+#include<random>
 
 
 //Vector3 Vec_rot(Vector3 velocity, Matrix4 amount) {
@@ -30,18 +31,29 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
-	obj->SetPosition({ 0.0f,0.0f,0.0f });
+	obj->SetPosition({ 0.0f,0.0f,10.0f });
 	obj->SetScale({ 5.0f,5.0f,5.0f });
 	obj->Update();
-	coolTime = 10;
+	moveTimer = moveTime;
+	shotTimer = shotTime;
+	waitTimer = waitTime[0];
 }
 
 void Enemy::Updata() {
 	//デスフラグの立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<Bullet>& bullet) { return bullet->IsDead(); });
-	Rotate();
-	Move();
-	Shot();
+	switch (phase) {
+	case Phase::wait:
+		Wait();
+		break;
+	case Phase::move:
+		Move();
+		break;
+	case Phase::atack:
+		Shot();
+
+		break;
+	}
 	obj->Update();
 	for (std::unique_ptr<Bullet>& bullet : bullets_)
 	{
@@ -57,39 +69,68 @@ void Enemy::Draw() {
 }
 
 void Enemy::Move() {
-	
+
+	if (!isMove)
+	{
+		#pragma region 乱数
+		//乱数シード生成器
+		std::random_device seed_gen;
+		//メルセンヌ・ツイスターの乱数エンジン
+		std::mt19937_64 engine(seed_gen());
+		//乱数　（回転）
+		std::uniform_real_distribution<float> rotDist(-1.0f,1.0f);
+		//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
+		value = rotDist(engine);
+		angle = MyMath::DegreeTransform(value);
+		obj->SetRotation({ 0.0f,angle,0.0f });
+		//弾の速度
+		const float speed = 0.2f;
+		move.x += speed * std::cos(angle);
+		move.z += speed * std::sin(angle);
+		
+		#pragma endregion
+		isMove = true;
+	}
+	else if (moveTimer<0) {
+		move = { 0.0f,0.0f, 0.0f };
+		phase = Phase::wait;
+		isMove = false;
+		moveTimer = moveTime;
+	}
+	else
+	{
+		moveTimer--;
+		Vector3 pos = obj->GetPosition();
+		pos += move;
+		obj->SetPosition(pos);
+	}
+
 }
 
 void Enemy::Shot() {
+	/*shotTimer--;
+	if (shotTimer < 0)
+	{*/
+		//弾の速度
+		const float kBulletSpeed = 1.0f;
+		velocity = { 0.0f,0.0f,0.0f };
 
-	//弾の速度
-	const float kBulletSpeed = 1.0f;
-	velocity.x = 0.0f;
-	velocity.y = 0.0f;
-	velocity.z = 0.0f;
+		Vector3 pPos = { 0.0f,0.0f,0.0f };
+		pPos.x = obj->GetPosition().x;
+		pPos.y = obj->GetPosition().y;
+		pPos.z = obj->GetPosition().z;
+		Vector3 ePos = player->GetPos();
 
-	Vector3 pPos = { 0.0f,0.0f,0.0f };
-	pPos.x = obj->GetPosition().x;
-	pPos.y = obj->GetPosition().y;
-	pPos.z = obj->GetPosition().z;
-	Vector3 ePos = player->GetPos();
+		Vector3 len;
+		len.x = ePos.x - pPos.x;
+		len.y = ePos.y - pPos.y;
+		len.z = ePos.z - pPos.z;
+		velocity = MyMath::normaleize(len);
 
-	Vector3 len;
-	len.x = ePos.x - pPos.x;
-	len.y = ePos.y - pPos.y;
-	len.z = ePos.z - pPos.z;
-	velocity = MyMath::normaleize(len);
+		velocity *= kBulletSpeed;
 
-	velocity.x *= kBulletSpeed;
-	velocity.y *= kBulletSpeed;
-	velocity.z *= kBulletSpeed;
-
-	//速度ベクトルを自機の向きに合わせて回転させる
-	//velocity = Vec_rot(velocity, worldTransform_.matWorld_);
-	coolTime--;
-	
-	if (coolTime < 0)
-	{
+		//速度ベクトルを自機の向きに合わせて回転させる
+		//velocity = Vec_rot(velocity, worldTransform_.matWorld_);
 		//弾を生成し、初期化
 		std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
 		newBullet->Initialize(model, obj->GetPosition(), velocity, obj->GetRotation());
@@ -97,21 +138,34 @@ void Enemy::Shot() {
 		//弾を登録する
 		bullets_.push_back(std::move(newBullet));
 
-		//タイムリセット
-		coolTime = 30;
-
-	}
-	//if (input->TriggerClick(Botton::LEFT)) {
-	//	
-	//	//弾を生成し、初期化
-	//	std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
-	//	newBullet->Initialize(model, obj->GetPosition(), velocity, obj->GetRotation());
-
-	//	//弾を登録する
-	//	bullets_.push_back(std::move(newBullet));
+		//フェーズの切り替え
+		phase = Phase::wait;
+		shotTimer = shotTime;
 	//}
+
 }
 
 void Enemy::Rotate() {
 	
+}
+
+void Enemy::Wait() {
+	waitTimer--;
+	if (waitTimer < 0)
+	{
+		if (!isWait)
+		{
+			isWait = true;
+			waitTimer = waitTime[1];
+
+			phase = Phase::atack;
+		}
+		else
+		{
+			isWait = false;
+			waitTimer = waitTime[0];
+			phase = Phase::move;
+
+		}
+	}
 }
