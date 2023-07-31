@@ -1,14 +1,19 @@
 #include "EnemyBullet.h"
 #include<assert.h>
 
-void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity, const Vector3& rotation) {
+std::unique_ptr < Model>  EnemyBullet::model=nullptr;
+
+void EnemyBullet::StaticInitialize(Model* model_) {
+	model.reset(model_);
+}
+
+void EnemyBullet::Initialize( const Vector3& position, const Vector3& velocity, const Vector3& rotation) {
 	//NULLポインタチェック
 	assert(model);
-	model_ = model;
 	velocity_ = velocity;
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
-	obj->SetModel(model);
+	obj->SetModel(model.get());
 	obj->SetRotation(rotation);
 	obj->SetPosition(position);
 	obj->SetColor({ 0.0f,0.0f,0.0f,1.0f });
@@ -48,11 +53,16 @@ void EnemyBullet::Draw() {
 	obj->Draw();
 }
 
+//終了
+void EnemyBullet::Finalize() {
+	model.release();
+}
+
 //コンストラクタ
 EnemyBullet::EnemyBullet() {
 
 }
 //デストラクタ
 EnemyBullet::~EnemyBullet() {
-
+	
 }

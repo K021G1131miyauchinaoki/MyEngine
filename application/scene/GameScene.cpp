@@ -1,5 +1,7 @@
 #include "GameScene.h"
 #include<MyMath.h>
+#include<EnemyBullet.h>
+#include<Bullet.h>
 #define safe_delete(p)  {delete p; p = nullptr;}
 
 void GameScene::Initialize() {
@@ -46,7 +48,8 @@ void GameScene::Initialize() {
 	cube = Model::LoadFromOBJ("cube");
 	box = Model::LoadFromOBJ("tank");
 
-	
+	EnemyBullet::StaticInitialize(cube);
+	Bullet::StaticInitialize(cube);
 
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
@@ -152,6 +155,8 @@ void GameScene::Finalize(){
 	FbxLoader::GetInstance()->Finalize();
 	//safe_delete(fbxObj);
 	//safe_delete(fbxM);
+	Bullet::Finalize();
+	EnemyBullet::Finalize();
 
 	delete	input;
 	delete winApp;

@@ -1,14 +1,21 @@
 #include "Bullet.h"
 
 #include<assert.h>
-void Bullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity,const Vector3& rotation){
+
+std::unique_ptr < Model>Bullet::model = nullptr;
+
+void Bullet::StaticInitialize(Model* model_) {
+	model.reset(model_);
+}
+
+void Bullet::Initialize( const Vector3& position, const Vector3& velocity,const Vector3& rotation){
 	//NULLポインタチェック
 	assert(model);
-	model_ = model;
+	
 	velocity_ = velocity;
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
-	obj->SetModel(model);
+	obj->SetModel(model.get());
 	obj->SetRotation(rotation);
 	obj->SetPosition(position);
 	obj->SetColor({ 0.0f,0.0f,0.0f,1.0f });
@@ -44,10 +51,15 @@ Vector3 Bullet::GetBulletPosition() {
 //衝突したら
 void Bullet::OnCollision() { isDead_ = true; }
 
+//描画
 void Bullet::Draw() {
 	obj->Draw();
 }
 
+//終了
+void Bullet::Finalize() {
+	model.release();
+}
 //コンストラクタ
 Bullet::Bullet() {
 	

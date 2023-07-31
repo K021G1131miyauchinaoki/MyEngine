@@ -147,7 +147,7 @@ void Enemy::Shot() {
 		//velocity = Vec_rot(velocity, worldTransform_.matWorld_);
 		//’e‚ğ¶¬‚µA‰Šú‰»
 		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-		newBullet->Initialize(model, obj->GetPosition(), velocity, obj->GetRotation());
+		newBullet->Initialize(obj->GetPosition(), velocity, obj->GetRotation());
 
 		//’e‚ğ“o˜^‚·‚é
 		bullets_.push_back(std::move(newBullet));

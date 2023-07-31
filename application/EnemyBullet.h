@@ -6,11 +6,14 @@
 
 class EnemyBullet
 {
-public:
+public://コンストラクタ
 	EnemyBullet();
 	~EnemyBullet();
-	static void StaticInitialeze(Model* model_);
-	void Initialize(Model* model, const Vector3& position, const Vector3& veclocity, const Vector3& rotation_);
+public://静的メンバ関数
+	static void StaticInitialize(Model* model_);
+public://メンバ関数
+	static void Finalize();
+	void Initialize( const Vector3& position, const Vector3& veclocity, const Vector3& rotation_);
 	void Update();
 	void Draw();
 	bool IsDead() const { return isDead_; }
@@ -24,7 +27,7 @@ public:
 
 private:
 
-	Model* model_ = nullptr;
+	static	std::unique_ptr < Model> model;
 	std::unique_ptr<Object3d>obj = nullptr;
 	//速度
 	Vector3 velocity_;
