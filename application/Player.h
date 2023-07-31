@@ -51,7 +51,14 @@ public://ƒƒ“ƒoŠÖ”
 	/// <returns></returns>
 	const	Vector3 GetPos() {return obj->GetPosition(); }
 
+	void OnCollision();
+
 	Vector3 GetVelocity(){ return velocity; }
+
+	const	float GetRadius() { return radius; }
+
+	std::list<std::unique_ptr<Bullet>>& GetBullets() { return bullets_; };
+
 
 private://ƒƒ“ƒo•Ï”
 	Input*input = nullptr;
@@ -66,5 +73,11 @@ private://ƒƒ“ƒo•Ï”
 
 	float angle = 0.0f;
 	Vector3 velocity;
+	//”¼Œa
+	float radius = 5.0f;
+
+	bool isInvincible = false;
+	const int16_t invincibleTime=11;
+	int16_t invincibleTimer;
 };
 

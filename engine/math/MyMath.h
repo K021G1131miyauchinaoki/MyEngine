@@ -10,5 +10,9 @@ namespace MyMath
 
 	//“x”•ÏŠ·
 	float DegreeTransform(float radian);
+
+	Vector3 lens(Vector3 vec1, Vector3 vec2);
+
+	float length(Vector3	vec);
 };
 

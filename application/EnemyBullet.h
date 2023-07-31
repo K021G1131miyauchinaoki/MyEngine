@@ -4,12 +4,12 @@
 #include<Object3d.h>
 #include<Vector3.h>
 
-class Bullet
+class EnemyBullet
 {
 public:
-	Bullet();
-	~Bullet();
-
+	EnemyBullet();
+	~EnemyBullet();
+	static void StaticInitialeze(Model* model_);
 	void Initialize(Model* model, const Vector3& position, const Vector3& veclocity, const Vector3& rotation_);
 	void Update();
 	void Draw();
@@ -23,7 +23,7 @@ public:
 	float GetRadius() { return r; }
 
 private:
-	
+
 	Model* model_ = nullptr;
 	std::unique_ptr<Object3d>obj = nullptr;
 	//‘¬“x

@@ -34,8 +34,11 @@ void Player::Initialeze( Model* model_, Input* input_,Aimposition* aim_) {
 	obj->SetModel(model_);
 	obj->SetPosition({ 0.0f,0.0f,0.0f });
 	obj->SetScale({ 5.0f,5.0f,5.0f });
+	obj->SetColor({ 0.0f,0.2f,0.0f,1.0f });
+
 	obj->Update();
 	coolTime = 0;
+	invincibleTimer = invincibleTime;
 }
 
 void Player::Updata() {
@@ -52,7 +55,19 @@ void Player::Updata() {
 }
 
 void Player::Draw() {
-	obj->Draw();
+	if (isInvincible)
+	{
+		invincibleTimer--;
+	}
+	if (invincibleTimer<0)
+	{
+		invincibleTimer = invincibleTime;
+		isInvincible = false;
+	}
+	if (invincibleTimer%2==1)
+	{
+		obj->Draw();
+	}
 	for (std::unique_ptr<Bullet>& bullet : bullets_) {
 		bullet->Draw();
 	}
@@ -145,4 +160,13 @@ void Player::Rotate() {
 
 	obj->SetRotation(rot);
 	obj->GetRotation();
+}
+
+//è’ìÀÇµÇΩÇÁ
+void Player::OnCollision() 
+{ 
+	if (!isInvincible)
+	{
+		isInvincible = true; 
+	}
 }

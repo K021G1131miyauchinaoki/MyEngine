@@ -33,15 +33,17 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 	obj->SetModel(model_);
 	obj->SetPosition({ 0.0f,0.0f,10.0f });
 	obj->SetScale({ 5.0f,5.0f,5.0f });
+	obj->SetColor({ 0.0f,0.1f,0.3f,1.0f });
 	obj->Update();
 	moveTimer = moveTime;
 	shotTimer = shotTime;
 	waitTimer = waitTime[0];
+	invincibleTimer = invincibleTime;
 }
 
 void Enemy::Updata() {
 	//デスフラグの立った弾を削除
-	bullets_.remove_if([](std::unique_ptr<Bullet>& bullet) { return bullet->IsDead(); });
+	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) { return bullet->IsDead(); });
 	switch (phase) {
 	case Phase::wait:
 		Wait();
@@ -55,15 +57,27 @@ void Enemy::Updata() {
 		break;
 	}
 	obj->Update();
-	for (std::unique_ptr<Bullet>& bullet : bullets_)
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
 	{
 		bullet->Update();
 	}
 }
 
 void Enemy::Draw() {
-	obj->Draw();
-	for (std::unique_ptr<Bullet>& bullet : bullets_) {
+	if (isInvincible)
+	{
+		invincibleTimer--;
+	}
+	if (invincibleTimer < 0)
+	{
+		invincibleTimer = invincibleTime;
+		isInvincible = false;
+	}
+	if (invincibleTimer % 2 == 1)
+	{
+		obj->Draw();
+	}
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
 		bullet->Draw();
 	}
 }
@@ -82,7 +96,7 @@ void Enemy::Move() {
 		//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
 		value = rotDist(engine);
 		angle = MyMath::DegreeTransform(value);
-		obj->SetRotation({ 0.0f,angle,0.0f });
+		//obj->SetRotation({ 0.0f,angle,0.0f });
 		//弾の速度
 		const float speed = 0.2f;
 		move.x += speed * std::cos(angle);
@@ -132,7 +146,7 @@ void Enemy::Shot() {
 		//速度ベクトルを自機の向きに合わせて回転させる
 		//velocity = Vec_rot(velocity, worldTransform_.matWorld_);
 		//弾を生成し、初期化
-		std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
+		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 		newBullet->Initialize(model, obj->GetPosition(), velocity, obj->GetRotation());
 
 		//弾を登録する
@@ -167,5 +181,14 @@ void Enemy::Wait() {
 			phase = Phase::move;
 
 		}
+	}
+}
+
+//衝突したら
+void Enemy::OnCollision()
+{
+	if (!isInvincible)
+	{
+		isInvincible = true;
 	}
 }

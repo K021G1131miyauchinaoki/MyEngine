@@ -4,7 +4,7 @@
 #include"Object3d.h"
 #include<memory>
 #include<list>
-#include<Bullet.h>
+#include<EnemyBullet.h>
 #include<Aimposition.h>
 #include<Vector3.h>
 #include<Player.h>
@@ -24,9 +24,9 @@ enum class Phase {
 class Enemy
 {
 public://メンバ関数
-/// <summary>
-/// 初期化
-/// </summary>
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Initialeze(Model* model_, Player*player_);
 
 	/// <summary>
@@ -63,6 +63,19 @@ public://メンバ関数
 	///デスフラグ 
 	/// </summary>
 	bool IsDead() { return isDead; }
+
+	/// <summary>
+	/// 位置
+	/// </summary>
+	/// <returns></returns>
+	const	Vector3 GetPos() { return obj->GetPosition(); }
+
+	const	float GetRadius() { return radius; }
+
+	void OnCollision();
+
+	//弾リストを取得
+	std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
 private://構造体
 	
 
@@ -73,7 +86,7 @@ private://メンバ変数
 	
 	std::unique_ptr<Object3d>obj = nullptr;
 	//弾
-	std::list<std::unique_ptr<Bullet>> bullets_;
+	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 	//移動フラグ
 	bool isMove = false;
 	//移動時間
@@ -101,4 +114,11 @@ private://メンバ変数
 	float value;
 	//デスフラグ
 	bool isDead = false;
+
+	float radius = 5.0f;
+
+	//仮
+	bool isInvincible = false;
+	const int16_t invincibleTime = 11;
+	int16_t invincibleTimer;
 };

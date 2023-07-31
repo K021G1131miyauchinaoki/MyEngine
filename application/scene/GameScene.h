@@ -22,6 +22,8 @@
 #include<ImguiManager.h>
 #include<Enemy.h>
 
+
+
 class GameScene:public Framework
 {
 public://ƒƒ“ƒoŠÖ”
@@ -35,6 +37,9 @@ public://ƒƒ“ƒoŠÖ”
 	void Draw()override;
 
 	bool IsEndRequst() override;
+
+	//“–‚½‚è”»’è
+	void CheckAllCollision();
 
 private:
 	// WindowsAPI
