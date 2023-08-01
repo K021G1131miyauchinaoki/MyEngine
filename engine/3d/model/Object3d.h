@@ -135,7 +135,7 @@ public: // メンバ関数
 	//モデルセッター
 	void	SetModel(Model* model_) { model = model_; }
 
-	//ペアレント設定
+	//ペアレント設定 
 	void SetParent(Object3d* parent_) { parent = parent_; }
 
 	//カラー
