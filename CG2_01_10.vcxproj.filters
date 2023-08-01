@@ -58,16 +58,16 @@
       <Filter>engine\2d</Filter>
     </ClCompile>
     <ClCompile Include="application\scene\Framework.cpp">
-      <Filter>application\Scene</Filter>
+      <Filter>Application\Scene</Filter>
     </ClCompile>
     <ClCompile Include="application\scene\GameScene.cpp">
-      <Filter>application\Scene</Filter>
+      <Filter>Application\Scene</Filter>
     </ClCompile>
     <ClCompile Include="application\ParticleManager.cpp">
-      <Filter>application</Filter>
+      <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="application\main.cpp">
-      <Filter>application</Filter>
+      <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="engine\imgui\ImguiManager.cpp">
       <Filter>engine\imgui</Filter>
@@ -96,15 +96,9 @@
     <ClCompile Include="engine\3d\model\Object3d.cpp">
       <Filter>engine\3d\obj</Filter>
     </ClCompile>
-    <ClCompile Include="application\Player.cpp">
-      <Filter>application</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Bullet.cpp">
-      <Filter>application</Filter>
-    </ClCompile>
     <ClCompile Include="engine\2d\PostEffect.cpp" />
     <ClCompile Include="application\Aimposition.cpp">
-      <Filter>application</Filter>
+      <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="engine\math\Matrix4.cpp">
       <Filter>engine\math</Filter>
@@ -121,20 +115,32 @@
     <ClCompile Include="engine\math\WorldTransform.cpp">
       <Filter>engine\math</Filter>
     </ClCompile>
-    <ClCompile Include="application\Enemy.cpp">
-      <Filter>application</Filter>
-    </ClCompile>
     <ClCompile Include="engine\math\MyMath.cpp">
       <Filter>engine\math</Filter>
     </ClCompile>
-    <ClCompile Include="application\EnemyBullet.cpp" />
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Application\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Player.cpp">
+      <Filter>Application\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Enemy.cpp">
+      <Filter>Application\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Bullet.cpp">
+      <Filter>Application\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="application\EnemyBullet.cpp">
+      <Filter>Application\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\scene\GameScene.h">
-      <Filter>application\Scene</Filter>
+      <Filter>Application\Scene</Filter>
     </ClInclude>
     <ClInclude Include="application\scene\Framework.h">
-      <Filter>application\Scene</Filter>
+      <Filter>Application\Scene</Filter>
     </ClInclude>
     <ClInclude Include="engine\base\DirectXCommon\DirectXCommon.h">
       <Filter>engine\base\DirectXCommon</Filter>
@@ -152,7 +158,7 @@
       <Filter>engine\2d</Filter>
     </ClInclude>
     <ClInclude Include="application\ParticleManager.h">
-      <Filter>application</Filter>
+      <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>engine</Filter>
@@ -184,15 +190,9 @@
     <ClInclude Include="engine\3d\model\Object3d.h">
       <Filter>engine\3d\obj</Filter>
     </ClInclude>
-    <ClInclude Include="application\Player.h">
-      <Filter>application</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Bullet.h">
-      <Filter>application</Filter>
-    </ClInclude>
     <ClInclude Include="engine\2d\PostEffect.h" />
     <ClInclude Include="application\Aimposition.h">
-      <Filter>application</Filter>
+      <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="engine\math\Matrix4.h">
       <Filter>engine\math</Filter>
@@ -209,13 +209,25 @@
     <ClInclude Include="engine\math\WorldTransform.h">
       <Filter>engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="application\Enemy.h">
-      <Filter>application</Filter>
-    </ClInclude>
     <ClInclude Include="engine\math\MyMath.h">
       <Filter>engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="application\EnemyBullet.h" />
+    <ClInclude Include="MapManager.h">
+      <Filter>Application\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Player.h">
+      <Filter>Application\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Enemy.h">
+      <Filter>Application\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Bullet.h">
+      <Filter>Application\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="application\EnemyBullet.h">
+      <Filter>Application\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
@@ -247,12 +259,6 @@
     </Filter>
     <Filter Include="engine\3d">
       <UniqueIdentifier>{3ad226cf-aff9-462b-adfe-6c1f19e0488d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="application">
-      <UniqueIdentifier>{5b541252-93e8-469c-964a-eb9ea24525dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="application\Scene">
-      <UniqueIdentifier>{a5f8301a-0bf5-498c-bea8-95b45f17bc71}</UniqueIdentifier>
     </Filter>
     <Filter Include="shader">
       <UniqueIdentifier>{841b0bb9-6c44-499a-9c3e-aa23e89d1b3b}</UniqueIdentifier>
@@ -289,6 +295,21 @@
     </Filter>
     <Filter Include="engine\math">
       <UniqueIdentifier>{723f8049-cdde-4666-9fff-fd0fb3e57e90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{5b541252-93e8-469c-964a-eb9ea24525dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Scene">
+      <UniqueIdentifier>{a5f8301a-0bf5-498c-bea8-95b45f17bc71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Map">
+      <UniqueIdentifier>{68da9851-145c-4665-aebc-82ae2a0d63bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Player">
+      <UniqueIdentifier>{04ac8643-51fb-419e-a130-c74e5df1902d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Enemy">
+      <UniqueIdentifier>{52f95b89-077c-472c-84d8-73be6e367547}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

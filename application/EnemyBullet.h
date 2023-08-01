@@ -11,6 +11,10 @@ public://コンストラクタ
 	~EnemyBullet();
 public://静的メンバ関数
 	static void StaticInitialize(Model* model_);
+
+private://静的メンバ変数
+	static	std::unique_ptr < Model> model;
+
 public://メンバ関数
 	static void Finalize();
 	void Initialize( const Vector3& position, const Vector3& veclocity, const Vector3& rotation_);
@@ -25,9 +29,7 @@ public://メンバ関数
 	//半径を取得
 	float GetRadius() { return r; }
 
-private:
-
-	static	std::unique_ptr < Model> model;
+private://メンバ変数
 	std::unique_ptr<Object3d>obj = nullptr;
 	//速度
 	Vector3 velocity_;
