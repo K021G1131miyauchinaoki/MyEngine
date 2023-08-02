@@ -92,9 +92,11 @@ void Enemy::Move() {
 		//メルセンヌ・ツイスターの乱数エンジン
 		std::mt19937_64 engine(seed_gen());
 		//乱数　（回転）
-		std::uniform_real_distribution<float> rotDist(-180.0f,180.0f);
+		std::uniform_real_distribution<float> rotDist(-1.0f,1.0f);
 		//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
-		value = rotDist(engine);
+		value = { rotDist(engine),0.0f,rotDist(engine) };
+		//値を正規化
+		value = MyMath::normaleize(value);
 		/*if (value==0)
 		{
 			value = 90;
@@ -111,12 +113,16 @@ void Enemy::Move() {
 		{
 			value = 0;
 		}*/
-		obj->SetRotation({ 0.0f,value,0.0f });
-		angle = MyMath::RadianTransform( value);
+		angle = (atan2(value.x, value.z));
+		Vector3 rot;
+		//度数に変換
+		rot.y = MyMath::DegreeTransform(angle);
+
+		obj->SetRotation(rot);
+		
 		//敵の速度
 		const float speed = 0.2f;
-		move.x += speed * std::sin(angle);
-		move.z += speed * std::cos(angle);
+		move += value * speed;
 		
 		#pragma endregion
 		isMove = true;

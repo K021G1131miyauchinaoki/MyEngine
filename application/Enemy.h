@@ -111,7 +111,7 @@ private://メンバ変数
 	//フェーズ
 	Phase phase = Phase::move;
 	//乱数値格納
-	float value;
+	Vector3 value;
 	//デスフラグ
 	bool isDead = false;
 

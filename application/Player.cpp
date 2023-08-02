@@ -154,7 +154,7 @@ void Player::Rotate() {
 	vec.x = b.x - a.x;
 	vec.z = b.z - a.z;
 	vec = MyMath::normaleize(vec);
-	angle = ((atan2(vec.x, vec.z)));
+	angle = (atan2(vec.x, vec.z));
 	angle = MyMath::DegreeTransform(angle);
 	Vector3 rot = { 0,angle,0 };
 

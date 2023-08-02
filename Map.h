@@ -1,4 +1,6 @@
 #pragma once
+#include<DirectXMath.h>
+
 class Map
 {
 public:
@@ -23,6 +25,10 @@ public://ƒƒ“ƒoŠÖ”
 	void Draw();
 
 public://ƒƒ“ƒo•Ï”
+	const int8_t width = 10;
+	const int8_t heith = 10;
+
+
 
 };
 
