@@ -193,8 +193,7 @@
     <ClCompile Include="engine\math\Vector4.cpp" />
     <ClCompile Include="engine\math\WorldTransform.cpp" />
     <ClCompile Include="engine\math\MyMath.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="application\Map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -329,8 +328,7 @@
     <ClInclude Include="engine\math\Vector4.h" />
     <ClInclude Include="engine\math\WorldTransform.h" />
     <ClInclude Include="engine\math\MyMath.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="MapManager.h" />
+    <ClInclude Include="application\Map.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="engine\audio\SoundManager.h" />
     <ClInclude Include="engine\2d\Sprite.h" />

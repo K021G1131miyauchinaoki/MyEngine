@@ -73,6 +73,9 @@ void GameScene::Initialize() {
 	velocity = new ImguiManager;
 	velocity->Initialize(winApp, dxCommon);
 
+	map = std::make_unique<Map>();
+	map->Initialize(cube);
+
 }
 
 void GameScene::Update(){

@@ -1,11 +1,6 @@
 #include"Vector3.h"
 #include<cmath>//sqrt
 
-
-float Vector3::StaticDot(const Vector3& v1, const Vector3& v2) {
-	return	v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
-}
-
 Vector3::Vector3()
 	:x(0),y(0), z(0)
 {
@@ -18,14 +13,14 @@ Vector3::Vector3(float x, float y, float z)
 	
 }
 
-float	Vector3::length()const
+float	Vector3::Length()const
 {
 	return std::sqrt(x * x + y * y + z * z);
 }
 
-Vector3& Vector3::normaleize()
+Vector3& Vector3::Normaleize()
 {
-	float	len = length();
+	float	len = Length();
 	if (len!=0)
 	{
 		return	*this/= len;
@@ -34,16 +29,17 @@ Vector3& Vector3::normaleize()
 	return	*this;
 }
 
-float	Vector3::dot(const Vector3& v)const
+float	Vector3::Dot(const Vector3& v)const
 {
 	return	x * v.x + y * v.y+z*v.z;
 }
 
-float	Vector3::cross(const Vector3& v)const
+float	Vector3::Cross(const Vector3& v)const
 {
 	return  x * v.x - y * v.y - z * v.z;
 }
 
+//単項演算子オーバーロード
 Vector3	Vector3::operator+()const
 {
 	return	*this;
@@ -54,6 +50,7 @@ Vector3	Vector3::operator-()const
 	return	Vector3(-x, -y,-z);
 }
 
+//代入演算子オーバーロード
 Vector3& Vector3::operator+=(const	Vector3& v)
 {
 	x += v.x;
@@ -69,6 +66,15 @@ Vector3& Vector3::operator-=(const	Vector3& v)
 	z -= v.z;
 	return	*this;
 }
+
+Vector3& Vector3::operator+=(float	s)
+{
+	x = s;
+	y = s;
+	z = s;
+	return	*this;
+}
+
 
 Vector3& Vector3::operator*=(float	s)
 {

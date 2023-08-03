@@ -97,22 +97,7 @@ void Enemy::Move() {
 		value = { rotDist(engine),0.0f,rotDist(engine) };
 		//ílÇê≥ãKâª
 		value = MyMath::normaleize(value);
-		/*if (value==0)
-		{
-			value = 90;
-		}
-		else if (value == 90)
-		{
-			value = 180;
-		}
-		else if (value == 180)
-		{
-			value = 270;
-		}
-		else if (value == 270)
-		{
-			value = 0;
-		}*/
+		
 		angle = (atan2(value.x, value.z));
 		Vector3 rot;
 		//ìxêîÇ…ïœä∑

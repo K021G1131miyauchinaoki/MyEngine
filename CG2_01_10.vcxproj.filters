@@ -43,19 +43,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\input\Input.cpp">
-      <Filter>engine\base\Input</Filter>
+      <Filter>Engine\base\Input</Filter>
     </ClCompile>
     <ClCompile Include="engine\base\WinApp\WinApp.cpp">
-      <Filter>engine\base\WinApp</Filter>
+      <Filter>Engine\base\WinApp</Filter>
     </ClCompile>
     <ClCompile Include="engine\base\DirectXCommon\DirectXCommon.cpp">
-      <Filter>engine\base\DirectXCommon</Filter>
+      <Filter>Engine\base\DirectXCommon</Filter>
     </ClCompile>
     <ClCompile Include="engine\2d\Sprite.cpp">
-      <Filter>engine\2d</Filter>
+      <Filter>Engine\2d</Filter>
     </ClCompile>
     <ClCompile Include="engine\2d\SpriteCommon.cpp">
-      <Filter>engine\2d</Filter>
+      <Filter>Engine\2d</Filter>
     </ClCompile>
     <ClCompile Include="application\scene\Framework.cpp">
       <Filter>Application\Scene</Filter>
@@ -70,56 +70,53 @@
       <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="engine\imgui\ImguiManager.cpp">
-      <Filter>engine\imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="engine\editor\LevelLoader.cpp">
-      <Filter>engine\editor</Filter>
+      <Filter>Engine\editor</Filter>
     </ClCompile>
     <ClCompile Include="engine\audio\SoundManager.cpp">
-      <Filter>engine\audio</Filter>
+      <Filter>Engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="engine\3d\fbx\FbxLoader.cpp">
-      <Filter>engine\3d\fbx</Filter>
+      <Filter>Engine\3d\fbx</Filter>
     </ClCompile>
     <ClCompile Include="engine\3d\fbx\FbxModel.cpp">
-      <Filter>engine\3d\fbx</Filter>
+      <Filter>Engine\3d\fbx</Filter>
     </ClCompile>
     <ClCompile Include="engine\3d\fbx\FbxObject3d.cpp">
-      <Filter>engine\3d\fbx</Filter>
+      <Filter>Engine\3d\fbx</Filter>
     </ClCompile>
     <ClCompile Include="engine\3d\camera\Camera.cpp">
-      <Filter>engine\3d\camera</Filter>
+      <Filter>Engine\3d\camera</Filter>
     </ClCompile>
     <ClCompile Include="engine\3d\model\Model.cpp">
-      <Filter>engine\3d\obj</Filter>
+      <Filter>Engine\3d\obj</Filter>
     </ClCompile>
     <ClCompile Include="engine\3d\model\Object3d.cpp">
-      <Filter>engine\3d\obj</Filter>
+      <Filter>Engine\3d\obj</Filter>
     </ClCompile>
     <ClCompile Include="engine\2d\PostEffect.cpp" />
     <ClCompile Include="application\Aimposition.cpp">
       <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="engine\math\Matrix4.cpp">
-      <Filter>engine\math</Filter>
+      <Filter>Engine\math</Filter>
     </ClCompile>
     <ClCompile Include="engine\math\Vector2.cpp">
-      <Filter>engine\math</Filter>
+      <Filter>Engine\math</Filter>
     </ClCompile>
     <ClCompile Include="engine\math\Vector3.cpp">
-      <Filter>engine\math</Filter>
+      <Filter>Engine\math</Filter>
     </ClCompile>
     <ClCompile Include="engine\math\Vector4.cpp">
-      <Filter>engine\math</Filter>
+      <Filter>Engine\math</Filter>
     </ClCompile>
     <ClCompile Include="engine\math\WorldTransform.cpp">
-      <Filter>engine\math</Filter>
+      <Filter>Engine\math</Filter>
     </ClCompile>
     <ClCompile Include="engine\math\MyMath.cpp">
-      <Filter>engine\math</Filter>
-    </ClCompile>
-    <ClCompile Include="MapManager.cpp">
-      <Filter>Application\Map</Filter>
+      <Filter>Engine\math</Filter>
     </ClCompile>
     <ClCompile Include="application\Player.cpp">
       <Filter>Application\Player</Filter>
@@ -133,7 +130,9 @@
     <ClCompile Include="application\EnemyBullet.cpp">
       <Filter>Application\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="application\Map.cpp">
+      <Filter>Application\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\scene\GameScene.h">
@@ -143,77 +142,74 @@
       <Filter>Application\Scene</Filter>
     </ClInclude>
     <ClInclude Include="engine\base\DirectXCommon\DirectXCommon.h">
-      <Filter>engine\base\DirectXCommon</Filter>
+      <Filter>Engine\base\DirectXCommon</Filter>
     </ClInclude>
     <ClInclude Include="engine\base\input\Input.h">
-      <Filter>engine\base\Input</Filter>
+      <Filter>Engine\base\Input</Filter>
     </ClInclude>
     <ClInclude Include="engine\base\WinApp\WinApp.h">
-      <Filter>engine\base\WinApp</Filter>
+      <Filter>Engine\base\WinApp</Filter>
     </ClInclude>
     <ClInclude Include="engine\2d\SpriteCommon.h">
-      <Filter>engine\2d</Filter>
+      <Filter>Engine\2d</Filter>
     </ClInclude>
     <ClInclude Include="engine\2d\Sprite.h">
-      <Filter>engine\2d</Filter>
+      <Filter>Engine\2d</Filter>
     </ClInclude>
     <ClInclude Include="application\ParticleManager.h">
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>engine</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="engine\imgui\ImguiManager.h">
-      <Filter>engine\imgui</Filter>
+      <Filter>Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="engine\editor\LevelLoader.h">
-      <Filter>engine\editor</Filter>
+      <Filter>Engine\editor</Filter>
     </ClInclude>
     <ClInclude Include="engine\audio\SoundManager.h">
-      <Filter>engine\audio</Filter>
+      <Filter>Engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\fbx\FbxLoader.h">
-      <Filter>engine\3d\fbx</Filter>
+      <Filter>Engine\3d\fbx</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\fbx\FbxModel.h">
-      <Filter>engine\3d\fbx</Filter>
+      <Filter>Engine\3d\fbx</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\fbx\FbxObject3d.h">
-      <Filter>engine\3d\fbx</Filter>
+      <Filter>Engine\3d\fbx</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\camera\Camera.h">
-      <Filter>engine\3d\camera</Filter>
+      <Filter>Engine\3d\camera</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\model\Model.h">
-      <Filter>engine\3d\obj</Filter>
+      <Filter>Engine\3d\obj</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\model\Object3d.h">
-      <Filter>engine\3d\obj</Filter>
+      <Filter>Engine\3d\obj</Filter>
     </ClInclude>
     <ClInclude Include="engine\2d\PostEffect.h" />
     <ClInclude Include="application\Aimposition.h">
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="engine\math\Matrix4.h">
-      <Filter>engine\math</Filter>
+      <Filter>Engine\math</Filter>
     </ClInclude>
     <ClInclude Include="engine\math\Vector2.h">
-      <Filter>engine\math</Filter>
+      <Filter>Engine\math</Filter>
     </ClInclude>
     <ClInclude Include="engine\math\Vector3.h">
-      <Filter>engine\math</Filter>
+      <Filter>Engine\math</Filter>
     </ClInclude>
     <ClInclude Include="engine\math\Vector4.h">
-      <Filter>engine\math</Filter>
+      <Filter>Engine\math</Filter>
     </ClInclude>
     <ClInclude Include="engine\math\WorldTransform.h">
-      <Filter>engine\math</Filter>
+      <Filter>Engine\math</Filter>
     </ClInclude>
     <ClInclude Include="engine\math\MyMath.h">
-      <Filter>engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="MapManager.h">
-      <Filter>Application\Map</Filter>
+      <Filter>Engine\math</Filter>
     </ClInclude>
     <ClInclude Include="application\Player.h">
       <Filter>Application\Player</Filter>
@@ -227,7 +223,9 @@
     <ClInclude Include="application\EnemyBullet.h">
       <Filter>Application\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h" />
+    <ClInclude Include="application\Map.h">
+      <Filter>Application\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
@@ -251,50 +249,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="engine">
-      <UniqueIdentifier>{e798a682-4cbb-4292-8805-88da69e5cc1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\2d">
-      <UniqueIdentifier>{7ab85726-81e5-4201-98ff-bc5472c4a93c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\3d">
-      <UniqueIdentifier>{3ad226cf-aff9-462b-adfe-6c1f19e0488d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="shader">
       <UniqueIdentifier>{841b0bb9-6c44-499a-9c3e-aa23e89d1b3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\base">
-      <UniqueIdentifier>{a4d0af79-3b69-404a-9f9a-84114340dfc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\base\WinApp">
-      <UniqueIdentifier>{94f97e7d-9ca9-468b-a198-2837d0f6f160}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\base\Input">
-      <UniqueIdentifier>{8d4fddd7-64e8-46e9-8179-cff66bd0b97f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\base\DirectXCommon">
-      <UniqueIdentifier>{4a937b8a-0fd1-4922-ba37-3d7351e55a0d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\imgui">
-      <UniqueIdentifier>{15bf9552-54ed-4f06-ab1e-419ffa265865}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\editor">
-      <UniqueIdentifier>{8ad1b3b6-3e6c-4ac7-bc2a-b557d1123589}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\audio">
-      <UniqueIdentifier>{4b48ae35-e2f7-4a04-953a-6efbdcf20aef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\3d\fbx">
-      <UniqueIdentifier>{529ac23e-5713-413d-9309-808c39bf8d0d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\3d\obj">
-      <UniqueIdentifier>{dc06c9a1-6739-4454-a977-a581bbd1506e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\3d\camera">
-      <UniqueIdentifier>{e35513d2-cfb3-4ea9-aa87-e626dc3b402d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\math">
-      <UniqueIdentifier>{723f8049-cdde-4666-9fff-fd0fb3e57e90}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application">
       <UniqueIdentifier>{5b541252-93e8-469c-964a-eb9ea24525dd}</UniqueIdentifier>
@@ -310,6 +266,48 @@
     </Filter>
     <Filter Include="Application\Enemy">
       <UniqueIdentifier>{52f95b89-077c-472c-84d8-73be6e367547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{e798a682-4cbb-4292-8805-88da69e5cc1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\2d">
+      <UniqueIdentifier>{7ab85726-81e5-4201-98ff-bc5472c4a93c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\3d">
+      <UniqueIdentifier>{3ad226cf-aff9-462b-adfe-6c1f19e0488d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\3d\fbx">
+      <UniqueIdentifier>{529ac23e-5713-413d-9309-808c39bf8d0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\3d\obj">
+      <UniqueIdentifier>{dc06c9a1-6739-4454-a977-a581bbd1506e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\3d\camera">
+      <UniqueIdentifier>{e35513d2-cfb3-4ea9-aa87-e626dc3b402d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\base">
+      <UniqueIdentifier>{a4d0af79-3b69-404a-9f9a-84114340dfc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\base\WinApp">
+      <UniqueIdentifier>{94f97e7d-9ca9-468b-a198-2837d0f6f160}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\base\Input">
+      <UniqueIdentifier>{8d4fddd7-64e8-46e9-8179-cff66bd0b97f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\base\DirectXCommon">
+      <UniqueIdentifier>{4a937b8a-0fd1-4922-ba37-3d7351e55a0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\imgui">
+      <UniqueIdentifier>{15bf9552-54ed-4f06-ab1e-419ffa265865}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\editor">
+      <UniqueIdentifier>{8ad1b3b6-3e6c-4ac7-bc2a-b557d1123589}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\audio">
+      <UniqueIdentifier>{4b48ae35-e2f7-4a04-953a-6efbdcf20aef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\math">
+      <UniqueIdentifier>{723f8049-cdde-4666-9fff-fd0fb3e57e90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

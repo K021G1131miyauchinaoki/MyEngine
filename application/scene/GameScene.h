@@ -21,7 +21,7 @@
 #include<Aimposition.h>
 #include<ImguiManager.h>
 #include<Enemy.h>
-
+#include<Map.h>
 
 
 class GameScene:public Framework
@@ -79,6 +79,8 @@ private:
 
 	//ポストエフェクト
 	//PostEffect* pe;
+
+	std::unique_ptr<Map>map;
 
 	ImguiManager* velocity;
 	//ImguiManager* pos;
