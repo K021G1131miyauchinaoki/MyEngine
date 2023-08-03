@@ -219,7 +219,7 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
         assert(polygonSize <= 4);
 
         //1頂点ずつ処理
-        for (size_t j = 0; j < polygonSize; j++)
+        for (int32_t j = 0; j < polygonSize; j++)
         {
             //FBX頂点配列のインデックス
             int32_t index = fbxMesh->GetPolygonVertex(i, j);
@@ -252,7 +252,7 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
             if (j<3)
             {
                 //1点追加し、他の2点と三角形を構築する
-                indices.push_back(index);
+                indices.push_back(static_cast<unsigned  short>(index));
             }
             //4頂点目
             else
@@ -262,9 +262,9 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
                 int32_t index2 = indices[indices.size() - 1];
                 int32_t index3 = index;
                 int32_t index0 = indices[indices.size() - 3];
-                indices.push_back(index2);
-                indices.push_back(index3);
-                indices.push_back(index0);
+                indices.push_back(static_cast<unsigned  short>(index2));
+                indices.push_back(static_cast<unsigned  short>(index3));
+                indices.push_back(static_cast<unsigned  short>(index0));
 
             }
         }

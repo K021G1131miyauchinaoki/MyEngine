@@ -26,7 +26,6 @@ void SoundManager::LoadWave(const std::string& filename)
 	{
 		return;
 	}
-	HRESULT result;
 	std::string filePath = directoryPath + filename;
 	//ファイル入力ストリームのインスタンス
 	std::ifstream file;
