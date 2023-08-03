@@ -25,13 +25,6 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public: // サブクラス
-	// 頂点データ構造体
-	//struct VertexPosNormalUv
-	//{
-	//	XMFLOAT3 pos; // xyz座標
-	//	XMFLOAT3 normal; // 法線ベクトル
-	//	XMFLOAT2 uv;  // uv座標
-	//};
 	struct VertexPos
 	{
 		XMFLOAT3 pos; // xyz座標
@@ -73,10 +66,7 @@ private: // 定数
 	static const float radius;				// 底面の半径
 	static const float prizmHeight;			// 柱の高さ
 	static const int32_t planeCount = division * 2 + division * 2;		// 面の数
-	//static const int vertexCount = planeCount * 3;		// 頂点数
-	//static const int vertexCount = 1;		// 頂点数
 	static const int32_t vertexCount = 1024;		// 頂点数
-	//static const int	indexCount = 3 * 2;//インデックス数
 	static const int32_t	indexCount = 1;//インデックス数
 
 public: // 静的メンバ関数
@@ -198,33 +188,10 @@ public: // メンバ関数
 	void	Add(int32_t life, XMFLOAT3	position, XMFLOAT3	velocity, XMFLOAT3	accel
 		, float	start_scale, float	end_scale);
 
-
-	/// <summary>
-	/// 座標の取得
-	/// </summary>
-	/// <returns>座標</returns>
-	//const XMFLOAT3& GetPosition() const { return position; }
-
-	/// <summary>
-	/// 座標の設定
-	/// </summary>
-	/// <param name="position">座標</param>
-	//void SetPosition(const XMFLOAT3& position) { this->position = position; }
-
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
-	// 色
-	//XMFLOAT4 color = { 1,1,1,1 };
 	// ローカルスケール
 	XMFLOAT3 scale = { 1,1,1 };
-	// X,Y,Z軸回りのローカル回転角
-	//XMFLOAT3 rotation = { 0,0,0 };
-	// ローカル座標
-	//XMFLOAT3 position = { 0,0,0 };
-	// ローカルワールド変換行列
-	//XMMATRIX matWorld;
-	// 親オブジェクト
-	//ParticleManager* parent = nullptr;
 	//ビルボード行列
 	static	XMMATRIX	matBillboard;
 	//Y軸周りのビルボード行列

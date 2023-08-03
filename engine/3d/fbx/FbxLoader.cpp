@@ -219,7 +219,7 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
         assert(polygonSize <= 4);
 
         //1頂点ずつ処理
-        for (int32_t j = 0; j < polygonSize; j++)
+        for (size_t j = 0; j < polygonSize; j++)
         {
             //FBX頂点配列のインデックス
             int32_t index = fbxMesh->GetPolygonVertex(i, j);

@@ -15,31 +15,12 @@
 
 //windowsアプリでのエントリーポイント(main関数)
 int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-#pragma	region	基盤システムの初期化
 	Framework* game = new GameScene();
 
 	game->Run();
 
 	delete game;
-//	GameScene gameScene;
-//	gameScene.Initialize();
-//	while (true)
-//	{
-//		//更新
-//		gameScene.Update();
-//		if (gameScene.IsEnd())
-//		{
-//			break;
-//		}
-//		//描画
-//		gameScene.Draw();
-//
-//	}
-//#pragma	region	最初のシーンの終了
-//	gameScene.Finalize();
 
-
-#pragma	endregion
 	//リソースリークチェック
 	IDXGIDebug1* debug;
 	if (SUCCEEDED(DXGIGetDebugInterface1(0,IID_PPV_ARGS(&debug))))

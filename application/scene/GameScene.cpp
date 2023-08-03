@@ -15,29 +15,30 @@ void GameScene::Initialize() {
 	input->Initialize(winApp);
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 	Model::SetDevice(dxCommon->GetDevice());
-	//静的初期化
-	//---------------------------2D----------------------------------
-
-
-	//---------------------------3D----------------------------------
-
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetTarget({ 0,0,0 });
 	camera->SetEye({ 0,80,-20 });
 	camera->Update();
+	//デバイスをセット
 	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
+	//デバイスをセット
+	FbxObject3d::SetDevice(dxCommon->GetDevice());
+	// カメラをセット
+	FbxObject3d::SetCamera(camera.get());
+	//グラフィックパイプライン生成
+	FbxObject3d::CreateGraphicsPipeline();
+	
+	//---------------------------2D----------------------------------
+
+
+	//---------------------------3D----------------------------------
+
 
 	/*---------------- - FBX------------------------*/
-	//fbxM = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
-	////デバイスをセット
-	//FbxObject3d::SetDevice(dxCommon->GetDevice());
-	//// カメラをセット
-	//FbxObject3d::SetCamera(camera.get());
-	////グラフィックパイプライン生成
-	//FbxObject3d::CreateGraphicsPipeline();
 	////3Dオブジェクト生成とモデルセット
+	//fbxM = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 	//fbxObj = new FbxObject3d;
 	//fbxObj->Initialize();
 	//fbxObj->SetModel(fbxM);
@@ -105,7 +106,7 @@ void GameScene::Update(){
 	velocity->Begin();
 	//ここから中身を書いていく
 	ImGui::Begin("a");
-	ImGui::SliderFloat2("mousePos", vec, 0.0f, WinApp::width);
+	ImGui::SliderFloat2("mousePos", vec, 0.0f, static_cast<float>(WinApp::width));
 	ImGui::End();
 	//ImGui::SliderFloat2("pos",posA,0.0f, WinApp::width);
 	//fbxObj->Update();

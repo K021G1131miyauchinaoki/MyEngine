@@ -67,7 +67,6 @@ private://メンバ変数
 	std::unique_ptr<Object3d>obj = nullptr;
 	//弾
 	std::list<std::unique_ptr<Bullet>> bullets_;
-	//Bullet* one;
 	//クールタイム
 	int32_t coolTime;
 

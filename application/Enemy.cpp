@@ -2,26 +2,6 @@
 #include<cassert>
 #include<random>
 
-
-//Vector3 Vec_rot(Vector3 velocity, Matrix4 amount) {
-//	Vector3 Rot;
-//
-//	Rot.x = velocity.x * amount.m[0][0];
-//	Rot.x += velocity.y * amount.m[1][0];
-//	Rot.x += velocity.z * amount.m[2][0];
-//
-//	Rot.y = velocity.x * amount.m[0][1];
-//	Rot.y += velocity.y * amount.m[1][1];
-//	Rot.y += velocity.z * amount.m[2][1];
-//
-//	Rot.z = velocity.x * amount.m[0][2];
-//	Rot.z += velocity.y * amount.m[1][2];
-//	Rot.z += velocity.z * amount.m[2][2];
-//
-//	return Rot;
-//}
-
-
 void Enemy::Initialeze(Model* model_,Player*player_) {
 	assert(model_);
 	assert(player_);
