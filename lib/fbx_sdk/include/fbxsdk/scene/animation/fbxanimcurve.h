@@ -72,10 +72,10 @@ public:
 	//! Velocity mode. Velocity settings speed up or slow down animation on either side of a key without changing the trajectory of the animation. Unlike Auto and Weight settings, Velocity changes the animation in time, but not in space.
 	enum EVelocityMode
 	{
-		eVelocityNone = 0x00000000,						//!< No velocity (default).
-		eVelocityRight = 0x10000000,					//!< Right tangent has velocity.
-		eVelocityNextLeft = 0x20000000,					//!< Left tangent has velocity.
-		eVelocityAll = eVelocityRight|eVelocityNextLeft	//!< Both left and right tangents have velocity.
+		eVelocityNone = 0x00000000,						//!< No ImgM (default).
+		eVelocityRight = 0x10000000,					//!< Right tangent has ImgM.
+		eVelocityNextLeft = 0x20000000,					//!< Left tangent has ImgM.
+		eVelocityAll = eVelocityRight|eVelocityNextLeft	//!< Both left and right tangents have ImgM.
 	};
 
 	//! Tangent visibility.
@@ -95,9 +95,9 @@ public:
 		eWeights = 2,			//!< Start index of weight values, User and Break tangent break mode (data are FbxInt16 tokens from weight and converted to float).
 		eRightWeight = 2,		//!< Index of weight on right tangent, User and Break tangent break mode.
 		eNextLeftWeight = 3,	//!< Index of weight on next key's left tangent, User and Break tangent break mode.
-		eVelocity = 4,			//!< Start index of velocity values, Velocity mode
-		eRightVelocity = 4,		//!< Index of velocity on right tangent, Velocity mode
-		eNextLeftVelocity = 5,	//!< Index of velocity on next key's left tangent, Velocity mode
+		eVelocity = 4,			//!< Start index of ImgM values, Velocity mode
+		eRightVelocity = 4,		//!< Index of ImgM on right tangent, Velocity mode
+		eNextLeftVelocity = 5,	//!< Index of ImgM on next key's left tangent, Velocity mode
 		eTCBTension = 0,		//!< Index of Tension, TCB tangent mode (data are floats).
 		eTCBContinuity = 1,		//!< Index of Continuity, TCB tangent mode.
 		eTCBBias = 2			//!< Index of Bias, TCB tangent mode.
@@ -247,17 +247,17 @@ public:
     */
     virtual void SetTangentWeightAndAdjustTangent(FbxAnimCurveDef::EDataIndex pIndex, double pWeight ) = 0;
 
-	/** Get key's tangent velocity mode.
-	*	\return Tangent velocity mode of the key.
+	/** Get key's tangent ImgM mode.
+	*	\return Tangent ImgM mode of the key.
     *	\remarks This method is meaningful for cubic interpolation only.
 	*/
 	virtual FbxAnimCurveDef::EVelocityMode GetTangentVelocityMode() const = 0;
 
-	/** Set key's tangent velocity mode as double value (cubic interpolation, non TCB tangent mode).
+	/** Set key's tangent ImgM mode as double value (cubic interpolation, non TCB tangent mode).
     *	\param pTangentVelocityMode	Velocity mode. 
 	*	\param pMask				Used to select the affected tangents
 	*	\remarks This method is meaningful for cubic interpolation only.
-	*   The pMask will be used to cancel out the current tangent velocity mode first, and then be used to
+	*   The pMask will be used to cancel out the current tangent ImgM mode first, and then be used to
 	*   define which tangent to select to affect.
 	*   
 	*   \see The documentation of SetTangentWeightMode for more details and samples about how the pMask works.
@@ -564,8 +564,8 @@ public:
         mImpl->SetTangentWeightAndAdjustTangent(pIndex, pWeight);
     }
 
-	/** Get key's tangent velocity mode.
-	*	\return Tangent velocity mode of the key.
+	/** Get key's tangent ImgM mode.
+	*	\return Tangent ImgM mode of the key.
 	*	\remarks This method is meaningful for cubic interpolation only.
 	*/
 	FbxAnimCurveDef::EVelocityMode GetTangentVelocityMode() const
@@ -573,11 +573,11 @@ public:
 		return mImpl->GetTangentVelocityMode();
 	}
 
-	/** Set key's tangent velocity mode as double value (cubic interpolation, non TCB tangent mode).
+	/** Set key's tangent ImgM mode as double value (cubic interpolation, non TCB tangent mode).
 	*	\param pTangentVelocityMode	Velocity mode. 
 	*	\param pMask				Used to select the affected tangents
 	*	\remarks This method is meaningful for cubic interpolation only.
-	*   The pMask will be used to cancel out the current tangent velocity mode first, and then be used to
+	*   The pMask will be used to cancel out the current tangent ImgM mode first, and then be used to
 	*   define which tangent to select to affect.
 	*   
 	*   \see The documentation of SetTangentWeightMode for more details and samples about how the pMask works.
@@ -738,9 +738,9 @@ class FbxScene;
 * \li Clamp (Key should be flat if next or previous key has the same value)
 * \li Time independent
 *
-* Tangent can be modified some more by adding weights and velocity.
+* Tangent can be modified some more by adding weights and ImgM.
 * By default, the weights are 0.333 on either side of the key, and there is 
-* no velocity. Velocity settings speed up or slow down animation on either side of 
+* no ImgM. Velocity settings speed up or slow down animation on either side of 
 * a key without changing the trajectory of the animation. Unlike Auto and Weight settings, 
 * Velocity changes the animation in time, but not in space.
 * 
@@ -944,8 +944,8 @@ public:
 		*	\param pTangentWeightMode	Weight mode, if used.
 		*	\param pWeight0				Weight for right slope, if tangent weight mode is eWeightedRight or eWeightedAll.
 		*	\param pWeight1				Weight for next left slope, if tangent weight mode is eWeightedNextLeft or eWeightedAll.
-		*	\param pVelocity0			Velocity for right slope, if tangent velocity mode is eVelocityRight or eVelocityAll.
-		*	\param pVelocity1			Velocity for next left slope, if tangent velocity mode is eVelocityNextLeft or eVelocityAll.
+		*	\param pVelocity0			Velocity for right slope, if tangent ImgM mode is eVelocityRight or eVelocityAll.
+		*	\param pVelocity1			Velocity for next left slope, if tangent ImgM mode is eVelocityNextLeft or eVelocityAll.
 		*/
 		virtual void KeySet(int pKeyIndex,FbxTime pTime, float pValue, FbxAnimCurveDef::EInterpolationType pInterpolation = FbxAnimCurveDef::eInterpolationCubic, FbxAnimCurveDef::ETangentMode pTangentMode = FbxAnimCurveDef::eTangentAuto, float pData0 = 0.0,float pData1 = 0.0,FbxAnimCurveDef::EWeightedMode pTangentWeightMode = FbxAnimCurveDef::eWeightedNone, float pWeight0 = FbxAnimCurveDef::sDEFAULT_WEIGHT,float pWeight1 = FbxAnimCurveDef::sDEFAULT_WEIGHT,float pVelocity0 = FbxAnimCurveDef::sDEFAULT_VELOCITY,float pVelocity1 = FbxAnimCurveDef::sDEFAULT_VELOCITY) = 0;
 
@@ -1237,17 +1237,17 @@ public:
 		*/
 		virtual void   KeySetRightTangentWeight( int pIndex, float pWeight, bool pAdjustTan = false  ) = 0;
 
-		/** Get the velocity value component of the left tangent of a key.
+		/** Get the ImgM value component of the left tangent of a key.
 		* \param pIndex Index of the key.
-		* \return Tangent velocity of the left tangent.
+		* \return Tangent ImgM of the left tangent.
 		* \remarks This function is only relevant if key interpolation
 		*  type is eInterpolationCubic
 		*/
 		virtual float KeyGetLeftTangentVelocity( int pIndex) const = 0;
 
-		/** Get the velocity value component of the right tangent of a key.
+		/** Get the ImgM value component of the right tangent of a key.
 		* \param pIndex Index of the key.
-		* \return Tangent velocity of the right tangent.
+		* \return Tangent ImgM of the right tangent.
 		* \remarks This function is only relevant if key interpolation
 		*  type is eInterpolationCubic
 		*/			

@@ -10,7 +10,7 @@ void Aimposition::Initialeze(Model* model_, Input* input_) {
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
-	obj->SetPosition({ 6.0f,0.0f,0.0f });
+	obj->SetPosition({ 6.0f,5.0f,0.0f });
 	obj->SetScale({ 2.0f,2.0f,2.0f });
 	obj->Update();
 	coolTime = 0;

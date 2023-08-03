@@ -11,7 +11,7 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
-	obj->SetPosition({ 0.0f,0.0f,10.0f });
+	obj->SetPosition({ 0.0f,5.0f,10.0f });
 	obj->SetScale({ 5.0f,5.0f,5.0f });
 	obj->SetColor({ 0.0f,0.1f,0.3f,1.0f });
 	obj->Update();
@@ -131,7 +131,7 @@ void Enemy::Shot() {
 		velocity *= kBulletSpeed;
 
 		//速度ベクトルを自機の向きに合わせて回転させる
-		//velocity = Vec_rot(velocity, worldTransform_.matWorld_);
+		//ImgM = Vec_rot(ImgM, worldTransform_.matWorld_);
 		//弾を生成し、初期化
 		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 		newBullet->Initialize(obj->GetPosition(), velocity, obj->GetRotation());

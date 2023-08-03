@@ -82,7 +82,7 @@ private:
 
 	std::unique_ptr<Map>map;
 
-	ImguiManager* velocity;
+	std::unique_ptr<ImguiManager> ImgM;
 	//ImguiManager* pos;
 };
 

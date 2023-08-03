@@ -12,7 +12,7 @@ void Player::Initialeze( Model* model_, Input* input_,Aimposition* aim_) {
 	obj=std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
-	obj->SetPosition({ 0.0f,0.0f,0.0f });
+	obj->SetPosition({ 0.0f,5.0f,0.0f });
 	obj->SetScale({ 5.0f,5.0f,5.0f });
 	obj->SetColor({ 0.0f,0.2f,0.0f,1.0f });
 
@@ -118,7 +118,7 @@ void Player::Shot() {
 	//	
 	//	//’e‚ğ¶¬‚µA‰Šú‰»
 	//	std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
-	//	newBullet->Initialize(model, obj->GetPosition(), velocity, obj->GetRotation());
+	//	newBullet->Initialize(model, obj->GetPosition(), ImgM, obj->GetRotation());
 
 	//	//’e‚ğ“o˜^‚·‚é
 	//	bullets_.push_back(std::move(newBullet));

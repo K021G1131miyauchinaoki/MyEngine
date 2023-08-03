@@ -40,6 +40,6 @@ private://Ã“Iƒƒ“ƒo•Ï”
 private://ƒƒ“ƒo•Ï”
 	Vector3 scale;
 	Block block[heith][width];
-
+	int16_t num = -20;
 };
 

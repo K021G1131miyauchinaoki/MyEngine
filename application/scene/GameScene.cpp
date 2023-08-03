@@ -71,9 +71,9 @@ void GameScene::Initialize() {
 	PostEffect::StaticInitialize(dxCommon);
 	//pe = new PostEffect;
 	//pe->Initialize();
-	velocity = new ImguiManager;
-	velocity->Initialize(winApp, dxCommon);
-
+	ImgM = std::make_unique<ImguiManager>();
+	ImgM->Initialize(winApp, dxCommon);
+	//マップ
 	map = std::make_unique<Map>();
 	map->Initialize(cube);
 
@@ -94,16 +94,17 @@ void GameScene::Update(){
 	CheckAllCollision();
 
 	camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
-	camera->SetEye({ player->GetPos().x, 100, player->GetPos().z - 30 });
+	camera->SetEye({ player->GetPos().x, 1, player->GetPos().z - 30 });
 	camera->Update();
 	player->Updata();
 	enemy->Updata();
 	aim->Updata();
+	map->Updata();
 	objSkydome->Update();
 	float vec[2] = { input->GetPos().x,input->GetPos().y};
 	float posA[2] = { aim->GetPosition().x,aim->GetPosition().z };
 	//imgui関連
-	velocity->Begin();
+	ImgM->Begin();
 	//ここから中身を書いていく
 	ImGui::Begin("a");
 	ImGui::SliderFloat2("mousePos", vec, 0.0f, static_cast<float>(WinApp::width));
@@ -124,25 +125,18 @@ void GameScene::Draw(){
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-
-	/*for (auto object : objects) {
-		object->Draw();
-	}*/
 	enemy->Draw();
 	objSkydome->Draw();
 	player->Draw();
 	aim->Draw();
+	map->Draw();
+
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
-	//fbxObj->Draw(dxCommon->GetCommandList());
-
-	//パーティクル描画
-	
-	//スプライト描画
 
 	//imgui
-	velocity->End();
-	velocity->Draw();
+	ImgM->End();
+	ImgM->Draw();
 	//pe->Draw(dxCommon->GetCommandList());
 
 	dxCommon->PostDraw();
@@ -165,7 +159,6 @@ void GameScene::Finalize(){
 	delete	input;
 	delete winApp;
 	delete	dxCommon;
-	delete velocity;
 	delete modelSkydome;
 	delete cube;
 	delete box;
