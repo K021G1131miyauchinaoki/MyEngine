@@ -94,7 +94,7 @@ void GameScene::Update(){
 	CheckAllCollision();
 
 	camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
-	camera->SetEye({ player->GetPos().x, 1, player->GetPos().z - 30 });
+	camera->SetEye({ player->GetPos().x, 100, player->GetPos().z - 30 });
 	camera->Update();
 	player->Updata();
 	enemy->Updata();

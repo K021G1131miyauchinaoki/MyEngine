@@ -18,7 +18,7 @@ void Bullet::Initialize( const Vector3& position, const Vector3& velocity,const 
 	obj->SetModel(model.get());
 	obj->SetRotation(rotation);
 	obj->SetPosition(position);
-	obj->SetColor({ 0.0f,0.0f,0.0f,1.0f });
+	obj->SetColor({ 0.0f,0.0f,0.0f,0.6f });
 	obj->Update();
 	deathTimer = kLifeTime;
 }

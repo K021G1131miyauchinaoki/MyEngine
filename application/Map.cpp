@@ -5,7 +5,7 @@ const int8_t Map::width;
 
 void Map::Initialize(Model*model_) {
 	scale += 10.0f;
-	scale.y = 1.0f;
+	//scale.y = 1.0f;
 	for (size_t i = 0; i < heith; i++)
 	{
 		for (size_t j = 0; j < width; j++)
