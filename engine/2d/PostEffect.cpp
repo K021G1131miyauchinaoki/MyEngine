@@ -401,7 +401,7 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList_) {
 	CD3DX12_VIEWPORT viewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, static_cast<float>(WinApp::width), static_cast<float>(WinApp::height));
 	cmdList_->RSSetViewports(1, &viewPort);
 	//シザリング矩形の設定
-	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, static_cast<float>(WinApp::width), static_cast<float>(WinApp::height));
+	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, static_cast<LONG>(WinApp::width), static_cast<LONG>(WinApp::height));
 	cmdList_->RSSetScissorRects(1, &rect);
 
 	//全画面クリア

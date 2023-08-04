@@ -11,14 +11,14 @@ void Map::Initialize(Model*model_) {
 		for (size_t j = 0; j < width; j++)
 		{
 			Vector3 pos = {0.0f,-(scale.y+0.5f), 0.0f};
-			pos.x = (j * scale.x)*2 + num;
-			pos.z = (i * scale.z)*2 + num;
+			pos.x = (j * scale.x)*2.0f + num;
+			pos.z = (i * scale.z)*2.0f + num;
 			block[i][j].obj = std::make_unique<Object3d>();
 			block[i][j].obj->Initialize();
 			block[i][j].obj->SetModel(model_);
 			block[i][j].obj->SetPosition(pos);
 			block[i][j].obj->SetScale(scale);
-			block[i][j].obj->SetColor({ 0.0f, 0.0f, 0.1f,1.0f});
+			//block[i][j].obj->SetColor({ 0.0f, 0.0f, 0.1f,1.0f});
 			//block[i][j].pos = pos;
 
 		}

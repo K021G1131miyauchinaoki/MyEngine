@@ -45,27 +45,28 @@ void GameScene::Initialize() {
 	//fbxObj->PlayAnimation();
 
 	// モデル読み込み
-	modelSkydome = Model::LoadFromOBJ("skydome");
-	cube = Model::LoadFromOBJ("cube");
-	box = Model::LoadFromOBJ("tank");
+	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
+	cube.reset(Model::LoadFromOBJ("cube"));
+	tank.reset(Model::LoadFromOBJ("tank"));
+	modelMap.reset(Model::LoadFromOBJ("map"));
 
-	EnemyBullet::StaticInitialize(cube);
-	Bullet::StaticInitialize(cube);
+	EnemyBullet::StaticInitialize(cube.get());
+	Bullet::StaticInitialize(cube.get());
 
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
-	objSkydome->SetModel(modelSkydome);
+	objSkydome->SetModel(modelSkydome.get());
 	objSkydome->SetScale({ 5.0f,5.0f,5.0f });
 
 
 	aim = std::make_unique<Aimposition>();
-	aim->Initialeze(cube, input);
+	aim->Initialeze(cube.get(), input);
 	
 	player = std::make_unique<Player>();
-	player->Initialeze(box, input, aim.get());
+	player->Initialeze(tank.get(), input, aim.get());
 
 	enemy = std::make_unique<Enemy>();
-	enemy->Initialeze(box, player.get());
+	enemy->Initialeze(tank.get(), player.get());
 
 	//ポストエフェクト
 	PostEffect::StaticInitialize(dxCommon);
@@ -75,7 +76,7 @@ void GameScene::Initialize() {
 	ImgM->Initialize(winApp, dxCommon);
 	//マップ
 	map = std::make_unique<Map>();
-	map->Initialize(cube);
+	map->Initialize(modelMap.get());
 
 }
 
@@ -159,9 +160,6 @@ void GameScene::Finalize(){
 	delete	input;
 	delete winApp;
 	delete	dxCommon;
-	delete modelSkydome;
-	delete cube;
-	delete box;
 }
 
 void GameScene::CheckAllCollision() {

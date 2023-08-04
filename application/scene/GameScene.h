@@ -59,9 +59,10 @@ private:
 	//jsonì«Ç›çûÇ›
 	LevelData* levelData = nullptr;
 
-	Model* modelSkydome = nullptr;
-	Model* cube = nullptr;
-	Model* box = nullptr;
+	std::unique_ptr <Model> modelSkydome = nullptr;
+	std::unique_ptr <Model> cube = nullptr;
+	std::unique_ptr <Model> tank = nullptr;
+	std::unique_ptr <Model> modelMap = nullptr;
 
 	std::unique_ptr <Object3d> objSkydome = nullptr;
 
