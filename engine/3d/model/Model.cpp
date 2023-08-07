@@ -108,10 +108,10 @@ void Model::LoadFromOBJInternal(const	std::string& modelname) {
 		if (key == "mtllib")
 		{
 			//マテリアルのファイル名読み込み
-			std::string filename;
-			line_stream >> filename;
+			std::string filenameMt;
+			line_stream >> filenameMt;
 			//マテリアル読み込み
-			LoadMaterial(directoryPath, filename);
+			LoadMaterial(directoryPath, filenameMt);
 		}
 	}
 	file.close();

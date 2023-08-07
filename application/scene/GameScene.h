@@ -54,11 +54,11 @@ private:
 	std::unique_ptr<Camera>camera = std::make_unique<Camera>();
 	//スプライト
 		
-	//モデル
 
 	//json読み込み
 	LevelData* levelData = nullptr;
 
+	//objモデル
 	std::unique_ptr <Model> modelSkydome = nullptr;
 	std::unique_ptr <Model> cube = nullptr;
 	std::unique_ptr <Model> tank = nullptr;
@@ -66,24 +66,19 @@ private:
 
 	std::unique_ptr <Object3d> objSkydome = nullptr;
 
-
-	std::map<std::string, Model*> models;
-
 	//FBX
 	//FbxModel* fbxM = nullptr;
 	//FbxObject3d* fbxObj = nullptr;
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Aimposition> aim;
 	std::unique_ptr<Enemy>enemy;
-	//ゲーム終了フラグ
-	bool isEndRequst = false;
-
-	//ポストエフェクト
-	//PostEffect* pe;
-
 	std::unique_ptr<Map>map;
 
 	std::unique_ptr<ImguiManager> ImgM;
-	//ImguiManager* pos;
+
+	//ゲーム終了フラグ
+	bool isEndRequst = false;
+	//マップクラスの初期座標
+	float mapStratY;
 };
 

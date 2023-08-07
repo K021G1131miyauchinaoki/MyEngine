@@ -84,7 +84,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)External\imgui;$(SolutionDir)External\DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)External\nlohmann-json\single_include;$(ProjectDir)\application\scene;$(ProjectDir)\application;$(ProjectDir)\engine\2d;$(ProjectDir)\engine\3d\camera;$(ProjectDir)\engine\3d\fbx;$(ProjectDir)\engine\3d\model;$(ProjectDir)\engine\audio;$(ProjectDir)\engine\base\DirectXCommon;$(ProjectDir)\engine\base\input;$(ProjectDir)\engine\base\WinApp;$(ProjectDir)\engine\editor;$(ProjectDir)\engine\imgui;$(ProjectDir)\engine\math</IncludePath>
+    <IncludePath>$(SolutionDir)External\imgui;$(SolutionDir)External\DirectXTex;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)External\nlohmann-json\single_include;$(ProjectDir)\application\scene;$(ProjectDir)\application;$(ProjectDir)\engine\2d;$(ProjectDir)\engine\3d\camera;$(ProjectDir)\engine\3d\fbx;$(ProjectDir)\engine\3d\model;$(ProjectDir)\engine\audio;$(ProjectDir)\engine\base\DirectXCommon;$(ProjectDir)\engine\base\input;$(ProjectDir)\engine\base\WinApp;$(ProjectDir)\engine\editor;$(ProjectDir)\engine\imgui;$(ProjectDir)\engine\math;$(ProjectDir)\engine\easing</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -167,6 +167,7 @@
     <ClCompile Include="application\Enemy.cpp" />
     <ClCompile Include="application\Bullet.cpp" />
     <ClCompile Include="application\EnemyBullet.cpp" />
+    <ClCompile Include="engine\easing\Easing.cpp" />
     <ClCompile Include="engine\3d\camera\Camera.cpp" />
     <ClCompile Include="engine\3d\model\Object3d.cpp" />
     <ClCompile Include="engine\base\DirectXCommon\DirectXCommon.cpp" />
@@ -307,6 +308,7 @@
     <ClInclude Include="application\Enemy.h" />
     <ClInclude Include="application\Bullet.h" />
     <ClInclude Include="application\EnemyBullet.h" />
+    <ClInclude Include="engine\easing\Easing.h" />
     <ClInclude Include="engine\3d\camera\Camera.h" />
     <ClInclude Include="engine\3d\model\Object3d.h" />
     <ClInclude Include="engine\base\DirectXCommon\DirectXCommon.h" />

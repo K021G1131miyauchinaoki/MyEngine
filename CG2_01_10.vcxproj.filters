@@ -133,6 +133,7 @@
     <ClCompile Include="application\Map.cpp">
       <Filter>Application\Map</Filter>
     </ClCompile>
+    <ClCompile Include="engine\easing\Easing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\scene\GameScene.h">
@@ -226,6 +227,7 @@
     <ClInclude Include="application\Map.h">
       <Filter>Application\Map</Filter>
     </ClInclude>
+    <ClInclude Include="engine\easing\Easing.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

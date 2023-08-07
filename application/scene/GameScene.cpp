@@ -5,6 +5,10 @@
 #define safe_delete(p)  {delete p; p = nullptr;}
 
 void GameScene::Initialize() {
+	/*変数*/
+	mapStratY = -50;
+	/**/
+
 	winApp = new	WinApp;
 	winApp->Initialize();
 
@@ -19,7 +23,7 @@ void GameScene::Initialize() {
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetTarget({ 0,0,0 });
-	camera->SetEye({ 0,80,-20 });
+	camera->SetEye({ 0,20,-200 });
 	camera->Update();
 	//デバイスをセット
 	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
@@ -51,6 +55,8 @@ void GameScene::Initialize() {
 	modelMap.reset(Model::LoadFromOBJ("map"));
 
 	EnemyBullet::StaticInitialize(cube.get());
+
+
 	Bullet::StaticInitialize(cube.get());
 
 	objSkydome = std::make_unique<Object3d>();
@@ -75,7 +81,7 @@ void GameScene::Initialize() {
 	ImgM = std::make_unique<ImguiManager>();
 	ImgM->Initialize(winApp, dxCommon);
 	//マップ
-	map = std::make_unique<Map>();
+	map = std::make_unique<Map>(mapStratY);
 	map->Initialize(modelMap.get());
 
 }
@@ -94,21 +100,22 @@ void GameScene::Update(){
 	//------------------------------
 	CheckAllCollision();
 
-	camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
+	/*camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
 	camera->SetEye({ player->GetPos().x, 100, player->GetPos().z - 30 });
-	camera->Update();
+	camera->Update();*/
 	player->Updata();
 	enemy->Updata();
 	aim->Updata();
 	map->Updata();
 	objSkydome->Update();
 	float vec[2] = { input->GetPos().x,input->GetPos().y};
-	float posA[2] = { aim->GetPosition().x,aim->GetPosition().z };
+	float posA[2] = { map->get().y ,0};
 	//imgui関連
 	ImgM->Begin();
 	//ここから中身を書いていく
 	ImGui::Begin("a");
-	ImGui::SliderFloat2("mousePos", vec, 0.0f, static_cast<float>(WinApp::width));
+	ImGui::SliderFloat2("mousePos", vec, -100.0f, static_cast<float>(WinApp::width));
+	ImGui::SliderFloat2("blockPos", posA, -1000.0f, static_cast<float>(WinApp::width));
 	ImGui::End();
 	//ImGui::SliderFloat2("pos",posA,0.0f, WinApp::width);
 	//fbxObj->Update();
