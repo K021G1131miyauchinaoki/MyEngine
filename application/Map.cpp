@@ -13,10 +13,10 @@ void Map::Initialize(Model*model_) {
 	num = -0;
 	//演出用
 	nowMax = 0;
-	numW = width / 2;
-	numH = heith / 2;
+	numW = (width / 2);
+	numH = (heith / 2);
 	scale += 10.0f;
-	endFrame = 1000;
+	endFrame = 100;
 	
 	startY = -(scale.y + 0.2f) + constStartY;
 	endY =  -(scale.y + 0.2f);
@@ -52,26 +52,27 @@ void Map::Updata() {
 		if (nowMax <= numW || nowMax <= numH)
 		{
 			setPoint = -nowMax;
-			nowMax++;
 			
-			for (size_t i = setPoint; i < nowMax; i++)
+			for (int16_t i = setPoint; i <= nowMax; i++)
 			{
-
-				for (size_t j = setPoint; j < nowMax; j++)
+				for (int16_t j = setPoint; j <= nowMax; j++)
 				{
-
-					//要素が0以上、決めた値より小さい場合
-					if ((numH + setPoint) >= 0 && (numH + setPoint) < heith && (numW + setPoint) >= 0 && (numW + setPoint) <= width)
+					int16_t h = numH + i;
+					int16_t w = numW + j;
+					
+					if (h < 0 )	h = 0;
+					if (h >= heith)h = heith - 1;
+					if (w < 0)	w = 0;
+					if (w >= width)w = width - 1;
+					//フラグが立っていない場合
+					if (!block[h][w].isUp)
 					{
-						//フラグが立っていない場合
-						if (!block[numH + setPoint][numW + setPoint].isUp)
-						{
-							block[numH + setPoint][numW + setPoint].isUp = true;
-						}
+						block[h][w].isUp = true;
 					}
 
 				}
 			}
+			nowMax++;
 		}
 	}
 	for (size_t i = 0; i < heith; i++)

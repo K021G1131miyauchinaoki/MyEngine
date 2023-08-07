@@ -39,8 +39,8 @@ private://構造体
 		float y = 0.0f;
 	};
 private://静的メンバ変数
-	static const int8_t width = 3;
-	static const int8_t heith = 4;
+	static const int8_t width = 5;
+	static const int8_t heith = 7;
 
 private://メンバ変数
 	//イージング
