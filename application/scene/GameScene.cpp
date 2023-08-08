@@ -23,7 +23,7 @@ void GameScene::Initialize() {
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetTarget({ 0,0,0 });
-	camera->SetEye({ 0,200,-20 });
+	camera->SetEye({ 0,20,-200 });
 	camera->Update();
 	//デバイスをセット
 	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());

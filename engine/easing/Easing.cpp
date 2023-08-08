@@ -10,7 +10,7 @@ float Easing::easeOutSine(float num){
 }
 float Easing::easeOutBack(float num) {
 	const float c1 = 1.70158f;
-	const float c2 = c1 + 11;
+	const float c2 = c1 + 1;
 
 	return 1 +c2*pow(num-1.0f,3.0f)+c1 * pow(num - 1.0f, 2.0f);
 }
