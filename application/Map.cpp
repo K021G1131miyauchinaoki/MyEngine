@@ -85,7 +85,6 @@ void Map::Updata() {
 			if (block[i][j].isUp)
 			{
 				Vector3 easeVec = block[i][j].obj->GetPosition();
-				float a = Easing::easeOutSine(block[i][j].frame / endFrame);
 				easeVec.y = startY + (endY - startY) * Easing::easeOutBack(block[i][j].y);
 				block[i][j].y+=0.02f;
 				block[i][j].obj->SetPosition(easeVec);
