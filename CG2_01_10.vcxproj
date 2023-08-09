@@ -167,7 +167,6 @@
     <ClCompile Include="application\Enemy.cpp" />
     <ClCompile Include="application\Bullet.cpp" />
     <ClCompile Include="application\EnemyBullet.cpp" />
-    <ClCompile Include="application\Block.cpp" />
     <ClCompile Include="engine\easing\Easing.cpp" />
     <ClCompile Include="engine\3d\camera\Camera.cpp" />
     <ClCompile Include="engine\3d\model\Object3d.cpp" />
@@ -309,7 +308,6 @@
     <ClInclude Include="application\Enemy.h" />
     <ClInclude Include="application\Bullet.h" />
     <ClInclude Include="application\EnemyBullet.h" />
-    <ClInclude Include="application\Block.h" />
     <ClInclude Include="engine\easing\Easing.h" />
     <ClInclude Include="engine\3d\camera\Camera.h" />
     <ClInclude Include="engine\3d\model\Object3d.h" />
