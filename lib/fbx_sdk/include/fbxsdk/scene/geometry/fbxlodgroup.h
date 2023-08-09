@@ -123,7 +123,7 @@ public:
 
 	/**
 	  * \name Distance Mode
-	  * The properties in this block are meaningful only if ThresholdsUsedAsPercentage
+	  * The properties in this blocks are meaningful only if ThresholdsUsedAsPercentage
 	  * is set to false and should be ignored otherwise.
 	  */
 	//@{

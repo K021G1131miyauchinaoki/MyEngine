@@ -54,7 +54,7 @@ private://メンバ変数
 	//スケール
 	Vector3 scale;
 	//ブロック
-	Block block[heith][width];
+	std::vector<std::vector< Block>> blocks;
 	int16_t num;
 	const float constStartY;
 

@@ -117,7 +117,7 @@ private:
 };
 
 /** A gate thread locking mechanism is very similar to a semaphore, except that when it is opened, any
-  * further call to wait will not wait until it is closed. It is generally used to block multiple threads
+  * further call to wait will not wait until it is closed. It is generally used to blocks multiple threads
   * until one of them open the gate to release them all.
   */
 class FBXSDK_DLL FbxGate

@@ -23,7 +23,7 @@ class FBXSDK_DLL FbxCharPtrSet
 {
 public:
 	/** Class constructor
-	* \param pItemPerBlock Number of item per block. Default is 20. */
+	* \param pItemPerBlock Number of item per blocks. Default is 20. */
 	FbxCharPtrSet(int pItemPerBlock=20);
 
 	//! Class destructor

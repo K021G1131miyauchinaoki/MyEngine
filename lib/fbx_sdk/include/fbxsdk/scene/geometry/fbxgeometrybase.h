@@ -617,8 +617,8 @@ public:
       * \name Off-loading Serialization section
       *  The methods in this section are typically called by a peripheral (FbxPeripheral). There should be no
 	  *  real interest in calling them directly. The functions will write/read the memory dump of the data contained
-	  *  in this class. Each data block written/read will start with an (int) value representing the number of items
-	  *  in the array. If this value (v) is not zero, it will be followed by the array content. A block of data that is
+	  *  in this class. Each data blocks written/read will start with an (int) value representing the number of items
+	  *  in the array. If this value (v) is not zero, it will be followed by the array content. A blocks of data that is
 	  *  (v * sizeof(array item size)) bytes big. The methods will also call the parent class ones to dump the Layers content.
       */
     //@{

@@ -49,7 +49,7 @@ enum EFbxType
 	eFbxString		= 18,	//!< String.
 	eFbxTime,				//!< Time value.
 	eFbxReference,			//!< Reference to object or property.
-	eFbxBlob,				//!< Binary data block type.
+	eFbxBlob,				//!< Binary data blocks type.
 	eFbxDistance,			//!< Distance.
 	eFbxDateTime,			//!< Date and time.
 	eFbxTypeCount	= 24	//!< Indicates the number of type identifiers constants.

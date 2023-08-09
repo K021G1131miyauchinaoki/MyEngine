@@ -21,6 +21,12 @@ void Map::Initialize(Model*model_) {
 	startY = -(scale.y + 0.2f) + constStartY;
 	endY =  -(scale.y + 0.2f);
 	//scale.y = 1.0f;
+	// 二次元配列のサイズを初期化
+	blocks.resize(heith);
+	for (int i = 0; i < heith; ++i) {
+		blocks[i].resize(width);
+	}
+
 	for (size_t i = 0; i < heith; i++)
 	{
 		for (size_t j = 0; j < width; j++)
@@ -31,15 +37,15 @@ void Map::Initialize(Model*model_) {
 			pos.x = (j * scale.x) * 2.0f - (scale.x * width);
 			pos.z = (i * scale.z) * 2.0f - (scale.z * heith);
 			//オブジェクトにパラメータをセット
-			block[i][j].obj = std::make_unique<Object3d>();
-			block[i][j].obj->Initialize();
-			block[i][j].obj->SetModel(model_);
-			block[i][j].obj->SetPosition(pos);
-			block[i][j].obj->SetScale(scale);
-			//block[i][j].obj->SetColor({ 0.0f, 0.0f, 0.1f,1.0f});
-			//block[i][j].pos = pos;
-			block[i][j].frame = 0;
-			block[i][j].obj->Update();
+			blocks[i][j].obj = std::make_unique<Object3d>();
+			blocks[i][j].obj->Initialize();
+			blocks[i][j].obj->SetModel(model_);
+			blocks[i][j].obj->SetPosition(pos);
+			blocks[i][j].obj->SetScale(scale);
+			//blocks[i][j].obj->SetColor({ 0.0f, 0.0f, 0.1f,1.0f});
+			//blocks[i][j].pos = pos;
+			blocks[i][j].frame = 0;
+			blocks[i][j].obj->Update();
 		}
 	}
 }
@@ -65,9 +71,9 @@ void Map::Updata() {
 					if (w < 0)	w = 0;
 					if (w >= width)w = width - 1;
 					//フラグが立っていない場合
-					if (!block[h][w].isUp)
+					if (!blocks[h][w].isUp)
 					{
-						block[h][w].isUp = true;
+						blocks[h][w].isUp = true;
 					}
 
 				}
@@ -82,18 +88,18 @@ void Map::Updata() {
 		{
 
 			//フラグが立っていたら
-			if (block[i][j].isUp)
+			if (blocks[i][j].isUp)
 			{
-				Vector3 easeVec = block[i][j].obj->GetPosition();
-				easeVec.y = startY + (endY - startY) * Easing::easeOutBack(block[i][j].y);
-				block[i][j].y+=0.02f;
-				block[i][j].obj->SetPosition(easeVec);
+				Vector3 easeVec = blocks[i][j].obj->GetPosition();
+				easeVec.y = startY + (endY - startY) * Easing::easeOutBack(blocks[i][j].y);
+				blocks[i][j].y+=0.02f;
+				blocks[i][j].obj->SetPosition(easeVec);
 			}
-			if (block[i][j].y >= 1.0f)
+			if (blocks[i][j].y >= 1.0f)
 			{
-				block[i][j].isUp = false;
+				blocks[i][j].isUp = false;
 			}
-			block[i][j].obj->Update();
+			blocks[i][j].obj->Update();
 			
 
 		}
@@ -106,7 +112,7 @@ void Map::Draw() {
 	{
 		for (size_t j = 0; j < width; j++)
 		{
-			block[i][j].obj->Draw();
+			blocks[i][j].obj->Draw();
 		}
 	}
 }

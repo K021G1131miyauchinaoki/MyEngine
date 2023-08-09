@@ -24,9 +24,9 @@ class FBXSDK_DLL FbxMemoryPool
 {
 public:
 	/** Memory pool constructor.
-	* \param pBlockSize		The size of one memory block.
-	* \param pBlockCount	The count of block that should be pre-allocated.
-	* \param pResizable		Whether memory pool can grow if no block are availalbe upon calling Allocate.
+	* \param pBlockSize		The size of one memory blocks.
+	* \param pBlockCount	The count of blocks that should be pre-allocated.
+	* \param pResizable		Whether memory pool can grow if no blocks are availalbe upon calling Allocate.
 	* \param pConcurrent	Whether the pool supports concurrent allocation and release operations.
 	* \remark				All memory blocks must be released before the memory pool is destroyed, otherwise a memory leak will occur. */
 	FbxMemoryPool(size_t pBlockSize, FbxInt64 pBlockCount=0, bool pResizable=true, bool pConcurrent=true);
@@ -34,16 +34,16 @@ public:
 	/** Memory pool destructor. Upon destruction, all memory blocks of the pool will be de-allocated. */
 	~FbxMemoryPool();
 
-	/** Free memory of all memory blocks from this memory pool, also effectively resetting the block count to zero.
-	* \remark The block size and alignment/resize/concurrent support will remain unchanged. */
+	/** Free memory of all memory blocks from this memory pool, also effectively resetting the blocks count to zero.
+	* \remark The blocks size and alignment/resize/concurrent support will remain unchanged. */
 	void Reset();
 
-	/** Allocate or lock a memory block for usage.
-	* \return An memory block pointer that can be NULL if the memory pool cannot grow in size and no blocks are available. */
+	/** Allocate or lock a memory blocks for usage.
+	* \return An memory blocks pointer that can be NULL if the memory pool cannot grow in size and no blocks are available. */
 	void* Allocate();
 
-	/** Dispose or unlock a memory block.
-	* \param pMemBlock A pointer to the memory block to release. This will not free the block's memory, instead simply putting it back in the available stack. */
+	/** Dispose or unlock a memory blocks.
+	* \param pMemBlock A pointer to the memory blocks to release. This will not free the blocks's memory, instead simply putting it back in the available stack. */
 	void Release(void* pMemBlock);
 
 /*****************************************************************************************************************************

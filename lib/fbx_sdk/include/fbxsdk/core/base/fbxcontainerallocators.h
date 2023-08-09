@@ -51,7 +51,7 @@ public:
 		// By default, ignore all preallocating requests.
 	}
 
-	/** Returns a pointer to a uninitialized continuous block of memory
+	/** Returns a pointer to a uninitialized continuous blocks of memory
 	  * able to hold pRecordCount * pRecordSize  bytes.  
 	  * \param pRecordCount
 	  * \remarks pRecordSize was defined in the Constructor description, above.
@@ -61,7 +61,7 @@ public:
 		return FbxMalloc(FbxAllocSize(pRecordCount, mRecordSize));
 	}
 
-	/** Frees a block of memory returned by AllocateRecords. 
+	/** Frees a blocks of memory returned by AllocateRecords. 
 	  * \param pRecord
 	  */
 	void FreeMemory(void* pRecord)

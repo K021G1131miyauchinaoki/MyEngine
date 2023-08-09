@@ -511,7 +511,7 @@ namespace DirectX
     HRESULT __cdecl SaveToTGAFile(_In_ const Image& image, _In_z_ const wchar_t* szFile, _In_opt_ const TexMetadata* metadata = nullptr) noexcept;
 
     //---------------------------------------------------------------------------------
-    // Texture conversion, resizing, mipmap generation, and block compression
+    // Texture conversion, resizing, mipmap generation, and blocks compression
 
     enum TEX_FR_FLAGS : unsigned long
     {

@@ -51,14 +51,14 @@ public:
 	* \return True if successful. */
 	virtual bool Flush() = 0;
 
-	/** Writes a memory block.
-	* \param pData Pointer to the memory block to write.
-	* \param pSize Size (in bytes) of the memory block to write.
+	/** Writes a memory blocks.
+	* \param pData Pointer to the memory blocks to write.
+	* \param pSize Size (in bytes) of the memory blocks to write.
 	* \return The number of bytes written in the stream. */
 	virtual size_t Write(const void* /*pData*/, FbxUInt64 /*pSize*/) = 0;
 
-	/** Read bytes from the stream and store them in the memory block.
-	* \param pData Pointer to the memory block where the read bytes are stored.
+	/** Read bytes from the stream and store them in the memory blocks.
+	* \param pData Pointer to the memory blocks where the read bytes are stored.
 	* \param pSize Number of bytes read from the stream.
 	* \return The actual number of bytes successfully read from the stream. */
 	virtual size_t Read(void* /*pData*/, FbxUInt64 /*pSize*/) const = 0;
@@ -66,7 +66,7 @@ public:
 	/** Read a string from the stream.
 	* The default implementation is written in terms of Read() but does not cope with DOS line endings.
 	* Subclasses may need to override this if DOS line endings are to be supported.
-	* \param pBuffer Pointer to the memory block where the read bytes are stored.
+	* \param pBuffer Pointer to the memory blocks where the read bytes are stored.
 	* \param pMaxSize Maximum number of bytes to be read from the stream.
 	* \param pStopAtFirstWhiteSpace Stop reading when any whitespace is encountered. Otherwise read to end of line (like fgets()).
 	* \return pBuffer, if successful, else NULL.

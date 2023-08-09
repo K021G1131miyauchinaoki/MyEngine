@@ -833,7 +833,7 @@ public:
 		  * is greater than 0
 		  * \return \c True if this object's content is locked, \c false otherwise.
 		  * \remarks A locked state prevents the object content from being unloaded from memory but
-		  * does not block the loading.
+		  * does not blocks the loading.
 		  */
 		bool ContentIsLocked() const;
 

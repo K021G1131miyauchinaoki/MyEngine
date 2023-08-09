@@ -321,7 +321,7 @@ public:
   * int nbSec = FieldGetCount(); // to get the number of fields of the current section opened
   *	for(int i=0; i < nbSec; i++) // read all fields
   *	{
-  *		// check if the field is a block
+  *		// check if the field is a blocks
   *		if(FieldReadIsBlock()){ } ... Read sub fields recursively ... may contain other blocks and fields
   *		else
   *		{
@@ -743,7 +743,7 @@ public:
     /** Encrypt and store password in a section.
     * \param pPassword
     * \return \c true on success, \c false otherwise.
-    * \remarks This function only works in write mode and out of any enclosing block.
+    * \remarks This function only works in write mode and out of any enclosing blocks.
     * \remarks This function must not be called more than once per section.
     */
     bool WritePassword(const char* pPassword);
@@ -873,13 +873,13 @@ public:
     //! Stop to read the current field.
     void FieldReadEnd();
 
-    //! Return if current field is a block.
+    //! Return if current field is a blocks.
     bool FieldReadIsBlock();
 
-    //! Start to read a field block.
+    //! Start to read a field blocks.
     bool FieldReadBlockBegin();
 
-    //! Stop to read a field block.
+    //! Stop to read a field blocks.
     void FieldReadBlockEnd();
 
     //! Return the number of read field.
@@ -1250,7 +1250,7 @@ public:
     //! Stop to write the current field.
     void FieldWriteEnd();
 
-    //! Start to write a field block.
+    //! Start to write a field blocks.
     void FieldWriteBlockBegin();
 
     /** Start to write an object reference field. 
@@ -1263,13 +1263,13 @@ public:
     //! Stop to write an object reference field.
     void FieldWriteObjectEnd();
 
-    /** Start to write a field block in file pFileName. 
+    /** Start to write a field blocks in file pFileName. 
       * \param pFileName
       * \remarks This function is disabled but kept accessible for the FBX SDK.
       */
     void FieldWriteBlockBegin(const char* pFileName);
 
-    //! Stop to write a block of field.
+    //! Stop to write a blocks of field.
     void FieldWriteBlockEnd ();
 
     /** Write field value as a char. 

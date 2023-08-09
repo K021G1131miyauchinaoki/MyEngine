@@ -15,7 +15,7 @@
   * It is possible to override memory allocation functions throughout the FBX SDK by
   * providing system memory allocation functions using the handler set functions below.
   * The Microsoft Windows implementation in debug mode allows to specify where the
-  * allocations happen by providing the standard block type, file name and line number.
+  * allocations happen by providing the standard blocks type, file name and line number.
   */
 #ifndef _FBXSDK_CORE_ARCH_ALLOC_H_
 #define _FBXSDK_CORE_ARCH_ALLOC_H_
