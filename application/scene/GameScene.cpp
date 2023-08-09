@@ -109,13 +109,13 @@ void GameScene::Update(){
 	map->Updata();
 	objSkydome->Update();
 	float vec[2] = { input->GetPos().x,input->GetPos().y};
-	float posA[2] = { map->get().y ,0};
+	//float posA[2] = { map->get().y ,0};
 	//imguiŠÖ˜A
 	ImgM->Begin();
 	//‚±‚±‚©‚ç’†g‚ğ‘‚¢‚Ä‚¢‚­
 	ImGui::Begin("a");
 	ImGui::SliderFloat2("mousePos", vec, -100.0f, static_cast<float>(WinApp::width));
-	ImGui::SliderFloat2("blockPos", posA, -1000.0f, static_cast<float>(WinApp::width));
+	//ImGui::SliderFloat2("blockPos", posA, -1000.0f, static_cast<float>(WinApp::width));
 	ImGui::End();
 	//ImGui::SliderFloat2("pos",posA,0.0f, WinApp::width);
 	//fbxObj->Update();

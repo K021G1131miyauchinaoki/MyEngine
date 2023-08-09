@@ -27,7 +27,11 @@ public://メンバ関数
 	/// </summary>
 	void Draw();
 
-	Vector3 get() { return block[1][1].obj->GetPosition(); }
+	/// <summary>
+	/// 読み込み
+	/// </summary>
+	/// <returns></returns>
+	void LoadCSV(const std::string& num_);
 
 private://構造体
 	//ブロック

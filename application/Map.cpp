@@ -111,3 +111,24 @@ void Map::Draw() {
 		}
 	}
 }
+
+void Map::LoadCSV(const std::string& num_) {
+	////ステージの読み込み
+	std::stringstream mapLoad;
+	//ファイルを開く
+	const std::string filename = "Resources/CSV" + num_ + ".csv";
+	std::ifstream file;
+	file.open(filename);
+	assert(file.is_open());
+
+	//ファイルの内容を文字列ストリームにコピー
+	mapLoad << file.rdbuf();
+
+	//ファイルを閉じる
+	file.close();
+
+	//1行分の文字列を入れる変数
+	std::string line;
+
+	//コマンド実行ループ
+}
