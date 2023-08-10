@@ -13,6 +13,14 @@ Camera* FbxObject3d::camera = nullptr;
 ComPtr<ID3D12RootSignature>FbxObject3d::rootsignature;
 ComPtr<ID3D12PipelineState>FbxObject3d::pipelinestate;
 
+void FbxObject3d::Finalize() {
+	device.Reset();
+	rootsignature.Reset();
+	pipelinestate.Reset();
+	delete camera;
+}
+
+
 void FbxObject3d::Initialize() {
 	HRESULT result;
 	//定数バッファの生成

@@ -33,6 +33,19 @@ D3D12_VERTEX_BUFFER_VIEW ParticleManager::vbView{};
 ParticleManager::VertexPos ParticleManager::vertices[vertexCount];
 Camera* ParticleManager::camera = nullptr;
 
+void ParticleManager::Finalize() {
+	device.Reset();
+	rootsignature.Reset();
+	pipelinestate.Reset();
+	vertBuff.Reset();
+	for (size_t i = 0; i < maxSRVCount; i++)
+	{
+		texBuffers[i].Reset();
+	}
+	cmdList->Release();
+	delete camera;
+}
+
 //XMFLOAT3同士の加算処理
 const	DirectX::XMFLOAT3	operator+(const	DirectX::XMFLOAT3& lhs, const DirectX::XMFLOAT3& rhs) {
 	XMFLOAT3	result;
@@ -658,3 +671,4 @@ void ParticleManager::PostDraw()
 	// コマンドリストを解除
 	ParticleManager::cmdList = nullptr;
 }
+

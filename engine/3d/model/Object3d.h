@@ -64,6 +64,7 @@ public: // 静的メンバ関数
 	/// <returns></returns>
 	static Object3d* Create();
 
+	static void Finalize();
 
 private: // 静的メンバ変数
 	// デバイス

@@ -21,6 +21,9 @@ public://静的メンバ関数
 	static Model* LoadFromOBJ(const	std::string& modelname);
 	//セッター
 	static void SetDevice(ID3D12Device* device_) { Model::device = device_; }
+
+	static void Finalize();
+public:
 	//描画
 	void	Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial);
 private://メンバ関数

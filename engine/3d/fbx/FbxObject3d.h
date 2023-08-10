@@ -46,6 +46,8 @@ public://静的メンバ関数
 	/// </summary>
 	static void CreateGraphicsPipeline();
 
+	static void Finalize();
+
 private://静的メンバ変数
 	//デバイス
 	static Microsoft::WRL::ComPtr <ID3D12Device> device;

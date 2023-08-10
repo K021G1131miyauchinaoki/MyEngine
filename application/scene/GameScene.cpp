@@ -15,7 +15,7 @@ void GameScene::Initialize() {
 	dxCommon = new DirectXCommon;
 	dxCommon->Initialize(winApp);
 
-	input = new	Input;
+	input = std::make_unique<Input>();
 	input->Initialize(winApp);
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 	Model::SetDevice(dxCommon->GetDevice());
@@ -66,10 +66,10 @@ void GameScene::Initialize() {
 
 
 	aim = std::make_unique<Aimposition>();
-	aim->Initialeze(cube.get(), input);
+	aim->Initialeze(cube.get(), input.get());
 	
 	player = std::make_unique<Player>();
-	player->Initialeze(tank.get(), input, aim.get());
+	player->Initialeze(tank.get(), input.get(), aim.get());
 
 	enemy = std::make_unique<Enemy>();
 	enemy->Initialeze(tank.get(), player.get());
@@ -160,13 +160,15 @@ void GameScene::Finalize(){
 	//‰ð•úˆ—
 	winApp->Finalize();
 	
-	FbxLoader::GetInstance()->Finalize();
 	//safe_delete(fbxObj);
 	//safe_delete(fbxM);
 	Bullet::Finalize();
 	EnemyBullet::Finalize();
 	Map::Finalize();
-	delete	input;
+	/*FbxLoader::GetInstance()->Finalize();
+	FbxObject3d::Finalize();
+	Model::Finalize();
+	Object3d::Finalize();*/
 	delete winApp;
 	delete	dxCommon;
 }

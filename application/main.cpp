@@ -15,11 +15,11 @@
 
 //windowsアプリでのエントリーポイント(main関数)
 int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	Framework* game = new GameScene();
+	std::unique_ptr< Framework> game = std::make_unique < GameScene>();
 
 	game->Run();
 
-	delete game;
+	game.release();
 
 	//リソースリークチェック
 	IDXGIDebug1* debug;

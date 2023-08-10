@@ -47,7 +47,7 @@ private:
 	//DirectX
 	DirectXCommon* dxCommon = nullptr;
 	//キー
-	Input* input = nullptr;
+	std::unique_ptr < Input> input = nullptr;
 	//スプライト
 	//SpriteCommon* spriteCommon = nullptr;
 	//カメラ初期化
@@ -56,7 +56,7 @@ private:
 		
 
 	//json読み込み
-	LevelData* levelData = nullptr;
+	//LevelData* levelData = nullptr;
 
 	//objモデル
 	std::unique_ptr <Model> modelSkydome = nullptr;

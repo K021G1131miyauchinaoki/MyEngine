@@ -4,6 +4,10 @@
 //静的メンバ変数の実体
 ComPtr < ID3D12Device> Model::device = nullptr;
 
+void Model::Finalize() {
+	device.Reset();
+}
+
 Model* Model::LoadFromOBJ(const	std::string& modelname) {
 	//インスタンスの生成
 	Model* model = new Model();

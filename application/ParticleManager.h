@@ -100,9 +100,13 @@ public: // 静的メンバ関数
 	/// </summary>
 	static void LoadTexture(uint32_t index, std::string fileName);
 
+	static void Finalize();
+
 	//テクスチャ番号
 	void	SetTexIndex(const uint32_t texIndex_) { texIndex = texIndex_; }
 	const	uint32_t& GetTexIndex()const { return texIndex; }
+
+	
 
 private: // 静的メンバ変数
 	//SRVの最大枚数
