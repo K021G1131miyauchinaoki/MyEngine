@@ -165,7 +165,7 @@ void GameScene::Finalize(){
 	//safe_delete(fbxM);
 	Bullet::Finalize();
 	EnemyBullet::Finalize();
-
+	Map::Finalize();
 	delete	input;
 	delete winApp;
 	delete	dxCommon;
