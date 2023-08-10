@@ -81,8 +81,10 @@ void GameScene::Initialize() {
 	ImgM = std::make_unique<ImguiManager>();
 	ImgM->Initialize(winApp, dxCommon);
 	//ƒ}ƒbƒv
+	Map::StaticInitialize(modelMap.get());
 	map = std::make_unique<Map>(mapStratY);
-	map->Initialize(modelMap.get());
+	map->Initialize();
+	map->LoadCSV("1");
 
 }
 

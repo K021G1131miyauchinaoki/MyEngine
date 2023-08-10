@@ -11,11 +11,15 @@ public:
 	Map(float value) :constStartY(value) {};
 	//デストラクタ
 	~Map();
+public://静的メンバ関数
+	static void StaticInitialize(Model* model_);
+	static void Finalize();
+
 public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model*model_);
+	void Initialize();
 
 	/// <summary>
 	/// 更新
@@ -27,10 +31,7 @@ public://メンバ関数
 	/// </summary>
 	void Draw();
 
-	/// <summary>
-	/// 読み込み
-	/// </summary>
-	/// <returns></returns>
+	// 読み込み
 	void LoadCSV(const std::string& num_);
 
 private://構造体
@@ -39,12 +40,12 @@ private://構造体
 		std::unique_ptr<Object3d> obj;
 		Vector3	pos;
 		bool isUp = false;
+		bool isDrow = false;
 		float frame;
 		float y = 0.0f;
 	};
 private://静的メンバ変数
-	static const int8_t width = 5;
-	static const int8_t heith = 7;
+	static	std::unique_ptr < Model> model;
 
 private://メンバ変数
 	//イージング
@@ -55,8 +56,10 @@ private://メンバ変数
 	Vector3 scale;
 	//ブロック
 	std::vector<std::vector< Block>> blocks;
-	int16_t num;
 	const float constStartY;
+	int8_t width;
+	int8_t high;
+	int16_t lineNum;
 
 	const int time = 60;
 	int timer = 0;

@@ -11,12 +11,12 @@ public://コンストラクタ
 	~EnemyBullet();
 public://静的メンバ関数
 	static void StaticInitialize(Model* model_);
+	static void Finalize();
 
 private://静的メンバ変数
 	static	std::unique_ptr < Model> model;
 
 public://メンバ関数
-	static void Finalize();
 	void Initialize( const Vector3& position, const Vector3& veclocity, const Vector3& rotation_);
 	void Update();
 	void Draw();
