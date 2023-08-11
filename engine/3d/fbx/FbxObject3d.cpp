@@ -9,7 +9,6 @@ using namespace DirectX;
 /// 静的メンバ変数の実体
 /// </summary>
 Microsoft::WRL::ComPtr <ID3D12Device> FbxObject3d::device = nullptr;
-Camera* FbxObject3d::camera = nullptr;
 ComPtr<ID3D12RootSignature>FbxObject3d::rootsignature;
 ComPtr<ID3D12PipelineState>FbxObject3d::pipelinestate;
 
@@ -17,7 +16,6 @@ void FbxObject3d::Finalize() {
 	device.Reset();
 	rootsignature.Reset();
 	pipelinestate.Reset();
-	delete camera;
 }
 
 
@@ -56,7 +54,7 @@ void FbxObject3d::Initialize() {
 	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
 }
 
-void FbxObject3d::Update() {
+void FbxObject3d::Update(Camera* camera_) {
 	//アニメーション
 	if (isPlay)
 	{
@@ -86,11 +84,11 @@ void FbxObject3d::Update() {
 	matWorld *= matTrans;//ワールド行列に平行移動を反映
 
 	//ビュープロジェクション行列
-	const XMMATRIX& matViewProjection = camera->GetViewProjection();
+	const XMMATRIX& matViewProjection = camera_->GetViewProjection();
 	//モデルのメッシュトランスフォーム
 	const XMMATRIX& modelTransform = fbxModel->GetModelTransform();
 	//カメラ座標
-	const XMFLOAT3& cameraPos = camera->GetEye();
+	const XMFLOAT3& cameraPos = camera_->GetEye();
 
 	HRESULT result;
 

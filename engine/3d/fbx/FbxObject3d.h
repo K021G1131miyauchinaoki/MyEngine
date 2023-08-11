@@ -40,7 +40,6 @@ public://サブクラス
 public://静的メンバ関数
 	//setter
 	static void SetDevice(ID3D12Device* device_) { FbxObject3d::device = device_; }
-	static void SetCamera(Camera* camera_) { FbxObject3d::camera = camera_; }
 	/// <summary>
 	/// グラフィックパイプラインの生成
 	/// </summary>
@@ -51,8 +50,6 @@ public://静的メンバ関数
 private://静的メンバ変数
 	//デバイス
 	static Microsoft::WRL::ComPtr <ID3D12Device> device;
-	//カメラ
-	static Camera* camera;
 	//ルートシグネチャ
 	static ComPtr<ID3D12RootSignature>rootsignature;
 	//パイプラインステートオブジェクト
@@ -67,7 +64,7 @@ public://メンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update(Camera* camera_);
 	
 	/// <summary>
 	/// 描画

@@ -1,22 +1,11 @@
 #pragma once
 #include<vector>
-#include"Input.h"
-#include"WinApp.h"
-#include"DirectXCommon.h"
-#include"SpriteCommon.h"
+#include"Framework.h"
 #include"Sprite.h"
-#include"Object3d.h"
-#include"Model.h"
 #include"ImguiManager.h"
 #include"SoundManager.h"
-#include "ParticleManager.h"
 #include"Camera.h"
 #include"LevelLoader.h"
-#include"Framework.h"
-#include"FbxLoader.h"
-#include"FbxObject3d.h"
-#include"FbxModel.h"
-#include<PostEffect.h>
 #include<Player.h>
 #include<Aimposition.h>
 #include<ImguiManager.h>
@@ -36,22 +25,14 @@ public://メンバ関数
 	//描画
 	void Draw()override;
 
-	bool IsEndRequst() override;
-
 	//当たり判定
 	void CheckAllCollision();
 
 private:
-	// WindowsAPI
-	WinApp* winApp = nullptr;
-	//DirectX
-	DirectXCommon* dxCommon = nullptr;
-	//キー
-	std::unique_ptr < Input> input = nullptr;
 	//スプライト
 	//SpriteCommon* spriteCommon = nullptr;
 	//カメラ初期化
-	std::unique_ptr<Camera>camera = std::make_unique<Camera>();
+	std::unique_ptr<Camera>camera;
 	//スプライト
 		
 
@@ -76,8 +57,6 @@ private:
 
 	std::unique_ptr<ImguiManager> ImgM;
 
-	//ゲーム終了フラグ
-	bool isEndRequst = false;
 	//マップクラスの初期座標
 	float mapStratY;
 };

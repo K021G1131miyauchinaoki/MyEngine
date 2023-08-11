@@ -29,7 +29,7 @@ void Object3d::Finalize() {
 	pipelinestate.Reset();
 }
 
-void Object3d::StaticInitialize(ID3D12Device* device_, int window_width, int window_height, Camera* camera_)
+void Object3d::StaticInitialize(ID3D12Device* device_)
 {
 	// nullptrチェック
 	assert(device_);
@@ -39,8 +39,10 @@ void Object3d::StaticInitialize(ID3D12Device* device_, int window_width, int win
 
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
+}
 
-	camera = new Camera;
+void Object3d::SetCamera(Camera* camera_)
+{
 	camera = camera_;
 }
 

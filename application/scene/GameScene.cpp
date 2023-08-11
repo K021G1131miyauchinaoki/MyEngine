@@ -5,48 +5,14 @@
 #define safe_delete(p)  {delete p; p = nullptr;}
 
 void GameScene::Initialize() {
+	Framework::Initialize();
 	/*変数*/
 	mapStratY = -50;
-	/**/
-
-	winApp = new	WinApp;
-	winApp->Initialize();
-
-	dxCommon = new DirectXCommon;
-	dxCommon->Initialize(winApp);
-
-	input = std::make_unique<Input>();
-	input->Initialize(winApp);
-	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
-	Model::SetDevice(dxCommon->GetDevice());
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
-	camera->SetTarget({ 0,0,0 });
-	camera->SetEye({ 0,20,-200 });
-	camera->Update();
-	//デバイスをセット
-	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::width, WinApp::height, camera.get());
-	//デバイスをセット
-	FbxObject3d::SetDevice(dxCommon->GetDevice());
-	// カメラをセット
-	FbxObject3d::SetCamera(camera.get());
-	//グラフィックパイプライン生成
-	FbxObject3d::CreateGraphicsPipeline();
+	Object3d::SetCamera(camera.get());
 	
-	//---------------------------2D----------------------------------
-
-
-	//---------------------------3D----------------------------------
-
-
-	/*---------------- - FBX------------------------*/
-	////3Dオブジェクト生成とモデルセット
-	//fbxM = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
-	//fbxObj = new FbxObject3d;
-	//fbxObj->Initialize();
-	//fbxObj->SetModel(fbxM);
-	//fbxObj->PlayAnimation();
 
 	// モデル読み込み
 	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
@@ -54,34 +20,34 @@ void GameScene::Initialize() {
 	tank.reset(Model::LoadFromOBJ("tank"));
 	modelMap.reset(Model::LoadFromOBJ("map"));
 
+	//モデルのセット
 	EnemyBullet::StaticInitialize(cube.get());
-
-
 	Bullet::StaticInitialize(cube.get());
+	Map::StaticInitialize(modelMap.get());
 
+
+	//スカイドーム
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
 	objSkydome->SetModel(modelSkydome.get());
 	objSkydome->SetScale({ 5.0f,5.0f,5.0f });
 
-
+	//レクティル
 	aim = std::make_unique<Aimposition>();
 	aim->Initialeze(cube.get(), input.get());
-	
+	//プレイヤー
 	player = std::make_unique<Player>();
 	player->Initialeze(tank.get(), input.get(), aim.get());
-
+	//エネミー
 	enemy = std::make_unique<Enemy>();
 	enemy->Initialeze(tank.get(), player.get());
 
-	//ポストエフェクト
-	PostEffect::StaticInitialize(dxCommon);
+	
 	//pe = new PostEffect;
 	//pe->Initialize();
 	ImgM = std::make_unique<ImguiManager>();
-	ImgM->Initialize(winApp, dxCommon);
+	ImgM->Initialize(winApp.get(), dxCommon.get());
 	//マップ
-	Map::StaticInitialize(modelMap.get());
 	map = std::make_unique<Map>(mapStratY);
 	map->Initialize();
 	map->LoadCSV("1");
@@ -89,45 +55,32 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update(){
-#pragma region メッセージ
-	if (winApp->ProcessMessage()|| input->PushKey(DIK_ESCAPE)) {
-		isEndRequst = true;
-	}
-#pragma endregion
-	input->Update();
-	//imgui
-	// デモ
-	//ImGui::ShowDemoWindow();
+	Framework::Update();
 	
 	//------------------------------
 	CheckAllCollision();
 
-	/*camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
+	camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
 	camera->SetEye({ player->GetPos().x, 100, player->GetPos().z - 30 });
-	camera->Update();*/
+	camera->Update();
 	player->Updata();
 	enemy->Updata();
 	aim->Updata();
 	map->Updata();
 	objSkydome->Update();
 	float vec[2] = { input->GetPos().x,input->GetPos().y};
-	//float posA[2] = { map->get().y ,0};
 	//imgui関連
 	ImgM->Begin();
 	//ここから中身を書いていく
 	ImGui::Begin("a");
 	ImGui::SliderFloat2("mousePos", vec, -100.0f, static_cast<float>(WinApp::width));
-	//ImGui::SliderFloat2("blockPos", posA, -1000.0f, static_cast<float>(WinApp::width));
 	ImGui::End();
-	//ImGui::SliderFloat2("pos",posA,0.0f, WinApp::width);
-	//fbxObj->Update();
-
-	//for (auto object : objects) {
-	//	object->Update();
-	//}
 }
 
 void GameScene::Draw(){
+	//PostEffect::PostDrawScene(dxCommon->GetCommandList());
+	//PostEffect::PreDrawScene(dxCommon->GetCommandList());
+
 	//Direct毎フレーム処理　ここから
 	dxCommon->PreDraw();
 	// 3Dオブジェクト描画前処理
@@ -152,25 +105,11 @@ void GameScene::Draw(){
 	dxCommon->PostDraw();
 }
 
-bool GameScene::IsEndRequst(){
-	return isEndRequst;
-}
-
 void GameScene::Finalize(){
-	//解放処理
-	winApp->Finalize();
-	
-	//safe_delete(fbxObj);
-	//safe_delete(fbxM);
 	Bullet::Finalize();
 	EnemyBullet::Finalize();
 	Map::Finalize();
-	/*FbxLoader::GetInstance()->Finalize();
-	FbxObject3d::Finalize();
-	Model::Finalize();
-	Object3d::Finalize();*/
-	delete winApp;
-	delete	dxCommon;
+	Framework::Finalize();
 }
 
 void GameScene::CheckAllCollision() {
