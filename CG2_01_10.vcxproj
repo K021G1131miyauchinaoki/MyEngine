@@ -175,7 +175,7 @@
     <ClCompile Include="engine\3d\fbx\FbxModel.cpp" />
     <ClCompile Include="engine\3d\fbx\FbxObject3d.cpp" />
     <ClCompile Include="application\scene\Framework.cpp" />
-    <ClCompile Include="application\scene\GameScene.cpp" />
+    <ClCompile Include="application\scene\MyGame.cpp" />
     <ClCompile Include="engine\imgui\ImguiManager.cpp" />
     <ClCompile Include="engine\base\input\Input.cpp" />
     <ClCompile Include="engine\editor\LevelLoader.cpp" />
@@ -195,6 +195,7 @@
     <ClCompile Include="engine\math\WorldTransform.cpp" />
     <ClCompile Include="engine\math\MyMath.cpp" />
     <ClCompile Include="application\Map.cpp" />
+    <ClCompile Include="application\scene\GamePlayScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -316,7 +317,7 @@
     <ClInclude Include="engine\3d\fbx\FbxModel.h" />
     <ClInclude Include="engine\3d\fbx\FbxObject3d.h" />
     <ClInclude Include="application\scene\Framework.h" />
-    <ClInclude Include="application\scene\GameScene.h" />
+    <ClInclude Include="application\scene\MyGame.h" />
     <ClInclude Include="engine\imgui\ImguiManager.h" />
     <ClInclude Include="engine\base\input\Input.h" />
     <ClInclude Include="engine\editor\LevelLoader.h" />
@@ -331,6 +332,7 @@
     <ClInclude Include="engine\math\WorldTransform.h" />
     <ClInclude Include="engine\math\MyMath.h" />
     <ClInclude Include="application\Map.h" />
+    <ClInclude Include="application\scene\GamePlayScene.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="engine\audio\SoundManager.h" />
     <ClInclude Include="engine\2d\Sprite.h" />

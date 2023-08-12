@@ -21,7 +21,7 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 	invincibleTimer = invincibleTime;
 }
 
-void Enemy::Updata() {
+void Enemy::Update() {
 	//デスフラグの立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) { return bullet->IsDead(); });
 	switch (phase) {

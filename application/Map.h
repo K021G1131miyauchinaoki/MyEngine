@@ -24,7 +24,7 @@ public://ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// XV
 	/// </summary>
-	void Updata();
+	void Update();
 
 	/// <summary>
 	/// •`‰æ

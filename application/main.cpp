@@ -4,7 +4,7 @@
 #include"DirectXTex.h"
 #include<cassert>
 #include<imgui.h>
-#include"GameScene.h"
+#include"MyGame.h"
 #include"Framework.h"
 #include<dxgidebug.h>
 
@@ -15,7 +15,7 @@
 
 //windowsアプリでのエントリーポイント(main関数)
 int	WINAPI	WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	std::unique_ptr< Framework> game = std::make_unique < GameScene>();
+	std::unique_ptr< Framework> game = std::make_unique <MyGame>();
 
 	game->Run();
 

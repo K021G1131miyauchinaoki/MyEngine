@@ -1,6 +1,6 @@
 #pragma once
-#include<vector>
-#include"Framework.h"
+#include<Input.h>
+#include<DirectXCommon.h>
 #include"Sprite.h"
 #include"ImguiManager.h"
 #include"SoundManager.h"
@@ -13,28 +13,29 @@
 #include<Map.h>
 
 
-class GameScene:public Framework
+class GamePlayScene
 {
 public://メンバ関数
+
 	//初期化
-	void Initialize()override;
-	//終了
-	void Finalize()override;
+	void Initialize(DirectXCommon*dxCommon,Input*input);
+
 	//更新
-	void Update()override;
+	void Update();
+
 	//描画
-	void Draw()override;
+	void ObjDraw();
+	void SpriteDraw();
 
-	//当たり判定
-	void CheckAllCollision();
-
+	//終了
+	void Finalize();
 private:
 	//スプライト
 	//SpriteCommon* spriteCommon = nullptr;
 	//カメラ初期化
 	std::unique_ptr<Camera>camera;
 	//スプライト
-		
+
 
 	//json読み込み
 	//LevelData* levelData = nullptr;

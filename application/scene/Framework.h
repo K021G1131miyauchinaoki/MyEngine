@@ -31,7 +31,7 @@ protected:
 	std::unique_ptr<Input>input;
 	std::unique_ptr<WinApp>winApp;
 	std::unique_ptr<DirectXCommon>dxCommon;
-	std::unique_ptr<SpriteCommon>spriteCom;
+	//std::unique_ptr<SpriteCommon>spriteCom;
 	std::unique_ptr<PostEffect>postEffect;
 
 };

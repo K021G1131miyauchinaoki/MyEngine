@@ -22,7 +22,7 @@ void Map::Initialize() {
 	endY =  -(scale.y + 0.2f);
 }
 
-void Map::Updata() {
+void Map::Update() {
 	timer--;
 	if (timer < 0)
 	{

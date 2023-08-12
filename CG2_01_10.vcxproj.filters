@@ -60,7 +60,7 @@
     <ClCompile Include="application\scene\Framework.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="application\scene\GameScene.cpp">
+    <ClCompile Include="application\scene\MyGame.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
     <ClCompile Include="application\ParticleManager.cpp">
@@ -134,9 +134,10 @@
       <Filter>Application\Map</Filter>
     </ClCompile>
     <ClCompile Include="engine\easing\Easing.cpp" />
+    <ClCompile Include="application\scene\GamePlayScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="application\scene\GameScene.h">
+    <ClInclude Include="application\scene\MyGame.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
     <ClInclude Include="application\scene\Framework.h">
@@ -228,6 +229,7 @@
       <Filter>Application\Map</Filter>
     </ClInclude>
     <ClInclude Include="engine\easing\Easing.h" />
+    <ClInclude Include="application\scene\GamePlayScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

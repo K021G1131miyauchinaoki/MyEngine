@@ -16,7 +16,7 @@ void Aimposition::Initialeze(Model* model_, Input* input_) {
 	coolTime = 0;
 }
 
-void Aimposition::Updata() {
+void Aimposition::Update() {
 	Move();
 	obj->Update();
 }

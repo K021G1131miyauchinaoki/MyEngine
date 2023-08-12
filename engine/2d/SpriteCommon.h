@@ -6,7 +6,7 @@
 #include<vector>
 using namespace DirectX;
 
-class SpriteCommon
+class SpriteCommon final
 {
 private://静的メンバ変数
 	//SRVの最大枚数
@@ -31,9 +31,8 @@ public://メンバ関数
 
 	ID3D12Resource* GetTexBuff(uint32_t index)const { return texBuffers[index].Get(); }
 public://静的メンバ関数
-
-	//ID3D12PipelineState* GetPipelineState()const { return pipelineState; }
-	//ID3D12RootSignature* GetRootSignature()const { return rootSignature; }
+	static SpriteCommon* GetInstance();
+	 
 private://メンバ変数
 	DirectXCommon* directXCom = nullptr;
 	Microsoft::WRL::ComPtr <ID3D12Device> device = nullptr;
@@ -45,4 +44,14 @@ private://メンバ変数
 	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, maxSRVCount>texBuffers;
 	UINT	incrementSize;
 
+private:
+	//コンストラクタ
+	SpriteCommon();
+	//デストラクタ
+	~SpriteCommon();
+public:
+	//コピーコンストラクタを無効
+	SpriteCommon(const SpriteCommon& obj) = delete;
+	//代入演算子を無効
+	SpriteCommon& operator=(const SpriteCommon& obj) = delete;
 };

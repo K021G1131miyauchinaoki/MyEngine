@@ -6,6 +6,11 @@
 
 std::string SpriteCommon::defaultTextureDirectoryPath = "Resources/";
 
+SpriteCommon* SpriteCommon::GetInstance() {
+	static SpriteCommon instance;
+
+	return&instance;
+}
 
 void	SpriteCommon::Loadtexture(uint32_t index, std::string fileName) {
 
@@ -356,3 +361,6 @@ void	SpriteCommon::PreDraw() {
 }
 
 void	SpriteCommon::PostDraw() {}
+
+SpriteCommon::SpriteCommon() {}
+SpriteCommon::~SpriteCommon(){}

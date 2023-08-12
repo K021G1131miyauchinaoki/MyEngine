@@ -21,7 +21,7 @@ void Player::Initialeze( Model* model_, Input* input_,Aimposition* aim_) {
 	invincibleTimer = invincibleTime;
 }
 
-void Player::Updata() {
+void Player::Update() {
 	//デスフラグの立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<Bullet>& bullet) { return bullet->IsDead(); });
 	Rotate();
