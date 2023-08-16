@@ -49,7 +49,7 @@ void GamePlayScene::Update(){
 	camera->Update();
 	player->Update();
 	enemy->Update();
-	aim->Update();
+	//aim->Update();
 	map->Update();
 	objSkydome->Update();
 }

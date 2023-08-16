@@ -28,11 +28,15 @@ void Player::Update() {
 	//マウスカーソルの位置取得
 	mausePos = input->GetMausePos();
 	vector = { 0.0f,0.0f };
+	//ウィンドウの中心点とマウスの現在点のベクトルをとる
 	vector.x = mausePos.x - WinApp::width / 2;
 	vector.y = mausePos.y - WinApp::height / 2;
+	//正規化
 	vector = MyMath::normaleizeVec2(vector);
+	//角度を算出
 	angle = atan2(vector.y, vector.x);
 	Shot();
+	//度数変換
 	angle = MyMath::DegreeTransform(angle);
 	Rotate();
 	Move();
