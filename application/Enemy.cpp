@@ -76,7 +76,7 @@ void Enemy::Move() {
 		//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
 		value = { rotDist(engine),0.0f,rotDist(engine) };
 		//値を正規化
-		value = MyMath::normaleize(value);
+		value = MyMath::normaleizeVec3(value);
 		
 		angle = (atan2(value.x, value.z));
 		Vector3 rot;
@@ -126,7 +126,7 @@ void Enemy::Shot() {
 		len.x = ePos.x - pPos.x;
 		len.y = ePos.y - pPos.y;
 		len.z = ePos.z - pPos.z;
-		velocity = MyMath::normaleize(len);
+		velocity = MyMath::normaleizeVec3(len);
 
 		velocity *= kBulletSpeed;
 

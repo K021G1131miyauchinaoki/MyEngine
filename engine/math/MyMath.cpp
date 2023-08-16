@@ -4,12 +4,24 @@
 
 namespace MyMath
 {
-	Vector3 normaleize(Vector3 vec) {
+	Vector3 normaleizeVec3(Vector3 vec) {
 		float length = std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 		if (length != 0) {
 			vec.x /= length;
 			vec.y /= length;
 			vec.z /= length;
+
+			return vec;
+		}
+
+		return vec;
+	}
+
+	Vector2 normaleizeVec2(Vector2 vec) {
+		float length = std::sqrt(vec.x * vec.x + vec.y * vec.y);
+		if (length != 0) {
+			vec.x /= length;
+			vec.y /= length;
 
 			return vec;
 		}

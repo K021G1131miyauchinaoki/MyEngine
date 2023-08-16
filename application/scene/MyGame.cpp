@@ -19,7 +19,7 @@ void MyGame::Update(){
 	CheckAllCollision();
 	scene->Update();
 	
-	float vec[2] = { input->GetPos().x,input->GetPos().y};
+	float vec[2] = { input->GetMausePos().x,input->GetMausePos().y};
 	//imguiŠÖ˜A
 	ImgM->Begin();
 	//‚±‚±‚©‚ç’†g‚ğ‘‚¢‚Ä‚¢‚­
@@ -69,7 +69,7 @@ void MyGame::CheckAllCollision() {
 //	const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy->GetBullets();
 //#pragma	region	©ƒLƒƒƒ‰‚Æ“G’e‚Ì“–‚½‚è”»’è
 //	//©ƒLƒƒƒ‰‚ÌÀ•W
-//	posA = player->GetPos();
+//	posA = player->GetMausePos();
 //	//©ƒLƒƒƒ‰‚Æ“G’e‘S‚Ä‚Ì“–‚½‚è”»’è
 //	for (const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets) {
 //		//“G’e‚ÌÀ•W
@@ -91,7 +91,7 @@ void MyGame::CheckAllCollision() {
 //
 //#pragma region ©’e‚Æ“GƒLƒƒƒ‰‚Ì“–‚½‚è”»’è
 //	//“G’e‚ÌÀ•W
-//	posA = enemy->GetPos();
+//	posA = enemy->GetMausePos();
 //	//“GƒLƒƒƒ‰‚Æ©’e‘S‚Ä‚Ì“–‚½‚è”»’è
 //	for (const std::unique_ptr<Bullet>& p_bullet : playerBullets) {
 //		//©’e‚ÌÀ•W

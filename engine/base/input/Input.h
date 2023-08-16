@@ -38,7 +38,7 @@ public://ƒƒ“ƒoŠÖ”
 	//‰Ÿ‚µ‚½uŠÔ
 	bool TriggerClick(Botton botton);
 	//2DÀ•W‚Ìæ“¾
-	const Vector2 GetPos() { return mPos; }
+	const Vector2 GetMausePos() { return mPos; }
 
 private:
 	WinApp* winApp = nullptr;

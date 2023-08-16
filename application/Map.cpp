@@ -113,8 +113,8 @@ void Map::LoadCSV(const std::string& num_) {
 	std::istringstream line_stream(line);
 	std::string num;
 	
-	std::getline(line_stream, num, ',');
 
+	std::getline(line_stream, num, ',');
 	high = (int8_t)std::atof(num.c_str());
 	std::getline(line_stream, num, ',');
 	width = (int8_t)std::atof(num.c_str());
@@ -129,9 +129,11 @@ void Map::LoadCSV(const std::string& num_) {
 		blocks[i].resize(width);
 	}
 
-
+	//0,1のマップチップを埋め込みつつ（未）初期化
 	for (size_t i = 0; i < high; i++)
 	{
+		std::getline(mapLoad, line, '\n');
+
 		for (size_t j = 0; j < width; j++)
 		{
 			//
@@ -150,7 +152,6 @@ void Map::LoadCSV(const std::string& num_) {
 			blocks[i][j].frame = 0;
 			blocks[i][j].obj->Update();
 		}
-		std::getline(mapLoad, line, '\n');
 	}
 }
 

@@ -1,4 +1,5 @@
 #include "Player.h"
+#include<WinApp.h>	
 #include<cassert>
 
 void Player::Initialeze( Model* model_, Input* input_,Aimposition* aim_) {
@@ -24,9 +25,17 @@ void Player::Initialeze( Model* model_, Input* input_,Aimposition* aim_) {
 void Player::Update() {
 	//デスフラグの立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<Bullet>& bullet) { return bullet->IsDead(); });
+	//マウスカーソルの位置取得
+	mausePos = input->GetMausePos();
+	vector = { 0.0f,0.0f };
+	vector.x = mausePos.x - WinApp::width / 2;
+	vector.y = mausePos.y - WinApp::height / 2;
+	vector = MyMath::normaleizeVec2(vector);
+	angle = atan2(vector.y, vector.x);
+	Shot();
+	angle = MyMath::DegreeTransform(angle);
 	Rotate();
 	Move();
-	Shot();
 	obj->Update();
 	for (std::unique_ptr<Bullet>& bullet : bullets_)
 	{
@@ -77,25 +86,13 @@ void Player::Shot() {
 	
 	//弾の速度
 	const float kBulletSpeed = 1.0f;
-	velocity.x =0.0f;
-	velocity.y =0.0f;
-	velocity.z =0.0f;
+	velocity +=0.0f;
+	
+	velocity.x = std::cos(angle);
+	velocity.y = 0.0f;
+	velocity.z = -std::sin(angle);
 
-	Vector3 pPos = {0.0f,0.0f,0.0f};
-	pPos.x = obj->GetPosition().x;
-	pPos.y = obj->GetPosition().y;
-	pPos.z = obj->GetPosition().z;
-	Vector3 ePos = aim->GetPosition();
-
-	Vector3 len;
-	len.x = ePos.x - pPos.x;
-	len.y = ePos.y - pPos.y;
-	len.z = ePos.z - pPos.z;
-	velocity = MyMath::normaleize(len);
-
-	velocity.x *= kBulletSpeed;
-	velocity.y *= kBulletSpeed;
-	velocity.z *= kBulletSpeed;
+	velocity *= kBulletSpeed;
 
 	//速度ベクトルを自機の向きに合わせて回転させる
 	coolTime--;
@@ -126,15 +123,13 @@ void Player::Shot() {
 }
 
 void Player::Rotate() {
-	Vector3 a = obj->GetPosition();
-	//XMFLOAT3 a = obj->GetRotation();
-	Vector3 b = aim->GetPosition();
-	Vector3 vec = { 0,0,0 };
-	vec.x = b.x - a.x;
-	vec.z = b.z - a.z;
-	vec = MyMath::normaleize(vec);
-	angle = (atan2(vec.x, vec.z));
-	angle = MyMath::DegreeTransform(angle);
+	//Vector3 a = obj->GetPosition();
+	////XMFLOAT3 a = obj->GetRotation();
+	//Vector3 b = aim->GetPosition();
+	//Vector3 vec = { 0,0,0 };
+	//vec.x = b.x - a.x;
+	//vec.z = b.z - a.z;
+	
 	Vector3 rot = { 0,angle,0 };
 
 	obj->SetRotation(rot);

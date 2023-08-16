@@ -7,6 +7,7 @@
 #include<Bullet.h>
 #include<Aimposition.h>
 #include<Vector3.h>
+#include<Vector2.h>
 #include<MyMath.h>
 
 class Player
@@ -72,6 +73,8 @@ private://ƒƒ“ƒo•Ï”
 
 	float angle = 0.0f;
 	Vector3 velocity;
+	Vector2	vector ;
+	Vector2	 mausePos;
 	//”¼Œa
 	float radius = 5.0f;
 
