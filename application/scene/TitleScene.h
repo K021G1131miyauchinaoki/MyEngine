@@ -30,6 +30,9 @@ public://ƒƒ“ƒoŠÖ”
 	//I—¹
 	void Finalize()override;
 
+	TitleScene();
+	~TitleScene()override;
+
 private:
 	std::unique_ptr<Sprite> titleSprite;
 	std::unique_ptr <Input>input;

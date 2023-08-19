@@ -6,8 +6,6 @@
 
 void MyGame::Initialize() {
 	Framework::Initialize();
-	scene = new TitleScene;
-	scene->Initialize();
 	ImgM = std::make_unique<ImguiManager>();
 	ImgM->Initialize(winApp.get(), dxCommon.get());
 	BaseScene* scene = new TitleScene();
@@ -56,7 +54,6 @@ void MyGame::Draw(){
 }
 
 void MyGame::Finalize(){
-	delete scene;
 	Bullet::Finalize();
 	EnemyBullet::Finalize();
 	Map::Finalize();

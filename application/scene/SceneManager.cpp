@@ -8,6 +8,7 @@ void SceneManager::Update()
 		if (scene)
 		{
 			scene->Finalize();
+			scene = nullptr;
 			delete scene;
 		}
 
@@ -32,8 +33,8 @@ void SceneManager::ObjDraw()
 	scene->ObjDraw();
 }
 
-SceneManager::SceneManager(){}
-
+//SceneManager::SceneManager(){}
+//
 SceneManager::~SceneManager()
 {
 	scene->Finalize();

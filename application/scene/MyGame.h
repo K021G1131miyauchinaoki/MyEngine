@@ -33,7 +33,5 @@ public://メンバ関数
 private:
 	//imgui
 	std::unique_ptr<ImguiManager> ImgM;
-	//プレイシーン
-	BaseScene* scene;
 };
 

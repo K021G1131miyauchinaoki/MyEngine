@@ -81,7 +81,7 @@ void Enemy::Move() {
 		angle = (atan2(value.x, value.z));
 		Vector3 rot;
 		//“x”‚É•ÏŠ·
-		rot.y = MyMath::DegreeTransform(angle);
+		rot.y = MyMath::DegreeTransform(angle)-90.0f;
 
 		obj->SetRotation(rot);
 		

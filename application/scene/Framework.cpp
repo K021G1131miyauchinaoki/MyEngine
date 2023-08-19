@@ -22,14 +22,12 @@ void Framework::Initialize(){
 	SpriteCommon::GetInstance()->Initialize(dxCommon.get());
 	SpriteCommon::GetInstance()->Loadtexture(1, "reimu.png");
 
-	sceneManager = new SceneManager();
-	sceneManager->SetDxCommon(dxCommon.get());
-	sceneManager->SetInput(input.get());
-	
+	sceneManager = new SceneManager();	
 }
 
 void Framework::Update(){
 	input->Update();
+	sceneManager->Update();
 }
 
 void Framework::Draw(){}

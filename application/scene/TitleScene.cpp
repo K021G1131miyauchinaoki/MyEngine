@@ -30,12 +30,17 @@ void TitleScene::Update() {
 }
 
 void TitleScene::SpriteDraw() {
+	titleSprite->SetTexIndex(1);
+	titleSprite->Draw();
 
 }
 
 void TitleScene::ObjDraw() {
-	titleSprite->SetTexIndex(1);
-	titleSprite->Draw();
 }
 
 void TitleScene::Finalize() {}
+
+TitleScene::TitleScene() {}
+TitleScene::~TitleScene(){
+	Finalize();
+}
