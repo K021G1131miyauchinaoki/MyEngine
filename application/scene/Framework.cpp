@@ -1,14 +1,14 @@
 #include "Framework.h"
 
 void Framework::Initialize(){
-	winApp = std::make_unique<WinApp>();
+	winApp.reset(WinApp::GetInstance());
 	winApp->Initialize();
 
 	dxCommon = std::make_unique<DirectXCommon>();
 	dxCommon->Initialize(winApp.get());
 
-	input = std::make_unique<Input>();
-	input->Initialize(winApp.get());
+	Input::GetInstance()->Initialize();
+	input .reset(Input::GetInstance());
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 	//デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
@@ -18,7 +18,14 @@ void Framework::Initialize(){
 	Object3d::StaticInitialize(dxCommon->GetDevice());
 	//ポストエフェクト
 	PostEffect::StaticInitialize(dxCommon.get());
+	//スプライトコモン
+	SpriteCommon::GetInstance()->Initialize(dxCommon.get());
+	SpriteCommon::GetInstance()->Loadtexture(1, "reimu.png");
 
+	sceneManager = new SceneManager();
+	sceneManager->SetDxCommon(dxCommon.get());
+	sceneManager->SetInput(input.get());
+	
 }
 
 void Framework::Update(){
@@ -29,6 +36,7 @@ void Framework::Draw(){}
 
 void Framework::Finalize(){
 	winApp->Finalize();
+	delete sceneManager;
 	/*FbxLoader::GetInstance()->Finalize();
 	FbxObject3d::Finalize();
 	Model::Finalize();

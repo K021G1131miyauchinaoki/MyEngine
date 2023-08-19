@@ -23,7 +23,7 @@ template<class T>using	ComPtr= Microsoft::WRL::ComPtr<T>;
 
 public://メンバ関数
 	//初期化
-	void Initialize(WinApp*winApp_);
+	void Initialize();
 	//更新
 	void Update();
 	/*キーボード*/
@@ -39,6 +39,8 @@ public://メンバ関数
 	bool TriggerClick(Botton botton);
 	//2D座標の取得
 	const Vector2 GetMausePos() { return mPos; }
+
+	static Input* GetInstance();
 
 private:
 	WinApp* winApp = nullptr;

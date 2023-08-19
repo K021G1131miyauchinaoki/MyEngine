@@ -1,6 +1,6 @@
 #pragma once
-#include<vector>
-#include"Framework.h"
+#include<Input.h>
+#include<DirectXCommon.h>
 #include"Sprite.h"
 #include"ImguiManager.h"
 #include"SoundManager.h"
@@ -11,29 +11,28 @@
 #include<ImguiManager.h>
 #include<Enemy.h>
 #include<Map.h>
-#include<GamePlayScene.h>
-#include<TitleScene.h>
 #include<BaseScene.h>
 
-class MyGame:public Framework
+class TitleScene:public BaseScene
 {
 public://メンバ関数
-	//初期化
+
+//初期化
 	void Initialize()override;
-	//終了
-	void Finalize()override;
+
 	//更新
 	void Update()override;
-	//描画
-	void Draw()override;
 
-	//当たり判定
-	void CheckAllCollision();
+	//描画
+	void ObjDraw()override;
+	void SpriteDraw()override;
+
+	//終了
+	void Finalize()override;
 
 private:
-	//imgui
-	std::unique_ptr<ImguiManager> ImgM;
-	//プレイシーン
-	BaseScene* scene;
+	std::unique_ptr<Sprite> titleSprite;
+	std::unique_ptr <Input>input;
+
 };
 

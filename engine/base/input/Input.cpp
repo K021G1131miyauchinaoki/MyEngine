@@ -1,7 +1,12 @@
 #include "Input.h"
 
-void	Input::Initialize(WinApp* winApp_) {
-	this->winApp = winApp_;
+Input* Input::GetInstance() {
+	static Input instance;
+	return &instance;
+}
+
+void	Input::Initialize() {
+	this->winApp = WinApp::GetInstance();
 	//DirectInput‚Ì‰Šú‰»
 	result = DirectInput8Create(
 		winApp->GetWindow().hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8,

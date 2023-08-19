@@ -11,25 +11,28 @@
 #include<ImguiManager.h>
 #include<Enemy.h>
 #include<Map.h>
+#include<BaseScene.h>
 
-
-class GamePlayScene
+class GamePlayScene:public BaseScene
 {
 public://メンバ関数
 
 	//初期化
-	void Initialize(DirectXCommon*dxCommon,Input*input);
+	void Initialize()override;
 
 	//更新
-	void Update();
+	void Update()override;
 
 	//描画
-	void ObjDraw();
-	void SpriteDraw();
+	void ObjDraw()override;
+	void SpriteDraw()override;
 
 	//終了
-	void Finalize();
+	void Finalize()override;
 private:
+	//インプット
+	std::unique_ptr<Input>input;
+
 	//スプライト
 	//SpriteCommon* spriteCommon = nullptr;
 	//カメラ初期化

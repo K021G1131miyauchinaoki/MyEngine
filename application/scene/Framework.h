@@ -10,6 +10,7 @@
 #include<FbxLoader.h>
 #include<FbxModel.h>
 #include<memory>
+#include<SceneManager.h>
 
 class Framework
 {
@@ -23,6 +24,7 @@ public://メンバ関数
 	virtual	void Update();
 	//描画
 	virtual	void Draw() = 0;
+
 	//実行
 	void Run();
 	//終了チェック
@@ -31,8 +33,7 @@ protected:
 	std::unique_ptr<Input>input;
 	std::unique_ptr<WinApp>winApp;
 	std::unique_ptr<DirectXCommon>dxCommon;
-	//std::unique_ptr<SpriteCommon>spriteCom;
 	std::unique_ptr<PostEffect>postEffect;
-
+	SceneManager* sceneManager = nullptr;
 };
 

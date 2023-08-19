@@ -6,7 +6,7 @@ class WinApp
 {
 public://Ã“Iƒƒ“ƒoŠÖ”
 	static	LRESULT	WindowProc(HWND hwnd, UINT	msg, WPARAM wapram, LPARAM	lparam);
-
+	static WinApp* GetInstance();
 public://ƒƒ“ƒoŠÖ”
 	//‰Šú‰»
 	void	Initialize();

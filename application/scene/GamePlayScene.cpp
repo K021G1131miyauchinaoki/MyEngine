@@ -1,6 +1,7 @@
 #include "GamePlayScene.h"
 
-void GamePlayScene::Initialize(DirectXCommon* dxCommon, Input* input) {
+void GamePlayScene::Initialize() {
+	input.reset(Input::GetInstance());
 	/*変数*/
 	mapStratY = -200;
 	//カメラ
@@ -29,10 +30,10 @@ void GamePlayScene::Initialize(DirectXCommon* dxCommon, Input* input) {
 
 	//レクティル
 	aim = std::make_unique<Aimposition>();
-	aim->Initialeze(cube.get(), input);
+	aim->Initialeze(cube.get(), input.get());
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->Initialeze(tank.get(), input, aim.get());
+	player->Initialeze(tank.get(), input.get(), aim.get());
 	//エネミー
 	enemy = std::make_unique<Enemy>();
 	enemy->Initialeze(tank.get(), player.get());
@@ -49,7 +50,7 @@ void GamePlayScene::Update(){
 	camera->Update();
 	player->Update();
 	enemy->Update();
-	//aim->Update();
+	aim->Update();
 	map->Update();
 	objSkydome->Update();
 }
@@ -62,7 +63,7 @@ void GamePlayScene::ObjDraw(){
 	enemy->Draw();
 	objSkydome->Draw();
 	player->Draw();
-	aim->Draw();
+	//aim->Draw();
 	map->Draw();
 }
 

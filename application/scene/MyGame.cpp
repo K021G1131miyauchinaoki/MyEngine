@@ -6,18 +6,20 @@
 
 void MyGame::Initialize() {
 	Framework::Initialize();
-	scene = new GamePlayScene;
-	scene->Initialize(dxCommon.get(), input.get());
+	scene = new TitleScene;
+	scene->Initialize();
 	ImgM = std::make_unique<ImguiManager>();
 	ImgM->Initialize(winApp.get(), dxCommon.get());
+	BaseScene* scene = new TitleScene();
+	//シーンマネージャーに最初のシーンをセット
+	sceneManager->SetNextScene(scene);
 }
 
 void MyGame::Update(){
 	Framework::Update();
-	
 	//------------------------------
 	CheckAllCollision();
-	scene->Update();
+	sceneManager->Update();
 	
 	float vec[2] = { input->GetMausePos().x,input->GetMausePos().y};
 	//imgui関連
@@ -36,12 +38,14 @@ void MyGame::Draw(){
 	dxCommon->PreDraw();
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(dxCommon->GetCommandList());
-	scene->ObjDraw();
+	sceneManager->ObjDraw();
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 
 	//スプライト描画
-	scene->SpriteDraw();
+	SpriteCommon::GetInstance()->PreDraw();
+	sceneManager->SpriteDraw();
+	SpriteCommon::GetInstance()->PostDraw();
 
 	//imgui
 	ImgM->End();
