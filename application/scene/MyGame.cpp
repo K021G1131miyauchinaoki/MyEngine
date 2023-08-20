@@ -2,22 +2,25 @@
 #include<MyMath.h>
 #include<EnemyBullet.h>
 #include<Bullet.h>
+#include<SceneFactory.h>
 #define safe_delete(p)  {delete p; p = nullptr;}
 
 void MyGame::Initialize() {
 	Framework::Initialize();
 	ImgM = std::make_unique<ImguiManager>();
 	ImgM->Initialize(winApp.get(), dxCommon.get());
-	BaseScene* scene = new TitleScene();
+	
 	//シーンマネージャーに最初のシーンをセット
-	sceneManager->SetNextScene(scene);
+	sceneFactory = new SceneFactory();
+	SceneManager::GetInstance()->SetSceneFactory(sceneFactory);
+	SceneManager::GetInstance()->ChangeScene("TITLE");
 }
 
 void MyGame::Update(){
 	Framework::Update();
 	//------------------------------
 	CheckAllCollision();
-	sceneManager->Update();
+	SceneManager::GetInstance()->Update();
 	
 	float vec[2] = { input->GetMausePos().x,input->GetMausePos().y};
 	//imgui関連
@@ -36,13 +39,13 @@ void MyGame::Draw(){
 	dxCommon->PreDraw();
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(dxCommon->GetCommandList());
-	sceneManager->ObjDraw();
+	SceneManager::GetInstance()->ObjDraw();
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 
 	//スプライト描画
 	SpriteCommon::GetInstance()->PreDraw();
-	sceneManager->SpriteDraw();
+	SceneManager::GetInstance()->SpriteDraw();
 	SpriteCommon::GetInstance()->PostDraw();
 
 	//imgui

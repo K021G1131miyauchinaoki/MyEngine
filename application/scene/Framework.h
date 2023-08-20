@@ -11,6 +11,7 @@
 #include<FbxModel.h>
 #include<memory>
 #include<SceneManager.h>
+#include<AbstractSceneFactory.h>
 
 class Framework
 {
@@ -34,6 +35,6 @@ protected:
 	std::unique_ptr<WinApp>winApp;
 	std::unique_ptr<DirectXCommon>dxCommon;
 	std::unique_ptr<PostEffect>postEffect;
-	SceneManager* sceneManager = nullptr;
+	AbstractSceneFactory* sceneFactory;
 };
 

@@ -11,8 +11,6 @@
 #include<ImguiManager.h>
 #include<Enemy.h>
 #include<Map.h>
-#include<GamePlayScene.h>
-#include<TitleScene.h>
 #include<BaseScene.h>
 
 class MyGame:public Framework

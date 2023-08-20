@@ -1,7 +1,5 @@
 #include "TitleScene.h"
 #include<SceneManager.h>
-//後で消す
-#include<GamePlayScene.h>
 
 void TitleScene::Initialize() {
 	titleSprite = std::make_unique<Sprite>(
@@ -22,10 +20,8 @@ void TitleScene::Update() {
 	//エンターキーを押したら
 	if (input->TriggerKey(DIK_RETURN))
 	{
-		//次シーン生成
-		BaseScene* scene = new GamePlayScene;
 		//シーンの切り替え
-		sceneManager->SetNextScene(scene);
+		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 	}
 }
 

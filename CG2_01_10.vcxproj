@@ -163,6 +163,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="application\scene\AbstractSceneFactory.cpp" />
     <ClCompile Include="application\Aimposition.cpp" />
     <ClCompile Include="application\Enemy.cpp" />
     <ClCompile Include="application\Bullet.cpp" />
@@ -199,6 +200,7 @@
     <ClCompile Include="application\scene\GamePlayScene.cpp" />
     <ClCompile Include="application\scene\TitleScene.cpp" />
     <ClCompile Include="application\scene\SceneManager.cpp" />
+    <ClCompile Include="application\scene\SceneFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -308,6 +310,7 @@
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="application\scene\AbstractSceneFactory.h" />
     <ClInclude Include="application\Aimposition.h" />
     <ClInclude Include="application\Enemy.h" />
     <ClInclude Include="application\Bullet.h" />
@@ -344,6 +347,7 @@
     <ClInclude Include="engine\base\WinApp\WinApp.h" />
     <ClInclude Include="application\scene\TitleScene.h" />
     <ClInclude Include="application\scene\SceneManager.h" />
+    <ClInclude Include="application\scene\SceneFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CG2.rc" />

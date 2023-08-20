@@ -138,6 +138,8 @@
     <ClCompile Include="application\scene\TitleScene.cpp" />
     <ClCompile Include="application\scene\BaseScene.cpp" />
     <ClCompile Include="application\scene\SceneManager.cpp" />
+    <ClCompile Include="application\scene\AbstractSceneFactory.cpp" />
+    <ClCompile Include="application\scene\SceneFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\scene\MyGame.h">
@@ -236,6 +238,8 @@
     <ClInclude Include="application\scene\TitleScene.h" />
     <ClInclude Include="application\scene\BaseScene.h" />
     <ClInclude Include="application\scene\SceneManager.h" />
+    <ClInclude Include="application\scene\AbstractSceneFactory.h" />
+    <ClInclude Include="application\scene\SceneFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

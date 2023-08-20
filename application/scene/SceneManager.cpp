@@ -1,4 +1,11 @@
 #include "SceneManager.h"
+#include<cassert>
+
+SceneManager* SceneManager::GetInstance() {
+	static SceneManager instance;
+	return &instance;
+}
+
 void SceneManager::Update()
 {
 	// シーン切り替え
@@ -32,12 +39,11 @@ void SceneManager::ObjDraw()
 {
 	scene->ObjDraw();
 }
-
-//SceneManager::SceneManager(){}
-//
-SceneManager::~SceneManager()
+void SceneManager::ChangeScene(const std::string& sceneName)
 {
-	scene->Finalize();
-	scene = nullptr;
-	delete scene;
+	assert(sceneFactory);
+	assert(nextScene == nullptr);
+
+	// 次のシーンを生成
+	nextScene = sceneFactory->CreateScene(sceneName);
 }

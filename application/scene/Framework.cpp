@@ -21,8 +21,6 @@ void Framework::Initialize(){
 	//スプライトコモン
 	SpriteCommon::GetInstance()->Initialize(dxCommon.get());
 	SpriteCommon::GetInstance()->Loadtexture(1, "reimu.png");
-
-	sceneManager = new SceneManager();	
 }
 
 void Framework::Update(){
@@ -34,7 +32,6 @@ void Framework::Draw(){}
 
 void Framework::Finalize(){
 	winApp->Finalize();
-	delete sceneManager;
 	/*FbxLoader::GetInstance()->Finalize();
 	FbxObject3d::Finalize();
 	Model::Finalize();
