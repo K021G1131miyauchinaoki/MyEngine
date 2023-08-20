@@ -5,7 +5,10 @@
 std::unique_ptr < Model>Bullet::model = nullptr;
 
 void Bullet::StaticInitialize(Model* model_) {
-	model.reset(model_);
+	if (model==nullptr)
+	{
+		model.reset(model_);
+	}
 }
 
 void Bullet::Initialize( const Vector3& position, const Vector3& velocity,const Vector3& rotation){

@@ -4,12 +4,12 @@
 void TitleScene::Initialize() {
 	titleSprite = std::make_unique<Sprite>(
 		1,
-		XMFLOAT2{500.0f,500.0f},
-		XMFLOAT2{100.0f,100.0f},
-		XMFLOAT4{1,1,1,1},
-		XMFLOAT2{0.5f,0.5f},
-		false,
-		false
+		XMFLOAT2{ 640.0f,375.0f },//位置
+		XMFLOAT2{ 500.0f,200.0f },//サイズ
+		XMFLOAT4{ 1,1,1,1 },//カラー（RGBA）
+		XMFLOAT2{ 0.5f,0.5f },//アンカーポイント
+		false,//左右反転
+		false//上下反転
 		);
 	titleSprite->Initialize(SpriteCommon::GetInstance(), 1);
 	input.reset(Input::GetInstance());

@@ -29,6 +29,10 @@ public://メンバ関数
 
 	//終了
 	void Finalize()override;
+
+	//当たり判定
+	void CheckAllCollision();
+
 private:
 	//インプット
 	std::unique_ptr<Input>input;

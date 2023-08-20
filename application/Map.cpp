@@ -8,7 +8,10 @@ std::unique_ptr < Model> Map::model;
 Map::~Map(){}
 
 void Map::StaticInitialize(Model* model_) {
-	model.reset(model_);
+	if (model == nullptr)
+	{
+		model.reset(model_);
+	}
 }
 
 void Map::Initialize() {

@@ -1,4 +1,5 @@
 #include "GamePlayScene.h"
+#include<SceneManager.h>
 
 void GamePlayScene::Initialize() {
 	input.reset(Input::GetInstance());
@@ -45,6 +46,7 @@ void GamePlayScene::Initialize() {
 }
 
 void GamePlayScene::Update(){
+	CheckAllCollision();
 	camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
 	camera->SetEye({ player->GetPos().x, 100, player->GetPos().z - 30 });
 	camera->Update();
@@ -53,6 +55,16 @@ void GamePlayScene::Update(){
 	aim->Update();
 	map->Update();
 	objSkydome->Update();
+	if (input->TriggerKey(DIK_1))
+	{
+		//シーンの切り替え
+		SceneManager::GetInstance()->ChangeScene("GAMEOVER");
+	}
+	if (input->TriggerKey(DIK_2))
+	{
+		//シーンの切り替え
+		SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
+	}
 }
 
 void GamePlayScene::SpriteDraw() {
@@ -65,6 +77,88 @@ void GamePlayScene::ObjDraw(){
 	player->Draw();
 	//aim->Draw();
 	map->Draw();
+}
+
+void GamePlayScene::CheckAllCollision() {
+		//判定対象AとBの座標
+		Vector3 posA, posB;
+	
+		//自弾リストを取得
+		const std::list<std::unique_ptr<Bullet>>& playerBullets = player->GetBullets();
+		//敵弾リストを取得
+		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy->GetBullets();
+	#pragma	region	自キャラと敵弾の当たり判定
+		//自キャラの座標
+		posA = player->GetPos();
+		//自キャラと敵弾全ての当たり判定
+		for (const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets) {
+			//敵弾の座標
+			posB = e_bullet->GetBulletPosition();
+			//A,Bの距離
+			Vector3 vecPos = MyMath::lens(posA, posB);
+			float dis = MyMath::length(vecPos);
+			//
+			float	radius = player->GetRadius() + e_bullet->GetRadius();
+			//判定
+			if (dis <= radius) {
+				//自キャラのコールバックを呼び出し
+				player->OnCollision();
+				//敵弾のコールバックを呼び出し
+				e_bullet->OnCollision();
+				//シーンの切り替え
+				SceneManager::GetInstance()->ChangeScene("GAMEOVER");
+			}
+		}
+	#pragma	endregion
+	
+	#pragma region 自弾と敵キャラの当たり判定
+		//敵弾の座標
+		posA = enemy->GetPos();
+		//敵キャラと自弾全ての当たり判定
+		for (const std::unique_ptr<Bullet>& p_bullet : playerBullets) {
+			//自弾の座標
+			posB = p_bullet->GetBulletPosition();
+			// A,Bの距離
+			Vector3 vecPos = MyMath::lens(posA, posB);
+			float dis = MyMath::length(vecPos);
+			//
+			float radius = enemy->GetRadius() + p_bullet->GetRadius();
+			//判定
+			if (dis <= radius) {
+				//敵キャラのコールバックを呼び出し
+				enemy->OnCollision();
+				//自弾のコールバックを呼び出し
+				p_bullet->OnCollision();
+
+				//シーンの切り替え
+				SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
+			}
+		}
+	#pragma endregion
+	
+	#pragma region 自弾と敵弾の当たり判定
+		//自弾の座標
+		for (const std::unique_ptr<Bullet>& p_bullet : playerBullets) {
+			posA = p_bullet->GetBulletPosition();
+			//自弾と敵弾全ての当たり判定
+			for (const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets) {
+				//敵弾の座標
+				posB = e_bullet->GetBulletPosition();
+				// A,Bの距離
+				Vector3 vecPos = MyMath::lens(posA, posB);
+				float dis = MyMath::length(vecPos);
+				//
+				float radius = e_bullet->GetRadius() + p_bullet->GetRadius();
+				//判定
+				if (dis <= radius) {
+					//自弾のコールバックを呼び出し
+					p_bullet->OnCollision();
+					//敵弾のコールバックを呼び出し
+					e_bullet->OnCollision();
+				}
+			}
+		}
+	#pragma endregion
 }
 
 void GamePlayScene::Finalize(){}

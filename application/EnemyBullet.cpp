@@ -4,7 +4,10 @@
 std::unique_ptr < Model>  EnemyBullet::model=nullptr;
 
 void EnemyBullet::StaticInitialize(Model* model_) {
-	model.reset(model_);
+	if (model == nullptr)
+	{
+		model.reset(model_);
+	}
 }
 
 void EnemyBullet::Initialize( const Vector3& position, const Vector3& velocity, const Vector3& rotation) {

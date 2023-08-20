@@ -20,7 +20,9 @@ void Framework::Initialize(){
 	PostEffect::StaticInitialize(dxCommon.get());
 	//スプライトコモン
 	SpriteCommon::GetInstance()->Initialize(dxCommon.get());
-	SpriteCommon::GetInstance()->Loadtexture(1, "reimu.png");
+	SpriteCommon::GetInstance()->Loadtexture(1, "title.png");
+	SpriteCommon::GetInstance()->Loadtexture(2, "clear.png");
+	SpriteCommon::GetInstance()->Loadtexture(3, "over.png");
 }
 
 void Framework::Update(){
