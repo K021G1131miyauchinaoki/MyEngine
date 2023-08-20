@@ -27,7 +27,7 @@ void Framework::Initialize(){
 
 void Framework::Update(){
 	input->Update();
-	sceneManager->Update();
+	//sceneManager->Update();
 }
 
 void Framework::Draw(){}
