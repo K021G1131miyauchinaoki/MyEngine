@@ -20,6 +20,8 @@ void Player::Initialeze( Model* model_, Input* input_,Aimposition* aim_) {
 	obj->Update();
 	coolTime = 0;
 	invincibleTimer = invincibleTime;
+	hp.value = 3;
+	hp.isDead = false;
 }
 
 void Player::Update() {
@@ -145,5 +147,10 @@ void Player::OnCollision()
 	if (!isInvincible)
 	{
 		isInvincible = true; 
+	}
+	hp.value--;
+	if (hp.value<0)
+	{
+		hp.isDead = true;
 	}
 }

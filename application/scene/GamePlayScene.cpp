@@ -55,7 +55,7 @@ void GamePlayScene::Update(){
 	aim->Update();
 	map->Update();
 	objSkydome->Update();
-	if (input->TriggerKey(DIK_1))
+	if (input->TriggerKey(DIK_1)||player->IsDead())
 	{
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("GAMEOVER");
@@ -105,8 +105,6 @@ void GamePlayScene::CheckAllCollision() {
 				player->OnCollision();
 				//敵弾のコールバックを呼び出し
 				e_bullet->OnCollision();
-				//シーンの切り替え
-				SceneManager::GetInstance()->ChangeScene("GAMEOVER");
 			}
 		}
 	#pragma	endregion

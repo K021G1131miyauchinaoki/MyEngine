@@ -4,11 +4,13 @@
 #include"Object3d.h"
 #include<memory>
 #include<list>
+#include<vector>
 #include<Bullet.h>
 #include<Aimposition.h>
 #include<Vector3.h>
 #include<Vector2.h>
 #include<MyMath.h>
+#include<BaseHp.h>
 
 class Player
 {
@@ -60,6 +62,8 @@ public://ƒƒ“ƒoŠÖ”
 
 	std::list<std::unique_ptr<Bullet>>& GetBullets() { return bullets_; };
 
+	bool IsDead()const { return hp.isDead; }
+
 
 private://ƒƒ“ƒo•Ï”
 	Input*input = nullptr;
@@ -81,5 +85,8 @@ private://ƒƒ“ƒo•Ï”
 	bool isInvincible = false;
 	const int16_t invincibleTime=11;
 	int16_t invincibleTimer;
+
+	BaseHp hp;
+	std::vector<DrawHp> drawHp;
 };
 
