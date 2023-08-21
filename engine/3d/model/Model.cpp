@@ -25,8 +25,6 @@ void Model::LoadFromOBJInternal(const	std::string& modelname) {
 	//ファイルストリーム
 	std::ifstream file;
 	//.objファイルを開く
-	//file.open("Resources/triangle_tex/triangle_tex.obj");
-	//const std::string modelname = "triangle_mat";
 	const std::string filename = modelname + ".obj";
 	const std::string directoryPath = "Resources/" + modelname + "/";
 	file.open(directoryPath + filename);
@@ -54,6 +52,7 @@ void Model::LoadFromOBJInternal(const	std::string& modelname) {
 			line_stream >> position.x;
 			line_stream >> position.y;
 			line_stream >> position.z;
+			position.x *= -1.0f;
 			//座標データに追加
 			positions.emplace_back(position);
 			//頂点データに追加
@@ -105,6 +104,7 @@ void Model::LoadFromOBJInternal(const	std::string& modelname) {
 			line_stream >> normal.x;
 			line_stream >> normal.y;
 			line_stream >> normal.z;
+			normal.x *= -1.0f;
 			//法線ベクトルデータに追加
 			normals.emplace_back(normal);
 		}
