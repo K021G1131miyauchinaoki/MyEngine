@@ -4,7 +4,7 @@
 void GamePlayScene::Initialize() {
 	input.reset(Input::GetInstance());
 	/*•Ï”*/
-	mapStratY = -200;
+	mapStratY = -400;
 	//ƒJƒƒ‰
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();

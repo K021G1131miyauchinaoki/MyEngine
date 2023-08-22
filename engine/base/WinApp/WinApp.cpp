@@ -45,7 +45,7 @@ void	WinApp::Initialize() {
 
 	//ウィンドウクラスをOSに登録する
 	RegisterClassEx(&w);
-	//ウィンドウサイズ｛x,y,z,横,縦｝
+	//ウィンドウサイズ｛x,range,z,横,縦｝
 	RECT	wrc = { 0,0,width,height };
 	//自動でサイズを補正する
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);

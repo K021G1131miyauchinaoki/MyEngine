@@ -89,7 +89,7 @@ protected://メンバ変数
 	ComPtr<ID3D12Resource>constBuffSkin;
 	//ローカルスケール
 	XMFLOAT3 scale = { 1,1,1 };
-	//x,y,z軸周りのローカル回転角
+	//x,range,z軸周りのローカル回転角
 	XMFLOAT3 rotation = { 0,0,0 };
 	//ローカル座標
 	XMFLOAT3 position = { 0,0,0 };

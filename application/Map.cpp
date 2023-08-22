@@ -17,12 +17,16 @@ void Map::StaticInitialize(Model* model_) {
 void Map::Initialize() {
 	//変数の初期化
 	nowMax = 0;
-	
-	scale += 10.0f;
+	//スケール
+	scaleEnd += 10.0f;
+	scaleStart += 0.1f;
 	endFrame = 100;
-	
-	startY = -(scale.y + 0.2f) + constStartY;
-	endY =  -(scale.y + 0.2f);
+	//位置
+	posStartY = -(scaleEnd.y + 0.2f) + constStartY;
+	posEndY =  -(scaleEnd.y + 0.2f);
+	//回転
+	rotEndZ = 0;
+	rotStartZ=360*2;
 }
 
 void Map::Update() {
@@ -65,12 +69,22 @@ void Map::Update() {
 			//フラグが立っていたら
 			if (blocks[i][j].isUp)
 			{
-				Vector3 easeVec = blocks[i][j].obj->GetPosition();
-				easeVec.y = startY + (endY - startY) * Easing::easeOutBack(blocks[i][j].y);
-				blocks[i][j].y+=0.02f;
-				blocks[i][j].obj->SetPosition(easeVec);
+				//スケール
+				Vector3 easeScale = blocks[i][j].obj->GetScale();
+				easeScale = scaleStart + (scaleEnd - scaleStart) * Easing::easeOutCubic(blocks[i][j].range);
+				blocks[i][j].obj->SetScale(easeScale);
+				//回転
+				Vector3 easeRot = blocks[i][j].obj->GetRotation();
+				easeRot.z = rotStartZ + (rotEndZ - rotStartZ) * Easing::easeOutSine(blocks[i][j].range);
+				blocks[i][j].obj->SetRotation(easeRot);
+				//座標
+				Vector3 easePos = blocks[i][j].obj->GetPosition();
+				easePos.y = posStartY + (posEndY - posStartY) * Easing::easeOutCubic(blocks[i][j].range);
+				blocks[i][j].obj->SetPosition(easePos);
+				//1.0fまで加算
+				blocks[i][j].range+=0.02f;
 			}
-			if (blocks[i][j].y >= 1.0f)
+			if (blocks[i][j].range >= 1.0f)
 			{
 				blocks[i][j].isUp = false;
 			}
@@ -141,15 +155,16 @@ void Map::LoadCSV(const std::string& num_) {
 		{
 			//
 
-			Vector3 pos = { 0.0f,startY, 0.0f };
-			pos.x = (j * scale.x) * 2.0f - (scale.x * width);
-			pos.z = (i * scale.z) * 2.0f - (scale.z * high);
+			Vector3 pos = { 0.0f,posStartY, 0.0f };
+			pos.x = (j * scaleEnd.x) * 2.0f - (scaleEnd.x * width);
+			pos.z = (i * scaleEnd.z) * 2.0f - (scaleEnd.z * high);
 			//オブジェクトにパラメータをセット
 			blocks[i][j].obj = std::make_unique<Object3d>();
 			blocks[i][j].obj->Initialize();
 			blocks[i][j].obj->SetModel(model.get());
+			blocks[i][j].obj->SetScale(scaleStart); 
+			blocks[i][j].obj->SetRotation({0.0f,0.0f,rotStartZ});
 			blocks[i][j].obj->SetPosition(pos);
-			blocks[i][j].obj->SetScale(scale);
 			//blocks[i][j].obj->SetColor({ 0.0f, 0.0f, 0.1f,1.0f});
 			//blocks[i][j].pos = pos;
 			blocks[i][j].frame = 0;

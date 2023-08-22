@@ -42,18 +42,23 @@ private://構造体
 		bool isUp = false;
 		bool isDrow = false;
 		float frame;
-		float y = 0.0f;
+		float range = 0.0f;
 	};
 private://静的メンバ変数
 	static	std::unique_ptr < Model> model;
 
 private://メンバ変数
-	//イージング
+	/*イージング*/
 	float endFrame;
-	float startY;
-	float endY;
+	//位置
+	float posStartY;
+	float posEndY;
 	//スケール
-	Vector3 scale;
+	Vector3 scaleEnd;
+	Vector3 scaleStart;
+	//回転
+	float rotEndZ;
+	float rotStartZ;
 	//ブロック
 	std::vector<std::vector< Block>> blocks;
 	const float constStartY;
@@ -61,7 +66,7 @@ private://メンバ変数
 	int8_t high;
 	int16_t lineNum;
 
-	const int time = 60;
+	const int time = 20;
 	int timer = 0;
 	int16_t nowMax;
 	int16_t setPoint;
