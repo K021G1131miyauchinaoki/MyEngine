@@ -50,7 +50,7 @@ void MyGame::Draw(){
 	//imgui
 	ImgM->End();
 	ImgM->Draw();
-	//pe->Draw(dxCommon->GetCommandList());
+	//pe->ObjDraw(dxCommon->GetCommandList());
 
 	dxCommon->PostDraw();
 }

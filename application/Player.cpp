@@ -1,6 +1,7 @@
 #include "Player.h"
 #include<WinApp.h>	
 #include<cassert>
+#include<SpriteCommon.h>
 
 void Player::Initialeze( Model* model_, Input* input_,Aimposition* aim_) {
 	assert(model_);
@@ -10,23 +11,37 @@ void Player::Initialeze( Model* model_, Input* input_,Aimposition* aim_) {
 	model = model_;
 	input = input_;
 	aim = aim_;
+	//モデル
 	obj=std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
 	obj->SetPosition({ 0.0f,5.0f,0.0f });
 	obj->SetScale({ 5.0f,5.0f,5.0f });
 	obj->SetColor({ 0.0f,0.2f,0.0f,1.0f });
-
 	obj->Update();
 	coolTime = 0;
 	invincibleTimer = invincibleTime;
+	//体力
 	hp.value = 3;
 	hp.isDead = false;
+
+	//サイズを決定
+	drawHp.resize(hp.value);
+	for (size_t i = 0; i < hp.value; i++)
+	{
+		drawHp[i].isDraw = false;
+		drawHp[i].Sprite = std::make_unique<Sprite>();
+		drawHp[i].Sprite->Initialize(SpriteCommon::GetInstance(),4);
+		drawHp[i].Sprite->SetSize({ 50.0f,50.0f });
+		drawHp[i].Sprite->SetPosition(XMFLOAT2{ 10.0f + (60.0f * i),10 });
+		drawHp[i].Sprite->SetIsInvisible(drawHp[i].isDraw);
+	}
 }
 
 void Player::Update() {
 	//デスフラグの立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<Bullet>& bullet) { return bullet->IsDead(); });
+	
 	//マウスカーソルの位置取得
 	mausePos = input->GetMausePos();
 	vector = { 0.0f,0.0f };
@@ -37,34 +52,58 @@ void Player::Update() {
 	vector = MyMath::normaleizeVec2(vector);
 	//角度を算出
 	angle = atan2(vector.y, vector.x);
+	
 	Shot();
+	
 	//度数変換
 	angle = MyMath::DegreeTransform(angle);
+	
 	Rotate();
 	Move();
+	
+	//オブジェクト
 	obj->Update();
+
+	//弾
 	for (std::unique_ptr<Bullet>& bullet : bullets_)
 	{
 		bullet->Update();
 	}
-}
-
-void Player::Draw() {
+	//HPのスプライト
+	for (size_t i = 0; i < hp.value; i++)
+	{
+		drawHp[i].Sprite->Update();
+	}
+	//点滅表現
 	if (isInvincible)
 	{
 		invincibleTimer--;
 	}
-	if (invincibleTimer<0)
+	if (invincibleTimer < 0)
 	{
 		invincibleTimer = invincibleTime;
 		isInvincible = false;
 	}
+}
+
+void Player::ObjDraw() {
+	
+	//プレイヤー
 	if (invincibleTimer%2==1)
 	{
 		obj->Draw();
 	}
+	//弾
 	for (std::unique_ptr<Bullet>& bullet : bullets_) {
 		bullet->Draw();
+	}
+}
+
+void Player::SpriteDraw() {
+	//スプライト
+	for (size_t i = 0; i < hp.value; i++)
+	{
+		drawHp[i].Sprite->Draw();
 	}
 }
 
@@ -149,7 +188,7 @@ void Player::OnCollision()
 		isInvincible = true; 
 	}
 	hp.value--;
-	if (hp.value<0)
+	if (hp.value<=0)
 	{
 		hp.isDead = true;
 	}

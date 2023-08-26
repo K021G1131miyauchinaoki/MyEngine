@@ -68,14 +68,14 @@ void GamePlayScene::Update(){
 }
 
 void GamePlayScene::SpriteDraw() {
-
+	player->SpriteDraw();
 }
 
 void GamePlayScene::ObjDraw(){
 	enemy->Draw();
 	objSkydome->Draw();
-	player->Draw();
-	//aim->Draw();
+	player->ObjDraw();
+	//aim->ObjDraw();
 	map->Draw();
 }
 

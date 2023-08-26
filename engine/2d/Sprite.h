@@ -42,34 +42,34 @@ public://メンバ関数
 
 public://ゲッター、セッター
 	//回転
-	void	SetRotation(const float& rotation_);
+	void	SetRotation(const float& rotation_){ rotation = rotation_; }
 	const float& GetRotation()const { return rotation; }
 	//座標
-	void	SetPosition(const XMFLOAT2& position_);
+	void	SetPosition(const XMFLOAT2& position_){ position = position_; }
 	const XMFLOAT2& GetPosition()const { return position; }
 	//色
-	void	SetColor(const XMFLOAT4& color_);
+	void	SetColor(const XMFLOAT4& color_){ color = color_; }
 	const XMFLOAT4& GetColor()const { return color; }
 	//サイズ
-	void	SetSize(const XMFLOAT2& size_);
+	void	SetSize(const XMFLOAT2& size_){ size = size_; }
 	const XMFLOAT2& GetSize()const { return size; }
 	//アンカーポイント
-	void	SetAnchorPoint(const XMFLOAT2& anchorPoint_);
+	void	SetAnchorPoint(const XMFLOAT2& anchorPoint_){ anchorPoint = anchorPoint_; }
 	const XMFLOAT2& GetAnchorPoint()const { return anchorPoint; }
 	// 左右反転の設定
-	void SetIsFlipX(const	bool isFlipX_);
+	void SetIsFlipX(const	bool isFlipX_){ isFlipX = isFlipX_; }
 	// 上下反転の設定
-	void SetIsFlipY(const	bool isFlipY_);
+	void SetIsFlipY(const	bool isFlipY_){ isFlipY = isFlipY_; }
 	//非表示
-	void	SetIsInvisible(const	bool isInvisible_);
+	void	SetIsInvisible(const	bool isInvisible_){ isInvisible = isInvisible_; }
 	//テクスチャ番号
 	void	SetTexIndex(const uint32_t texIndex_) { texIndex = texIndex_; }
 	const	uint32_t& GetTexIndex()const { return texIndex; }
 	//サイズ
-	void	SetTexSize(const XMFLOAT2& texSize_);
+	void	SetTexSize(const XMFLOAT2& texSize_){ texSize = texSize_; }
 	const XMFLOAT2& GetTexSize()const { return texSize; }
 	//サイズ
-	void	SetTexLeftTop(const XMFLOAT2& texLeftTop_);
+	void	SetTexLeftTop(const XMFLOAT2& texLeftTop_){ texLeftTop = texLeftTop_; }
 	const XMFLOAT2& GetTexLeftTop()const { return texLeftTop; }
 
 private:

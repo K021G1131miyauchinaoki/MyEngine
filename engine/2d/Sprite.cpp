@@ -31,60 +31,6 @@ Sprite::Sprite(
 	isFlipY = isFlipY_;
 }
 
-
-void	Sprite::SetRotation(const float& rotation_) {
-	rotation = rotation_;
-	Update();
-
-}
-
-void	Sprite::SetPosition(const XMFLOAT2& position_) {
-	position = position_;
-	Update();
-}
-
-void	Sprite::SetColor(const XMFLOAT4& color_) {
-	color = color_;
-	Update();
-}
-
-void	Sprite::SetSize(const XMFLOAT2& size_) {
-	size = size_;
-	Update();
-}
-
-void	Sprite::SetAnchorPoint(const XMFLOAT2& anchorPoint_) {
-	anchorPoint = anchorPoint_;
-	Update();
-}
-
-// ¶‰E”½“]‚ÌÝ’è
-void Sprite::SetIsFlipX(bool isFlipX_) {
-	isFlipX = isFlipX_;
-	Update();
-}
-
-void	Sprite::SetTexSize(const XMFLOAT2& texSize_) {
-	texSize = texSize_;
-	Update();
-}
-void	Sprite::SetTexLeftTop(const XMFLOAT2& texLeftTop_) {
-	texLeftTop = texLeftTop_;
-	Update();
-}
-
-// ã‰º”½“]‚ÌÝ’è
-void Sprite::SetIsFlipY(bool isFlipY_) {
-	isFlipY = isFlipY_;
-	Update();
-}
-
-// ”ñ•\Ž¦
-void Sprite::SetIsInvisible(bool isInvisible_) {
-	isInvisible = isInvisible_;
-	Update();
-}
-
 void	Sprite::AdjustTexSize() {
 	ID3D12Resource* texBuff = spriteCommon->GetTexBuff(texIndex);
 	assert(texBuff);

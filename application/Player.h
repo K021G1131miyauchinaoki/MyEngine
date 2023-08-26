@@ -29,9 +29,14 @@ public://メンバ関数
 	void Update();
 
 	/// <summary>
-	/// 描画
+	/// オブジェクト描画
 	/// </summary>
-	void Draw();
+	void ObjDraw();
+
+	/// <summary>
+	/// スプライト描画
+	/// </summary>
+	void SpriteDraw();
 
 	/// <summary>
 	/// 移動
