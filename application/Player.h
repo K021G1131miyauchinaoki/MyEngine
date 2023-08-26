@@ -6,7 +6,6 @@
 #include<list>
 #include<vector>
 #include<Bullet.h>
-#include<Aimposition.h>
 #include<Vector3.h>
 #include<Vector2.h>
 #include<MyMath.h>
@@ -21,7 +20,7 @@ public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialeze(Model*model_,Input*input_,Aimposition*aim_);
+	void Initialeze(Model*model_,Input*input_);
 
 	/// <summary>
 	/// 更新
@@ -70,10 +69,11 @@ public://メンバ関数
 	bool IsDead()const { return hp.isDead; }
 
 
+	float getAngle() { return angle; }
+
 private://メンバ変数
 	Input*input = nullptr;
 	Model* model = nullptr;
-	Aimposition* aim;
 	std::unique_ptr<Object3d>obj = nullptr;
 	//弾
 	std::list<std::unique_ptr<Bullet>> bullets_;

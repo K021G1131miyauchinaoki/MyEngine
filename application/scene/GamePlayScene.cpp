@@ -29,12 +29,9 @@ void GamePlayScene::Initialize() {
 	objSkydome->SetModel(modelSkydome.get());
 	objSkydome->SetScale({ 5.0f,5.0f,5.0f });
 
-	//レクティル
-	aim = std::make_unique<Aimposition>();
-	aim->Initialeze(cube.get(), input.get());
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->Initialeze(tank.get(), input.get(), aim.get());
+	player->Initialeze(tank.get(), input.get());
 	//エネミー
 	enemy = std::make_unique<Enemy>();
 	enemy->Initialeze(tank.get(), player.get());
@@ -52,7 +49,6 @@ void GamePlayScene::Update(){
 	camera->Update();
 	player->Update();
 	enemy->Update();
-	aim->Update();
 	map->Update();
 	objSkydome->Update();
 	if (input->TriggerKey(DIK_1)||player->IsDead())
@@ -75,7 +71,6 @@ void GamePlayScene::ObjDraw(){
 	enemy->Draw();
 	objSkydome->Draw();
 	player->ObjDraw();
-	//aim->ObjDraw();
 	map->Draw();
 }
 

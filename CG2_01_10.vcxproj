@@ -164,7 +164,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="application\scene\AbstractSceneFactory.cpp" />
-    <ClCompile Include="application\Aimposition.cpp" />
     <ClCompile Include="application\Enemy.cpp" />
     <ClCompile Include="application\Bullet.cpp" />
     <ClCompile Include="application\EnemyBullet.cpp" />
@@ -203,6 +202,7 @@
     <ClCompile Include="application\scene\SceneFactory.cpp" />
     <ClCompile Include="application\scene\GameClear.cpp" />
     <ClCompile Include="application\scene\GameOverScene.cpp" />
+    <ClCompile Include="application\Explosion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -313,7 +313,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\scene\AbstractSceneFactory.h" />
-    <ClInclude Include="application\Aimposition.h" />
     <ClInclude Include="application\Enemy.h" />
     <ClInclude Include="application\Bullet.h" />
     <ClInclude Include="application\EnemyBullet.h" />
@@ -345,6 +344,7 @@
     <ClInclude Include="application\scene\GamePlayScene.h" />
     <ClInclude Include="application\scene\GameClear.h" />
     <ClInclude Include="application\scene\GameOverScene.h" />
+    <ClInclude Include="application\Explosion.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="engine\audio\SoundManager.h" />
     <ClInclude Include="engine\2d\Sprite.h" />

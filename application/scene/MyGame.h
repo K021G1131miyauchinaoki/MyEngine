@@ -4,13 +4,7 @@
 #include"Sprite.h"
 #include"ImguiManager.h"
 #include"SoundManager.h"
-#include"Camera.h"
-#include"LevelLoader.h"
-#include<Player.h>
-#include<Aimposition.h>
 #include<ImguiManager.h>
-#include<Enemy.h>
-#include<Map.h>
 #include<BaseScene.h>
 
 class MyGame:public Framework

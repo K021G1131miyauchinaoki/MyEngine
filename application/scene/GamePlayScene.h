@@ -7,7 +7,6 @@
 #include"Camera.h"
 #include"LevelLoader.h"
 #include<Player.h>
-#include<Aimposition.h>
 #include<ImguiManager.h>
 #include<Enemy.h>
 #include<Map.h>
@@ -59,7 +58,6 @@ private:
 	//FbxModel* fbxM = nullptr;
 	//FbxObject3d* fbxObj = nullptr;
 	std::unique_ptr<Player> player;
-	std::unique_ptr<Aimposition> aim;
 	std::unique_ptr<Enemy>enemy;
 	std::unique_ptr<Map>map;
 

@@ -97,9 +97,6 @@
       <Filter>Engine\3d\obj</Filter>
     </ClCompile>
     <ClCompile Include="engine\2d\PostEffect.cpp" />
-    <ClCompile Include="application\Aimposition.cpp">
-      <Filter>Application</Filter>
-    </ClCompile>
     <ClCompile Include="engine\math\Matrix4.cpp">
       <Filter>Engine\math</Filter>
     </ClCompile>
@@ -142,6 +139,7 @@
     <ClCompile Include="application\scene\SceneFactory.cpp" />
     <ClCompile Include="application\scene\GameOverScene.cpp" />
     <ClCompile Include="application\scene\GameClear.cpp" />
+    <ClCompile Include="application\Explosion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\scene\MyGame.h">
@@ -199,9 +197,6 @@
       <Filter>Engine\3d\obj</Filter>
     </ClInclude>
     <ClInclude Include="engine\2d\PostEffect.h" />
-    <ClInclude Include="application\Aimposition.h">
-      <Filter>Application</Filter>
-    </ClInclude>
     <ClInclude Include="engine\math\Matrix4.h">
       <Filter>Engine\math</Filter>
     </ClInclude>
@@ -245,6 +240,7 @@
     <ClInclude Include="application\scene\GameOverScene.h" />
     <ClInclude Include="application\scene\GameClear.h" />
     <ClInclude Include="application\struct\BaseHp.h" />
+    <ClInclude Include="application\Explosion.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

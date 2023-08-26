@@ -3,14 +3,12 @@
 #include<cassert>
 #include<SpriteCommon.h>
 
-void Player::Initialeze( Model* model_, Input* input_,Aimposition* aim_) {
+void Player::Initialeze( Model* model_, Input* input_) {
 	assert(model_);
 	assert(input_);
-	assert(aim_);
 	
 	model = model_;
 	input = input_;
-	aim = aim_;
 	//ƒ‚ƒfƒ‹
 	obj=std::make_unique<Object3d>();
 	obj->Initialize();

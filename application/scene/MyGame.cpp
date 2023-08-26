@@ -2,6 +2,7 @@
 #include<MyMath.h>
 #include<EnemyBullet.h>
 #include<Bullet.h>
+#include<Map.h>
 #include<SceneFactory.h>
 #define safe_delete(p)  {delete p; p = nullptr;}
 
