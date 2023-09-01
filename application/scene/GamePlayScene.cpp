@@ -40,6 +40,10 @@ void GamePlayScene::Initialize() {
 	map = std::make_unique<Map>(mapStratY);
 	map->Initialize();
 	map->LoadCSV("1");
+
+	//パーティクル
+	particle = new ParticleManager();
+	particle->Initialize(cube.get());
 }
 
 void GamePlayScene::Update(){
@@ -51,15 +55,16 @@ void GamePlayScene::Update(){
 	enemy->Update();
 	map->Update();
 	objSkydome->Update();
+	particle->Update();
 	if (input->TriggerKey(DIK_1)||player->IsDead())
 	{
-		//シーンの切り替え
-		SceneManager::GetInstance()->ChangeScene("GAMEOVER");
+		
+		//SceneManager::GetInstance()->ChangeScene("GAMEOVER");
 	}
 	if (input->TriggerKey(DIK_2))
 	{
 		//シーンの切り替え
-		SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
+		//SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
 	}
 }
 
@@ -72,6 +77,7 @@ void GamePlayScene::ObjDraw(){
 	objSkydome->Draw();
 	player->ObjDraw();
 	map->Draw();
+	particle->Draw();
 }
 
 void GamePlayScene::CheckAllCollision() {
@@ -97,7 +103,7 @@ void GamePlayScene::CheckAllCollision() {
 			//判定
 			if (dis <= radius) {
 				//自キャラのコールバックを呼び出し
-				player->OnCollision();
+				//player->OnCollision();
 				//敵弾のコールバックを呼び出し
 				e_bullet->OnCollision();
 			}
@@ -119,12 +125,14 @@ void GamePlayScene::CheckAllCollision() {
 			//判定
 			if (dis <= radius) {
 				//敵キャラのコールバックを呼び出し
-				enemy->OnCollision();
+				//enemy->OnCollision();
 				//自弾のコールバックを呼び出し
 				p_bullet->OnCollision();
 
+				particle->Add("1", 30, 30, player->GetPos(), 1.0f, 0.0f);
+
 				//シーンの切り替え
-				SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
+				//SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
 			}
 		}
 	#pragma endregion

@@ -11,6 +11,7 @@
 #include<Enemy.h>
 #include<Map.h>
 #include<BaseScene.h>
+#include<ParticleManager.h>
 
 class GamePlayScene:public BaseScene
 {
@@ -65,5 +66,7 @@ private:
 
 	//マップクラスの初期座標
 	float mapStratY;
+
+	ParticleManager* particle;
 };
 
