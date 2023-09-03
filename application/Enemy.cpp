@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include<cassert>
 #include<random>
+#include<Map.h>
 
 void Enemy::Initialeze(Model* model_,Player*player_) {
 	assert(model_);
@@ -103,6 +104,20 @@ void Enemy::Move() {
 		moveTimer--;
 		Vector3 pos = obj->GetPosition();
 		pos += move;
+		//ˆÚ“®”ÍˆÍ‚Ì§ŒÀ
+		if (pos.x > Map::moveLimitW - Map::mapScaleW * 1.5) {
+			pos.x = Map::moveLimitW - Map::mapScaleW * 1.5;
+		}
+		else if (pos.x < -Map::moveLimitW - Map::mapScaleW / 2) {
+			pos.x = -Map::moveLimitW - Map::mapScaleW / 2;
+		}
+
+		if (pos.z > Map::moveLimitH - Map::mapScaleH * 1.5) {
+			pos.z = Map::moveLimitH - Map::mapScaleH * 1.5;
+		}
+		else if (pos.z < -Map::moveLimitH - Map::mapScaleH / 2) {
+			pos.z = -Map::moveLimitH - Map::mapScaleH / 2;
+		}
 		obj->SetPosition(pos);
 	}
 
