@@ -26,9 +26,9 @@ void MyGame::Update(){
 	//imguiŠÖ˜A
 	ImgM->Begin();
 	//‚±‚±‚©‚ç’†g‚ğ‘‚¢‚Ä‚¢‚­
-	ImGui::Begin("a");
+	/*ImGui::Begin("a");
 	ImGui::SliderFloat2("mousePos", vec, -100.0f, static_cast<float>(WinApp::width));
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void MyGame::Draw(){
