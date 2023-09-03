@@ -2,6 +2,7 @@
 #include<WinApp.h>	
 #include<cassert>
 #include<SpriteCommon.h>
+#include<Map.h>
 
 void Player::Initialeze( Model* model_, Input* input_) {
 	assert(model_);
@@ -106,22 +107,49 @@ void Player::SpriteDraw() {
 }
 
 void Player::Move() {
-	Vector3 move = obj->GetPosition();
+	Vector3 move = {0,0,0};
 
-	const float speed = 0.5f;
+	float speed = 0.5f;
+	if (input->PushKey(DIK_W)|| input->PushKey(DIK_S))
+	{
+		if (input->PushKey(DIK_A)|| input->PushKey(DIK_D))
+		{
+			speed = speed / 1.414213562f;
+		}
+
+	}
+
 	if (input->PushKey(DIK_W)) {
 		move.z += speed;
 	}
-	else if (input->PushKey(DIK_S)){
-		move.z +=-speed;
+	if (input->PushKey(DIK_S)){
+		move.z += -speed;
 	}
-	else if (input->PushKey(DIK_A)) {
-		move.x +=-speed;
+	if (input->PushKey(DIK_A)) {
+		move.x += -speed;
 	}
-	else if (input->PushKey(DIK_D) ){
+	if (input->PushKey(DIK_D) ){
 		move.x += speed;
-		//move = { 0,0,5 };
 	}
+	
+	move += obj->GetPosition();
+	//ˆÚ“®”ÍˆÍ‚Ì§ŒÀ
+	if (move.x >Map::moveLimitW-Map::mapScaleW*1.5) {
+		move.x = Map::moveLimitW- Map::mapScaleW*1.5;
+	}
+	else if (move.x < -Map::moveLimitW- Map::mapScaleW/2) {
+		move.x = -Map::moveLimitW- Map::mapScaleW/2;
+	}
+
+	if (move.z > Map::moveLimitH- Map::mapScaleH * 1.5) {
+		move.z = Map::moveLimitH- Map::mapScaleH * 1.5;
+	}
+	else if (move.z < -Map::moveLimitH- Map::mapScaleH/2) {
+		move.z = -Map::moveLimitH- Map::mapScaleH/2;
+	}
+
+
+
 	obj->SetPosition(move);
 }
 

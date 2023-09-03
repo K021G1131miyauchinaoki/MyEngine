@@ -58,8 +58,7 @@ void GamePlayScene::Update(){
 	particle->Update();
 	if (input->TriggerKey(DIK_1)||player->IsDead())
 	{
-		
-		//SceneManager::GetInstance()->ChangeScene("GAMEOVER");
+		SceneManager::GetInstance()->ChangeScene("GAMEOVER");
 	}
 	if (input->TriggerKey(DIK_2))
 	{
@@ -103,7 +102,7 @@ void GamePlayScene::CheckAllCollision() {
 			//判定
 			if (dis <= radius) {
 				//自キャラのコールバックを呼び出し
-				//player->OnCollision();
+				player->OnCollision();
 				//敵弾のコールバックを呼び出し
 				e_bullet->OnCollision();
 			}
@@ -125,11 +124,11 @@ void GamePlayScene::CheckAllCollision() {
 			//判定
 			if (dis <= radius) {
 				//敵キャラのコールバックを呼び出し
-				//enemy->OnCollision();
+				enemy->OnCollision();
 				//自弾のコールバックを呼び出し
 				p_bullet->OnCollision();
 
-				particle->Add("1", 30, 30, player->GetPos(), 1.0f, 0.0f);
+				particle->Add("1", 30, 15, enemy->GetPos(), 1.0f, 0.0f);
 
 				//シーンの切り替え
 				//SceneManager::GetInstance()->ChangeScene("GAMECLEAR");

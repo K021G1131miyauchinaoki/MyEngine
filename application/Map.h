@@ -46,7 +46,11 @@ private://構造体
 	};
 private://静的メンバ変数
 	static	std::unique_ptr < Model> model;
-
+public:
+	static float moveLimitW;
+	static float moveLimitH;
+	static float mapScaleW;
+	static float mapScaleH;
 private://メンバ変数
 	/*イージング*/
 	float endFrame;
@@ -63,7 +67,7 @@ private://メンバ変数
 	std::vector<std::vector< Block>> blocks;
 	const float constStartY;
 	int8_t width;
-	int8_t high;
+	int8_t height;
 	int16_t lineNum;
 
 	const int time = 20;

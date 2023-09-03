@@ -6,7 +6,7 @@ void ParticleManager::Initialize(Model* model_) {
 	model.reset(model_);
 }
 void ParticleManager::Add(const std::string &name,int amount, int32_t life,Vector3	position,/* Vector3	velocity, Vector3	accel,*/ float	start_scale, float	end_scale) {
-	for (size_t i = 0; i < 30; i++)
+	for (size_t i = 0; i < amount; i++)
 	{
 		BaseParticle* p;
 		if (name=="1")

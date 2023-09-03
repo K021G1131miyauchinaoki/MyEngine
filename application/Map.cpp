@@ -4,7 +4,10 @@
 #include<sstream>
 
 std::unique_ptr < Model> Map::model;
-
+float Map::moveLimitW;
+float Map::moveLimitH;
+float Map::mapScaleW;
+float Map::mapScaleH;
 Map::~Map(){}
 
 void Map::StaticInitialize(Model* model_) {
@@ -46,7 +49,7 @@ void Map::Update() {
 					int16_t w = numW + j;
 					
 					if (h < 0 )	h = 0;
-					if (h >= high)h = high - 1;
+					if (h >= height)h = height - 1;
 					if (w < 0)	w = 0;
 					if (w >= width)w = width - 1;
 					//フラグが立っていない場合
@@ -60,7 +63,7 @@ void Map::Update() {
 			nowMax++;
 		}
 	}
-	for (size_t i = 0; i < high; i++)
+	for (size_t i = 0; i < height; i++)
 	{
 
 		for (size_t j = 0; j < width; j++)
@@ -97,7 +100,7 @@ void Map::Update() {
 }
 
 void Map::Draw() {
-	for (size_t i = 0; i < high; i++)
+	for (size_t i = 0; i < height; i++)
 	{
 		for (size_t j = 0; j < width; j++)
 		{
@@ -132,22 +135,22 @@ void Map::LoadCSV(const std::string& num_) {
 	
 
 	std::getline(line_stream, num, ',');
-	high = (int8_t)std::atof(num.c_str());
+	height = (int8_t)std::atof(num.c_str());
 	std::getline(line_stream, num, ',');
 	width = (int8_t)std::atof(num.c_str());
 	numW = (width / 2);
-	numH = (high / 2);
+	numH = (height / 2);
 	
 	
 	
 	// 二次元配列のサイズを初期化
-	blocks.resize(high);
-	for (int i = 0; i < high; ++i) {
+	blocks.resize(height);
+	for (int i = 0; i < height; ++i) {
 		blocks[i].resize(width);
 	}
 
 	//0,1のマップチップを埋め込みつつ（未）初期化
-	for (size_t i = 0; i < high; i++)
+	for (size_t i = 0; i < height; i++)
 	{
 		std::getline(mapLoad, line, '\n');
 
@@ -157,7 +160,7 @@ void Map::LoadCSV(const std::string& num_) {
 
 			Vector3 pos = { 0.0f,posStartY, 0.0f };
 			pos.x = (j * scaleEnd.x) * 2.0f - (scaleEnd.x * width);
-			pos.z = (i * scaleEnd.z) * 2.0f - (scaleEnd.z * high);
+			pos.z = (i * scaleEnd.z) * 2.0f - (scaleEnd.z * height);
 			//オブジェクトにパラメータをセット
 			blocks[i][j].obj = std::make_unique<Object3d>();
 			blocks[i][j].obj->Initialize();
@@ -171,6 +174,12 @@ void Map::LoadCSV(const std::string& num_) {
 			blocks[i][j].obj->Update();
 		}
 	}
+
+	//移動制限の数値設定
+	moveLimitW = static_cast<float>(width) * scaleEnd.x;
+	moveLimitH = static_cast<float>(height) * scaleEnd.z;
+	mapScaleW = scaleEnd.x;
+	mapScaleH = scaleEnd.z;
 }
 
 
