@@ -19,7 +19,7 @@ void GameOverScene::Initialize() {
 void GameOverScene::Update() {
 	overSprite->Update();
 	//エンターキーを押したら
-	if (input->TriggerKey(DIK_RETURN))
+	if (input->TriggerKey(DIK_RETURN) || input->TriggerClick(Botton::RIGHT))
 	{
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("TITLE");
