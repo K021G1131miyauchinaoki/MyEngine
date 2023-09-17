@@ -98,10 +98,11 @@ private://メンバ変数
 	bool isWait = false;
 	//待機時間
 	int16_t waitTimer;
-	int16_t waitTime[2] = { 5,10 };
+	int16_t waitTime[2] = { 5,60 };
 	//自キャラ
 	Player* player = nullptr;
-
+	//角度
+	Vector3 vector;
 	float angle = 0.0f;
 	//速度
 	Vector3 velocity;

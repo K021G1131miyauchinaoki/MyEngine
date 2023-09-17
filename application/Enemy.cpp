@@ -142,9 +142,17 @@ void Enemy::Shot() {
 		len.y = ePos.y - pPos.y;
 		len.z = ePos.z - pPos.z;
 		velocity = MyMath::normaleizeVec3(len);
-
+		// 正規化
+		vector = MyMath::normaleizeVec3(len);
+		//角度を算出
+		angle = -atan2(vector.z, vector.x);
+		vector.x = 0.0f;
+		vector.z = 0.0f;
+		vector.y=MyMath::DegreeTransform(angle);
 		velocity *= kBulletSpeed;
 
+		//角度を格納
+		obj->SetRotation(vector);
 		//速度ベクトルを自機の向きに合わせて回転させる
 		//ImgM = Vec_rot(ImgM, worldTransform_.matWorld_);
 		//弾を生成し、初期化
