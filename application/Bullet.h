@@ -21,7 +21,7 @@ public://メンバ関数
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 	//ワールド座標を取得
-	Vector3 GetBulletPosition();
+	Vector3 GetPos();
 	//半径を取得
 	float GetRadius() { return r; }
 	//終了

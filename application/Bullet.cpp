@@ -42,7 +42,7 @@ void Bullet::Update() {
 }
 
 //ワールド座標を渡す
-Vector3 Bullet::GetBulletPosition() {
+Vector3 Bullet::GetPos() {
 	//座標を格納
 	Vector3 worldPos;
 	//ワールド行列の平行移動成分を取得

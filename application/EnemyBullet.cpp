@@ -40,7 +40,7 @@ void EnemyBullet::Update() {
 }
 
 //ワールド座標を渡す
-Vector3 EnemyBullet::GetBulletPosition() {
+Vector3 EnemyBullet::GetPos() {
 	//座標を格納
 	Vector3 worldPos;
 	//ワールド行列の平行移動成分を取得
