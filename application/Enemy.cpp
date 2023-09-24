@@ -3,6 +3,22 @@
 #include<random>
 #include<Map.h>
 
+float LerpShortAngle(float a, float b, float t) {
+	float diff = b - a;
+
+	diff = std::fmod(diff, 360);
+	// 2ÉŒÇ‹ÇΩÇÕÉŒÇ…ï‚ê≥
+	if (diff > 180) {
+		diff -= 360;
+	}
+	else if (diff < -180) {
+		diff += 360;
+	}
+	float total = a + diff * t;
+
+	return total;
+}
+
 void Enemy::Initialeze(Model* model_,Player*player_) {
 	assert(model_);
 	assert(player_);
@@ -18,8 +34,10 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 	obj->Update();
 	moveTimer = moveTime;
 	shotTimer = shotTime;
-	waitTimer = waitTime[0];
+	waitTimer = 0.0f;
 	invincibleTimer = invincibleTime;
+	angle[0] = 0.0f;
+	angle[1] = 0.0f;
 }
 
 void Enemy::Update() {
@@ -79,10 +97,11 @@ void Enemy::Move() {
 		//ílÇê≥ãKâª
 		value = MyMath::normaleizeVec3(value);
 		
-		angle = (atan2(value.x, value.z));
-		Vector3 rot;
+		angle[0] = (atan2(value.x, value.z));
+		Vector3 rot = { 0.0f,0.0f,0.0f };
 		//ìxêîÇ…ïœä∑
-		rot.y = MyMath::DegreeTransform(angle)-90.0f;
+		angle[0] = MyMath::DegreeTransform(angle[0]) - 90.0f;
+		rot.y = angle[0];
 
 		obj->SetRotation(rot);
 		
@@ -131,24 +150,21 @@ void Enemy::Shot() {
 		const float kBulletSpeed = 1.0f;
 		velocity = { 0.0f,0.0f,0.0f };
 
-		Vector3 pPos = { 0.0f,0.0f,0.0f };
-		pPos.x = obj->GetPosition().x;
-		pPos.y = obj->GetPosition().y;
-		pPos.z = obj->GetPosition().z;
-		Vector3 ePos = player->GetPos();
+		ePos = obj->GetPosition();
+		pPos = player->GetPos();
 
-		Vector3 len;
-		len.x = ePos.x - pPos.x;
-		len.y = ePos.y - pPos.y;
-		len.z = ePos.z - pPos.z;
+
+		len.x = pPos.x - ePos.x;
+		len.y = pPos.y - ePos.y;
+		len.z = pPos.z - ePos.z;
 		velocity = MyMath::normaleizeVec3(len);
 		// ê≥ãKâª
 		vector = MyMath::normaleizeVec3(len);
 		//äpìxÇéZèo
-		angle = -atan2(vector.z, vector.x);
+		angle[1] = -atan2(vector.z, vector.x);
 		vector.x = 0.0f;
 		vector.z = 0.0f;
-		vector.y=MyMath::DegreeTransform(angle);
+		vector.y=MyMath::DegreeTransform(angle[1]);
 		velocity *= kBulletSpeed;
 
 		//äpìxÇäiî[
@@ -174,23 +190,36 @@ void Enemy::Rotate() {
 }
 
 void Enemy::Wait() {
-	waitTimer--;
-	if (waitTimer < 0)
+	waitTimer++;
+	ePos = obj->GetPosition();
+	pPos = player->GetPos();
+
+
+	len = pPos - ePos;
+	// ê≥ãKâª
+	vector = MyMath::normaleizeVec3(len);
+	//äpìxÇéZèo
+	angle[1] = MyMath::DegreeTransform(-atan2(vector.z, vector.x));
+
+	if (!isWait)
 	{
-		if (!isWait)
-		{
-			isWait = true;
-			waitTimer = waitTime[1];
+ 		Vector3 rot = obj->GetRotation();
+		float t = waitTimer / waitTime[0];
+		rot.y = LerpShortAngle(rot.y, angle[1], t);
+		obj->SetRotation(rot);
+	}
 
-			phase = Phase::atack;
-		}
-		else
-		{
-			isWait = false;
-			waitTimer = waitTime[0];
-			phase = Phase::move;
-
-		}
+	if (waitTimer > waitTime[0] && !isWait)
+	{
+		isWait = true;
+		waitTimer = 0.0f;
+		phase = Phase::atack;
+	}
+	else if(waitTimer > waitTime[1] && isWait)
+	{
+		isWait = false;
+		waitTimer = 0.0f;
+		phase = Phase::move;
 	}
 }
 

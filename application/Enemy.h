@@ -97,13 +97,13 @@ private://メンバ変数
 	//待機フラグ
 	bool isWait = false;
 	//待機時間
-	int16_t waitTimer;
-	int16_t waitTime[2] = { 5,60 };
+	float waitTimer;
+	float waitTime[2] = { 5,60 };
 	//自キャラ
 	Player* player = nullptr;
 	//角度
 	Vector3 vector;
-	float angle = 0.0f;
+	float angle[2];
 	//速度
 	Vector3 velocity;
 	//移動
@@ -121,4 +121,10 @@ private://メンバ変数
 	bool isInvincible = false;
 	const int16_t invincibleTime = 11;
 	int16_t invincibleTimer;
+
+	//位置
+	Vector3 pPos;
+	Vector3 ePos;
+	//距離
+	Vector3 len;
 };
