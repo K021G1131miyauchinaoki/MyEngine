@@ -153,10 +153,7 @@ void Enemy::Shot() {
 		ePos = obj->GetPosition();
 		pPos = player->GetPos();
 
-
-		len.x = pPos.x - ePos.x;
-		len.y = pPos.y - ePos.y;
-		len.z = pPos.z - ePos.z;
+		len= pPos - ePos;
 		velocity = MyMath::normaleizeVec3(len);
 		// ê≥ãKâª
 		vector = MyMath::normaleizeVec3(len);
@@ -193,7 +190,6 @@ void Enemy::Wait() {
 	waitTimer++;
 	ePos = obj->GetPosition();
 	pPos = player->GetPos();
-
 
 	len = pPos - ePos;
 	// ê≥ãKâª
