@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include<cassert>
 #include<random>
+#include<SceneManager.h>
 #include<Map.h>
 
 float LerpShortAngle(float a, float b, float t) {
@@ -38,6 +39,9 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 	invincibleTimer = invincibleTime;
 	angle[0] = 0.0f;
 	angle[1] = 0.0f;
+	//体力
+	hp.value = 3;
+	hp.isDead = false;
 }
 
 void Enemy::Update() {
@@ -91,16 +95,16 @@ void Enemy::Move() {
 		//メルセンヌ・ツイスターの乱数エンジン
 		std::mt19937_64 engine(seed_gen());
 		//乱数　（回転）
-		std::uniform_real_distribution<float> rotDist(-1.0f,1.0f);
+		std::uniform_real_distribution<float> rotDist(-0.5f,0.5f);
 		//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
 		value = { rotDist(engine),0.0f,rotDist(engine) };
 		//値を正規化
 		value = MyMath::normaleizeVec3(value);
 		
-		angle[0] = (atan2(value.x, value.z));
+		angle[0] = -(atan2(value.z, value.x));
 		Vector3 rot = { 0.0f,0.0f,0.0f };
 		//度数に変換
-		angle[0] = MyMath::DegreeTransform(angle[0]) - 90.0f;
+		angle[0] = MyMath::DegreeTransform(angle[0]) ;
 		rot.y = angle[0];
 
 		obj->SetRotation(rot);
@@ -225,5 +229,14 @@ void Enemy::OnCollision()
 	if (!isInvincible)
 	{
 		isInvincible = true;
+	}
+	hp.value--;
+	if (hp.value <= 0)
+	{
+		hp.isDead = true;
+	}
+	if (hp.isDead)
+	{
+		SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
 	}
 }

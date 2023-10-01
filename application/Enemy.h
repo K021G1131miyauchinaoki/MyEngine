@@ -8,6 +8,7 @@
 #include<Vector3.h>
 #include<Player.h>
 #include<MyMath.h>
+#include<BaseHp.h>
 
 //自機クラスの前方前言
 class Player;
@@ -73,6 +74,8 @@ public://メンバ関数
 
 	void OnCollision();
 
+	bool IsDead()const { return hp.isDead; }
+
 	//弾リストを取得
 	std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
 private://構造体
@@ -127,4 +130,6 @@ private://メンバ変数
 	Vector3 ePos;
 	//距離
 	Vector3 len;
+	//hp
+	BaseHp hp;
 };
