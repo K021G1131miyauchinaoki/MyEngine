@@ -7,7 +7,7 @@
 float LerpShortAngle(float a, float b, float t) {
 	float diff = b - a;
 
-	diff = std::fmod(diff, 360);
+	diff = static_cast<float>(std::fmod(diff, 360));
 	// 2ƒÎ‚Ü‚½‚ÍƒÎ‚É•â³
 	if (diff > 180) {
 		diff -= 360;
@@ -129,17 +129,17 @@ void Enemy::Move() {
 		pos += move;
 		//ˆÚ“®”ÍˆÍ‚Ì§ŒÀ
 		if (pos.x > Map::moveLimitW - Map::mapScaleW * 1.5) {
-			pos.x = Map::moveLimitW - Map::mapScaleW * 1.5;
+			pos.x = Map::moveLimitW - Map::mapScaleW * 1.5f;
 		}
 		else if (pos.x < -Map::moveLimitW - Map::mapScaleW / 2) {
-			pos.x = -Map::moveLimitW - Map::mapScaleW / 2;
+			pos.x = -Map::moveLimitW - Map::mapScaleW / 2.0f;
 		}
 
 		if (pos.z > Map::moveLimitH - Map::mapScaleH * 1.5) {
-			pos.z = Map::moveLimitH - Map::mapScaleH * 1.5;
+			pos.z = Map::moveLimitH - Map::mapScaleH * 1.5f;
 		}
 		else if (pos.z < -Map::moveLimitH - Map::mapScaleH / 2) {
-			pos.z = -Map::moveLimitH - Map::mapScaleH / 2;
+			pos.z = -Map::moveLimitH - Map::mapScaleH / 2.0f;
 		}
 		obj->SetPosition(pos);
 	}
