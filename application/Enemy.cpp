@@ -3,22 +3,7 @@
 #include<random>
 #include<SceneManager.h>
 #include<Map.h>
-
-float LerpShortAngle(float a, float b, float t) {
-	float diff = b - a;
-
-	diff = static_cast<float>(std::fmod(diff, 360));
-	// 2�΂܂��̓΂ɕ␳
-	if (diff > 180) {
-		diff -= 360;
-	}
-	else if (diff < -180) {
-		diff += 360;
-	}
-	float total = a + diff * t;
-
-	return total;
-}
+#include<MyMath.h>
 
 void Enemy::Initialeze(Model* model_,Player*player_) {
 	assert(model_);
@@ -205,7 +190,7 @@ void Enemy::Wait() {
 	{
  		Vector3 rot = obj->GetRotation();
 		float t = waitTimer / waitTime[0];
-		rot.y = LerpShortAngle(rot.y, angle[1], t);
+		rot.y = MyMath::LerpShortAngle(rot.y, angle[1], t);
 		obj->SetRotation(rot);
 	}
 

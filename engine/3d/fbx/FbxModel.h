@@ -7,26 +7,30 @@
 #include<wrl.h>
 #include<d3d12.h>
 #include<d3dx12.h>
+#pragma warning( push )
+#pragma warning( disable : 4324 )
 #include<fbxsdk.h>
+#pragma warning( pop)
+
 
 struct Node
 {
-	//名前
-	std::string name;
 	//----------------------自作クラスに置き換えたい	
 	//ローカルスケール
-	DirectX::XMVECTOR scaling = { 1,1,1,0 };		
+	alignas(16)DirectX::XMVECTOR scaling = { 1,1,1,0 };
 	//ローカル回転角
-	DirectX::XMVECTOR rotation = { 0,0,0,0 };
+	alignas(16)DirectX::XMVECTOR rotation = { 0,0,0,0 };
 	//ローカル移動
-	DirectX::XMVECTOR translation = { 0,0,0,1 };
+	alignas(16)DirectX::XMVECTOR translation = { 0,0,0,1 };
 	//ローカル変形行列
-	DirectX::XMMATRIX transform;
+	alignas(16)DirectX::XMMATRIX transform;
 	//グローバル変形行列
-	DirectX::XMMATRIX glabalTransform;
+	alignas(16)DirectX::XMMATRIX glabalTransform;
 	//-----------------------------------------------
 	//親ノード
 	Node* parent = nullptr;
+	//名前
+	std::string name;
 };
 
 class FbxModel

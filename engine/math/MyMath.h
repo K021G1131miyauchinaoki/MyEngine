@@ -17,7 +17,8 @@ namespace MyMath
 
 	float length(Vector3	vec);
 
-	 const float PI_F = 3.14f;
+	const float PI_F = 3.14f;
 
+	float LerpShortAngle(float a, float b, float t);
 };
 

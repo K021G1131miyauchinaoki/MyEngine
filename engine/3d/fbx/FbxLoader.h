@@ -1,6 +1,9 @@
 ﻿#pragma once
 
-#include "fbxsdk.h"
+#pragma warning( push )
+#pragma warning( disable : 4324 )
+#include<fbxsdk.h>
+#pragma warning( pop)
 #include"FbxModel.h"
 #include<wrl.h>
 #include <d3d12.h>

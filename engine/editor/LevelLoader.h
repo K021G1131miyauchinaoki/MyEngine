@@ -4,18 +4,21 @@
 #include <DirectXMath.h>
 #include<nlohmann/json.hpp>
 
+#pragma warning( disable : 4324 )
+
 // レベルデータ
 struct LevelData {
 
-	struct ObjectData {
-		// ファイル名
-		std::string fileName;
+	struct ObjectData  
+	{
 		// 平行移動
 		DirectX::XMVECTOR translation;
 		// 回転角
 		DirectX::XMVECTOR rotation;
 		// スケーリング
 		DirectX::XMVECTOR scaling;
+		// ファイル名
+		std::string fileName;
 	};
 
 	// オブジェクト配列

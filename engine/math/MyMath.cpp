@@ -48,4 +48,20 @@ namespace MyMath
 
 	float length(Vector3 vec) { return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z); }
 
+	float LerpShortAngle(float a, float b, float t) {
+		float diff = b - a;
+
+		diff = static_cast<float>(std::fmod(diff, 360));
+		// 2�΂܂��̓΂ɕ␳
+		if (diff > 180) {
+			diff -= 360;
+		}
+		else if (diff < -180) {
+			diff += 360;
+		}
+		float total = a + diff * t;
+
+		return total;
+	}
+
 }

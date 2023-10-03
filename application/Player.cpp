@@ -135,17 +135,17 @@ void Player::Move() {
 	move += obj->GetPosition();
 	//ˆÚ“®”ÍˆÍ‚Ì§ŒÀ
 	if (move.x >Map::moveLimitW-Map::mapScaleW*1.5) {
-		move.x = Map::moveLimitW- Map::mapScaleW*1.5;
+		move.x = Map::moveLimitW- Map::mapScaleW*1.5f;
 	}
 	else if (move.x < -Map::moveLimitW- Map::mapScaleW/2) {
-		move.x = -Map::moveLimitW- Map::mapScaleW/2;
+		move.x = -Map::moveLimitW- Map::mapScaleW/2.0f;
 	}
 
 	if (move.z > Map::moveLimitH- Map::mapScaleH * 1.5) {
-		move.z = Map::moveLimitH- Map::mapScaleH * 1.5;
+		move.z = Map::moveLimitH- Map::mapScaleH * 1.5f;
 	}
 	else if (move.z < -Map::moveLimitH- Map::mapScaleH/2) {
-		move.z = -Map::moveLimitH- Map::mapScaleH/2;
+		move.z = -Map::moveLimitH- Map::mapScaleH/2.0f;
 	}
 
 

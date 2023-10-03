@@ -7,7 +7,6 @@
 #include<EnemyBullet.h>
 #include<Vector3.h>
 #include<Player.h>
-#include<MyMath.h>
 #include<BaseHp.h>
 
 //自機クラスの前方前言
