@@ -1,6 +1,8 @@
 #include "SceneManager.h"
 #include<cassert>
 
+int8_t SceneManager::sceneNum = SceneManager::title;
+
 SceneManager* SceneManager::GetInstance() {
 	static SceneManager instance;
 	return &instance;

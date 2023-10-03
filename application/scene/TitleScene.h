@@ -33,8 +33,23 @@ public://メンバ関数
 	~TitleScene()override;
 
 private:
+	//スプライト
 	std::unique_ptr<Sprite> titleSprite;
+	//操作
 	std::unique_ptr <Input>input;
+	//カメラ初期化
+	std::unique_ptr<Camera>camera;
+	//objモデル
+	std::unique_ptr <Model> modelSkydome = nullptr;
+	std::unique_ptr <Model> cube = nullptr;
+	std::unique_ptr <Model> tank = nullptr;
+	std::unique_ptr <Model> modelMap = nullptr;
 
+	std::unique_ptr <Object3d> objSkydome = nullptr;
+
+	std::unique_ptr<Player> player;
+	std::unique_ptr<Map>map;
+
+	std::unique_ptr<ImguiManager> ImgM;
 };
 

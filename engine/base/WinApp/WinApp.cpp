@@ -39,7 +39,7 @@ void	WinApp::Initialize() {
 
 	w.cbSize = sizeof(WNDCLASSEX);
 	w.lpfnWndProc = (WNDPROC)WindowProc;
-	w.lpszClassName = L"DirectXGame";
+	w.lpszClassName = L"BattleTank";
 	w.hInstance = GetModuleHandle(nullptr);
 	w.hCursor = LoadCursor(NULL, IDC_ARROW);
 
@@ -51,7 +51,7 @@ void	WinApp::Initialize() {
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 	//ウィンドウオブジェクトの生成
 	hwnd = CreateWindow(w.lpszClassName,
-		L"DirectXGame",
+		L"BattleTank",
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,

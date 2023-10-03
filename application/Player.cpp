@@ -3,6 +3,7 @@
 #include<cassert>
 #include<SpriteCommon.h>
 #include<Map.h>
+#include<SceneManager.h>
 
 void Player::Initialeze( Model* model_, Input* input_) {
 	assert(model_);
@@ -25,65 +26,70 @@ void Player::Initialeze( Model* model_, Input* input_) {
 	hp.isDead = false;
 
 	//サイズを決定
-	drawHp.resize(hp.value);
-	for (size_t i = 0; i < hp.value; i++)
+	if (SceneManager::sceneNum == SceneManager::play)
 	{
-		drawHp[i].isDraw = false;
-		drawHp[i].Sprite = std::make_unique<Sprite>();
-		drawHp[i].Sprite->Initialize(SpriteCommon::GetInstance(),4);
-		drawHp[i].Sprite->SetSize({ 50.0f,50.0f });
-		drawHp[i].Sprite->SetPosition(XMFLOAT2{ 10.0f + (60.0f * i),10 });
-		drawHp[i].Sprite->SetIsInvisible(drawHp[i].isDraw);
+		drawHp.resize(hp.value);
+		for (size_t i = 0; i < hp.value; i++)
+		{
+			drawHp[i].isDraw = false;
+			drawHp[i].Sprite = std::make_unique<Sprite>();
+			drawHp[i].Sprite->Initialize(SpriteCommon::GetInstance(), 4);
+			drawHp[i].Sprite->SetSize({ 50.0f,50.0f });
+			drawHp[i].Sprite->SetPosition(XMFLOAT2{ 10.0f + (60.0f * i),10 });
+			drawHp[i].Sprite->SetIsInvisible(drawHp[i].isDraw);
+		}
 	}
 }
 
 void Player::Update() {
-	//デスフラグの立った弾を削除
-	bullets_.remove_if([](std::unique_ptr<Bullet>& bullet) { return bullet->IsDead(); });
-	
-	//マウスカーソルの位置取得
-	mausePos = input->GetMausePos();
-	vector = { 0.0f,0.0f };
-	//ウィンドウの中心点とマウスの現在点のベクトルをとる
-	vector.x = mausePos.x - WinApp::width / 2;
-	vector.y = mausePos.y - WinApp::height / 2;
-	//正規化
-	vector = MyMath::normaleizeVec2(vector);
-	//角度を算出
-	angle = atan2(vector.y, vector.x);
-	
-	Shot();
-	
-	//度数変換
-	angle = MyMath::DegreeTransform(angle);
-	
-	Rotate();
-	Move();
-	
+	if (SceneManager::sceneNum == SceneManager::play)
+	{
+		//デスフラグの立った弾を削除
+		bullets_.remove_if([](std::unique_ptr<Bullet>& bullet) { return bullet->IsDead(); });
+
+		//マウスカーソルの位置取得
+		mausePos = input->GetMausePos();
+		vector = { 0.0f,0.0f };
+		//ウィンドウの中心点とマウスの現在点のベクトルをとる
+		vector.x = mausePos.x - WinApp::width / 2;
+		vector.y = mausePos.y - WinApp::height / 2;
+		//正規化
+		vector = MyMath::normaleizeVec2(vector);
+		//角度を算出
+		angle = atan2(vector.y, vector.x);
+
+		Shot();
+
+		//度数変換
+		angle = MyMath::DegreeTransform(angle);
+
+		Rotate();
+		Move();
+		//HPのスプライト
+		for (size_t i = 0; i < hp.value; i++)
+		{
+			drawHp[i].Sprite->Update();
+		}
+		//点滅表現
+		if (isInvincible)
+		{
+			invincibleTimer--;
+		}
+		if (invincibleTimer < 0)
+		{
+			invincibleTimer = invincibleTime;
+			isInvincible = false;
+		}
+		//弾
+		for (std::unique_ptr<Bullet>& bullet : bullets_)
+		{
+			bullet->Update();
+		}
+	}
 	//オブジェクト
 	obj->Update();
-
-	//弾
-	for (std::unique_ptr<Bullet>& bullet : bullets_)
-	{
-		bullet->Update();
-	}
-	//HPのスプライト
-	for (size_t i = 0; i < hp.value; i++)
-	{
-		drawHp[i].Sprite->Update();
-	}
-	//点滅表現
-	if (isInvincible)
-	{
-		invincibleTimer--;
-	}
-	if (invincibleTimer < 0)
-	{
-		invincibleTimer = invincibleTime;
-		isInvincible = false;
-	}
 }
+
 
 void Player::ObjDraw() {
 	
@@ -99,10 +105,13 @@ void Player::ObjDraw() {
 }
 
 void Player::SpriteDraw() {
-	//スプライト
-	for (size_t i = 0; i < hp.value; i++)
+	if (SceneManager::sceneNum == SceneManager::play)
 	{
-		drawHp[i].Sprite->Draw();
+		//スプライト
+		for (size_t i = 0; i < hp.value; i++)
+		{
+			drawHp[i].Sprite->Draw();
+		}
 	}
 }
 

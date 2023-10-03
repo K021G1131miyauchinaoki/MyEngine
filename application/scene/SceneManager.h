@@ -20,6 +20,17 @@ public:
 
 	//インスタンス生成
 	static SceneManager* GetInstance();
+
+	//（例）自機をタイトルだと自動,プレイ中は任意で移動ができるように管理する
+	static int8_t sceneNum;
+	enum
+	{
+		title,
+		select,
+		play,
+		clear,
+		over,
+	};
 	
 private:
 	//現在のシーン
