@@ -17,7 +17,7 @@ void Map::StaticInitialize(Model* model_) {
 	}
 }
 
-void Map::Initialize() {
+void Map::Initialize(bool isStaging_) {
 	//変数の初期化
 	nowMax = 0;
 	//スケール
@@ -25,75 +25,23 @@ void Map::Initialize() {
 	scaleStart += 0.1f;
 	endFrame = 100;
 	//位置
-	posStartY = -(scaleEnd.y + 0.2f) + constStartY;
-	posEndY =  -(scaleEnd.y + 0.2f);
+	posStartY = -(scaleEnd.y ) + constStartY;
+	posEndY =  -(scaleEnd.y );
 	//回転
 	rotEndZ = 0;
 	rotStartZ=360*2;
+	isStaging = isStaging_;
 }
 
 void Map::Update() {
-	timer--;
-	if (timer < 0)
-	{
-		timer = time;
-		if (nowMax <= numW || nowMax <= numH)
-		{
-			setPoint = -nowMax;
-			
-			for (int16_t i = setPoint; i <= nowMax; i++)
-			{
-				for (int16_t j = setPoint; j <= nowMax; j++)
-				{
-					int16_t h = numH + i;
-					int16_t w = numW + j;
-					
-					if (h < 0 )	h = 0;
-					if (h >= height)h = height - 1;
-					if (w < 0)	w = 0;
-					if (w >= width)w = width - 1;
-					//フラグが立っていない場合
-					if (!blocks[h][w].isUp)
-					{
-						blocks[h][w].isUp = true;
-					}
-
-				}
-			}
-			nowMax++;
-		}
-	}
+	Preparation();
 	for (size_t i = 0; i < height; i++)
 	{
 
 		for (size_t j = 0; j < width; j++)
 		{
-
-			//フラグが立っていたら
-			if (blocks[i][j].isUp)
-			{
-				//スケール
-				Vector3 easeScale = blocks[i][j].obj->GetScale();
-				easeScale = scaleStart + (scaleEnd - scaleStart) * Easing::easeOutCubic(blocks[i][j].range);
-				blocks[i][j].obj->SetScale(easeScale);
-				//回転
-				Vector3 easeRot = blocks[i][j].obj->GetRotation();
-				easeRot.z = rotStartZ + (rotEndZ - rotStartZ) * Easing::easeOutSine(blocks[i][j].range);
-				blocks[i][j].obj->SetRotation(easeRot);
-				//座標
-				Vector3 easePos = blocks[i][j].obj->GetPosition();
-				easePos.y = posStartY + (posEndY - posStartY) * Easing::easeOutCubic(blocks[i][j].range);
-				blocks[i][j].obj->SetPosition(easePos);
-				//1.0fまで加算
-				blocks[i][j].range+=0.02f;
-			}
-			if (blocks[i][j].range >= 1.0f)
-			{
-				blocks[i][j].isUp = false;
-			}
+			Staging(i, j);
 			blocks[i][j].obj->Update();
-			
-
 		}
 	}
 
@@ -156,17 +104,30 @@ void Map::LoadCSV(const std::string& num_) {
 
 		for (size_t j = 0; j < width; j++)
 		{
-			//
-
-			Vector3 pos = { 0.0f,posStartY, 0.0f };
+			//フラグで挿入するパラメータを変化
+			float posY, rotZ;
+			Vector3	scale;
+			if (isStaging)
+			{
+				posY = posStartY;
+				rotZ = rotStartZ;
+				scale = scaleStart;
+			}
+			else
+			{
+				posY = posEndY;
+				rotZ = rotEndZ;
+				scale = scaleEnd;
+			}
+			Vector3 pos = { 0.0f,posY, 0.0f };
 			pos.x = (j * scaleEnd.x) * 2.0f - (scaleEnd.x * width);
 			pos.z = (i * scaleEnd.z) * 2.0f - (scaleEnd.z * height);
 			//オブジェクトにパラメータをセット
 			blocks[i][j].obj = std::make_unique<Object3d>();
 			blocks[i][j].obj->Initialize();
 			blocks[i][j].obj->SetModel(model.get());
-			blocks[i][j].obj->SetScale(scaleStart); 
-			blocks[i][j].obj->SetRotation({0.0f,0.0f,rotStartZ});
+			blocks[i][j].obj->SetScale(scale); 
+			blocks[i][j].obj->SetRotation({0.0f,0.0f,rotZ});
 			blocks[i][j].obj->SetPosition(pos);
 			//blocks[i][j].obj->SetColor({ 0.0f, 0.0f, 0.1f,1.0f});
 			//blocks[i][j].pos = pos;
@@ -182,6 +143,66 @@ void Map::LoadCSV(const std::string& num_) {
 	mapScaleH = scaleEnd.z;
 }
 
+void Map::Preparation() {
+	if (isStaging)
+	{
+		timer--;
+		if (timer < 0)
+		{
+			timer = time;
+			if (nowMax <= numW || nowMax <= numH)
+			{
+				setPoint = -nowMax;
+
+				for (int16_t i = setPoint; i <= nowMax; i++)
+				{
+					for (int16_t j = setPoint; j <= nowMax; j++)
+					{
+						int16_t h = numH + i;
+						int16_t w = numW + j;
+
+						if (h < 0)	h = 0;
+						if (h >= height)h = height - 1;
+						if (w < 0)	w = 0;
+						if (w >= width)w = width - 1;
+						//フラグが立っていない場合
+						if (!blocks[h][w].isUp)
+						{
+							blocks[h][w].isUp = true;
+						}
+
+					}
+				}
+				nowMax++;
+			}
+		}
+	}
+}
+
+void Map::Staging(size_t y_, size_t x_) {
+	//フラグが立っていたら
+	if (blocks[y_][x_].isUp&&isStaging)
+	{
+		//スケール
+		Vector3 easeScale = blocks[y_][x_].obj->GetScale();
+		easeScale = scaleStart + (scaleEnd - scaleStart) * Easing::easeOutCubic(blocks[y_][x_].range);
+		blocks[y_][x_].obj->SetScale(easeScale);
+		//回転
+		Vector3 easeRot = blocks[y_][x_].obj->GetRotation();
+		easeRot.z = rotStartZ + (rotEndZ - rotStartZ) * Easing::easeOutSine(blocks[y_][x_].range);
+		blocks[y_][x_].obj->SetRotation(easeRot);
+		//座標
+		Vector3 easePos = blocks[y_][x_].obj->GetPosition();
+		easePos.y = posStartY + (posEndY - posStartY) * Easing::easeOutCubic(blocks[y_][x_].range);
+		blocks[y_][x_].obj->SetPosition(easePos);
+		//1.0fまで加算
+		blocks[y_][x_].range += 0.02f;
+		if (blocks[y_][x_].range >= 1.0f)
+		{
+			blocks[y_][x_].isUp = false;
+		}
+	}
+}
 
 //終了
 void Map::Finalize() {

@@ -9,6 +9,7 @@ class Map
 public:
 	//コンストラクタ
 	Map(float value) :constStartY(value) {};
+	Map() :constStartY(0.0f) {};
 	//デストラクタ
 	~Map();
 public://静的メンバ関数
@@ -19,7 +20,7 @@ public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(bool isStaging_);
 
 	/// <summary>
 	/// 更新
@@ -33,6 +34,12 @@ public://メンバ関数
 
 	// 読み込み
 	void LoadCSV(const std::string& num_);
+
+	//準備
+	void Preparation();
+	//演出
+	void Staging(size_t y_,size_t x_);
+
 
 private://構造体
 	//ブロック
@@ -52,6 +59,9 @@ public:
 	static float mapScaleW;
 	static float mapScaleH;
 private://メンバ変数
+	//演出やるかやらないか用フラグ
+	bool isStaging;
+
 	/*イージング*/
 	float endFrame;
 	//位置

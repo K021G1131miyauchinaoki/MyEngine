@@ -38,7 +38,7 @@ void GamePlayScene::Initialize() {
 
 	//マップ
 	map = std::make_unique<Map>(mapStratY);
-	map->Initialize();
+	map->Initialize(false);
 	map->LoadCSV("1");
 
 	//パーティクル
