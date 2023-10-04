@@ -45,9 +45,9 @@ void TitleScene::Initialize() {
 	camera->SetTarget({ 0.0f, player->GetPos().y, player->GetPos().z });
 	camera->SetEye({ player->GetPos().x+15.0f,player->GetPos().y +5.0f, player->GetPos().z - 15.0f });
 	//マップ
-	//map = std::make_unique<Map>(mapStratY);
-	//map->Initialize();
-	//map->LoadCSV("1");
+	map = std::make_unique<Map>();
+	map->Initialize(false);
+	map->LoadCSV("1");
 }
 
 void TitleScene::Update() {
@@ -55,6 +55,7 @@ void TitleScene::Update() {
 	camera->Update();
 	player->Update();
 	objSkydome->Update();
+	map->Update();
 	//エンターキーを押したら
 	if (input->TriggerKey(DIK_RETURN)||input->TriggerClick(Botton::RIGHT))
 	{
@@ -72,6 +73,7 @@ void TitleScene::SpriteDraw() {
 void TitleScene::ObjDraw() {
 	objSkydome->Draw();
 	player->ObjDraw();
+	map->Draw();
 }
 
 void TitleScene::Finalize() {}
