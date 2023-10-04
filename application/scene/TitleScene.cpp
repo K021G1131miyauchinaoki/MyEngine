@@ -35,7 +35,7 @@ void TitleScene::Initialize() {
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
 	objSkydome->SetModel(modelSkydome.get());
-	objSkydome->SetScale({ 5.0f,5.0f,5.0f });
+	objSkydome->SetScale({ 200.0f,200.0f,200.0f });
 
 	//プレイヤー
 	player = std::make_unique<Player>();
@@ -43,7 +43,7 @@ void TitleScene::Initialize() {
 	
 
 	camera->SetTarget({ 0.0f, player->GetPos().y, player->GetPos().z });
-	camera->SetEye({ player->GetPos().x+15.0f,player->GetPos().y +5.0f, player->GetPos().z - 15.0f });
+	camera->SetEye({ player->GetPos().x+15.0f,player->GetPos().y +3.0f, player->GetPos().z - 15.0f });
 	//マップ
 	map = std::make_unique<Map>();
 	map->Initialize(false);

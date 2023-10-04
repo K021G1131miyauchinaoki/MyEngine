@@ -106,22 +106,22 @@ void Map::LoadCSV(const std::string& num_) {
 		{
 			//フラグで挿入するパラメータを変化
 			float posY, rotZ;
-			Vector3	scale;
+			Vector3	scale, pos;
 			if (isStaging)
 			{
-				posY = posStartY;
 				rotZ = rotStartZ;
 				scale = scaleStart;
+				pos.y = posStartY;
+				pos.z = (i * scaleEnd.z) * 2.0f - (scaleEnd.z * height);
 			}
 			else
 			{
-				posY = posEndY;
 				rotZ = rotEndZ;
 				scale = scaleEnd;
+				pos.y = posEndY;
+				pos.z = (i * scaleEnd.z) * 2.0f - ((scaleEnd.z * height)/4.0f);
 			}
-			Vector3 pos = { 0.0f,posY, 0.0f };
 			pos.x = (j * scaleEnd.x) * 2.0f - (scaleEnd.x * width);
-			pos.z = (i * scaleEnd.z) * 2.0f - (scaleEnd.z * height);
 			//オブジェクトにパラメータをセット
 			blocks[i][j].obj = std::make_unique<Object3d>();
 			blocks[i][j].obj->Initialize();

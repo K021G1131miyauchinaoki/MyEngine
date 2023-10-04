@@ -26,8 +26,9 @@ void GamePlayScene::Initialize() {
 	//スカイドーム
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
-	objSkydome->SetModel(modelSkydome.get());
-	objSkydome->SetScale({ 5.0f,5.0f,5.0f });
+	objSkydome->SetModel(modelSkydome.get());	
+	objSkydome->SetScale({ 200.0f,200.0f,200.0f });
+
 
 	//プレイヤー
 	player = std::make_unique<Player>();

@@ -75,7 +75,7 @@ private://メンバ変数
 	float rotStartZ;
 	//ブロック
 	std::vector<std::vector< Block>> blocks;
-	const float constStartY;
+	const float constStartY= -400;
 	int8_t width;
 	int8_t height;
 	int16_t lineNum;
