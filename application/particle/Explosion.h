@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include<Object3d.h>
 #include<Model.h>
 #include<Vector3.h>
@@ -21,7 +21,7 @@ private:
 	std::unique_ptr<Object3d>obj;
 	float speed = 1.0f;
 	Vector3 acc;
-	//�ړ�
+	//移動
 	Vector3 move;
 };
 

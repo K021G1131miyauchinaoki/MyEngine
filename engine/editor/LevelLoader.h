@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<fstream>
 #include <vector>
 #include <DirectXMath.h>
@@ -6,22 +6,22 @@
 
 #pragma warning( disable : 4324 )
 
-// ƒŒƒxƒ‹ƒf[ƒ^
+// ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿
 struct LevelData {
 
 	struct ObjectData  
 	{
-		// •½sˆÚ“®
+		// å¹³è¡Œç§»å‹•
 		DirectX::XMVECTOR translation;
-		// ‰ñ“]Šp
+		// å›è»¢è§’
 		DirectX::XMVECTOR rotation;
-		// ƒXƒP[ƒŠƒ“ƒO
+		// ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 		DirectX::XMVECTOR scaling;
-		// ƒtƒ@ƒCƒ‹–¼
+		// ãƒ•ã‚¡ã‚¤ãƒ«å
 		std::string fileName;
 	};
 
-	// ƒIƒuƒWƒFƒNƒg”z—ñ
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé…åˆ—
 	std::vector<ObjectData> objects;
 
 	std::vector < LevelData> *chidren;

@@ -12,7 +12,7 @@ void Bullet::StaticInitialize(Model* model_) {
 }
 
 void Bullet::Initialize( const Vector3& position, const Vector3& velocity,const Vector3& rotation){
-	//NULLƒ|ƒCƒ“ƒ^ƒ`ƒFƒbƒN
+	//NULLãƒã‚¤ãƒ³ã‚¿ãƒã‚§ãƒƒã‚¯
 	assert(model);
 	
 	velocity_ = velocity;
@@ -34,40 +34,40 @@ void Bullet::Update() {
 		pos.z += velocity_.z;
 		obj->SetPosition(pos);
 	}
-	//ŽžŠÔŒo‰ß‚ÅÁ–Å
+	//æ™‚é–“çµŒéŽã§æ¶ˆæ»…
 	if (--deathTimer <= 0) {
 		isDead_ = true;
 	}
 	obj->Update();
 }
 
-//ƒ[ƒ‹ƒhÀ•W‚ð“n‚·
+//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’æ¸¡ã™
 Vector3 Bullet::GetPos() {
-	//À•W‚ðŠi”[
+	//åº§æ¨™ã‚’æ ¼ç´
 	Vector3 worldPos;
-	//ƒ[ƒ‹ƒhs—ñ‚Ì•½sˆÚ“®¬•ª‚ðŽæ“¾
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å¹³è¡Œç§»å‹•æˆåˆ†ã‚’å–å¾—
 	worldPos = obj->GetPosition();
 
 	return worldPos;
 }
 
-//Õ“Ë‚µ‚½‚ç
+//è¡çªã—ãŸã‚‰
 void Bullet::OnCollision() { isDead_ = true; }
 
-//•`‰æ
+//æç”»
 void Bullet::Draw() {
 	obj->Draw();
 }
 
-//I—¹
+//çµ‚äº†
 void Bullet::Finalize() {
 	model.release();
 }
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Bullet::Bullet() {
 	
 }
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Bullet::~Bullet() {
 	
 }

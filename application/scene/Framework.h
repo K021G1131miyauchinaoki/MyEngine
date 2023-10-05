@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<Input.h>
 #include<WinApp.h>
 #include<DirectXCommon.h>
@@ -15,20 +15,20 @@
 
 class Framework
 {
-public://ƒƒ“ƒoŠÖ”
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
 	virtual ~Framework() = default;
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	virtual void Initialize();
-	//I—¹
+	//çµ‚äº†
 	virtual	void Finalize();
-	//XV
+	//æ›´æ–°
 	virtual	void Update();
-	//•`‰æ
+	//æç”»
 	virtual	void Draw() = 0;
 
-	//Às
+	//å®Ÿè¡Œ
 	void Run();
-	//I—¹ƒ`ƒFƒbƒN
+	//çµ‚äº†ãƒã‚§ãƒƒã‚¯
 	virtual	bool IsEndRequst();
 protected:
 	std::unique_ptr<Input>input;

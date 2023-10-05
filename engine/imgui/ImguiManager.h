@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <imgui.h>
 #include "imgui_impl_dx12.h"
 #include <d3d12.h>
@@ -8,20 +8,20 @@
 
 class ImguiManager
 {
-public://ƒƒ“ƒoŠÖ”
-	//‰Šú‰»
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
+	//åˆæœŸåŒ–
 	void Initialize(WinApp* winApp_, DirectXCommon* dxCom_);
-	//I—¹
+	//çµ‚äº†
 	void Finalize();
-	//ó•tŠJn
+	//å—ä»˜é–‹å§‹
 	void Begin();
-	//ó•tI—¹
+	//å—ä»˜çµ‚äº†
 	void End();
-	//•`‰æ
+	//æç”»
 	void Draw();
-public://Ã“Iƒƒ“ƒoŠÖ”
-private://ƒƒ“ƒo•Ï”
-	//SRV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+public://é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//SRVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>srvHeap;
 	WinApp* winApp = nullptr;
 	DirectXCommon* dxCom = nullptr;

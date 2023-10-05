@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<BaseScene.h>
 #include<memory>
 #include<AbstractSceneFactory.h>
@@ -6,22 +6,22 @@
 class SceneManager
 {
 public:
-	//XV
+	//æ›´æ–°
 	void Update();
-	//•`‰æ
+	//æç”»
 	void ObjDraw();
 	void SpriteDraw();
-	//ŸƒV[ƒ“—\–ñ
+	//æ¬¡ã‚·ãƒ¼ãƒ³äºˆç´„
 	void SetNextScene(BaseScene* nextScene_) { nextScene = nextScene_; }
-	//ƒV[ƒ“ƒtƒ@ƒNƒgƒŠ[‚ÌƒZƒbƒ^[
+	//ã‚·ãƒ¼ãƒ³ãƒ•ã‚¡ã‚¯ãƒˆãƒªãƒ¼ã®ã‚»ãƒƒã‚¿ãƒ¼
 	void SetSceneFactory(AbstractSceneFactory* sceneFactory_) { sceneFactory = sceneFactory_; }
 	
 	void ChangeScene(const std::string& sceneName);
 
-	//ƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
 	static SceneManager* GetInstance();
 
-	//i—áj©‹@‚ğƒ^ƒCƒgƒ‹‚¾‚Æ©“®,ƒvƒŒƒC’†‚Í”CˆÓ‚ÅˆÚ“®‚ª‚Å‚«‚é‚æ‚¤‚ÉŠÇ—‚·‚é
+	//ï¼ˆä¾‹ï¼‰è‡ªæ©Ÿã‚’ã‚¿ã‚¤ãƒˆãƒ«ã ã¨è‡ªå‹•,ãƒ—ãƒ¬ã‚¤ä¸­ã¯ä»»æ„ã§ç§»å‹•ãŒã§ãã‚‹ã‚ˆã†ã«ç®¡ç†ã™ã‚‹
 	static int8_t sceneNum;
 	enum
 	{
@@ -33,11 +33,11 @@ public:
 	};
 	
 private:
-	//Œ»İ‚ÌƒV[ƒ“
+	//ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³
 	BaseScene* scene = nullptr;
-	// Ÿ‚ÌƒV[ƒ“
+	// æ¬¡ã®ã‚·ãƒ¼ãƒ³
 	BaseScene* nextScene = nullptr;
-	//ƒV[ƒ“ƒtƒ@ƒNƒgƒŠ[
+	//ã‚·ãƒ¼ãƒ³ãƒ•ã‚¡ã‚¯ãƒˆãƒªãƒ¼
 	AbstractSceneFactory* sceneFactory = nullptr;
 
 	SceneManager() = default;

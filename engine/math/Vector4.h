@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 class Vector4
 {
 public:
 	float	x, y, z, w;
 
 public:
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Vector4();
 	Vector4(float	x, float	y, float	z, float	w);
 };

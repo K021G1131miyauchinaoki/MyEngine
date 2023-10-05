@@ -1,4 +1,4 @@
-﻿#include "FbxLoader.h"
+#include "FbxLoader.h"
 #include<cassert>
 #include<DirectXMath.h>
 using namespace DirectX;

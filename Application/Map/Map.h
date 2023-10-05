@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<DirectXMath.h>
 #include<Object3d.h>
 #include<Model.h>
@@ -7,42 +7,42 @@
 class Map
 {
 public:
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Map(float value) :constStartY(value) {};
 	Map() :constStartY(0.0f) {};
-	//ƒfƒXƒgƒ‰ƒNƒ^
+	//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~Map();
-public://Ã“Iƒƒ“ƒoŠÖ”
+public://é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	static void StaticInitialize(Model* model_);
 	static void Finalize();
 
-public://ƒƒ“ƒoŠÖ”
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize(bool isStaging_);
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw();
 
-	// “Ç‚İ‚İ
+	// èª­ã¿è¾¼ã¿
 	void LoadCSV(const std::string& num_);
 
-	//€”õ
+	//æº–å‚™
 	void Preparation();
-	//‰‰o
+	//æ¼”å‡º
 	void Staging(size_t y_,size_t x_);
 
 
-private://\‘¢‘Ì
-	//ƒuƒƒbƒN
+private://æ§‹é€ ä½“
+	//ãƒ–ãƒ­ãƒƒã‚¯
 	struct Block {
 		std::unique_ptr<Object3d> obj;
 		Vector3	pos;
@@ -51,29 +51,29 @@ private://\‘¢‘Ì
 		float frame;
 		float range = 0.0f;
 	};
-private://Ã“Iƒƒ“ƒo•Ï”
+private://é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 	static	std::unique_ptr < Model> model;
 public:
 	static float moveLimitW;
 	static float moveLimitH;
 	static float mapScaleW;
 	static float mapScaleH;
-private://ƒƒ“ƒo•Ï”
-	//‰‰o‚â‚é‚©‚â‚ç‚È‚¢‚©—pƒtƒ‰ƒO
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//æ¼”å‡ºã‚„ã‚‹ã‹ã‚„ã‚‰ãªã„ã‹ç”¨ãƒ•ãƒ©ã‚°
 	bool isStaging;
 
-	/*ƒC[ƒWƒ“ƒO*/
+	/*ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°*/
 	float endFrame;
-	//ˆÊ’u
+	//ä½ç½®
 	float posStartY;
 	float posEndY;
-	//ƒXƒP[ƒ‹
+	//ã‚¹ã‚±ãƒ¼ãƒ«
 	Vector3 scaleEnd;
 	Vector3 scaleStart;
-	//‰ñ“]
+	//å›è»¢
 	float rotEndZ;
 	float rotStartZ;
-	//ƒuƒƒbƒN
+	//ãƒ–ãƒ­ãƒƒã‚¯
 	std::vector<std::vector< Block>> blocks;
 	const float constStartY= -400;
 	int8_t width;

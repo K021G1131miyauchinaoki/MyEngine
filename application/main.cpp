@@ -1,7 +1,5 @@
-﻿#include<string>
-#include <DirectXMath.h>
+#include<string>
 #include<d3dcompiler.h>
-#include"DirectXTex.h"
 #include<cassert>
 #include<imgui.h>
 #include"MyGame.h"

@@ -10,15 +10,15 @@ void Framework::Initialize(){
 	Input::GetInstance()->Initialize();
 	input .reset(Input::GetInstance());
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
-	//ƒfƒoƒCƒX‚ğƒZƒbƒg
+	//ãƒ‡ãƒã‚¤ã‚¹ã‚’ã‚»ãƒƒãƒˆ
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
-	//ƒOƒ‰ƒtƒBƒbƒNƒpƒCƒvƒ‰ƒCƒ“¶¬
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ç”Ÿæˆ
 	FbxObject3d::CreateGraphicsPipeline();
-	//ƒfƒoƒCƒX‚ğƒZƒbƒg
+	//ãƒ‡ãƒã‚¤ã‚¹ã‚’ã‚»ãƒƒãƒˆ
 	Object3d::StaticInitialize(dxCommon->GetDevice());
-	//ƒ|ƒXƒgƒGƒtƒFƒNƒg
+	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	PostEffect::StaticInitialize(dxCommon.get());
-	//ƒXƒvƒ‰ƒCƒgƒRƒ‚ƒ“
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚³ãƒ¢ãƒ³
 	SpriteCommon::GetInstance()->Initialize(dxCommon.get());
 	SpriteCommon::GetInstance()->Loadtexture(1, "title.png");
 	SpriteCommon::GetInstance()->Loadtexture(2, "clear.png");
@@ -49,22 +49,22 @@ bool Framework::IsEndRequst() {
 }
 
 void Framework::Run() {
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	Initialize();
 
-	//ƒ‹[ƒv
+	//ãƒ«ãƒ¼ãƒ—
 	while (true) {
-		//–ˆƒtƒŒ[ƒ€XV
+		//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 		Update();
-		//I—¹ƒŠƒNƒGƒXƒg‚ª—ˆ‚½‚ç”²‚¯‚é
+		//çµ‚äº†ãƒªã‚¯ã‚¨ã‚¹ãƒˆãŒæ¥ãŸã‚‰æŠœã‘ã‚‹
 		if (IsEndRequst())
 		{
 			break;
 		}
 
-		//•`‰æ
+		//æç”»
 		Draw();
 	}
-	//ƒQ[ƒ€I—¹
+	//ã‚²ãƒ¼ãƒ çµ‚äº†
 	Finalize();
 }

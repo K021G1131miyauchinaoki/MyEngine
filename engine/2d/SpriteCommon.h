@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include"DirectXCommon.h"
 #include<DirectXMath.h>
 #include<array>
@@ -8,32 +8,32 @@ using namespace DirectX;
 
 class SpriteCommon final
 {
-private://Ã“Iƒƒ“ƒo•Ï”
-	//SRV‚ÌÅ‘å–‡”
+private://é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//SRVã®æœ€å¤§æšæ•°
 	static const size_t	maxSRVCount = 2048;
 	static	std::string defaultTextureDirectoryPath;
-public://ƒƒ“ƒoŠÖ”
-	//‰Šú‰»
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
+	//åˆæœŸåŒ–
 	void	Initialize(DirectXCommon* ditectXCom_);
-	//ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 	void	Loadtexture(uint32_t index, std::string fileName);
-	//•`‰æ‘Oˆ—
+	//æç”»å‰å‡¦ç†
 	void PreDraw();
-	//•`‰æŒãˆ—
+	//æç”»å¾Œå‡¦ç†
 	void PostDraw();
 
-	//•`‰æ—pƒeƒNƒXƒ`ƒƒƒRƒ}ƒ“ƒh
+	//æç”»ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚³ãƒãƒ³ãƒ‰
 	void	SetTextureCommands(uint32_t index);
-	//ƒQƒbƒ^[
+	//ã‚²ãƒƒã‚¿ãƒ¼
 	ID3D12DescriptorHeap* GetSrvHeap()const { return srvHeap; }
 
 	DirectXCommon* GetdxCom()const { return directXCom; }
 
 	ID3D12Resource* GetTexBuff(uint32_t index)const { return texBuffers[index].Get(); }
-public://Ã“Iƒƒ“ƒoŠÖ”
+public://é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	static SpriteCommon* GetInstance();
 	 
-private://ƒƒ“ƒo•Ï”
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
 	DirectXCommon* directXCom = nullptr;
 	Microsoft::WRL::ComPtr <ID3D12Device> device = nullptr;
 	HRESULT	result;
@@ -45,13 +45,13 @@ private://ƒƒ“ƒo•Ï”
 	UINT	incrementSize;
 
 private:
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	SpriteCommon();
-	//ƒfƒXƒgƒ‰ƒNƒ^
+	//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~SpriteCommon();
 public:
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’ç„¡åŠ¹
 	SpriteCommon(const SpriteCommon& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	SpriteCommon& operator=(const SpriteCommon& obj) = delete;
 };

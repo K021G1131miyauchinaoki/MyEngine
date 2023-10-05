@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<Vector3.h>
 #include<Vector2.h>
 
@@ -7,10 +7,10 @@ namespace MyMath
 	Vector3 normaleizeVec3(Vector3 vec);
 	Vector2 normaleizeVec2(Vector2 vec);
 
-	//ƒ‰ƒWƒAƒ“•ÏŠ·
+	//ãƒ©ã‚¸ã‚¢ãƒ³å¤‰æ›
 	float RadianTransform(float degree);
 
-	//“x”•ÏŠ·
+	//åº¦æ•°å¤‰æ›
 	float DegreeTransform(float radian);
 
 	Vector3 lens(Vector3 vec1, Vector3 vec2);

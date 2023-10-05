@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<Input.h>
 #include<DirectXCommon.h>
 #include"Sprite.h"
@@ -15,39 +15,39 @@
 
 class GamePlayScene:public BaseScene
 {
-public://ƒƒ“ƒoŠÖ”
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize()override;
 
-	//XV
+	//æ›´æ–°
 	void Update()override;
 
-	//•`‰æ
+	//æç”»
 	void ObjDraw()override;
 	void SpriteDraw()override;
 
-	//I—¹
+	//çµ‚äº†
 	void Finalize()override;
 
-	//“–‚½‚è”»’è
+	//å½“ãŸã‚Šåˆ¤å®š
 	void CheckAllCollision();
 
 private:
-	//ƒCƒ“ƒvƒbƒg
+	//ã‚¤ãƒ³ãƒ—ãƒƒãƒˆ
 	std::unique_ptr<Input>input;
 
-	//ƒXƒvƒ‰ƒCƒg
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	//SpriteCommon* spriteCommon = nullptr;
-	//ƒJƒƒ‰‰Šú‰»
+	//ã‚«ãƒ¡ãƒ©åˆæœŸåŒ–
 	std::unique_ptr<Camera>camera;
-	//ƒXƒvƒ‰ƒCƒg
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 
 
-	//json“Ç‚İ‚İ
+	//jsonèª­ã¿è¾¼ã¿
 	//LevelData* levelData = nullptr;
 
-	//objƒ‚ƒfƒ‹
+	//objãƒ¢ãƒ‡ãƒ«
 	std::unique_ptr <Model> modelSkydome = nullptr;
 	std::unique_ptr <Model> cube = nullptr;
 	std::unique_ptr <Model> tank = nullptr;
@@ -64,7 +64,7 @@ private:
 
 	std::unique_ptr<ImguiManager> ImgM;
 
-	//ƒ}ƒbƒvƒNƒ‰ƒX‚Ì‰ŠúÀ•W
+	//ãƒãƒƒãƒ—ã‚¯ãƒ©ã‚¹ã®åˆæœŸåº§æ¨™
 	float mapStratY;
 
 	ParticleManager* particle;

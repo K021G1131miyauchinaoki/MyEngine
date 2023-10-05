@@ -1,39 +1,39 @@
-#pragma once
+ï»¿#pragma once
 
 #include"Vector3.h"
 #include<DirectXMath.h>
 
 using namespace DirectX;
 
-//Matrix4\‘¢‘Ì
+//Matrix4æ§‹é€ ä½“
 struct Matrix4
 {
 	float	m[4][4];
 };
 
-//’PˆÊs—ñ
+//å˜ä½è¡Œåˆ—
 Matrix4	MatIdentity();
 
-//Šg‘åk¬s—ñ‚Ìİ’è
+//æ‹¡å¤§ç¸®å°è¡Œåˆ—ã®è¨­å®š
 Matrix4	MatScale(const Vector3& s);
 
-//‰ñ“]s—ñ‚Ìì¬
+//å›è»¢è¡Œåˆ—ã®ä½œæˆ
 Matrix4	MatRotX(float angle);
 Matrix4	MatRotY(float angle);
 Matrix4	MatRotZ(float angle);
 Matrix4 MatRot(Vector3 angle);
 
-//•½sˆÚ“®
+//å¹³è¡Œç§»å‹•
 Matrix4	MatTrans(const Vector3& t);
 
-//À•W•ÏŠ·
+//åº§æ¨™å¤‰æ›
 Vector3	MatTransform(const Vector3& v, const Matrix4& m);
 
 Matrix4 ConvertXMMATRIXtoMatrix4(XMMATRIX xmMatrix);
 
-//‘ã“ü‰‰ZqƒI[ƒo[ƒ[ƒh
+//ä»£å…¥æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 Matrix4& operator*=(Matrix4& m1, const Matrix4& m2);
 
-//2€‰‰ZqƒI[ƒo[ƒ[ƒh
+//2é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 Matrix4	operator*(const Matrix4& m1, const	Matrix4& m2);
 Vector3	operator*(const Vector3& v, const	Matrix4& m);

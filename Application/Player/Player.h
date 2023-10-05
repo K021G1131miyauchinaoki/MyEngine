@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<Input.h>
 #include<Model.h>
 #include"Object3d.h"
@@ -13,47 +13,47 @@
 
 class Player
 {
-public://Ã“Iƒƒ“ƒoŠÖ”
+public://é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	//Player GetInstnce();
 
-public://ƒƒ“ƒoŠÖ”
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialeze(Model*model_,Input*input_);
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// ƒIƒuƒWƒFƒNƒg•`‰æ
+	/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»
 	/// </summary>
 	void ObjDraw();
 
 	/// <summary>
-	/// ƒXƒvƒ‰ƒCƒg•`‰æ
+	/// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»
 	/// </summary>
 	void SpriteDraw();
 
 	/// <summary>
-	/// ˆÚ“®
+	/// ç§»å‹•
 	/// </summary>
 	void Move();
 
 	/// <summary>
-	/// ”­Ë
+	/// ç™ºå°„
 	/// </summary>
 	void Shot();
 
 	/// <summary>
-	/// ‰ñ“]
+	/// å›è»¢
 	/// </summary>
 	void Rotate();
 
 	/// <summary>
-	/// ˆÊ’u
+	/// ä½ç½®
 	/// </summary>
 	/// <returns></returns>
 	const	Vector3 GetPos() {return obj->GetPosition(); }
@@ -71,20 +71,20 @@ public://ƒƒ“ƒoŠÖ”
 
 	float getAngle() { return angle; }
 
-private://ƒƒ“ƒo•Ï”
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
 	Input*input = nullptr;
 	Model* model = nullptr;
 	std::unique_ptr<Object3d>obj = nullptr;
-	//’e
+	//å¼¾
 	std::list<std::unique_ptr<Bullet>> bullets_;
-	//ƒN[ƒ‹ƒ^ƒCƒ€
+	//ã‚¯ãƒ¼ãƒ«ã‚¿ã‚¤ãƒ 
 	int32_t coolTime;
 
 	float angle = 0.0f;
 	Vector3 velocity;
 	Vector2	vector ;
 	Vector2	 mausePos;
-	//”¼Œa
+	//åŠå¾„
 	float radius = 5.0f;
 
 	bool isInvincible = false;

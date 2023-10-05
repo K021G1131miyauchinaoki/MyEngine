@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<DirectXMath.h>
 #include<DirectXCommon.h>
 #include<wrl.h>
@@ -8,118 +8,118 @@
 
 class PostEffect
 {
-public: // Ã“Iƒƒ“ƒoŠÖ”
+public: // é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	static void	StaticInitialize(DirectXCommon* dxCommon_);
-private: // Ã“Iƒƒ“ƒo•Ï”
+private: // é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 	static DirectXCommon* dxCommon;
 	static const float clearColor[4];
 
-public: // ƒƒ“ƒoŠÖ”
+public: // ãƒ¡ãƒ³ãƒé–¢æ•°
 	/// <summary>
-	/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	PostEffect();
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize();
 
 	/// <summary>
-	/// •`‰æƒRƒ}ƒ“ƒh‚Ì”­s
+	/// æç”»ã‚³ãƒãƒ³ãƒ‰ã®ç™ºè¡Œ
 	/// </summary>
-	/// <param name="cmdList">ƒRƒ}ƒ“ƒhƒŠƒXƒg</param>
+	/// <param name="cmdList">ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ</param>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
-	/// ƒeƒNƒXƒ`ƒƒ¶¬
+	/// ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”Ÿæˆ
 	/// </summary>
 	void CreateTex();
 
 	/// <summary>
-	/// SRV¶¬
+	/// SRVç”Ÿæˆ
 	/// </summary>
 	void CreateSRV();
 
 	/// <summary>
-	/// RTV¶¬
+	/// RTVç”Ÿæˆ
 	/// </summary>
 	void CreateRTV();
 
 	/// <summary>
-	/// [“xƒoƒbƒtƒ@¶¬
+	/// æ·±åº¦ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	/// </summary>
 	void CreateDepth();
 
 	/// <summary>
-	/// DSV¶¬
+	/// DSVç”Ÿæˆ
 	/// </summary>
 	void CreateDSV();
 
 	/// <summary>
-	/// ’¸“_ƒoƒbƒtƒ@¶¬
+	/// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	/// </summary>
 	void CreateVertexBuffer();
 
 	/// <summary>
-	/// ƒpƒCƒvƒ‰ƒCƒ“¶¬
+	/// ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ç”Ÿæˆ
 	/// </summary>
 	void CreateGraphicsPipelineState();
 
 	/// <summary>
-	/// ƒV[ƒ“•`‰æ‘O
+	/// ã‚·ãƒ¼ãƒ³æç”»å‰
 	/// </summary>
 	void PreDrawScene(ID3D12GraphicsCommandList* cmdList_);
 
 	/// <summary>
-	/// ƒV[ƒ“•`‰æŒã
+	/// ã‚·ãƒ¼ãƒ³æç”»å¾Œ
 	/// </summary>
 	void PostDrawScene(ID3D12GraphicsCommandList* cmdList_);
-private://\‘¢‘Ì
-//’¸“_ƒf[ƒ^
+private://æ§‹é€ ä½“
+//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
 	struct Vertex {
-		DirectX::XMFLOAT3	pos;//xyzÀ•W
-		DirectX::XMFLOAT2	uv;//uvÀ•W
+		DirectX::XMFLOAT3	pos;//xyzåº§æ¨™
+		DirectX::XMFLOAT2	uv;//uvåº§æ¨™
 	};
 
 	enum VertNum
 	{
-		LB,//¶‰º
-		LT,//¶ã
-		RB,//‰E‰º
-		RT,//‰Eã
+		LB,//å·¦ä¸‹
+		LT,//å·¦ä¸Š
+		RB,//å³ä¸‹
+		RT,//å³ä¸Š
 	};
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^iƒ}ƒeƒŠƒAƒ‹j
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿ï¼ˆãƒãƒ†ãƒªã‚¢ãƒ«ï¼‰
 	struct ConstBufferData {
-		DirectX::XMFLOAT4	color;//FiRGBj
-		DirectX::XMMATRIX	mat;//3D•ÏŠ·s—ñ
+		DirectX::XMFLOAT4	color;//è‰²ï¼ˆRGBï¼‰
+		DirectX::XMMATRIX	mat;//3Då¤‰æ›è¡Œåˆ—
 	};
 private:
-	//’¸“_ƒoƒbƒtƒ@
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff = nullptr;
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuff = nullptr;
-	//’è”ƒoƒbƒtƒ@ƒrƒ…[
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	ConstBufferData* constMap = nullptr;
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	Microsoft::WRL::ComPtr<ID3D12Resource>texBuff;
-	//SRV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//SRVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>descHeapSRV;
-	//[“xƒoƒbƒtƒ@
+	//æ·±åº¦ãƒãƒƒãƒ•ã‚¡
 	Microsoft::WRL::ComPtr<ID3D12Resource>depthBuff;
-	//RTV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//RTVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>descHeapRTV;
-	//DSV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//DSVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>descHeapDSV;
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³
 	Microsoft::WRL::ComPtr<ID3D12PipelineState>pipelineState;
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	Microsoft::WRL::ComPtr<ID3D12RootSignature>rootSignature;
 	Vertex vertices_[4];
-	//ƒJƒ‰[
+	//ã‚«ãƒ©ãƒ¼
 	DirectX::XMFLOAT4	color = { 1,1,1,1 };
 	HRESULT result_;
 };

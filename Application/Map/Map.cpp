@@ -18,16 +18,16 @@ void Map::StaticInitialize(Model* model_) {
 }
 
 void Map::Initialize(bool isStaging_) {
-	//•Ï”‚Ì‰Šú‰»
+	//å¤‰æ•°ã®åˆæœŸåŒ–
 	nowMax = 0;
-	//ƒXƒP[ƒ‹
+	//ã‚¹ã‚±ãƒ¼ãƒ«
 	scaleEnd += 10.0f;
 	scaleStart += 0.1f;
 	endFrame = 100;
-	//ˆÊ’u
+	//ä½ç½®
 	posStartY = -(scaleEnd.y ) + constStartY;
 	posEndY =  -(scaleEnd.y );
-	//‰ñ“]
+	//å›è»¢
 	rotEndZ = 0;
 	rotStartZ=360*2;
 	isStaging = isStaging_;
@@ -58,24 +58,24 @@ void Map::Draw() {
 }
 
 void Map::LoadCSV(const std::string& num_) {
-	//ƒXƒe[ƒW‚Ì“Ç‚İ‚İ
+	//ã‚¹ãƒ†ãƒ¼ã‚¸ã®èª­ã¿è¾¼ã¿
 	std::stringstream mapLoad;
-	//ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	const std::string filename = "Resources/CSV/" + num_ + ".csv";
 	std::ifstream file;
 	file.open(filename);
 	assert(file.is_open());
 
-	//ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğ•¶š—ñƒXƒgƒŠ[ƒ€‚ÉƒRƒs[
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ã‚’æ–‡å­—åˆ—ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«ã‚³ãƒ”ãƒ¼
 	mapLoad << file.rdbuf();
 
-	//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 	file.close();
 
-	//1s•ª‚Ì•¶š—ñ‚ğ“ü‚ê‚é•Ï”
+	//1è¡Œåˆ†ã®æ–‡å­—åˆ—ã‚’å…¥ã‚Œã‚‹å¤‰æ•°
 	std::string line;
 
-	//ƒRƒ}ƒ“ƒhÀsƒ‹[ƒv
+	//ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œãƒ«ãƒ¼ãƒ—
 	std::getline(mapLoad, line, '\n');
 
 	std::istringstream line_stream(line);
@@ -91,21 +91,21 @@ void Map::LoadCSV(const std::string& num_) {
 	
 	
 	
-	// “ñŸŒ³”z—ñ‚ÌƒTƒCƒY‚ğ‰Šú‰»
+	// äºŒæ¬¡å…ƒé…åˆ—ã®ã‚µã‚¤ã‚ºã‚’åˆæœŸåŒ–
 	blocks.resize(height);
 	for (int i = 0; i < height; ++i) {
 		blocks[i].resize(width);
 	}
 
-	//0,1‚Ìƒ}ƒbƒvƒ`ƒbƒv‚ğ–„‚ß‚İ‚Â‚Âi–¢j‰Šú‰»
+	//0,1ã®ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã‚’åŸ‹ã‚è¾¼ã¿ã¤ã¤ï¼ˆæœªï¼‰åˆæœŸåŒ–
 	for (size_t i = 0; i < height; i++)
 	{
 		std::getline(mapLoad, line, '\n');
 
 		for (size_t j = 0; j < width; j++)
 		{
-			//ƒtƒ‰ƒO‚Å‘}“ü‚·‚éƒpƒ‰ƒ[ƒ^‚ğ•Ï‰»
-			float posY, rotZ;
+			//ãƒ•ãƒ©ã‚°ã§æŒ¿å…¥ã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å¤‰åŒ–
+			float rotZ;
 			Vector3	scale, pos;
 			if (isStaging)
 			{
@@ -122,7 +122,7 @@ void Map::LoadCSV(const std::string& num_) {
 				pos.z = (i * scaleEnd.z) * 2.0f - ((scaleEnd.z * height)/4.0f);
 			}
 			pos.x = (j * scaleEnd.x) * 2.0f - (scaleEnd.x * width);
-			//ƒIƒuƒWƒFƒNƒg‚Éƒpƒ‰ƒ[ƒ^‚ğƒZƒbƒg
+			//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ã‚»ãƒƒãƒˆ
 			blocks[i][j].obj = std::make_unique<Object3d>();
 			blocks[i][j].obj->Initialize();
 			blocks[i][j].obj->SetModel(model.get());
@@ -136,7 +136,7 @@ void Map::LoadCSV(const std::string& num_) {
 		}
 	}
 
-	//ˆÚ“®§ŒÀ‚Ì”’lİ’è
+	//ç§»å‹•åˆ¶é™ã®æ•°å€¤è¨­å®š
 	moveLimitW = static_cast<float>(width) * scaleEnd.x;
 	moveLimitH = static_cast<float>(height) * scaleEnd.z;
 	mapScaleW = scaleEnd.x;
@@ -165,7 +165,7 @@ void Map::Preparation() {
 						if (h >= height)h = height - 1;
 						if (w < 0)	w = 0;
 						if (w >= width)w = width - 1;
-						//ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚È‚¢ê‡
+						//ãƒ•ãƒ©ã‚°ãŒç«‹ã£ã¦ã„ãªã„å ´åˆ
 						if (!blocks[h][w].isUp)
 						{
 							blocks[h][w].isUp = true;
@@ -180,22 +180,22 @@ void Map::Preparation() {
 }
 
 void Map::Staging(size_t y_, size_t x_) {
-	//ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚½‚ç
+	//ãƒ•ãƒ©ã‚°ãŒç«‹ã£ã¦ã„ãŸã‚‰
 	if (blocks[y_][x_].isUp&&isStaging)
 	{
-		//ƒXƒP[ƒ‹
+		//ã‚¹ã‚±ãƒ¼ãƒ«
 		Vector3 easeScale = blocks[y_][x_].obj->GetScale();
 		easeScale = scaleStart + (scaleEnd - scaleStart) * Easing::easeOutCubic(blocks[y_][x_].range);
 		blocks[y_][x_].obj->SetScale(easeScale);
-		//‰ñ“]
+		//å›è»¢
 		Vector3 easeRot = blocks[y_][x_].obj->GetRotation();
 		easeRot.z = rotStartZ + (rotEndZ - rotStartZ) * Easing::easeOutSine(blocks[y_][x_].range);
 		blocks[y_][x_].obj->SetRotation(easeRot);
-		//À•W
+		//åº§æ¨™
 		Vector3 easePos = blocks[y_][x_].obj->GetPosition();
 		easePos.y = posStartY + (posEndY - posStartY) * Easing::easeOutCubic(blocks[y_][x_].range);
 		blocks[y_][x_].obj->SetPosition(easePos);
-		//1.0f‚Ü‚Å‰ÁZ
+		//1.0fã¾ã§åŠ ç®—
 		blocks[y_][x_].range += 0.02f;
 		if (blocks[y_][x_].range >= 1.0f)
 		{
@@ -204,7 +204,7 @@ void Map::Staging(size_t y_, size_t x_) {
 	}
 }
 
-//I—¹
+//çµ‚äº†
 void Map::Finalize() {
 	model.release();
 }

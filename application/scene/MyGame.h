@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<vector>
 #include"Framework.h"
 #include"Sprite.h"
@@ -9,14 +9,14 @@
 
 class MyGame:public Framework
 {
-public://ƒƒ“ƒoŠÖ”
-	//‰Šú‰»
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
+	//åˆæœŸåŒ–
 	void Initialize()override;
-	//I—¹
+	//çµ‚äº†
 	void Finalize()override;
-	//XV
+	//æ›´æ–°
 	void Update()override;
-	//•`‰æ
+	//æç”»
 	void Draw()override;
 
 private:

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<Input.h>
 #include<DirectXCommon.h>
 #include"Sprite.h"
@@ -14,19 +14,19 @@
 
 class GameOverScene :public BaseScene
 {
-public://ƒƒ“ƒoŠÖ”
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 	void Initialize()override;
 
-	//XV
+	//æ›´æ–°
 	void Update()override;
 
-	//•`‰æ
+	//æç”»
 	void ObjDraw()override;
 	void SpriteDraw()override;
 
-	//I—¹
+	//çµ‚äº†
 	void Finalize()override;
 
 	GameOverScene();

@@ -1,24 +1,24 @@
-#pragma once
+ï»¿#pragma once
 #include<Vector3.h>
 #include<DirectXMath.h>
 
 struct BaseGrain
 {
-	//À•W
+	//åº§æ¨™
 	Vector3 pos = {};
-	//‘¬“x
+	//é€Ÿåº¦
 	Vector3 velocity = {};
-	//‰Á‘¬“x
+	//åŠ é€Ÿåº¦
 	Vector3 accel = {};
-	//Œ»İƒtƒŒ[ƒ€
+	//ç¾åœ¨ãƒ•ãƒ¬ãƒ¼ãƒ 
 	int32_t stratFrame = 0;
-	//I—¹ƒtƒŒ[ƒ€
+	//çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ 
 	int32_t endFrame = 0;
-	//ƒXƒP[ƒ‹
+	//ã‚¹ã‚±ãƒ¼ãƒ«
 	float scale = 1.0f;
-	//‰Šú’l
+	//åˆæœŸå€¤
 	float stratScale = 1.0f;
-	//ÅI’l
+	//æœ€çµ‚å€¤
 	float endScale = 0.0f;
 };
 

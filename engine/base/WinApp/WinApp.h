@@ -1,18 +1,18 @@
-#pragma once
+ï»¿#pragma once
 #include<Windows.h>
 #include<imgui_impl_dx12.h>
 
 class WinApp
 {
-public://Ã“Iƒƒ“ƒoŠÖ”
+public://é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	static	LRESULT	WindowProc(HWND hwnd, UINT	msg, WPARAM wapram, LPARAM	lparam);
 	static WinApp* GetInstance();
-public://ƒƒ“ƒoŠÖ”
-	//‰Šú‰»
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
+	//åˆæœŸåŒ–
 	void	Initialize();
-	//ƒƒbƒZ[ƒW‚Ìˆ—
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å‡¦ç†
 	bool	ProcessMessage();
-	//I—¹
+	//çµ‚äº†
 	void	Finalize();
 
 
@@ -20,13 +20,13 @@ public://ƒƒ“ƒoŠÖ”
 
 	HWND	GetHwnd() { return hwnd; };
 public:
-	//ƒEƒBƒ“ƒhƒEƒTƒCƒY
-	static	int	width ;//‰¡
-	static	int	height;//c
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚º
+	static	int	width ;//æ¨ª
+	static	int	height;//ç¸¦
 
 private:
 	WNDCLASSEX	w{};
-	//ƒEƒBƒ“ƒhƒEƒTƒCƒY
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚º
 	HWND	hwnd = nullptr;
 };
 

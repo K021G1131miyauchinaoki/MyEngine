@@ -2,7 +2,7 @@
 #include"Vector3.h"
 #include<cmath>
 
-//’PˆÊs—ñ
+//å˜ä½è¡Œåˆ—
 Matrix4	MatIdentity()
 {
 	static const	Matrix4	result
@@ -15,7 +15,7 @@ Matrix4	MatIdentity()
 	return	result;
 }
 
-//Šg‘åk¬s—ñ‚Ìİ’è
+//æ‹¡å¤§ç¸®å°è¡Œåˆ—ã®è¨­å®š
 Matrix4	MatScale(const Vector3& s)
 {
 	Matrix4	result
@@ -28,8 +28,8 @@ Matrix4	MatScale(const Vector3& s)
 	return	result;
 }
 
-//‰ñ“]s—ñ‚Ìì¬
-//X²ü‚è
+//å›è»¢è¡Œåˆ—ã®ä½œæˆ
+//Xè»¸å‘¨ã‚Š
 Matrix4	MatRotX(float angle) 
 {
 	float	sin = std::sin(angle);
@@ -43,7 +43,7 @@ Matrix4	MatRotX(float angle)
 	};
 	return	result;
 }
-//Y²ü‚è
+//Yè»¸å‘¨ã‚Š
 Matrix4	MatRotY(float angle)
 {
 	float	sin = std::sin(angle);
@@ -57,7 +57,7 @@ Matrix4	MatRotY(float angle)
 	};
 	return	result;
 }
-//Z²ü‚è
+//Zè»¸å‘¨ã‚Š
 Matrix4	MatRotZ(float angle)
 {
 	float	sin = std::sin(angle);
@@ -72,7 +72,7 @@ Matrix4	MatRotZ(float angle)
 	return	result;
 }
 
-//‰ñ“]
+//å›è»¢
 Matrix4	MatRot(Vector3 angle)
 {
 	Matrix4	result = MatIdentity();
@@ -92,7 +92,7 @@ Matrix4	MatRot(Vector3 angle)
 }
 
 
-//•½sˆÚ“®
+//å¹³è¡Œç§»å‹•
 Matrix4	MatTrans(const Vector3& t)
 {
 	Matrix4	result
@@ -105,7 +105,7 @@ Matrix4	MatTrans(const Vector3& t)
 	return	result;
 }
 
-//À•W•ÏŠ·
+//åº§æ¨™å¤‰æ›
 Vector3	MatTransform(const Vector3& v, const Matrix4& m)
 {
 	float	w = v.x * m.m[0][3] + v.y * m.m[1][3] + v.z * m.m[2][3] + m.m[3][3];
@@ -136,7 +136,7 @@ Matrix4 ConvertXMMATRIXtoMatrix4(XMMATRIX xmMatrix) {
 
 
 
-//‘ã“ü‰‰ZqƒI[ƒo[ƒ[ƒh
+//ä»£å…¥æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 Matrix4& operator*=(Matrix4& m1, const Matrix4& m2) 
 {
 	Matrix4	result{ 0 };
@@ -155,7 +155,7 @@ Matrix4& operator*=(Matrix4& m1, const Matrix4& m2)
 	return	m1;
 }
 
-//2€‰‰ZqƒI[ƒo[ƒ[ƒh
+//2é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 Matrix4	operator*(const Matrix4& m1, const	Matrix4& m2)
 {
 	Matrix4	result = m1;

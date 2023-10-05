@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include<BaseParticle.h>
 #include<list>
 #include<memory>

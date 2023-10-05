@@ -39,7 +39,7 @@ float	Vector3::Cross(const Vector3& v)const
 	return  x * v.x - y * v.y - z * v.z;
 }
 
-//’P€‰‰ZqƒI[ƒo[ƒ[ƒh
+//å˜é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 Vector3	Vector3::operator+()const
 {
 	return	*this;
@@ -50,7 +50,7 @@ Vector3	Vector3::operator-()const
 	return	Vector3(-x, -y,-z);
 }
 
-//‘ã“ü‰‰ZqƒI[ƒo[ƒ[ƒh
+//ä»£å…¥æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 Vector3& Vector3::operator+=(const	Vector3& v)
 {
 	x += v.x;
@@ -91,8 +91,8 @@ Vector3& Vector3::operator/=(float	s)
 	z /= s;
 	return	*this;
 }
-//Vector2 ƒNƒ‰ƒX‚É‘®‚³‚È‚¢ŠÖ”ŒQ
-//“ñ€‰‰Zq
+//Vector2 ã‚¯ãƒ©ã‚¹ã«å±ã•ãªã„é–¢æ•°ç¾¤
+//äºŒé …æ¼”ç®—å­
 const	Vector3 operator+(const Vector3& v1, const Vector3& v2)
 {
 	Vector3	temp(v1);

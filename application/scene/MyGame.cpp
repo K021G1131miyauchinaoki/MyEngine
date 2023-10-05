@@ -11,7 +11,7 @@ void MyGame::Initialize() {
 	ImgM = std::make_unique<ImguiManager>();
 	ImgM->Initialize(winApp.get(), dxCommon.get());
 	
-	//ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[‚ÉÅ‰‚ÌƒV[ƒ“‚ğƒZƒbƒg
+	//ã‚·ãƒ¼ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«æœ€åˆã®ã‚·ãƒ¼ãƒ³ã‚’ã‚»ãƒƒãƒˆ
 	sceneFactory = new SceneFactory();
 	SceneManager::GetInstance()->SetSceneFactory(sceneFactory);
 	SceneManager::GetInstance()->ChangeScene("TITLE");
@@ -23,9 +23,9 @@ void MyGame::Update(){
 	SceneManager::GetInstance()->Update();
 	
 	float vec[2] = { input->GetMausePos().x,input->GetMausePos().y};
-	//imguiŠÖ˜A
+	//imguié–¢é€£
 	ImgM->Begin();
-	//‚±‚±‚©‚ç’†g‚ğ‘‚¢‚Ä‚¢‚­
+	//ã“ã“ã‹ã‚‰ä¸­èº«ã‚’æ›¸ã„ã¦ã„ã
 	/*ImGui::Begin("a");
 	ImGui::SliderFloat2("mousePos", vec, -100.0f, static_cast<float>(WinApp::width));
 	ImGui::End();*/
@@ -35,15 +35,15 @@ void MyGame::Draw(){
 	//PostEffect::PostDrawScene(dxCommon->GetCommandList());
 	//PostEffect::PreDrawScene(dxCommon->GetCommandList());
 
-	//Direct–ˆƒtƒŒ[ƒ€ˆ—@‚±‚±‚©‚ç
+	//Directæ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†ã€€ã“ã“ã‹ã‚‰
 	dxCommon->PreDraw();
-	// 3DƒIƒuƒWƒFƒNƒg•`‰æ‘Oˆ—
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å‰å‡¦ç†
 	Object3d::PreDraw(dxCommon->GetCommandList());
 	SceneManager::GetInstance()->ObjDraw();
-	// 3DƒIƒuƒWƒFƒNƒg•`‰æŒãˆ—
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å¾Œå‡¦ç†
 	Object3d::PostDraw();
 
-	//ƒXƒvƒ‰ƒCƒg•`‰æ
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»
 	SpriteCommon::GetInstance()->PreDraw();
 	SceneManager::GetInstance()->SpriteDraw();
 	SpriteCommon::GetInstance()->PostDraw();

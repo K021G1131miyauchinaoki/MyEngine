@@ -3,46 +3,46 @@
 
 void GamePlayScene::Initialize() {
 	input.reset(Input::GetInstance());
-	/*•Ï”*/
+	/*å¤‰æ•°*/
 	mapStratY = -400;
-	//ƒJƒƒ‰
+	//ã‚«ãƒ¡ãƒ©
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	Object3d::SetCamera(camera.get());
 
 
-	// ƒ‚ƒfƒ‹“Ç‚İ‚İ
+	// ãƒ¢ãƒ‡ãƒ«èª­ã¿è¾¼ã¿
 	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
 	cube.reset(Model::LoadFromOBJ("cube"));
 	tank.reset(Model::LoadFromOBJ("tank"));
 	modelMap.reset(Model::LoadFromOBJ("map"));
 
-	//ƒ‚ƒfƒ‹‚ÌƒZƒbƒg
+	//ãƒ¢ãƒ‡ãƒ«ã®ã‚»ãƒƒãƒˆ
 	EnemyBullet::StaticInitialize(cube.get());
 	Bullet::StaticInitialize(cube.get());
 	Map::StaticInitialize(modelMap.get());
 
 
-	//ƒXƒJƒCƒh[ƒ€
+	//ã‚¹ã‚«ã‚¤ãƒ‰ãƒ¼ãƒ 
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
 	objSkydome->SetModel(modelSkydome.get());	
 	objSkydome->SetScale({ 200.0f,200.0f,200.0f });
 
 
-	//ƒvƒŒƒCƒ„[
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 	player = std::make_unique<Player>();
 	player->Initialeze(tank.get(), input.get());
-	//ƒGƒlƒ~[
+	//ã‚¨ãƒãƒŸãƒ¼
 	enemy = std::make_unique<Enemy>();
 	enemy->Initialeze(tank.get(), player.get());
 
-	//ƒ}ƒbƒv
+	//ãƒãƒƒãƒ—
 	map = std::make_unique<Map>(mapStratY);
 	map->Initialize(true);
 	map->LoadCSV("1");
 
-	//ƒp[ƒeƒBƒNƒ‹
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«
 	particle = new ParticleManager();
 	particle->Initialize(cube.get());
 }
@@ -63,7 +63,7 @@ void GamePlayScene::Update(){
 	}
 	if (input->TriggerKey(DIK_2))
 	{
-		//ƒV[ƒ“‚ÌØ‚è‘Ö‚¦
+		//ã‚·ãƒ¼ãƒ³ã®åˆ‡ã‚Šæ›¿ãˆ
 		//SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
 	}
 }
@@ -81,81 +81,81 @@ void GamePlayScene::ObjDraw(){
 }
 
 void GamePlayScene::CheckAllCollision() {
-		//”»’è‘ÎÛA‚ÆB‚ÌÀ•W
+		//åˆ¤å®šå¯¾è±¡Aã¨Bã®åº§æ¨™
 		Vector3 posA, posB;
 	
-		//©’eƒŠƒXƒg‚ğæ“¾
+		//è‡ªå¼¾ãƒªã‚¹ãƒˆã‚’å–å¾—
 		const std::list<std::unique_ptr<Bullet>>& playerBullets = player->GetBullets();
-		//“G’eƒŠƒXƒg‚ğæ“¾
+		//æ•µå¼¾ãƒªã‚¹ãƒˆã‚’å–å¾—
 		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy->GetBullets();
-	#pragma	region	©ƒLƒƒƒ‰‚Æ“G’e‚Ì“–‚½‚è”»’è
-		//©ƒLƒƒƒ‰‚ÌÀ•W
+	#pragma	region	è‡ªã‚­ãƒ£ãƒ©ã¨æ•µå¼¾ã®å½“ãŸã‚Šåˆ¤å®š
+		//è‡ªã‚­ãƒ£ãƒ©ã®åº§æ¨™
 		posA = player->GetPos();
-		//©ƒLƒƒƒ‰‚Æ“G’e‘S‚Ä‚Ì“–‚½‚è”»’è
+		//è‡ªã‚­ãƒ£ãƒ©ã¨æ•µå¼¾å…¨ã¦ã®å½“ãŸã‚Šåˆ¤å®š
 		for (const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets) {
-			//“G’e‚ÌÀ•W
+			//æ•µå¼¾ã®åº§æ¨™
 			posB = e_bullet->GetPos();
-			//A,B‚Ì‹——£
+			//A,Bã®è·é›¢
 			Vector3 vecPos = MyMath::lens(posA, posB);
 			float dis = MyMath::length(vecPos);
 			//
 			float	radius = player->GetRadius() + e_bullet->GetRadius();
-			//”»’è
+			//åˆ¤å®š
 			if (dis <= radius) {
-				//©ƒLƒƒƒ‰‚ÌƒR[ƒ‹ƒoƒbƒN‚ğŒÄ‚Ño‚µ
+				//è‡ªã‚­ãƒ£ãƒ©ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’å‘¼ã³å‡ºã—
 				player->OnCollision();
-				//“G’e‚ÌƒR[ƒ‹ƒoƒbƒN‚ğŒÄ‚Ño‚µ
+				//æ•µå¼¾ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’å‘¼ã³å‡ºã—
 				e_bullet->OnCollision();
 				particle->Add("1", 30, 15, player->GetPos(), 1.0f, 0.0f);
 			}
 		}
 	#pragma	endregion
 	
-	#pragma region ©’e‚Æ“GƒLƒƒƒ‰‚Ì“–‚½‚è”»’è
-		//“G’e‚ÌÀ•W
+	#pragma region è‡ªå¼¾ã¨æ•µã‚­ãƒ£ãƒ©ã®å½“ãŸã‚Šåˆ¤å®š
+		//æ•µå¼¾ã®åº§æ¨™
 		posA = enemy->GetPos();
-		//“GƒLƒƒƒ‰‚Æ©’e‘S‚Ä‚Ì“–‚½‚è”»’è
+		//æ•µã‚­ãƒ£ãƒ©ã¨è‡ªå¼¾å…¨ã¦ã®å½“ãŸã‚Šåˆ¤å®š
 		for (const std::unique_ptr<Bullet>& p_bullet : playerBullets) {
-			//©’e‚ÌÀ•W
+			//è‡ªå¼¾ã®åº§æ¨™
 			posB = p_bullet->GetPos();
-			// A,B‚Ì‹——£
+			// A,Bã®è·é›¢
 			Vector3 vecPos = MyMath::lens(posA, posB);
 			float dis = MyMath::length(vecPos);
 			//
 			float radius = enemy->GetRadius() + p_bullet->GetRadius();
-			//”»’è
+			//åˆ¤å®š
 			if (dis <= radius) {
-				//“GƒLƒƒƒ‰‚ÌƒR[ƒ‹ƒoƒbƒN‚ğŒÄ‚Ño‚µ
+				//æ•µã‚­ãƒ£ãƒ©ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’å‘¼ã³å‡ºã—
 				enemy->OnCollision();
-				//©’e‚ÌƒR[ƒ‹ƒoƒbƒN‚ğŒÄ‚Ño‚µ
+				//è‡ªå¼¾ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’å‘¼ã³å‡ºã—
 				p_bullet->OnCollision();
 
 				particle->Add("1", 30, 15, enemy->GetPos(), 1.0f, 0.0f);
 
-				//ƒV[ƒ“‚ÌØ‚è‘Ö‚¦
+				//ã‚·ãƒ¼ãƒ³ã®åˆ‡ã‚Šæ›¿ãˆ
 				//SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
 			}
 		}
 	#pragma endregion
 	
-	#pragma region ©’e‚Æ“G’e‚Ì“–‚½‚è”»’è
-		//©’e‚ÌÀ•W
+	#pragma region è‡ªå¼¾ã¨æ•µå¼¾ã®å½“ãŸã‚Šåˆ¤å®š
+		//è‡ªå¼¾ã®åº§æ¨™
 		for (const std::unique_ptr<Bullet>& p_bullet : playerBullets) {
 			posA = p_bullet->GetPos();
-			//©’e‚Æ“G’e‘S‚Ä‚Ì“–‚½‚è”»’è
+			//è‡ªå¼¾ã¨æ•µå¼¾å…¨ã¦ã®å½“ãŸã‚Šåˆ¤å®š
 			for (const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets) {
-				//“G’e‚ÌÀ•W
+				//æ•µå¼¾ã®åº§æ¨™
 				posB = e_bullet->GetPos();
-				// A,B‚Ì‹——£
+				// A,Bã®è·é›¢
 				Vector3 vecPos = MyMath::lens(posA, posB);
 				float dis = MyMath::length(vecPos);
 				//
 				float radius = e_bullet->GetRadius() + p_bullet->GetRadius();
-				//”»’è
+				//åˆ¤å®š
 				if (dis <= radius) {
-					//©’e‚ÌƒR[ƒ‹ƒoƒbƒN‚ğŒÄ‚Ño‚µ
+					//è‡ªå¼¾ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’å‘¼ã³å‡ºã—
 					p_bullet->OnCollision();
-					//“G’e‚ÌƒR[ƒ‹ƒoƒbƒN‚ğŒÄ‚Ño‚µ
+					//æ•µå¼¾ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’å‘¼ã³å‡ºã—
 					e_bullet->OnCollision();
 					particle->Add("1", 5, 10, p_bullet->GetPos(), 1.0f, 0.0f);
 					particle->Add("1", 5, 10, e_bullet->GetPos(), 1.0f, 0.0f);

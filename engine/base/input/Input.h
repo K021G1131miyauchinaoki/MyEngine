@@ -1,7 +1,7 @@
-#include<Windows.h>
+ï»¿#include<Windows.h>
 #pragma	comment(lib,"dinput8.lib")
 #pragma	comment(lib,"dxguid.lib")
-#define	DIRECTINPUT_VERSION	0x0800 //DirectInput‚Ìƒo[ƒWƒ‡ƒ“w’è
+#define	DIRECTINPUT_VERSION	0x0800 //DirectInputã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®š
 #include<dinput.h>
 #include<cassert>
 #include<wrl.h>
@@ -21,23 +21,23 @@ class Input
 public:
 template<class T>using	ComPtr= Microsoft::WRL::ComPtr<T>;
 
-public://ƒƒ“ƒoŠÖ”
-	//‰Šú‰»
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
+	//åˆæœŸåŒ–
 	void Initialize();
-	//XV
+	//æ›´æ–°
 	void Update();
-	/*ƒL[ƒ{[ƒh*/
-	//‰Ÿ‚µ‚½‚Æ‚«
+	/*ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰*/
+	//æŠ¼ã—ãŸã¨ã
 	bool PushKey(BYTE	keyNumber);
-	//‰Ÿ‚µ‚½uŠÔ
+	//æŠ¼ã—ãŸç¬é–“
 	bool TriggerKey(BYTE	keyNumber);
 	
-	/*ƒ}ƒEƒX*/
-	//‰Ÿ‚µ‚½‚Æ‚«
+	/*ãƒã‚¦ã‚¹*/
+	//æŠ¼ã—ãŸã¨ã
 	bool PushClick(Botton botton);
-	//‰Ÿ‚µ‚½uŠÔ
+	//æŠ¼ã—ãŸç¬é–“
 	bool TriggerClick(Botton botton);
-	//2DÀ•W‚Ìæ“¾
+	//2Dåº§æ¨™ã®å–å¾—
 	const Vector2 GetMausePos() { return mPos; }
 
 	static Input* GetInstance();
@@ -51,9 +51,9 @@ private:
 
 	ComPtr < IDirectInputDevice8> keyboard = nullptr;
 	ComPtr < IDirectInputDevice8> mouseDev = nullptr;
-	//‘SƒL[‚Ì“ü—Íó‘Ô‚ğæ“¾‚·‚é
+	//å…¨ã‚­ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
 	BYTE	key[256] = {};
-	//‘O‰ñ‚Ì‘SƒL[‚Ìó‘Ô
+	//å‰å›ã®å…¨ã‚­ãƒ¼ã®çŠ¶æ…‹
 	BYTE	keyPre[256] = {};
 
 	DIMOUSESTATE mouse;

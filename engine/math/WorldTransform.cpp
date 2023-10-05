@@ -11,27 +11,27 @@ void WorldTransform::Initialize() {
 
 }
 
-//ƒ[ƒ‹ƒh•ÏŠ·s—ñ‚ÌXV
+//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—ã®æ›´æ–°
 void WorldTransform::Update() {
 
-	//ƒ[ƒ‹ƒh•ÏŠ·s—ñ‚ð—pˆÓ
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—ã‚’ç”¨æ„
 	Matrix4 affineMat;
 	affineMat=MatIdentity();
 
-	//ƒ[ƒ‹ƒh•ÏŠ·s—ñ‚ÉƒXƒP[ƒŠƒ“ƒO,‰ñ“],•½sˆÚ“®‚Ìs—ñ‚ð‡¬
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—ã«ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°,å›žè»¢,å¹³è¡Œç§»å‹•ã®è¡Œåˆ—ã‚’åˆæˆ
 	affineMat*= MatScale(scale);
 	affineMat*=MatRot(rotation);
 	affineMat*=MatTrans(translation);
 
-	//ƒ[ƒ‹ƒhs—ñ‚É’PˆÊs—ñ‚ð‘ã“ü
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«å˜ä½è¡Œåˆ—ã‚’ä»£å…¥
 	matWorld=MatIdentity();
 
-	//s—ñ‚ÌŒvŽZ
+	//è¡Œåˆ—ã®è¨ˆç®—
 	matWorld *= affineMat;
 
-	//‚à‚µe‚ª‚ ‚éê‡
+	//ã‚‚ã—è¦ªãŒã‚ã‚‹å ´åˆ
 	if (parent) {
-		//e‚Ìƒ[ƒ‹ƒhs—ñ‚Æ‚ÌŒvŽZ‚ðs‚¤
+		//è¦ªã®ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã¨ã®è¨ˆç®—ã‚’è¡Œã†
 		matWorld *= parent->matWorld;
 	}
 

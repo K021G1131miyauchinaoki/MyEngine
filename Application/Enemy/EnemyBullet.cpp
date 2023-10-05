@@ -11,7 +11,7 @@ void EnemyBullet::StaticInitialize(Model* model_) {
 }
 
 void EnemyBullet::Initialize( const Vector3& position, const Vector3& velocity, const Vector3& rotation) {
-	//NULLƒ|ƒCƒ“ƒ^ƒ`ƒFƒbƒN
+	//NULLãƒã‚¤ãƒ³ã‚¿ãƒã‚§ãƒƒã‚¯
 	assert(model);
 	velocity_ = velocity;
 	obj = std::make_unique<Object3d>();
@@ -32,40 +32,40 @@ void EnemyBullet::Update() {
 		pos.z += velocity_.z;
 		obj->SetPosition(pos);
 	}
-	//ŠÔŒo‰ß‚ÅÁ–Å
+	//æ™‚é–“çµŒéã§æ¶ˆæ»…
 	if (--deathTimer <= 0) {
 		isDead_ = true;
 	}
 	obj->Update();
 }
 
-//ƒ[ƒ‹ƒhÀ•W‚ğ“n‚·
+//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’æ¸¡ã™
 Vector3 EnemyBullet::GetPos() {
-	//À•W‚ğŠi”[
+	//åº§æ¨™ã‚’æ ¼ç´
 	Vector3 worldPos;
-	//ƒ[ƒ‹ƒhs—ñ‚Ì•½sˆÚ“®¬•ª‚ğæ“¾
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å¹³è¡Œç§»å‹•æˆåˆ†ã‚’å–å¾—
 	worldPos = obj->GetPosition();
 
 	return worldPos;
 }
 
-//Õ“Ë‚µ‚½‚ç
+//è¡çªã—ãŸã‚‰
 void EnemyBullet::OnCollision() { isDead_ = true; }
 
 void EnemyBullet::Draw() {
 	obj->Draw();
 }
 
-//I—¹
+//çµ‚äº†
 void EnemyBullet::Finalize() {
 	model.release();
 }
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 EnemyBullet::EnemyBullet() {
 
 }
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 EnemyBullet::~EnemyBullet() {
 	
 }

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<Input.h>
 #include<Model.h>
 #include"Object3d.h"
@@ -9,62 +9,62 @@
 #include<Player.h>
 #include<BaseHp.h>
 
-//©‹@ƒNƒ‰ƒX‚Ì‘O•û‘OŒ¾
+//è‡ªæ©Ÿã‚¯ãƒ©ã‚¹ã®å‰æ–¹å‰è¨€
 class Player;
 
 
-//s“®ƒtƒF[ƒY
+//è¡Œå‹•ãƒ•ã‚§ãƒ¼ã‚º
 enum class Phase {
-	wait,//‘Ò‹@
-	move, //ˆÚ“®‚·‚é
-	atack,    //UŒ‚‚·‚é
+	wait,//å¾…æ©Ÿ
+	move, //ç§»å‹•ã™ã‚‹
+	atack,    //æ”»æ’ƒã™ã‚‹
 };
 
 class Enemy
 {
-public://ƒƒ“ƒoŠÖ”
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialeze(Model* model_, Player*player_);
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw();
 
 	/// <summary>
-	/// ‘Ò‹@
+	/// å¾…æ©Ÿ
 	/// </summary>
 	void Wait();
 
 	/// <summary>
-	/// ˆÚ“®
+	/// ç§»å‹•
 	/// </summary>
 	void Move();
 
 	/// <summary>
-	/// ”­Ë
+	/// ç™ºå°„
 	/// </summary>
 	void Shot();
 
 	/// <summary>
-	/// ‰ñ“]
+	/// å›è»¢
 	/// </summary>
 	void Rotate();
 
 	/// <summary>
-	///ƒfƒXƒtƒ‰ƒO 
+	///ãƒ‡ã‚¹ãƒ•ãƒ©ã‚° 
 	/// </summary>
 	bool IsDead() { return isDead; }
 
 	/// <summary>
-	/// ˆÊ’u
+	/// ä½ç½®
 	/// </summary>
 	/// <returns></returns>
 	const	Vector3 GetPos() { return obj->GetPosition(); }
@@ -75,59 +75,59 @@ public://ƒƒ“ƒoŠÖ”
 
 	bool IsDead()const { return hp.isDead; }
 
-	//’eƒŠƒXƒg‚ğæ“¾
+	//å¼¾ãƒªã‚¹ãƒˆã‚’å–å¾—
 	std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
-private://\‘¢‘Ì
+private://æ§‹é€ ä½“
 	
 
 
-private://ƒƒ“ƒo•Ï”
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
 	Input* input = nullptr;
 	Model* model = nullptr;
 	
 	std::unique_ptr<Object3d>obj = nullptr;
-	//’e
+	//å¼¾
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
-	//ˆÚ“®ƒtƒ‰ƒO
+	//ç§»å‹•ãƒ•ãƒ©ã‚°
 	bool isMove = false;
-	//ˆÚ“®ŠÔ
+	//ç§»å‹•æ™‚é–“
 	int16_t moveTimer;
 	const int16_t  moveTime = 120;
-	//”­Ë‚·‚é‚Ü‚Å‚ÌŠÔ
+	//ç™ºå°„ã™ã‚‹ã¾ã§ã®æ™‚é–“
 	int16_t shotTimer;
 	const int16_t  shotTime = 10;
-	//‘Ò‹@ƒtƒ‰ƒO
+	//å¾…æ©Ÿãƒ•ãƒ©ã‚°
 	bool isWait = false;
-	//‘Ò‹@ŠÔ
+	//å¾…æ©Ÿæ™‚é–“
 	float waitTimer;
 	float waitTime[2] = { 5,60 };
-	//©ƒLƒƒƒ‰
+	//è‡ªã‚­ãƒ£ãƒ©
 	Player* player = nullptr;
-	//Šp“x
+	//è§’åº¦
 	Vector3 vector;
 	float angle[2];
-	//‘¬“x
+	//é€Ÿåº¦
 	Vector3 velocity;
-	//ˆÚ“®
+	//ç§»å‹•
 	Vector3 move;
-	//ƒtƒF[ƒY
+	//ãƒ•ã‚§ãƒ¼ã‚º
 	Phase phase = Phase::move;
-	//—”’lŠi”[
+	//ä¹±æ•°å€¤æ ¼ç´
 	Vector3 value;
-	//ƒfƒXƒtƒ‰ƒO
+	//ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°
 	bool isDead = false;
 
 	float radius = 5.0f;
 
-	//‰¼
+	//ä»®
 	bool isInvincible = false;
 	const int16_t invincibleTime = 11;
 	int16_t invincibleTimer;
 
-	//ˆÊ’u
+	//ä½ç½®
 	Vector3 pPos;
 	Vector3 ePos;
-	//‹——£
+	//è·é›¢
 	Vector3 len;
 	//hp
 	BaseHp hp;

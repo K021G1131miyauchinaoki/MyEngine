@@ -1,26 +1,26 @@
-#pragma once
+ï»¿#pragma once
 #include"Matrix4.h"
 #include"Vector3.h"
 
 class WorldTransform
 {
 public:
-	//ƒƒ“ƒoŠÖ”
+	//ãƒ¡ãƒ³ãƒé–¢æ•°
 	void Initialize();
 
-	//ƒ[ƒ‹ƒh•ÏŠ·s—ñ‚ÌXV
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—ã®æ›´æ–°
 	void Update();
 
-	//ƒƒ“ƒo•Ï”
-	//ƒXƒP[ƒ‹
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//ã‚¹ã‚±ãƒ¼ãƒ«
 	Vector3 scale;
-	//XYZ²‰ñ“]
+	//XYZè»¸å›è»¢
 	Vector3 rotation;
-	//ƒ[ƒJƒ‹À•W
+	//ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™
 	Vector3 translation;
-	//ƒ[ƒ‹ƒh•ÏŠ·s—ñ
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—
 	Matrix4 matWorld;
-	//eƒIƒuƒWƒFƒNƒg‚Ìƒ[ƒ‹ƒh•ÏŠ·‚Ìƒ|ƒCƒ“ƒ^
+	//è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ã®ãƒã‚¤ãƒ³ã‚¿
 	WorldTransform* parent = nullptr;
 };
 

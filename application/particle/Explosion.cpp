@@ -9,8 +9,8 @@ void Explosion::Initialize(Model* model_) {
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
-#pragma region —”
-	//xyz‚ğƒ‰ƒ“ƒ_ƒ€‚É•ª•z
+#pragma region ä¹±æ•°
+	//xyzã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«åˆ†å¸ƒ
 	Vector3 pos = { 0,0,0 };
 	const float rnd_pos = 2.0f;
 	pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
@@ -19,7 +19,7 @@ void Explosion::Initialize(Model* model_) {
 
 	oneGrain.pos += pos;
 
-	//xyz‚ğƒ‰ƒ“ƒ_ƒ€‚É•ª•z
+	//xyzã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«åˆ†å¸ƒ
 	Vector3 value = { 0,0,0 };
 	const float rnd_vel = 1.0f;
 	value.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
@@ -28,14 +28,14 @@ void Explosion::Initialize(Model* model_) {
 
 	oneGrain.velocity = value;
 	
-	//d—Í‚ÉŒ©—§‚Ä‚ÄY‚Ì‚İƒ‰ƒ“ƒ_ƒ€‚É•ª•z
+	//é‡åŠ›ã«è¦‹ç«‹ã¦ã¦Yã®ã¿ãƒ©ãƒ³ãƒ€ãƒ ã«åˆ†å¸ƒ
 	acc = { 0,0,0 };
 	const float rnd_acc = 0.5f;
 	acc.y = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
 	
 	oneGrain.accel = acc;
 
-	//—”@iƒXƒP[ƒ‹j
+	//ä¹±æ•°ã€€ï¼ˆã‚¹ã‚±ãƒ¼ãƒ«ï¼‰
 	//oneGrain.stratScale = 1.0f;
 #pragma endregion
 	//oneGrain.endScale = 0.0f;
@@ -47,11 +47,11 @@ void Explosion::Initialize(Model* model_) {
 void Explosion::Update() {
 	oneGrain.stratFrame++;
 
-	//‘¬“x‚É‚æ‚éˆÚ“®
+	//é€Ÿåº¦ã«ã‚ˆã‚‹ç§»å‹•
 	oneGrain.pos += oneGrain.velocity * speed;
-	//is“x‚ğ0`1‚Ì”ÍˆÍ‚ÉŠ·Z
+	//é€²è¡Œåº¦ã‚’0ï½1ã®ç¯„å›²ã«æ›ç®—
 	float f = (float)oneGrain.stratFrame / oneGrain.endFrame;
-	//ƒXƒP[ƒ‹‚ÌüŒ`•âŠÔ
+	//ã‚¹ã‚±ãƒ¼ãƒ«ã®ç·šå½¢è£œé–“
 	oneGrain.scale = (oneGrain.endScale - oneGrain.stratScale) * f;
 	oneGrain.scale += oneGrain.stratScale;
 

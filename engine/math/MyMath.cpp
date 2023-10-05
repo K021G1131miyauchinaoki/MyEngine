@@ -29,13 +29,13 @@ namespace MyMath
 		return vec;
 	}
 
-	//ƒ‰ƒWƒAƒ“•ÏŠ·
+	//ãƒ©ã‚¸ã‚¢ãƒ³å¤‰æ›
 	float RadianTransform(float degree) {
 		float radian = degree * (PI / 180.0f);
 		return radian;
 	}
 
-	//“x”•ÏŠ·
+	//åº¦æ•°å¤‰æ›
 	float DegreeTransform(float radian) {
 		float degree = radian * (180.0f / PI);
 		return degree;
@@ -52,7 +52,7 @@ namespace MyMath
 		float diff = b - a;
 
 		diff = static_cast<float>(std::fmod(diff, 360));
-		// 2ƒÎ‚Ü‚½‚ÍƒÎ‚É•â³
+		// 2Ï€ã¾ãŸã¯Ï€ã«è£œæ­£
 		if (diff > 180) {
 			diff -= 360;
 		}

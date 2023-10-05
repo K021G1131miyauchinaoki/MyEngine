@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<Input.h>
 #include<DirectXCommon.h>
 #include"Sprite.h"
@@ -14,32 +14,32 @@
 
 class TitleScene:public BaseScene
 {
-public://ƒƒ“ƒoŠÖ”
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 	void Initialize()override;
 
-	//XV
+	//æ›´æ–°
 	void Update()override;
 
-	//•`‰æ
+	//æç”»
 	void ObjDraw()override;
 	void SpriteDraw()override;
 
-	//I—¹
+	//çµ‚äº†
 	void Finalize()override;
 
 	TitleScene();
 	~TitleScene()override;
 
 private:
-	//ƒXƒvƒ‰ƒCƒg
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	std::unique_ptr<Sprite> titleSprite;
-	//‘€ì
+	//æ“ä½œ
 	std::unique_ptr <Input>input;
-	//ƒJƒƒ‰‰Šú‰»
+	//ã‚«ãƒ¡ãƒ©åˆæœŸåŒ–
 	std::unique_ptr<Camera>camera;
-	//objƒ‚ƒfƒ‹
+	//objãƒ¢ãƒ‡ãƒ«
 	std::unique_ptr <Model> modelSkydome = nullptr;
 	std::unique_ptr <Model> cube = nullptr;
 	std::unique_ptr <Model> tank = nullptr;

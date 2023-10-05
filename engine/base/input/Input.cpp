@@ -7,58 +7,58 @@ Input* Input::GetInstance() {
 
 void	Input::Initialize() {
 	this->winApp = WinApp::GetInstance();
-	//DirectInput‚Ì‰Šú‰»
+	//DirectInputã®åˆæœŸåŒ–
 	result = DirectInput8Create(
 		winApp->GetWindow().hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8,
 		(void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
-	/*                             ƒL[ƒ{[ƒh                                         */
-	//ƒL[ƒ{[ƒhƒfƒoƒCƒX‚Ì¶¬
+	/*                             ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰                                         */
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ãƒ‡ãƒã‚¤ã‚¹ã®ç”Ÿæˆ
 	//ComPtr < IDirectInputDevice8> keyboard = nullptr;
 	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
 	assert(SUCCEEDED(result));
 
-	//“ü—Íƒf[ƒ^Œ`®‚ÌƒZƒbƒg
-	result = keyboard->SetDataFormat(&c_dfDIKeyboard);//•W€Œ`®
+	//å…¥åŠ›ãƒ‡ãƒ¼ã‚¿å½¢å¼ã®ã‚»ãƒƒãƒˆ
+	result = keyboard->SetDataFormat(&c_dfDIKeyboard);//æ¨™æº–å½¢å¼
 	assert(SUCCEEDED(result));
 
-	//”r‘¼§ŒäƒŒƒxƒ‹‚ÌƒZƒbƒg
+	//æ’ä»–åˆ¶å¾¡ãƒ¬ãƒ™ãƒ«ã®ã‚»ãƒƒãƒˆ
 	result = keyboard->SetCooperativeLevel(
 		winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 
-	/*                                 ƒ}ƒEƒX                                     */
-	//ƒ}ƒEƒXƒfƒoƒCƒX‚Ì¶¬
+	/*                                 ãƒã‚¦ã‚¹                                     */
+	//ãƒã‚¦ã‚¹ãƒ‡ãƒã‚¤ã‚¹ã®ç”Ÿæˆ
 	result = directInput->CreateDevice(GUID_SysMouse, &mouseDev, NULL);
 	assert(SUCCEEDED(result));
 
-	//“ü—Íƒf[ƒ^Œ`®‚ÌƒZƒbƒg
-	result = mouseDev->SetDataFormat(&c_dfDIMouse);//•W€Œ`®
+	//å…¥åŠ›ãƒ‡ãƒ¼ã‚¿å½¢å¼ã®ã‚»ãƒƒãƒˆ
+	result = mouseDev->SetDataFormat(&c_dfDIMouse);//æ¨™æº–å½¢å¼
 	assert(SUCCEEDED(result));
 
-	//”r‘¼§ŒäƒŒƒxƒ‹‚ÌƒZƒbƒg
+	//æ’ä»–åˆ¶å¾¡ãƒ¬ãƒ™ãƒ«ã®ã‚»ãƒƒãƒˆ
 	result = mouseDev->SetCooperativeLevel(
 		winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 }
 
 void	Input::Update() {
-	/*ƒL[ƒ{[ƒh*/
-	//ƒL[ƒ{[ƒhî•ñ‚Ìæ“¾ŠJn
+	/*ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰*/
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã®å–å¾—é–‹å§‹
 	keyboard->Acquire();
 
-	//‘O‰ñ‚ÌƒL[“ü—Í‚ğ•Û‘¶
+	//å‰å›ã®ã‚­ãƒ¼å…¥åŠ›ã‚’ä¿å­˜
 	memcpy(keyPre, key, sizeof(key));
 
-	//‘SƒL[‚Ì“ü—Íó‘Ô‚ğæ“¾‚·‚é
+	//å…¨ã‚­ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
 	keyboard->GetDeviceState(sizeof(key), key);
 
-	/*ƒ}ƒEƒX*/
+	/*ãƒã‚¦ã‚¹*/
 	HRESULT hr;
 	hr = mouseDev->Acquire();
-	//ÅV‚É‚·‚é‘O‚É•Û‘¶
+	//æœ€æ–°ã«ã™ã‚‹å‰ã«ä¿å­˜
 	oldMouse = mouse;
-	//ÅV‚Ìƒ}ƒEƒXî•ñ‚Ìæ“¾
+	//æœ€æ–°ã®ãƒã‚¦ã‚¹æƒ…å ±ã®å–å¾—
 	hr = mouseDev->GetDeviceState(sizeof(DIMOUSESTATE), &mouse);
 	if (FAILED(hr))return;
 	POINT p;
@@ -69,24 +69,24 @@ void	Input::Update() {
 }
 
 bool	Input::PushKey(BYTE keyNumber) {
-	//ƒL[‚ª‰Ÿ‚³‚ê‚Ä‚¢‚ê‚Îtrue
+	//ã‚­ãƒ¼ãŒæŠ¼ã•ã‚Œã¦ã„ã‚Œã°true
 	if (key[keyNumber])
 	{
 		return	true;
 	}
 
-	//‚»‚¤‚Å‚È‚¯‚ê‚Îfalse‚ğ•Ô‚·
+	//ãã†ã§ãªã‘ã‚Œã°falseã‚’è¿”ã™
 	return	false;
 }
 
 bool	Input::TriggerKey(BYTE keyNumber) {
-	//ƒL[‚ª‰Ÿ‚³‚ê‚½uŠÔ‚Étrue
+	//ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸç¬é–“ã«true
 	if (key[keyNumber]&&!keyPre[keyNumber])
 	{
 		return	true;
 	}
 
-	//‚»‚¤‚Å‚È‚¯‚ê‚Îfalse‚ğ•Ô‚·
+	//ãã†ã§ãªã‘ã‚Œã°falseã‚’è¿”ã™
 	return	false;
 }
 

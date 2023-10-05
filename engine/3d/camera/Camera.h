@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 #include<DirectXMath.h>
 using namespace DirectX;
 
 class Camera
 {
 public:
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialeze();
-	//XV
+	//æ›´æ–°
 	void Update();
 	void UpdateView();
 	void UpdateProjection();
@@ -28,19 +28,19 @@ public:
 	const XMMATRIX& GetViewProjection() { return matViewProjection; }
 
 private:
-	// ƒrƒ…[s—ñ
+	// ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
 	XMMATRIX matView;
-	// Ë‰es—ñ
+	// å°„å½±è¡Œåˆ—
 	XMMATRIX matProjection;
-	//ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ
+	//ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—
 	XMMATRIX matViewProjection;
-	//ƒrƒ…[ƒ|[ƒgs—ñ
+	//ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆè¡Œåˆ—
 	XMMATRIX matViewPort;
-	// ‹“_À•W
+	// è¦–ç‚¹åº§æ¨™
 	XMFLOAT3 eye;
-	// ’‹“_À•W
+	// æ³¨è¦–ç‚¹åº§æ¨™
 	XMFLOAT3 target;
-	// ã•ûŒüƒxƒNƒgƒ‹
+	// ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 	XMFLOAT3 up;
 };
 

@@ -24,13 +24,13 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 	invincibleTimer = invincibleTime;
 	angle[0] = 0.0f;
 	angle[1] = 0.0f;
-	//‘Ì—Í
+	//ä½“åŠ›
 	hp.value = 3;
 	hp.isDead = false;
 }
 
 void Enemy::Update() {
-	//ƒfƒXƒtƒ‰ƒO‚Ì—§‚Á‚½’e‚ğíœ
+	//ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°ã®ç«‹ã£ãŸå¼¾ã‚’å‰Šé™¤
 	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) { return bullet->IsDead(); });
 	switch (phase) {
 	case Phase::wait:
@@ -74,27 +74,27 @@ void Enemy::Move() {
 
 	if (!isMove)
 	{
-		#pragma region —”
-		//—”ƒV[ƒh¶¬Ší
+		#pragma region ä¹±æ•°
+		//ä¹±æ•°ã‚·ãƒ¼ãƒ‰ç”Ÿæˆå™¨
 		std::random_device seed_gen;
-		//ƒƒ‹ƒZƒ“ƒkEƒcƒCƒXƒ^[‚Ì—”ƒGƒ“ƒWƒ“
+		//ãƒ¡ãƒ«ã‚»ãƒ³ãƒŒãƒ»ãƒ„ã‚¤ã‚¹ã‚¿ãƒ¼ã®ä¹±æ•°ã‚¨ãƒ³ã‚¸ãƒ³
 		std::mt19937_64 engine(seed_gen());
-		//—”@i‰ñ“]j
+		//ä¹±æ•°ã€€ï¼ˆå›è»¢ï¼‰
 		std::uniform_real_distribution<float> rotDist(-0.5f,0.5f);
-		//—”ƒGƒ“ƒWƒ“‚ğ“n‚µAw’è”ÍˆÍ‚©‚Áƒ‰ƒ“ƒ_ƒ€‚È”’l‚ğ“¾‚é
+		//ä¹±æ•°ã‚¨ãƒ³ã‚¸ãƒ³ã‚’æ¸¡ã—ã€æŒ‡å®šç¯„å›²ã‹ã£ãƒ©ãƒ³ãƒ€ãƒ ãªæ•°å€¤ã‚’å¾—ã‚‹
 		value = { rotDist(engine),0.0f,rotDist(engine) };
-		//’l‚ğ³‹K‰»
+		//å€¤ã‚’æ­£è¦åŒ–
 		value = MyMath::normaleizeVec3(value);
 		
 		angle[0] = -(atan2(value.z, value.x));
 		Vector3 rot = { 0.0f,0.0f,0.0f };
-		//“x”‚É•ÏŠ·
+		//åº¦æ•°ã«å¤‰æ›
 		angle[0] = MyMath::DegreeTransform(angle[0]) ;
 		rot.y = angle[0];
 
 		obj->SetRotation(rot);
 		
-		//“G‚Ì‘¬“x
+		//æ•µã®é€Ÿåº¦
 		const float speed = 0.2f;
 		move += value * speed;
 		
@@ -112,7 +112,7 @@ void Enemy::Move() {
 		moveTimer--;
 		Vector3 pos = obj->GetPosition();
 		pos += move;
-		//ˆÚ“®”ÍˆÍ‚Ì§ŒÀ
+		//ç§»å‹•ç¯„å›²ã®åˆ¶é™
 		if (pos.x > Map::moveLimitW - Map::mapScaleW * 1.5) {
 			pos.x = Map::moveLimitW - Map::mapScaleW * 1.5f;
 		}
@@ -135,7 +135,7 @@ void Enemy::Shot() {
 	/*shotTimer--;
 	if (shotTimer < 0)
 	{*/
-		//’e‚Ì‘¬“x
+		//å¼¾ã®é€Ÿåº¦
 		const float kBulletSpeed = 1.0f;
 		velocity = { 0.0f,0.0f,0.0f };
 
@@ -144,27 +144,27 @@ void Enemy::Shot() {
 
 		len= pPos - ePos;
 		velocity = MyMath::normaleizeVec3(len);
-		// ³‹K‰»
+		// æ­£è¦åŒ–
 		vector = MyMath::normaleizeVec3(len);
-		//Šp“x‚ğZo
+		//è§’åº¦ã‚’ç®—å‡º
 		angle[1] = -atan2(vector.z, vector.x);
 		vector.x = 0.0f;
 		vector.z = 0.0f;
 		vector.y=MyMath::DegreeTransform(angle[1]);
 		velocity *= kBulletSpeed;
 
-		//Šp“x‚ğŠi”[
+		//è§’åº¦ã‚’æ ¼ç´
 		obj->SetRotation(vector);
-		//‘¬“xƒxƒNƒgƒ‹‚ğ©‹@‚ÌŒü‚«‚É‡‚í‚¹‚Ä‰ñ“]‚³‚¹‚é
+		//é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’è‡ªæ©Ÿã®å‘ãã«åˆã‚ã›ã¦å›è»¢ã•ã›ã‚‹
 		//ImgM = Vec_rot(ImgM, worldTransform_.matWorld_);
-		//’e‚ğ¶¬‚µA‰Šú‰»
+		//å¼¾ã‚’ç”Ÿæˆã—ã€åˆæœŸåŒ–
 		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 		newBullet->Initialize(obj->GetPosition(), velocity, obj->GetRotation());
 
-		//’e‚ğ“o˜^‚·‚é
+		//å¼¾ã‚’ç™»éŒ²ã™ã‚‹
 		bullets_.push_back(std::move(newBullet));
 
-		//ƒtƒF[ƒY‚ÌØ‚è‘Ö‚¦
+		//ãƒ•ã‚§ãƒ¼ã‚ºã®åˆ‡ã‚Šæ›¿ãˆ
 		phase = Phase::wait;
 		shotTimer = shotTime;
 	//}
@@ -181,9 +181,9 @@ void Enemy::Wait() {
 	pPos = player->GetPos();
 
 	len = pPos - ePos;
-	// ³‹K‰»
+	// æ­£è¦åŒ–
 	vector = MyMath::normaleizeVec3(len);
-	//Šp“x‚ğZo
+	//è§’åº¦ã‚’ç®—å‡º
 	angle[1] = MyMath::DegreeTransform(-atan2(vector.z, vector.x));
 
 	if (!isWait)
@@ -208,7 +208,7 @@ void Enemy::Wait() {
 	}
 }
 
-//Õ“Ë‚µ‚½‚ç
+//è¡çªã—ãŸã‚‰
 void Enemy::OnCollision()
 {
 	if (!isInvincible)

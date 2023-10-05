@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<DirectXMath.h>
 #include<Model.h>
 #include<Object3d.h>
@@ -6,41 +6,41 @@
 
 class EnemyBullet
 {
-public://ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+public://ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	EnemyBullet();
 	~EnemyBullet();
-public://Ã“Iƒƒ“ƒoŠÖ”
+public://é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	static void StaticInitialize(Model* model_);
 	static void Finalize();
 
-private://Ã“Iƒƒ“ƒo•Ï”
+private://é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 	static	std::unique_ptr < Model> model;
 
-public://ƒƒ“ƒoŠÖ”
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
 	void Initialize( const Vector3& position, const Vector3& veclocity, const Vector3& rotation_);
 	void Update();
 	void Draw();
 	bool IsDead() const { return isDead_; }
 
-	//Õ“Ë‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éƒR[ƒ‹ƒoƒbƒNŠÖ”
+	//è¡çªã‚’æ¤œå‡ºã—ãŸã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 	void OnCollision();
-	//ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å–å¾—
 	Vector3 GetPos();
-	//”¼Œa‚ğæ“¾
+	//åŠå¾„ã‚’å–å¾—
 	float GetRadius() { return r; }
 
-private://ƒƒ“ƒo•Ï”
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
 	std::unique_ptr<Object3d>obj = nullptr;
-	//‘¬“x
+	//é€Ÿåº¦
 	Vector3 velocity_;
-	//Á–Å
+	//æ¶ˆæ»…
 	static const int32_t kLifeTime = 60;
-	//ƒfƒXƒ^ƒCƒ}[
+	//ãƒ‡ã‚¹ã‚¿ã‚¤ãƒãƒ¼
 	int32_t deathTimer;
-	//ƒfƒXƒtƒ‰ƒO
+	//ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°
 	bool isDead_ = false;
 
-	//”¼Œa
+	//åŠå¾„
 	const float r = 1.0f;
 };
 

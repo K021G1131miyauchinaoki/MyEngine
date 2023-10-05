@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<memory>
 
 class SceneManager;
@@ -7,16 +7,16 @@ class BaseScene
 {
 public:
 	virtual ~BaseScene() = default;
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	virtual void Initialize();
-	//I—¹
+	//çµ‚äº†
 	virtual	void Finalize();
-	//XV
+	//æ›´æ–°
 	virtual	void Update();
-	//•`‰æ
+	//æç”»
 	virtual	void ObjDraw();
 	virtual	void SpriteDraw();
-	//ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[‚ğƒZƒbƒg
+	//ã‚·ãƒ¼ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚’ã‚»ãƒƒãƒˆ
 	virtual void SetSceneManager(SceneManager* sceneManager_) { sceneManager = sceneManager_; }
 
 protected:

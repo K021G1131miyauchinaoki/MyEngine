@@ -11,7 +11,7 @@ void Player::Initialeze( Model* model_, Input* input_) {
 	
 	model = model_;
 	input = input_;
-	//ƒ‚ƒfƒ‹
+	//ãƒ¢ãƒ‡ãƒ«
 	obj=std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
@@ -21,11 +21,11 @@ void Player::Initialeze( Model* model_, Input* input_) {
 	obj->Update();
 	coolTime = 0;
 	invincibleTimer = invincibleTime;
-	//‘Ì—Í
+	//ä½“åŠ›
 	hp.value = 3;
 	hp.isDead = false;
 
-	//ƒTƒCƒY‚ğŒˆ’è
+	//ã‚µã‚¤ã‚ºã‚’æ±ºå®š
 	if (SceneManager::sceneNum == SceneManager::play)
 	{
 		drawHp.resize(hp.value);
@@ -44,33 +44,33 @@ void Player::Initialeze( Model* model_, Input* input_) {
 void Player::Update() {
 	if (SceneManager::sceneNum == SceneManager::play)
 	{
-		//ƒfƒXƒtƒ‰ƒO‚Ì—§‚Á‚½’e‚ğíœ
+		//ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°ã®ç«‹ã£ãŸå¼¾ã‚’å‰Šé™¤
 		bullets_.remove_if([](std::unique_ptr<Bullet>& bullet) { return bullet->IsDead(); });
 
-		//ƒ}ƒEƒXƒJ[ƒ\ƒ‹‚ÌˆÊ’uæ“¾
+		//ãƒã‚¦ã‚¹ã‚«ãƒ¼ã‚½ãƒ«ã®ä½ç½®å–å¾—
 		mausePos = input->GetMausePos();
 		vector = { 0.0f,0.0f };
-		//ƒEƒBƒ“ƒhƒE‚Ì’†S“_‚Æƒ}ƒEƒX‚ÌŒ»İ“_‚ÌƒxƒNƒgƒ‹‚ğ‚Æ‚é
+		//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ä¸­å¿ƒç‚¹ã¨ãƒã‚¦ã‚¹ã®ç¾åœ¨ç‚¹ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’ã¨ã‚‹
 		vector.x = mausePos.x - WinApp::width / 2;
 		vector.y = mausePos.y - WinApp::height / 2;
-		//³‹K‰»
+		//æ­£è¦åŒ–
 		vector = MyMath::normaleizeVec2(vector);
-		//Šp“x‚ğZo
+		//è§’åº¦ã‚’ç®—å‡º
 		angle = atan2(vector.y, vector.x);
 
 		Shot();
 
-		//“x”•ÏŠ·
+		//åº¦æ•°å¤‰æ›
 		angle = MyMath::DegreeTransform(angle);
 
 		Rotate();
 		Move();
-		//HP‚ÌƒXƒvƒ‰ƒCƒg
+		//HPã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 		for (size_t i = 0; i < hp.value; i++)
 		{
 			drawHp[i].Sprite->Update();
 		}
-		//“_–Å•\Œ»
+		//ç‚¹æ»…è¡¨ç¾
 		if (isInvincible)
 		{
 			invincibleTimer--;
@@ -80,25 +80,25 @@ void Player::Update() {
 			invincibleTimer = invincibleTime;
 			isInvincible = false;
 		}
-		//’e
+		//å¼¾
 		for (std::unique_ptr<Bullet>& bullet : bullets_)
 		{
 			bullet->Update();
 		}
 	}
-	//ƒIƒuƒWƒFƒNƒg
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	obj->Update();
 }
 
 
 void Player::ObjDraw() {
 	
-	//ƒvƒŒƒCƒ„[
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 	if (invincibleTimer%2==1)
 	{
 		obj->Draw();
 	}
-	//’e
+	//å¼¾
 	for (std::unique_ptr<Bullet>& bullet : bullets_) {
 		bullet->Draw();
 	}
@@ -107,7 +107,7 @@ void Player::ObjDraw() {
 void Player::SpriteDraw() {
 	if (SceneManager::sceneNum == SceneManager::play)
 	{
-		//ƒXƒvƒ‰ƒCƒg
+		//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 		for (size_t i = 0; i < hp.value; i++)
 		{
 			drawHp[i].Sprite->Draw();
@@ -142,7 +142,7 @@ void Player::Move() {
 	}
 	
 	move += obj->GetPosition();
-	//ˆÚ“®”ÍˆÍ‚Ì§ŒÀ
+	//ç§»å‹•ç¯„å›²ã®åˆ¶é™
 	if (move.x >Map::moveLimitW-Map::mapScaleW*1.5) {
 		move.x = Map::moveLimitW- Map::mapScaleW*1.5f;
 	}
@@ -164,7 +164,7 @@ void Player::Move() {
 
 void Player::Shot() {
 	
-	//’e‚Ì‘¬“x
+	//å¼¾ã®é€Ÿåº¦
 	const float kBulletSpeed = 1.0f;
 	velocity +=0.0f;
 	
@@ -174,30 +174,30 @@ void Player::Shot() {
 
 	velocity *= kBulletSpeed;
 
-	//‘¬“xƒxƒNƒgƒ‹‚ğ©‹@‚ÌŒü‚«‚É‡‚í‚¹‚Ä‰ñ“]‚³‚¹‚é
+	//é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’è‡ªæ©Ÿã®å‘ãã«åˆã‚ã›ã¦å›è»¢ã•ã›ã‚‹
 	coolTime--;
 	if (input->PushKey(DIK_SPACE)||input->PushClick(Botton::LEFT)) {
 		if (coolTime < 0)
 		{
-			//’e‚ğ¶¬‚µA‰Šú‰»
+			//å¼¾ã‚’ç”Ÿæˆã—ã€åˆæœŸåŒ–
 			std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
 			newBullet->Initialize(obj->GetPosition(), velocity,obj->GetRotation());
 
-			//’e‚ğ“o˜^‚·‚é
+			//å¼¾ã‚’ç™»éŒ²ã™ã‚‹
 			bullets_.push_back(std::move(newBullet));
 			
-			//ƒ^ƒCƒ€ƒŠƒZƒbƒg
+			//ã‚¿ã‚¤ãƒ ãƒªã‚»ãƒƒãƒˆ
 			coolTime = 30;
 
 		}
 	}
 	//if (input->TriggerClick(Botton::LEFT)) {
 	//	
-	//	//’e‚ğ¶¬‚µA‰Šú‰»
+	//	//å¼¾ã‚’ç”Ÿæˆã—ã€åˆæœŸåŒ–
 	//	std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
 	//	newBullet->Initialize(model, obj->GetPosition(), ImgM, obj->GetRotation());
 
-	//	//’e‚ğ“o˜^‚·‚é
+	//	//å¼¾ã‚’ç™»éŒ²ã™ã‚‹
 	//	bullets_.push_back(std::move(newBullet));
 	//}
 }
@@ -215,7 +215,7 @@ void Player::Rotate() {
 	obj->SetRotation(rot);
 }
 
-//Õ“Ë‚µ‚½‚ç
+//è¡çªã—ãŸã‚‰
 void Player::OnCollision() 
 { 
 	if (!isInvincible)

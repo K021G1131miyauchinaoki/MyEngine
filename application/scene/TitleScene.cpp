@@ -4,47 +4,47 @@
 void TitleScene::Initialize() {
 	titleSprite = std::make_unique<Sprite>(
 		1,
-		XMFLOAT2{ 640.0f,200.0f },//ˆÊ’u
-		XMFLOAT2{ 500.0f,200.0f },//ƒTƒCƒY
-		XMFLOAT4{ 1,1,1,1 },//ƒJƒ‰[iRGBAj
-		XMFLOAT2{ 0.5f,0.5f },//ƒAƒ“ƒJ[ƒ|ƒCƒ“ƒg
-		false,//¶‰E”½“]
-		false//ã‰º”½“]
+		XMFLOAT2{ 640.0f,200.0f },//ä½ç½®
+		XMFLOAT2{ 500.0f,200.0f },//ã‚µã‚¤ã‚º
+		XMFLOAT4{ 1,1,1,1 },//ã‚«ãƒ©ãƒ¼ï¼ˆRGBAï¼‰
+		XMFLOAT2{ 0.5f,0.5f },//ã‚¢ãƒ³ã‚«ãƒ¼ãƒã‚¤ãƒ³ãƒˆ
+		false,//å·¦å³åè»¢
+		false//ä¸Šä¸‹åè»¢
 		);
 	titleSprite->Initialize(SpriteCommon::GetInstance(), 1);
 	input.reset(Input::GetInstance());
-	//ƒJƒƒ‰
+	//ã‚«ãƒ¡ãƒ©
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	Object3d::SetCamera(camera.get());
 
 
-	// ƒ‚ƒfƒ‹“Ç‚İ‚İ
+	// ãƒ¢ãƒ‡ãƒ«èª­ã¿è¾¼ã¿
 	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
 	cube.reset(Model::LoadFromOBJ("cube"));
 	tank.reset(Model::LoadFromOBJ("tank"));
 	modelMap.reset(Model::LoadFromOBJ("map"));
 
-	//ƒ‚ƒfƒ‹‚ÌƒZƒbƒg
+	//ãƒ¢ãƒ‡ãƒ«ã®ã‚»ãƒƒãƒˆ
 	EnemyBullet::StaticInitialize(cube.get());
 	Bullet::StaticInitialize(cube.get());
 	Map::StaticInitialize(modelMap.get());
 
 
-	//ƒXƒJƒCƒh[ƒ€
+	//ã‚¹ã‚«ã‚¤ãƒ‰ãƒ¼ãƒ 
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
 	objSkydome->SetModel(modelSkydome.get());
 	objSkydome->SetScale({ 200.0f,200.0f,200.0f });
 
-	//ƒvƒŒƒCƒ„[
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 	player = std::make_unique<Player>();
 	player->Initialeze(tank.get(), input.get());
 	
 
 	camera->SetTarget({ 0.0f, player->GetPos().y, player->GetPos().z });
 	camera->SetEye({ player->GetPos().x+15.0f,player->GetPos().y +3.0f, player->GetPos().z - 15.0f });
-	//ƒ}ƒbƒv
+	//ãƒãƒƒãƒ—
 	map = std::make_unique<Map>();
 	map->Initialize(false);
 	map->LoadCSV("1");
@@ -56,10 +56,10 @@ void TitleScene::Update() {
 	player->Update();
 	objSkydome->Update();
 	map->Update();
-	//ƒGƒ“ƒ^[ƒL[‚ğ‰Ÿ‚µ‚½‚ç
+	//ã‚¨ãƒ³ã‚¿ãƒ¼ã‚­ãƒ¼ã‚’æŠ¼ã—ãŸã‚‰
 	if (input->TriggerKey(DIK_RETURN)||input->TriggerClick(Botton::RIGHT))
 	{
-		//ƒV[ƒ“‚ÌØ‚è‘Ö‚¦
+		//ã‚·ãƒ¼ãƒ³ã®åˆ‡ã‚Šæ›¿ãˆ
 		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 	}
 }

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include"SpriteCommon.h"
 #include"DirectXCommon.h"
 #include<DirectXMath.h>
@@ -7,23 +7,23 @@ using namespace DirectX;
 
 class Sprite
 {
-private://Ã“Iƒƒ“ƒo•Ï”
-	// Ë‰es—ñŒvZ
+private://é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+	// å°„å½±è¡Œåˆ—è¨ˆç®—
 	static	XMMATRIX	matProjection;
-	//SRV‚ÌÅ‘å–‡”
+	//SRVã®æœ€å¤§æšæ•°
 	static const size_t	maxSRVCount = 2056;
-public://ƒƒ“ƒoŠÖ”
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
 	/// <summary>
-	/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	Sprite();
 	/// <summary>
-	/// ƒfƒXƒgƒ‰ƒNƒ^
+	/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	~Sprite();
 
 	/// <summary>
-	/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	Sprite(uint32_t texIndex_,
 		XMFLOAT2	position_,
@@ -33,60 +33,60 @@ public://ƒƒ“ƒoŠÖ”
 		bool isFlipX_,
 		bool isFlipY_);
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void	Initialize(SpriteCommon* spriteCommon_, uint32_t texIndex_ = UINT32_MAX);
-	//•`‰æ
+	//æç”»
 	void Draw();
 	void Update();
 
 
-public://ƒQƒbƒ^[AƒZƒbƒ^[
-	//‰ñ“]
+public://ã‚²ãƒƒã‚¿ãƒ¼ã€ã‚»ãƒƒã‚¿ãƒ¼
+	//å›è»¢
 	void	SetRotation(const float& rotation_){ rotation = rotation_; }
 	const float& GetRotation()const { return rotation; }
-	//À•W
+	//åº§æ¨™
 	void	SetPosition(const XMFLOAT2& position_){ position = position_; }
 	const XMFLOAT2& GetPosition()const { return position; }
-	//F
+	//è‰²
 	void	SetColor(const XMFLOAT4& color_){ color = color_; }
 	const XMFLOAT4& GetColor()const { return color; }
-	//ƒTƒCƒY
+	//ã‚µã‚¤ã‚º
 	void	SetSize(const XMFLOAT2& size_){ size = size_; }
 	const XMFLOAT2& GetSize()const { return size; }
-	//ƒAƒ“ƒJ[ƒ|ƒCƒ“ƒg
+	//ã‚¢ãƒ³ã‚«ãƒ¼ãƒã‚¤ãƒ³ãƒˆ
 	void	SetAnchorPoint(const XMFLOAT2& anchorPoint_){ anchorPoint = anchorPoint_; }
 	const XMFLOAT2& GetAnchorPoint()const { return anchorPoint; }
-	// ¶‰E”½“]‚Ìİ’è
+	// å·¦å³åè»¢ã®è¨­å®š
 	void SetIsFlipX(const	bool isFlipX_){ isFlipX = isFlipX_; }
-	// ã‰º”½“]‚Ìİ’è
+	// ä¸Šä¸‹åè»¢ã®è¨­å®š
 	void SetIsFlipY(const	bool isFlipY_){ isFlipY = isFlipY_; }
-	//”ñ•\¦
+	//éè¡¨ç¤º
 	void	SetIsInvisible(const	bool isInvisible_){ isInvisible = isInvisible_; }
-	//ƒeƒNƒXƒ`ƒƒ”Ô†
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ç•ªå·
 	void	SetTexIndex(const uint32_t texIndex_) { texIndex = texIndex_; }
 	const	uint32_t& GetTexIndex()const { return texIndex; }
-	//ƒTƒCƒY
+	//ã‚µã‚¤ã‚º
 	void	SetTexSize(const XMFLOAT2& texSize_){ texSize = texSize_; }
 	const XMFLOAT2& GetTexSize()const { return texSize; }
-	//ƒTƒCƒY
+	//ã‚µã‚¤ã‚º
 	void	SetTexLeftTop(const XMFLOAT2& texLeftTop_){ texLeftTop = texLeftTop_; }
 	const XMFLOAT2& GetTexLeftTop()const { return texLeftTop; }
 
 private:
-	//ƒeƒNƒXƒ`ƒƒƒTƒCƒY‚ğƒCƒ[ƒW‚É‡‚í‚¹‚é
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µã‚¤ã‚ºã‚’ã‚¤ãƒ¡ãƒ¼ã‚¸ã«åˆã‚ã›ã‚‹
 	void	AdjustTexSize();
 
-private://\‘¢‘Ì
-	//’¸“_ƒf[ƒ^
+private://æ§‹é€ ä½“
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
 	struct Vertex {
-		XMFLOAT3	pos;//xyzÀ•W
-		XMFLOAT2	uv;//uvÀ•W
+		XMFLOAT3	pos;//xyzåº§æ¨™
+		XMFLOAT2	uv;//uvåº§æ¨™
 	};
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^iƒ}ƒeƒŠƒAƒ‹j
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿ï¼ˆãƒãƒ†ãƒªã‚¢ãƒ«ï¼‰
 	struct ConstBufferData {
-		XMFLOAT4	color;//FiRGBj
-		XMMATRIX	mat;//3D•ÏŠ·s—ñ
+		XMFLOAT4	color;//è‰²ï¼ˆRGBï¼‰
+		XMMATRIX	mat;//3Då¤‰æ›è¡Œåˆ—
 	};
 
 private:
@@ -101,29 +101,29 @@ private:
 	ID3D12DescriptorHeap* srvHeap = nullptr;
 	ID3D12Resource* constBuff = nullptr;
 	ConstBufferData* constMap = nullptr;
-	//‰ñ“]
+	//å›è»¢
 	float	rotation = 0;
-	//À•W
+	//åº§æ¨™
 	XMFLOAT2	position = { -1.0f,1.0f };
-	//ƒJƒ‰[
+	//ã‚«ãƒ©ãƒ¼
 	XMFLOAT4	color = { 1,1,1,1 };
-	//ƒTƒCƒY
+	//ã‚µã‚¤ã‚º
 	XMFLOAT2	size = { 100.0f,100.0f };
-	//ƒAƒ“ƒJ[ƒ|ƒCƒ“ƒg
+	//ã‚¢ãƒ³ã‚«ãƒ¼ãƒã‚¤ãƒ³ãƒˆ
 	XMFLOAT2	anchorPoint = { 0.0f,0.0f };
-	// ¶‰E”½“]
+	// å·¦å³åè»¢
 	bool isFlipX = false;
-	// ã‰º”½“]
+	// ä¸Šä¸‹åè»¢
 	bool isFlipY = false;
-	//”ñ•\¦
+	//éè¡¨ç¤º
 	bool	isInvisible = false;
-	//3D•ÏŠ·s—ñ
+	//3Då¤‰æ›è¡Œåˆ—
 	XMMATRIX	matWorld;
-	//ƒeƒNƒXƒ`ƒƒ‚Ì”Ô†
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç•ªå·
 	uint32_t texIndex = 0;
-	//ƒeƒNƒXƒ`ƒƒ¶ãÀ•W
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£å·¦ä¸Šåº§æ¨™
 	XMFLOAT2	texLeftTop = { 0.0f,0.0f };
-	//ƒTƒCƒY
+	//ã‚µã‚¤ã‚º
 	XMFLOAT2	texSize = { 256.0f,256.0f };
 
 };

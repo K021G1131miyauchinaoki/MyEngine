@@ -1,15 +1,15 @@
-#pragma once
+ï»¿#pragma once
 #include<BaseScene.h>
 #include<string>
 /// <summary>
-/// ƒV[ƒ“Hê(ŠT”O)
+/// ã‚·ãƒ¼ãƒ³å·¥å ´(æ¦‚å¿µ)
 /// </summary>
 class AbstractSceneFactory
 {
 public:
-	//‰¼‘zƒfƒXƒgƒ‰ƒNƒ^
+	//ä»®æƒ³ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	virtual ~AbstractSceneFactory() = default;
-	//ƒV[ƒ“¶¬
+	//ã‚·ãƒ¼ãƒ³ç”Ÿæˆ
 	virtual BaseScene* CreateScene(const std::string& sceneName) = 0;
 };
 

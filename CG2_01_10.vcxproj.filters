@@ -204,10 +204,10 @@
       <Filter>ヘッダーファイル\Application\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Application\Player\Bullet.h">
-      <Filter>ヘッダーファイル\Application\Particle\Player</Filter>
+      <Filter>ヘッダーファイル\Application\Player</Filter>
     </ClInclude>
     <ClInclude Include="Application\Player\Player.h">
-      <Filter>ヘッダーファイル\Application\Particle\Player</Filter>
+      <Filter>ヘッダーファイル\Application\Player</Filter>
     </ClInclude>
     <ClInclude Include="Application\Particle\BaseParticle.h">
       <Filter>ヘッダーファイル\Application\Particle</Filter>
@@ -317,6 +317,7 @@
     <None Include="Resources\shaders\PostEffect.hlsli">
       <Filter>shader</Filter>
     </None>
+    <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shader">
@@ -415,9 +416,6 @@
     <Filter Include="ヘッダーファイル\Application\Particle">
       <UniqueIdentifier>{119f2777-834d-45e3-b1ee-efd6f1417ffd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダーファイル\Application\Particle\Player">
-      <UniqueIdentifier>{acd889af-b38b-4924-844f-68f5f2a4d8ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダーファイル\Application\Scene">
       <UniqueIdentifier>{44ef3d6b-652f-4df6-92ba-0d2f1e2b8509}</UniqueIdentifier>
     </Filter>
@@ -465,6 +463,9 @@
     </Filter>
     <Filter Include="ソースファイル\Engine\Math">
       <UniqueIdentifier>{723f8049-cdde-4666-9fff-fd0fb3e57e90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Application\Player">
+      <UniqueIdentifier>{acd889af-b38b-4924-844f-68f5f2a4d8ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

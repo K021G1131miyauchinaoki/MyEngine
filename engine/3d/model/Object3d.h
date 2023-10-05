@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <Windows.h>
 #include <wrl.h>
@@ -10,56 +10,56 @@
 #include<Vector3.h>
 
 /// <summary>
-/// 3DƒIƒuƒWƒFƒNƒg
+/// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 /// </summary>
 class Object3d
 {
-private: // ƒGƒCƒŠƒAƒX
-	// Microsoft::WRL::‚ğÈ—ª
+private: // ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	// Microsoft::WRL::ã‚’çœç•¥
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::‚ğÈ—ª
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public: // ƒTƒuƒNƒ‰ƒX
-	// ’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+public: // ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferDataB0
 	{
-		XMFLOAT4 color;	// F (RGBA)
-		XMMATRIX mat;	// ‚R‚c•ÏŠ·s—ñ
+		XMFLOAT4 color;	// è‰² (RGBA)
+		XMMATRIX mat;	// ï¼“ï¼¤å¤‰æ›è¡Œåˆ—
 	};
 
-private: // ’è”
-	static const int division = 50;					// •ªŠ„”
-	static const float radius;				// ’ê–Ê‚Ì”¼Œa
-	static const float prizmHeight;			// ’Œ‚Ì‚‚³
-	static const int planeCount = division * 2 + division * 2;		// –Ê‚Ì”
-	static const int vertexCount = planeCount * 3;		// ’¸“_”
+private: // å®šæ•°
+	static const int division = 50;					// åˆ†å‰²æ•°
+	static const float radius;				// åº•é¢ã®åŠå¾„
+	static const float prizmHeight;			// æŸ±ã®é«˜ã•
+	static const int planeCount = division * 2 + division * 2;		// é¢ã®æ•°
+	static const int vertexCount = planeCount * 3;		// é ‚ç‚¹æ•°
 
-public: // Ã“Iƒƒ“ƒoŠÖ”
+public: // é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	/// <summary>
-	/// Ã“I‰Šú‰»
+	/// é™çš„åˆæœŸåŒ–
 	/// </summary>
-	/// <param name="device">ƒfƒoƒCƒX</param>
-	/// <param name="window_width">‰æ–Ê•</param>
-	/// <param name="window_height">‰æ–Ê‚‚³</param>
+	/// <param name="device">ãƒ‡ãƒã‚¤ã‚¹</param>
+	/// <param name="window_width">ç”»é¢å¹…</param>
+	/// <param name="window_height">ç”»é¢é«˜ã•</param>
 	static void StaticInitialize(ID3D12Device* device_);
 
 	/// <summary>
-	/// •`‰æ‘Oˆ—
+	/// æç”»å‰å‡¦ç†
 	/// </summary>
-	/// <param name="cmdList">•`‰æƒRƒ}ƒ“ƒhƒŠƒXƒg</param>
+	/// <param name="cmdList">æç”»ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ</param>
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList_);
 
 	/// <summary>
-	/// •`‰æŒãˆ—
+	/// æç”»å¾Œå‡¦ç†
 	/// </summary>
 	static void PostDraw();
 
 	/// <summary>
-	/// 3DƒIƒuƒWƒFƒNƒg¶¬
+	/// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
 	/// </summary>
 	/// <returns></returns>
 	static Object3d* Create();
@@ -68,98 +68,98 @@ public: // Ã“Iƒƒ“ƒoŠÖ”
 
 	static void Finalize();
 
-private: // Ã“Iƒƒ“ƒo•Ï”
-	// ƒfƒoƒCƒX
+private: // é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+	// ãƒ‡ãƒã‚¤ã‚¹
 	static ComPtr<ID3D12Device> device;
-	// ƒRƒ}ƒ“ƒhƒŠƒXƒg
+	// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ
 	static ID3D12GraphicsCommandList* cmdList;
-	// ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	// ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	static ComPtr<ID3D12RootSignature> rootsignature;
-	// ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒgƒIƒuƒWƒFƒNƒg
+	// ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	static ComPtr<ID3D12PipelineState> pipelinestate;
-	//ƒJƒƒ‰
+	//ã‚«ãƒ¡ãƒ©
 	static	Camera* camera;
 
-private:// Ã“Iƒƒ“ƒoŠÖ”
+private:// é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	/// <summary>
-	/// ƒOƒ‰ƒtƒBƒbƒNƒpƒCƒvƒ‰ƒCƒ“¶¬
+	/// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ç”Ÿæˆ
 	/// </summary>
-	/// <returns>¬”Û</returns>
+	/// <returns>æˆå¦</returns>
 	static void InitializeGraphicsPipeline();
 
-public: // ƒƒ“ƒoŠÖ”
+public: // ãƒ¡ãƒ³ãƒé–¢æ•°
 	bool Initialize();
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ˆ—
+	/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw();
 
 	/// <summary>
-	/// À•W‚Ìæ“¾
+	/// åº§æ¨™ã®å–å¾—
 	/// </summary>
-	/// <returns>À•W</returns>
+	/// <returns>åº§æ¨™</returns>
 	const Vector3& GetPosition() const { return position; }
 
 	/// <summary>
-	/// À•W‚Ìİ’è
+	/// åº§æ¨™ã®è¨­å®š
 	/// </summary>
-	/// <param name="position">À•W</param>
+	/// <param name="position">åº§æ¨™</param>
 	void SetPosition(const Vector3& position_) { this->position = position_; }
 	
 	/// <summary>
-	/// À•W‚Ìæ“¾
+	/// åº§æ¨™ã®å–å¾—
 	/// </summary>
-	/// <returns>À•W</returns>
+	/// <returns>åº§æ¨™</returns>
 	const Vector3& GetRotation() const { return rotation; }
 
 	/// <summary>
-	/// À•W‚Ìİ’è
+	/// åº§æ¨™ã®è¨­å®š
 	/// </summary>
-	/// <param name="position">À•W</param>
+	/// <param name="position">åº§æ¨™</param>
 	void SetRotation(const Vector3& rotation_) { this->rotation = rotation_; }
 
 	/// <summary>
-	/// À•W‚Ìæ“¾
+	/// åº§æ¨™ã®å–å¾—
 	/// </summary>
-	/// <returns>À•W</returns>
+	/// <returns>åº§æ¨™</returns>
 	const Vector3& GetScale() const { return scale; }
 
 	/// <summary>
-	/// À•W‚Ìİ’è
+	/// åº§æ¨™ã®è¨­å®š
 	/// </summary>
-	/// <param name="position">À•W</param>
+	/// <param name="position">åº§æ¨™</param>
 	void SetScale(const Vector3& scale_) { this->scale = scale_; }
 
-	//ƒ‚ƒfƒ‹ƒZƒbƒ^[
+	//ãƒ¢ãƒ‡ãƒ«ã‚»ãƒƒã‚¿ãƒ¼
 	void	SetModel(Model* model_) { model = model_; }
 
-	//ƒyƒAƒŒƒ“ƒgİ’è
+	//ãƒšã‚¢ãƒ¬ãƒ³ãƒˆè¨­å®š
 	void SetParent(Object3d* parent_) { parent = parent_; }
 
-	//ƒJƒ‰[
+	//ã‚«ãƒ©ãƒ¼
 	void SetColor(XMFLOAT4 color_) { color = color_; }
 
-private: // ƒƒ“ƒo•Ï”
-	//ComPtr<ID3D12Resource> constBuff; // ’è”ƒoƒbƒtƒ@
-	ComPtr<ID3D12Resource> constBuffB0; // ’è”ƒoƒbƒtƒ@
-	//ComPtr<ID3D12Resource> constBuffB1; // ’è”ƒoƒbƒtƒ@
-	// F
+private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//ComPtr<ID3D12Resource> constBuff; // å®šæ•°ãƒãƒƒãƒ•ã‚¡
+	ComPtr<ID3D12Resource> constBuffB0; // å®šæ•°ãƒãƒƒãƒ•ã‚¡
+	//ComPtr<ID3D12Resource> constBuffB1; // å®šæ•°ãƒãƒƒãƒ•ã‚¡
+	// è‰²
 	XMFLOAT4 color = { 1,1,1,1 };
-	// ƒ[ƒJƒ‹ƒXƒP[ƒ‹
+	// ãƒ­ãƒ¼ã‚«ãƒ«ã‚¹ã‚±ãƒ¼ãƒ«
 	Vector3 scale = { 1,1,1 };
-	// X,Y,Z²‰ñ‚è‚Ìƒ[ƒJƒ‹‰ñ“]Šp
+	// X,Y,Zè»¸å›ã‚Šã®ãƒ­ãƒ¼ã‚«ãƒ«å›è»¢è§’
 	Vector3 rotation = { 0,0,0 };
-	// ƒ[ƒJƒ‹À•W
+	// ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™
 	Vector3 position = { 0,0,0 };
-	// ƒ[ƒJƒ‹ƒ[ƒ‹ƒh•ÏŠ·s—ñ
+	// ãƒ­ãƒ¼ã‚«ãƒ«ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—
 	XMMATRIX matWorld;
-	// eƒIƒuƒWƒFƒNƒg
+	// è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Object3d* parent = nullptr;
-	//ƒ‚ƒfƒ‹
+	//ãƒ¢ãƒ‡ãƒ«
 	Model* model = nullptr;
 };

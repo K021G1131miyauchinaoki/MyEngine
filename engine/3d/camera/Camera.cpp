@@ -15,7 +15,7 @@ void	Camera::Update() {
 }
 
 void	Camera::UpdateView() {
-	// ƒrƒ…[s—ñ‚Ì¶¬
+	// ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®ç”Ÿæˆ
 	matView = DirectX::XMMatrixLookAtLH(
 		XMLoadFloat3(&eye),
 		XMLoadFloat3(&target),
@@ -23,7 +23,7 @@ void	Camera::UpdateView() {
 }
 
 void	Camera::UpdateProjection() {
-	// “§Ž‹“Š‰e‚É‚æ‚éŽË‰es—ñ‚Ì¶¬
+	// é€è¦–æŠ•å½±ã«ã‚ˆã‚‹å°„å½±è¡Œåˆ—ã®ç”Ÿæˆ
 	matProjection = DirectX::XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(60.0f),
 		(float)WinApp::width / WinApp::height,

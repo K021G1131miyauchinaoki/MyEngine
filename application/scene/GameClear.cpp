@@ -4,12 +4,12 @@
 void GameClear::Initialize() {
 	clearSprite = std::make_unique<Sprite>(
 		2,
-		XMFLOAT2{ 640.0f,375.0f },//ˆÊ’u
-		XMFLOAT2{ 500.0f,200.0f },//ƒTƒCƒY
-		XMFLOAT4{ 1,1,1,1 },//ƒJƒ‰[iRGBAj
-		XMFLOAT2{ 0.5f,0.5f },//ƒAƒ“ƒJ[ƒ|ƒCƒ“ƒg
-		false,//¶‰E”½“]
-		false//ã‰º”½“]
+		XMFLOAT2{ 640.0f,375.0f },//ä½ç½®
+		XMFLOAT2{ 500.0f,200.0f },//ã‚µã‚¤ã‚º
+		XMFLOAT4{ 1,1,1,1 },//ã‚«ãƒ©ãƒ¼ï¼ˆRGBAï¼‰
+		XMFLOAT2{ 0.5f,0.5f },//ã‚¢ãƒ³ã‚«ãƒ¼ãƒã‚¤ãƒ³ãƒˆ
+		false,//å·¦å³åè»¢
+		false//ä¸Šä¸‹åè»¢
 		);
 	clearSprite->Initialize(SpriteCommon::GetInstance(), 2);
 	input.reset(Input::GetInstance());
@@ -17,10 +17,10 @@ void GameClear::Initialize() {
 
 void GameClear::Update() {
 	clearSprite->Update();
-	//ƒGƒ“ƒ^[ƒL[‚ð‰Ÿ‚µ‚½‚ç
+	//ã‚¨ãƒ³ã‚¿ãƒ¼ã‚­ãƒ¼ã‚’æŠ¼ã—ãŸã‚‰
 	if (input->TriggerKey(DIK_RETURN) || input->TriggerClick(Botton::RIGHT))
 	{
-		//ƒV[ƒ“‚ÌØ‚è‘Ö‚¦
+		//ã‚·ãƒ¼ãƒ³ã®åˆ‡ã‚Šæ›¿ãˆ
 		SceneManager::GetInstance()->ChangeScene("TITLE");
 	}
 }

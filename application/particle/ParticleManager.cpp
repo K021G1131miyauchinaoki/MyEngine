@@ -27,7 +27,7 @@ void ParticleManager::Add(const std::string &name,int amount, int32_t life,Vecto
 	
 }
 void ParticleManager::Update() {
-	//ƒtƒ‰ƒO‚ª—§‚Á‚½‚çíœ
+	//ãƒ•ãƒ©ã‚°ãŒç«‹ã£ãŸã‚‰å‰Šé™¤
 	particles.remove_if([](std::unique_ptr<BaseParticle>& p) {
 		return p->oneGrain.stratFrame >= p->oneGrain.endFrame;
 		});

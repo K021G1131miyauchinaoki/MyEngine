@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <wrl.h>
 #include <DirectXMath.h>
 #include<string>
@@ -12,50 +12,50 @@
 class SoundManager
 {
 public:
-	//ƒ`ƒƒƒ“ƒNƒwƒbƒ_
+	//ãƒãƒ£ãƒ³ã‚¯ãƒ˜ãƒƒãƒ€
 	struct ChunkHeader
 	{
 		char id[4];
 		int32_t size;
 	};
-	//RIFFƒwƒbƒ_ƒ`ƒƒƒ“ƒN
+	//RIFFãƒ˜ãƒƒãƒ€ãƒãƒ£ãƒ³ã‚¯
 	struct RiffHeader
 	{
 		ChunkHeader chunk;
 		char type[4];
 	};
-	//FMTƒ`ƒƒƒ“ƒN
+	//FMTãƒãƒ£ãƒ³ã‚¯
 	struct FormatChunk
 	{
 		ChunkHeader chunk;
 		WAVEFORMATEX fmt;
 	};
 
-	//‰¹ºƒf[ƒ^
+	//éŸ³å£°ãƒ‡ãƒ¼ã‚¿
 	struct SoundData
 	{
-		//”gŒ`ƒtƒH[ƒ}ƒbƒg
+		//æ³¢å½¢ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 		WAVEFORMATEX wfex;
-		//ƒoƒbƒtƒ@‚Ìæ“ªƒAƒhƒŒƒX
+		//ãƒãƒƒãƒ•ã‚¡ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 		BYTE* pBuffer;
-		//ƒoƒbƒtƒ@‚ÌƒTƒCƒY
+		//ãƒãƒƒãƒ•ã‚¡ã®ã‚µã‚¤ã‚º
 		uint32_t bufferSize;
 	};
 public:
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize();
-	//I—¹ˆ—
+	//çµ‚äº†å‡¦ç†
 	void Finalize();
-	//ƒTƒEƒ“ƒhƒf[ƒ^‚Ì‰ğ•ú
+	//ã‚µã‚¦ãƒ³ãƒ‰ãƒ‡ãƒ¼ã‚¿ã®è§£æ”¾
 	void UnLoad(SoundData*sounData);
-	// wav“Ç‚İ‚İ
+	// wavèª­ã¿è¾¼ã¿
 	void LoadWave(const std::string& filename);
-	//Ä¶
+	//å†ç”Ÿ
 	void PlayWave(const std::string& filename);
 private:
-	//xAudio2‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	//xAudio2ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	Microsoft::WRL::ComPtr<IXAudio2>xAudio2;
-	//ƒTƒEƒ“ƒhƒf[ƒ^‚Ì˜A‘z”z—ñ
+	//ã‚µã‚¦ãƒ³ãƒ‰ãƒ‡ãƒ¼ã‚¿ã®é€£æƒ³é…åˆ—
 	std::map<std::string, SoundData>soundDatas;
 };
 

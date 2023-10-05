@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<Windows.h>
 #include<fstream>
 #include<sstream>
@@ -16,57 +16,57 @@ using namespace Microsoft::WRL;
 
 class Model
 {
-public://Ã“Iƒƒ“ƒoŠÖ”
-	//obj“Ç‚İ‚İ
+public://é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
+	//objèª­ã¿è¾¼ã¿
 	static Model* LoadFromOBJ(const	std::string& modelname);
-	//ƒZƒbƒ^[
+	//ã‚»ãƒƒã‚¿ãƒ¼
 	static void SetDevice(ID3D12Device* device_) { Model::device = device_; }
 
 	static void Finalize();
 public:
-	//•`‰æ
+	//æç”»
 	void	Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial);
-private://ƒƒ“ƒoŠÖ”
-	//obj“Ç‚İ‚İ
+private://ãƒ¡ãƒ³ãƒé–¢æ•°
+	//objèª­ã¿è¾¼ã¿
 	void LoadFromOBJInternal(const	std::string& modelname);
-	//ƒeƒNƒXƒ`ƒƒ
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	void LoadTexture(const	std::string& directoryPath, const std::string& filename);
-	//ƒ}ƒeƒŠƒAƒ‹
+	//ãƒãƒ†ãƒªã‚¢ãƒ«
 	void LoadMaterial(const std::string& directoryPath, const std::string& filename);
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ì‰Šú‰»
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®åˆæœŸåŒ–
 	void InitializeDescriptorHeap();
-	//ƒoƒbƒtƒ@¶¬
+	//ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	void CreateBuffers();
-public: // ƒTƒuƒNƒ‰ƒX
-	// ’¸“_ƒf[ƒ^\‘¢‘Ì
+public: // ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	// é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct VertexPosNormalUv
 	{
-		XMFLOAT3 pos; // xyzÀ•W
-		XMFLOAT3 normal; // –@üƒxƒNƒgƒ‹
-		XMFLOAT2 uv;  // uvÀ•W
+		XMFLOAT3 pos; // xyzåº§æ¨™
+		XMFLOAT3 normal; // æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+		XMFLOAT2 uv;  // uvåº§æ¨™
 	};
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘ÌB1
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“B1
 	struct ConstBufferDataB1
 	{
-		XMFLOAT3 ambient;//ƒAƒ“ƒrƒGƒ“ƒgŒW”
-		float pad1;		 //ƒpƒfƒBƒ“ƒO
-		XMFLOAT3 diffuse;//ƒfƒBƒtƒ…[ƒYŒW”
-		float pad2;		 //ƒpƒfƒBƒ“ƒO
-		XMFLOAT3 specular;//ƒXƒyƒLƒ…ƒ‰[ŒW”
-		float alpha;	 //ƒAƒ‹ƒtƒ@
+		XMFLOAT3 ambient;//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆä¿‚æ•°
+		float pad1;		 //ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
+		XMFLOAT3 diffuse;//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºä¿‚æ•°
+		float pad2;		 //ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
+		XMFLOAT3 specular;//ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼ä¿‚æ•°
+		float alpha;	 //ã‚¢ãƒ«ãƒ•ã‚¡
 	};
 
-	//ƒ}ƒeƒŠƒAƒ‹
+	//ãƒãƒ†ãƒªã‚¢ãƒ«
 	struct Material
 	{
-		std::string name;//ƒ}ƒeƒŠƒAƒ‹–¼
-		XMFLOAT3 ambient;//ƒAƒ“ƒrƒGƒ“ƒg‰e‹¿“x
-		XMFLOAT3 diffuse;//ƒfƒBƒtƒ…[ƒY‰e‹¿“x
-		XMFLOAT3 specular;//ƒXƒyƒLƒ…ƒ‰[‰e‹¿“x
-		float alpha;//ƒAƒ‹ƒtƒ@
-		std::string textureFilename;//ƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹–¼
-		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+		std::string name;//ãƒãƒ†ãƒªã‚¢ãƒ«å
+		XMFLOAT3 ambient;//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆå½±éŸ¿åº¦
+		XMFLOAT3 diffuse;//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºå½±éŸ¿åº¦
+		XMFLOAT3 specular;//ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼å½±éŸ¿åº¦
+		float alpha;//ã‚¢ãƒ«ãƒ•ã‚¡
+		std::string textureFilename;//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«å
+		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		Material() {
 			ambient = { 0.3f,0.3f,0.3f };
 			diffuse = { 0.0f,0.0f,0.0f };
@@ -75,32 +75,32 @@ public: // ƒTƒuƒNƒ‰ƒX
 		}
 	};
 private:
-	//ƒfƒoƒCƒX
+	//ãƒ‡ãƒã‚¤ã‚¹
 	static ComPtr<ID3D12Device> device;
-private://ƒƒ“ƒo•Ï”
-	//’¸“_ƒCƒ“ƒfƒbƒNƒX”z—ñ
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹é…åˆ—
 	std::vector<unsigned short>indices;
 	std::vector<VertexPosNormalUv>vertices;
-	// ƒfƒXƒNƒŠƒvƒ^ƒTƒCƒY
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚µã‚¤ã‚º
 	UINT descriptorHandleIncrementSize;
-	// ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap> descHeap;
-	// ’¸“_ƒoƒbƒtƒ@
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> vertBuff;
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> indexBuff;
-	// ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> texbuff;
-	// ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[‚Ìƒnƒ“ƒhƒ‹(CPU)
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«(CPU)
 	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;
-	// ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[‚Ìƒnƒ“ƒhƒ‹(CPU)
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«(CPU)
 	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_VERTEX_BUFFER_VIEW vbView;
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_INDEX_BUFFER_VIEW ibView;
-	//ƒ}ƒeƒŠƒAƒ‹
+	//ãƒãƒ†ãƒªã‚¢ãƒ«
 	Material	material;
-	//ComPtr<ID3D12Resource> constBuffB0; // ’è”ƒoƒbƒtƒ@
-	ComPtr<ID3D12Resource> constBuffB1; // ’è”ƒoƒbƒtƒ@
+	//ComPtr<ID3D12Resource> constBuffB0; // å®šæ•°ãƒãƒƒãƒ•ã‚¡
+	ComPtr<ID3D12Resource> constBuffB1; // å®šæ•°ãƒãƒƒãƒ•ã‚¡
 };
