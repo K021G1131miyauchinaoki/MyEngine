@@ -402,7 +402,7 @@ void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh) {
             //スキンウェイト
             float weight = (float)controlPointWeights[j];
             //その頂点の影響を受けるボーンリストに、ボーンとウェイトのペアを追加
-            weightLists[vertIndex].emplace_back(WeightSet{ (uint32_t)i,weight });
+            weightLists[vertIndex].emplace_back(WeightSet{ static_cast<uint32_t>(i),weight });
         }
     }
 

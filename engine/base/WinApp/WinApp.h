@@ -15,6 +15,7 @@ public://ƒƒ“ƒoŠÖ”
 	//I—¹
 	void	Finalize();
 
+
 	WNDCLASSEX	GetWindow()const { return w; };
 
 	HWND	GetHwnd() { return hwnd; };
