@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<Input.h>
 #include<DirectXCommon.h>
 #include"Sprite.h"
@@ -7,7 +7,6 @@
 #include"Camera.h"
 #include"LevelLoader.h"
 #include<Player.h>
-#include<ImguiManager.h>
 #include<Enemy.h>
 #include<Map.h>
 #include<BaseScene.h>

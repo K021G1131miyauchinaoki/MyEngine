@@ -1,7 +1,13 @@
 #include "PostEffect.h"
-#include"DirectXTex.h"
-#include<WinApp.h>
+#include"WinApp.h"
+#pragma warning( push )
+#pragma warning( disable :  4061)
+#pragma warning( disable :  4514)
+#pragma warning( disable :  4820)
+#pragma warning( disable :  4828)
+#include<DirectXTex.h>
 #include<d3dx12.h>
+#pragma warning( pop )
 #include<d3dcompiler.h>
 #include<memory>
 

@@ -7,6 +7,61 @@
 
 using	namespace Microsoft::WRL;
 
+HRESULT DirectXCommon::GetResult()const {
+	return result;
+}
+
+DXGI_SWAP_CHAIN_DESC1 DirectXCommon::GetSwapChainDesc()const {
+	return swapChainDesc;
+}
+
+void DirectXCommon::Initialize(WinApp* winApp_) {
+	//NULL検出
+	assert(winApp_);
+	//メンバ変数に代入
+	this->winApp = winApp_;
+	//FPS固定初期化
+	InitializeFixFPS();
+	//デバイスの初期化
+	InitializeDevice();
+	//コマンドの初期化
+	InitializeCommand();
+	//スワップチェーンの初期化
+	InitializeSwapchain();
+	//レンダーターゲットビューの初期化
+	InitializeRenderTargetView();
+	//深度バッファの初期化
+	InitializeDepthBuffer();
+	//フェンスの初期化
+	InitializeFence();
+
+#ifdef _DEBUG
+
+
+	ComPtr < ID3D12InfoQueue> infoQueue;
+	if ( SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue))) )
+	{
+		//抑制するエラー
+		D3D12_MESSAGE_ID	denyIds[ ] = {
+			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
+		};
+		//抑制する表示レベル
+		D3D12_MESSAGE_SEVERITY	severities[ ] = { D3D12_MESSAGE_SEVERITY_INFO };
+		D3D12_INFO_QUEUE_FILTER	filter{};
+		filter.DenyList.NumIDs = _countof(denyIds);
+		filter.DenyList.pIDList = denyIds;
+		filter.DenyList.NumSeverities = _countof(severities);
+		filter.DenyList.pSeverityList = severities;
+		//指定したエラーの表示を抑制する
+		infoQueue->PushStorageFilter(&filter);
+
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION,true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR,true);
+		infoQueue->Release();
+	}
+#endif
+}
+
 //FPS固定初期化
 void DirectXCommon::InitializeFixFPS() {
 	//現在時間を記録する
@@ -79,7 +134,7 @@ void DirectXCommon::InitializeDevice() {
 		adapters[i]->GetDesc3(&adapterDesc);
 
 		//ソフトウェアデバイスを回避
-		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE))
+		if (!(adapterDesc.Flags && DXGI_ADAPTER_FLAG_SOFTWARE))
 		{
 			//デバイスを採用してループを抜ける
 			tmpAdapter = adapters[i];
@@ -331,49 +386,3 @@ void DirectXCommon::PostDraw(){
 	assert(SUCCEEDED(result));
 }
 
-void DirectXCommon::Initialize(WinApp* winApp_) {
-	//NULL検出
-	assert(winApp_);
-	//メンバ変数に代入
-	this->winApp = winApp_;
-	//FPS固定初期化
-	InitializeFixFPS();
-	//デバイスの初期化
-	InitializeDevice();
-	//コマンドの初期化
-	InitializeCommand();
-	//スワップチェーンの初期化
-	InitializeSwapchain();
-	//レンダーターゲットビューの初期化
-	InitializeRenderTargetView();
-	//深度バッファの初期化
-	InitializeDepthBuffer();
-	//フェンスの初期化
-	InitializeFence();
-
-#ifdef _DEBUG
-
-
-	ComPtr < ID3D12InfoQueue> infoQueue;
-	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue))))
-	{
-		//抑制するエラー
-		D3D12_MESSAGE_ID	denyIds[] = {
-			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
-		};
-		//抑制する表示レベル
-		D3D12_MESSAGE_SEVERITY	severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
-		D3D12_INFO_QUEUE_FILTER	filter{};
-		filter.DenyList.NumIDs = _countof(denyIds);
-		filter.DenyList.pIDList = denyIds;
-		filter.DenyList.NumSeverities = _countof(severities);
-		filter.DenyList.pSeverityList = severities;
-		//指定したエラーの表示を抑制する
-		infoQueue->PushStorageFilter(&filter);
-
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
-		infoQueue->Release();
-	}
-#endif
-}

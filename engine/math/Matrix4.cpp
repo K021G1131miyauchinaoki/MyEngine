@@ -5,26 +5,55 @@
 //単位行列
 Matrix4	MatIdentity()
 {
-	static const	Matrix4	result
-	{
-		1.0f,0.0f,0.0f,0.0f,
-		0.0f,1.0f,0.0f,0.0f,
-		0.0f,0.0f,1.0f,0.0f,
-		0.0f,0.0f,0.0f,1.0f
-	};
+	Matrix4	result;
+	
+	result.m[ 0 ][ 0 ] = 1.0f;
+	result.m[ 0 ][ 1 ] = 0.0f;
+	result.m[ 0 ][ 2 ] = 0.0f;
+	result.m[ 0 ][ 3 ] = 0.0f;
+
+	result.m[ 1 ][ 0 ] = 0.0f;
+	result.m[ 1 ][ 1 ] = 1.0f;
+	result.m[ 1 ][ 2 ] = 0.0f;
+	result.m[ 1 ][ 3 ] = 0.0f;
+
+	result.m[ 2 ][ 0 ] = 0.0f;
+	result.m[ 2 ][ 1 ] = 0.0f;
+	result.m[ 2 ][ 2 ] = 1.0f;
+	result.m[ 2 ][ 3 ] = 0.0f;
+
+	result.m[ 3 ][ 0 ] = 0.0f;
+	result.m[ 3 ][ 1 ] = 0.0f;
+	result.m[ 3 ][ 2 ] = 0.0f;
+	result.m[ 3 ][ 3 ] = 1.0f;
+	
 	return	result;
 }
 
 //拡大縮小行列の設定
 Matrix4	MatScale(const Vector3& s)
 {
-	Matrix4	result
-	{
-		 s.x,0.0f,0.0f,0.0f,
-		0.0f, s.y,0.0f,0.0f,
-		0.0f,0.0f, s.z,0.0f,
-		0.0f,0.0f,0.0f,1.0f
-	};
+	Matrix4	result;
+
+	result.m[ 0 ][ 0 ] = s.x;
+	result.m[ 0 ][ 1 ] = 0.0f;
+	result.m[ 0 ][ 2 ] = 0.0f;
+	result.m[ 0 ][ 3 ] = 0.0f;
+
+	result.m[ 1 ][ 0 ] = 0.0f;
+	result.m[ 1 ][ 1 ] = s.y;
+	result.m[ 1 ][ 2 ] = 0.0f;
+	result.m[ 1 ][ 3 ] = 0.0f;
+
+	result.m[ 2 ][ 0 ] = 0.0f;
+	result.m[ 2 ][ 1 ] = 0.0f;
+	result.m[ 2 ][ 2 ] = s.z;
+	result.m[ 2 ][ 3 ] = 0.0f;
+
+	result.m[ 3 ][ 0 ] = 0.0f;
+	result.m[ 3 ][ 1 ] = 0.0f;
+	result.m[ 3 ][ 2 ] = 0.0f;
+	result.m[ 3 ][ 3 ] = 1.0f;
 	return	result;
 }
 
@@ -34,13 +63,27 @@ Matrix4	MatRotX(float angle)
 {
 	float	sin = std::sin(angle);
 	float	cos = std::cos(angle);
-	Matrix4	result
-	{
-		1.0f,0.0f,0.0f,0.0f,
-		0.0f, cos, sin,0.0f,
-		0.0f,-sin, cos,0.0f,
-		0.0f,0.0f,0.0f,1.0f
-	};
+	Matrix4	result;
+	result.m[ 0 ][ 0 ] = 1.0f;
+	result.m[ 0 ][ 1 ] = 0.0f;
+	result.m[ 0 ][ 2 ] = 0.0f;
+	result.m[ 0 ][ 3 ] = 0.0f;
+
+	result.m[ 1 ][ 0 ] = 0.0f;
+	result.m[ 1 ][ 1 ] = cos;
+	result.m[ 1 ][ 2 ] = sin;
+	result.m[ 1 ][ 3 ] = 0.0f;
+
+	result.m[ 2 ][ 0 ] = 0.0f;
+	result.m[ 2 ][ 1 ] = -sin;
+	result.m[ 2 ][ 2 ] = cos;
+	result.m[ 2 ][ 3 ] = 0.0f;
+
+	result.m[ 3 ][ 0 ] = 0.0f;
+	result.m[ 3 ][ 1 ] = 0.0f;
+	result.m[ 3 ][ 2 ] = 0.0f;
+	result.m[ 3 ][ 3 ] = 1.0f;
+
 	return	result;
 }
 //Y軸周り
@@ -48,13 +91,27 @@ Matrix4	MatRotY(float angle)
 {
 	float	sin = std::sin(angle);
 	float	cos = std::cos(angle);
-	Matrix4	result
-	{
-		 cos,0.0f,-sin,0.0f,
-		0.0f,1.0f,0.0f,0.0f,
-		 sin,0.0f, cos,0.0f,
-		0.0f,0.0f,0.0f,1.0f
-	};
+	Matrix4	result;
+
+	result.m[ 0 ][ 0 ] = cos;
+	result.m[ 0 ][ 1 ] = 0.0f;
+	result.m[ 0 ][ 2 ] = -sin;
+	result.m[ 0 ][ 3 ] = 0.0f;
+
+	result.m[ 1 ][ 0 ] = 0.0f;
+	result.m[ 1 ][ 1 ] = 1.0f;
+	result.m[ 1 ][ 2 ] = 0.0f;
+	result.m[ 1 ][ 3 ] = 0.0f;
+
+	result.m[ 2 ][ 0 ] = sin;
+	result.m[ 2 ][ 1 ] = 0.0f;
+	result.m[ 2 ][ 2 ] = cos;
+	result.m[ 2 ][ 3 ] = 0.0f;
+
+	result.m[ 3 ][ 0 ] = 0.0f;
+	result.m[ 3 ][ 1 ] = 0.0f;
+	result.m[ 3 ][ 2 ] = 0.0f;
+	result.m[ 3 ][ 3 ] = 1.0f;
 	return	result;
 }
 //Z軸周り
@@ -62,13 +119,27 @@ Matrix4	MatRotZ(float angle)
 {
 	float	sin = std::sin(angle);
 	float	cos = std::cos(angle);
-	Matrix4	result
-	{
-		 cos, sin,0.0f,0.0f,
-		-sin, cos,0.0f,0.0f,
-		0.0f,0.0f,1.0f,0.0f,
-		0.0f,0.0f,0.0f,1.0f
-	};
+	Matrix4	result;
+	
+	result.m[ 0 ][ 0 ] = cos;
+	result.m[ 0 ][ 1 ] = sin;
+	result.m[ 0 ][ 2 ] = 0.0f;
+	result.m[ 0 ][ 3 ] = 0.0f;
+
+	result.m[ 1 ][ 0 ] = -sin;
+	result.m[ 1 ][ 1 ] = cos;
+	result.m[ 1 ][ 2 ] = 0.0f;
+	result.m[ 1 ][ 3 ] = 0.0f;
+
+	result.m[ 2 ][ 0 ] = 0.0f;
+	result.m[ 2 ][ 1 ] = 0.0f;
+	result.m[ 2 ][ 2 ] = 1.0f;
+	result.m[ 2 ][ 3 ] = 0.0f;
+
+	result.m[ 3 ][ 0 ] = 0.0f;
+	result.m[ 3 ][ 1 ] = 0.0f;
+	result.m[ 3 ][ 2 ] = 0.0f;
+	result.m[ 3 ][ 3 ] = 1.0f;
 	return	result;
 }
 
@@ -95,13 +166,27 @@ Matrix4	MatRot(Vector3 angle)
 //平行移動
 Matrix4	MatTrans(const Vector3& t)
 {
-	Matrix4	result
-	{
-		1.0f,0.0f,0.0f,0.0f,
-		0.0f,1.0f,0.0f,0.0f,
-		0.0f,0.0f,1.0f,0.0f,
-		 t.x, t.y, t.z,1.0f
-	};
+	Matrix4	result;
+	
+	result.m[ 0 ][ 0 ] = 1.0f;
+	result.m[ 0 ][ 1 ] = 0.0f;
+	result.m[ 0 ][ 2 ] = 0.0f;
+	result.m[ 0 ][ 3 ] = 0.0f;
+
+	result.m[ 1 ][ 0 ] = 0.0f;
+	result.m[ 1 ][ 1 ] = 1.0f;
+	result.m[ 1 ][ 2 ] = 0.0f;
+	result.m[ 1 ][ 3 ] = 0.0f;
+
+	result.m[ 2 ][ 0 ] = 0.0f;
+	result.m[ 2 ][ 1 ] = 0.0f;
+	result.m[ 2 ][ 2 ] = 1.0f;
+	result.m[ 2 ][ 3 ] = 0.0f;
+
+	result.m[ 3 ][ 0 ] = t.x;
+	result.m[ 3 ][ 1 ] = t.y;
+	result.m[ 3 ][ 2 ] = t.z;
+	result.m[ 3 ][ 3 ] = 1.0f;
 	return	result;
 }
 

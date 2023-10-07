@@ -33,3 +33,19 @@ void	Camera::UpdateProjection() {
 void	Camera::UpdateViewProjection() {
 	matViewProjection = matView * matProjection;
 }
+
+
+//setter
+void Camera::SetEye(XMFLOAT3 eye_) {this->eye = eye_;}
+void Camera::SetTarget(XMFLOAT3 target_) {this->target = target_;}
+void Camera::SetUp(XMFLOAT3 up_) {	this->up = up_;}
+void Camera::SetView(XMMATRIX matView_) {	this->matView = matView_;}
+void Camera::SetProjection(XMMATRIX matProjection_) {	this->matProjection = matProjection_;}
+
+//getter
+const XMMATRIX& Camera::GetView() {	return matView;}
+const XMMATRIX& Camera::GetProjection() {return matProjection;}
+const XMFLOAT3& Camera::GetEye() {return eye;}
+const XMFLOAT3& Camera::GetTarget() { return target;}
+const XMFLOAT3& Camera::GetUp() { return up;}
+const XMMATRIX& Camera::GetViewProjection() {return matViewProjection;}

@@ -1,15 +1,27 @@
-﻿#pragma once
-#include<Windows.h>
+#pragma once
 #include<fstream>
 #include<sstream>
 #include<string>
 #include<vector>
 #include<cassert>
+#pragma warning( push )
+#pragma warning(disable:4061)
+#pragma warning(disable:4265)
+#pragma warning(disable:4365)
+#pragma warning(disable:4514)
+#pragma warning(disable:4625)
+#pragma warning(disable:4626)
+#pragma warning(disable:4668)
+#pragma warning(disable:4820)
+#pragma warning(disable:4828)
+#pragma warning(disable:5204)
+#pragma warning(disable:5220)
 #include<DirectXMath.h>
+#include<Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
-#include <DirectXMath.h>
-#include "d3dx12.h"
+#include <d3dx12.h>
+#pragma warning( pop)
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -20,7 +32,7 @@ public://静的メンバ関数
 	//obj読み込み
 	static Model* LoadFromOBJ(const	std::string& modelname);
 	//セッター
-	static void SetDevice(ID3D12Device* device_) { Model::device = device_; }
+	static void SetDevice(ID3D12Device* device_);
 
 	static void Finalize();
 public:
@@ -66,23 +78,13 @@ public: // サブクラス
 		XMFLOAT3 specular;//スペキュラー影響度
 		float alpha;//アルファ
 		std::string textureFilename;//テクスチャファイル名
-		//コンストラクタ
-		Material() {
-			ambient = { 0.3f,0.3f,0.3f };
-			diffuse = { 0.0f,0.0f,0.0f };
-			specular = { 0.0f,0.0f,0.0f };
-			alpha = 1.0f;
-		}
 	};
 private:
 	//デバイス
 	static ComPtr<ID3D12Device> device;
 private://メンバ変数
 	//頂点インデックス配列
-	std::vector<unsigned short>indices;
 	std::vector<VertexPosNormalUv>vertices;
-	// デスクリプタサイズ
-	UINT descriptorHandleIncrementSize;
 	// デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeap;
 	// 頂点バッファ
@@ -103,4 +105,8 @@ private://メンバ変数
 	Material	material;
 	//ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	ComPtr<ID3D12Resource> constBuffB1; // 定数バッファ
+	// デスクリプタサイズ
+	UINT descriptorHandleIncrementSize;
+	int	iBufferSize;
+	std::vector<unsigned short>indices;
 };

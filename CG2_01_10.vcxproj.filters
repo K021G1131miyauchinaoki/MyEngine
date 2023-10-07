@@ -13,12 +13,6 @@
     <FxCompile Include="Resources\shaders\ObjPS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\Object3dVS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\Object3dPS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\shaders\ParticleGS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
@@ -300,9 +294,6 @@
   <ItemGroup>
     <None Include="ReadMe.md" />
     <None Include="Resources\shaders\Sprite.hlsli">
-      <Filter>shader</Filter>
-    </None>
-    <None Include="Resources\shaders\Object3d.hlsli">
       <Filter>shader</Filter>
     </None>
     <None Include="Resources\shaders\Obj.hlsli">

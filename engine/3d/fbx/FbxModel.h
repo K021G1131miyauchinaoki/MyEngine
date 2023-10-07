@@ -1,14 +1,15 @@
 ﻿#pragma once
 #include<string>
-#include<DirectXMath.h>
 #include<vector>
-#include<DirectXTex.h>
 #include<Windows.h>
 #include<wrl.h>
 #include<d3d12.h>
 #include<d3dx12.h>
 #pragma warning( push )
 #pragma warning( disable : 4324 )
+#pragma warning( disable : 4828 )
+#include<DirectXMath.h>
+#include<DirectXTex.h>
 #include<fbxsdk.h>
 #pragma warning( pop)
 

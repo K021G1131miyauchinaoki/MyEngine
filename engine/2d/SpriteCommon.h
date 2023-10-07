@@ -1,10 +1,9 @@
-﻿#pragma once
+#pragma once
 #include"DirectXCommon.h"
-#include<DirectXMath.h>
 #include<array>
 #include<string>
 #include<vector>
-using namespace DirectX;
+
 
 class SpriteCommon final
 {

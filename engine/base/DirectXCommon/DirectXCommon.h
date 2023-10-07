@@ -1,6 +1,17 @@
-﻿#include<d3d12.h>
+#pragma warning( push )
+#pragma warning( disable : 4324 )
+#pragma warning (disable:5204)
+#pragma warning( disable : 4820)
+#pragma warning( disable : 4265)
+#pragma warning( disable : 4365)
+#pragma warning( disable : 4625)
+#pragma warning( disable : 4626)
+#pragma warning( disable : 5220)
+#pragma warning( disable : 4514)
+#include<d3d12.h>
 #include<dxgi1_6.h>
 #include<wrl.h>
+#pragma warning( pop)
 #include<vector>
 #include<wchar.h>
 #include<string>
@@ -43,9 +54,9 @@ public://ゲッター
 	//コマンドリスト
 	ID3D12GraphicsCommandList* GetCommandList()const { return cmdList.Get(); }
 	//result
-	HRESULT GetResult()const { return result; }
+	HRESULT GetResult()const;
 	//スワップチェーン
-	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; }
+	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const;
 	//バックバッファ数を取得
 	size_t GetBackBufferCount()const { return backBuffers.size(); }
 
@@ -85,4 +96,3 @@ private:
 	WinApp* winApp = nullptr;
 	HRESULT	result;
 };
-

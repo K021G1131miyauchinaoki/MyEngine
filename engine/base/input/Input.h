@@ -1,13 +1,16 @@
-﻿#include<Windows.h>
-#pragma	comment(lib,"dinput8.lib")
-#pragma	comment(lib,"dxguid.lib")
 #define	DIRECTINPUT_VERSION	0x0800 //DirectInputのバージョン指定
+#pragma warning(push)
+#pragma warning(disable:4820)
 #include<dinput.h>
-#include<cassert>
+#include<Windows.h>
 #include<wrl.h>
+#pragma warning(pop)
+#include<cassert>
 #include"WinApp.h"
 #include<Vector2.h>
 
+#pragma	comment(lib,"dinput8.lib")
+#pragma	comment(lib,"dxguid.lib")
 #pragma once
 
 enum Botton {

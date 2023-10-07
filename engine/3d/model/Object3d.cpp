@@ -1,6 +1,9 @@
 #include "Object3d.h"
 #include <d3dcompiler.h>
-#include "DirectXTex.h"
+#pragma warning( push )
+#pragma warning( disable : 4828 )
+#include<DirectXTex.h>
+#pragma warning( pop)
 #include<fstream>
 #include<sstream>
 #include<string>
@@ -23,6 +26,15 @@ ComPtr<ID3D12RootSignature> Object3d::rootsignature;
 ComPtr<ID3D12PipelineState> Object3d::pipelinestate;
 Camera* Object3d::camera = nullptr;
 
+const Vector3& Object3d::GetPosition() const {return position;}
+void  Object3d::SetPosition(const Vector3& position_) {this->position = position_;}
+const Vector3& Object3d::GetRotation() const {return rotation;}
+void  Object3d::SetRotation(const Vector3& rotation_) {this->rotation = rotation_;}
+const Vector3& Object3d::GetScale() const {return scale;}
+void  Object3d::SetScale(const Vector3& scale_) {this->scale = scale_;}
+void  Object3d::SetModel(Model* model_) {model = model_;}
+void  Object3d::SetParent(Object3d* parent_) {parent = parent_;}
+void  Object3d::SetColor(XMFLOAT4 color_) {color = color_;}
 void Object3d::Finalize() {
 	device.Reset();
 	rootsignature.Reset();

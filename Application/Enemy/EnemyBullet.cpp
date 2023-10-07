@@ -1,7 +1,11 @@
 #include "EnemyBullet.h"
 #include<assert.h>
 
-std::unique_ptr < Model>  EnemyBullet::model=nullptr;
+std::unique_ptr<Model> EnemyBullet::model = nullptr;
+
+bool EnemyBullet::IsDead() const { return isDead_; }
+float EnemyBullet::GetRadius() {return r;}
+
 
 void EnemyBullet::StaticInitialize(Model* model_) {
 	if (model == nullptr)
@@ -13,6 +17,8 @@ void EnemyBullet::StaticInitialize(Model* model_) {
 void EnemyBullet::Initialize( const Vector3& position, const Vector3& velocity, const Vector3& rotation) {
 	//NULLポインタチェック
 	assert(model);
+	/*size_t s=sizeof(model);
+	size_t s = sizeof(model);*/
 	velocity_ = velocity;
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
@@ -21,7 +27,6 @@ void EnemyBullet::Initialize( const Vector3& position, const Vector3& velocity, 
 	obj->SetPosition(position);
 	obj->SetColor({ 0.0f,0.0f,0.0f,1.0f });
 	obj->Update();
-	deathTimer = kLifeTime;
 }
 
 void EnemyBullet::Update() {
@@ -63,7 +68,7 @@ void EnemyBullet::Finalize() {
 
 //コンストラクタ
 EnemyBullet::EnemyBullet() {
-
+	deathTimer = kLifeTime;
 }
 //デストラクタ
 EnemyBullet::~EnemyBullet() {

@@ -1,7 +1,6 @@
 #include<string>
 #include<d3dcompiler.h>
 #include<cassert>
-#include<imgui.h>
 #include"MyGame.h"
 #include"Framework.h"
 #include<dxgidebug.h>

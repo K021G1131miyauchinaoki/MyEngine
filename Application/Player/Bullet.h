@@ -1,5 +1,4 @@
-﻿#pragma once
-#include<DirectXMath.h>
+#pragma once
 #include<Model.h>
 #include<Object3d.h>
 #include<Vector3.h>

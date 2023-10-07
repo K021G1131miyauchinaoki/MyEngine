@@ -1,6 +1,9 @@
 #include "FbxLoader.h"
 #include<cassert>
+#pragma warning( push )
+#pragma warning( disable : 4828 )
 #include<DirectXMath.h>
+#pragma warning( pop)
 using namespace DirectX;
 /// <summary>
 /// 静的メンバ変数の実体

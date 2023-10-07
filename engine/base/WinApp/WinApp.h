@@ -1,6 +1,9 @@
-﻿#pragma once
+#pragma once
+#pragma warning (push)
+#pragma warning (disable:4668)
 #include<Windows.h>
 #include<imgui_impl_dx12.h>
+#pragma warning (pop)
 
 class WinApp
 {
@@ -16,7 +19,7 @@ public://メンバ関数
 	void	Finalize();
 
 
-	WNDCLASSEX	GetWindow()const { return w; };
+	WNDCLASSEX	GetWindow()const;
 
 	HWND	GetHwnd() { return hwnd; };
 public:

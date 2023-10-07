@@ -1,7 +1,11 @@
 #include "SpriteCommon.h"
 #include<d3dcompiler.h>
-
-#include"DirectXTex.h"
+#pragma warning( push )
+#pragma warning( disable :  4820)
+#pragma warning( disable :  4828)
+#pragma warning( disable :  4514)
+#include<DirectXTex.h>
+#pragma warning( pop )
 #pragma	comment(lib,"d3dcompiler.lib")
 
 std::string SpriteCommon::defaultTextureDirectoryPath = "Resources/";
@@ -14,8 +18,8 @@ SpriteCommon* SpriteCommon::GetInstance() {
 
 void	SpriteCommon::Loadtexture(uint32_t index, std::string fileName) {
 
-	TexMetadata	metadata{};
-	ScratchImage	scratchImg{};
+	DirectX::TexMetadata	metadata{};
+	DirectX::ScratchImage	scratchImg{};
 
 	//ディレクトリパスとファイル名を結合
 	std::string fullPath = defaultTextureDirectoryPath + fileName;
@@ -27,20 +31,20 @@ void	SpriteCommon::Loadtexture(uint32_t index, std::string fileName) {
 
 	result = LoadFromWICFile(
 		wfilePath.data(),
-		WIC_FLAGS_NONE,
+		DirectX::WIC_FLAGS_NONE,
 		&metadata, scratchImg);
 
 
-	ScratchImage	mipChain{};
+	DirectX::ScratchImage	mipChain{};
 	result = GenerateMipMaps(
 		scratchImg.GetImages(), scratchImg.GetImageCount(), scratchImg.GetMetadata(),
-		TEX_FILTER_DEFAULT, 0, mipChain);
+		DirectX::TEX_FILTER_DEFAULT, 0, mipChain);
 	if (SUCCEEDED(result))
 	{
 		scratchImg = std::move(mipChain);
 		metadata = scratchImg.GetMetadata();
 	}
-	metadata.format = MakeSRGB(metadata.format);
+	metadata.format = DirectX::MakeSRGB(metadata.format);
 	//テクスチャバッファ設定
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES	textureHeapProp{};
@@ -71,7 +75,7 @@ void	SpriteCommon::Loadtexture(uint32_t index, std::string fileName) {
 	for (size_t i = 0; i < metadata.mipLevels; i++)
 	{
 		//ミップマップレベルを指定してイメージを取得
-		const	Image* img = scratchImg.GetImage(i, 0, 0);
+		const	DirectX::Image* img = scratchImg.GetImage(i, 0, 0);
 		//テクスチャバッファにデータ転送
 		result = texBuffers[index]->WriteToSubresource(
 			(UINT)i,

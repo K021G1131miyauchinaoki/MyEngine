@@ -12,6 +12,9 @@ WinApp* WinApp::GetInstance()
 	static WinApp instance;
 	return &instance;
 }
+WNDCLASSEX	WinApp::GetWindow()const {
+	return w;
+};
 
 //ウィンドウプロシージャ
 LRESULT	WinApp::WindowProc(HWND hwnd, UINT	msg, WPARAM wparam, LPARAM	lparam) {

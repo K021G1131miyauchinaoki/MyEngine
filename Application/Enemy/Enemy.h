@@ -1,5 +1,4 @@
-﻿#pragma once
-#include<Input.h>
+#pragma once
 #include<Model.h>
 #include"Object3d.h"
 #include<memory>
@@ -82,7 +81,6 @@ private://構造体
 
 
 private://メンバ変数
-	Input* input = nullptr;
 	Model* model = nullptr;
 	
 	std::unique_ptr<Object3d>obj = nullptr;

@@ -1,7 +1,13 @@
-﻿#pragma once
+#pragma once
+#pragma warning( push )
+#pragma warning( disable : 5039 )
+#pragma warning( disable : 4820 )
+#pragma warning( disable : 4514 )
+#pragma warning( disable : 4668 )
 #include <imgui.h>
-#include "imgui_impl_dx12.h"
+#include <imgui_impl_dx12.h>
 #include <d3d12.h>
+#pragma warning( pop )
 #include <tchar.h>
 #include"WinApp.h"
 #include"DirectXCommon.h"
@@ -22,9 +28,9 @@ public://メンバ関数
 public://静的メンバ関数
 private://メンバ変数
 	//SRV用デスクリプタヒープ
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>srvHeap;
+	HRESULT result = NULL;
 	WinApp* winApp = nullptr;
 	DirectXCommon* dxCom = nullptr;
-	HRESULT result = NULL;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>srvHeap;
 };
 

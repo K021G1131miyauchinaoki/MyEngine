@@ -1,14 +1,23 @@
-﻿#pragma once
+#pragma once
 
 #include"Vector3.h"
+#pragma warning(push)
+#pragma warning(disable:4668)
+#pragma warning(disable:4514)
 #include<DirectXMath.h>
+#pragma warning(pop)
 
 using namespace DirectX;
 
 //Matrix4構造体
 struct Matrix4
 {
-	float	m[4][4];
+	float	m[ 4 ][ 4 ] = {
+		{ 1.0f,0.0f,0.0f,0.0f },
+		{ 0.0f,1.0f,0.0f,0.0f },
+		{ 0.0f,0.0f,1.0f,0.0f },
+		{ 0.0f,0.0f,0.0f,1.0f }
+	};
 };
 
 //単位行列

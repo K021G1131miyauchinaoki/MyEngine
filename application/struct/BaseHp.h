@@ -1,5 +1,4 @@
-﻿#pragma once
-#include<DirectXMath.h>
+#pragma once
 #include<Sprite.h>
 #include<memory>
 

@@ -1,5 +1,8 @@
 #include "ImguiManager.h"
+#pragma warning( push )
+#pragma warning( disable : 4514 )
 #include <imgui_impl_win32.h>
+#pragma warning( pop )
 
 void ImguiManager::Initialize(WinApp* winApp_, DirectXCommon* dxCom_) {
 	winApp = winApp_;

@@ -1,5 +1,5 @@
-﻿#pragma once
-#include<BaseParticle.h>
+#pragma once
+#include"BaseParticle.h"
 #include<list>
 #include<memory>
 #include<Vector3.h>

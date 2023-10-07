@@ -1,13 +1,20 @@
-﻿#pragma once
-
+#pragma once
+#pragma warning(push)
+#pragma warning(disable:4365)
+#pragma warning(disable:4265)
+#pragma warning(disable:4820)
+#pragma warning(disable:4514)
+#pragma warning(disable:4668)
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
 #include <DirectXMath.h>
-#include "d3dx12.h"
+#include<d3dx12.h>
+#pragma warning(pop)
+//#pragma warning(disable: 4820) // 警告 C4820 を無効にする
 #include"Model.h"
 #include"Camera.h"
-#include<Vector3.h>
+#include"Vector3.h"
 
 /// <summary>
 /// 3Dオブジェクト
@@ -103,51 +110,50 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const Vector3& GetPosition() const { return position; }
+	const Vector3& GetPosition() const;
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(const Vector3& position_) { this->position = position_; }
+	void SetPosition(const Vector3& position_);
 	
 	/// <summary>
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const Vector3& GetRotation() const { return rotation; }
+	const Vector3& GetRotation() const;
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetRotation(const Vector3& rotation_) { this->rotation = rotation_; }
+	void SetRotation(const Vector3& rotation_);
 
 	/// <summary>
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const Vector3& GetScale() const { return scale; }
+	const Vector3& GetScale() const;
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetScale(const Vector3& scale_) { this->scale = scale_; }
+	void SetScale(const Vector3& scale_);
 
 	//モデルセッター
-	void	SetModel(Model* model_) { model = model_; }
+	void SetModel(Model* model_);
 
 	//ペアレント設定
-	void SetParent(Object3d* parent_) { parent = parent_; }
+	void SetParent(Object3d* parent_);
 
 	//カラー
-	void SetColor(XMFLOAT4 color_) { color = color_; }
+	void SetColor(XMFLOAT4 color_);
 
 private: // メンバ変数
-	//ComPtr<ID3D12Resource> constBuff; // 定数バッファ
-	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
-	//ComPtr<ID3D12Resource> constBuffB1; // 定数バッファ
+	// ローカルワールド変換行列
+	XMMATRIX matWorld;
 	// 色
 	XMFLOAT4 color = { 1,1,1,1 };
 	// ローカルスケール
@@ -156,10 +162,9 @@ private: // メンバ変数
 	Vector3 rotation = { 0,0,0 };
 	// ローカル座標
 	Vector3 position = { 0,0,0 };
-	// ローカルワールド変換行列
-	XMMATRIX matWorld;
-	// 親オブジェクト
-	Object3d* parent = nullptr;
 	//モデル
 	Model* model = nullptr;
+	// 親オブジェクト
+	Object3d* parent = nullptr;
+	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 };

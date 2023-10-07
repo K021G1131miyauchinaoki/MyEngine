@@ -1,7 +1,6 @@
-﻿#pragma once
-#include<DirectXMath.h>
-#include<Object3d.h>
-#include<Model.h>
+#pragma once
+#include"Object3d.h"
+#include"Model.h"
 #include<Vector3.h>
 
 class Map

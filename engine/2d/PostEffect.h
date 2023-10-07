@@ -1,10 +1,9 @@
-﻿#pragma once
+#pragma once
 #include<DirectXMath.h>
 #include<DirectXCommon.h>
 #include<wrl.h>
 #include<Vector2.h>
 #include<Vector3.h>
-#include<DirectXMath.h>
 
 class PostEffect
 {

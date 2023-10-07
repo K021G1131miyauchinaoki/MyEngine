@@ -1,11 +1,16 @@
 #include "Model.h"
-#include"DirectXTex.h"
-
+#pragma warning( push )
+#pragma warning( disable : 4828 )
+#include<DirectXTex.h>
+#pragma warning( pop)
 //静的メンバ変数の実体
 ComPtr < ID3D12Device> Model::device = nullptr;
 
 void Model::Finalize() {
 	device.Reset();
+}
+void Model::SetDevice(ID3D12Device* device_) {
+	Model::device = device_;
 }
 
 Model* Model::LoadFromOBJ(const	std::string& modelname) {
@@ -132,7 +137,7 @@ void Model::LoadTexture(const	std::string& directoryPath, const std::string& fil
 
 	//ユニコード文字列に変更する
 	wchar_t	wfilepath[128];
-	int	iBufferSize = MultiByteToWideChar(
+	iBufferSize = MultiByteToWideChar(
 		CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
 
 	// WICテクスチャのロード
@@ -349,6 +354,7 @@ void Model::CreateBuffers() {
 		nullptr,
 		IID_PPV_ARGS(&constBuffB1));
 	//定数バッファデータ転送
+	material.alpha = 1.0f;
 	ConstBufferDataB1* constMap1 = nullptr;
 	result = constBuffB1->Map(0, nullptr, (void**)&constMap1);
 	constMap1->ambient = material.ambient;

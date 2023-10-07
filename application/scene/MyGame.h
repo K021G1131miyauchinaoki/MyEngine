@@ -1,10 +1,9 @@
-﻿#pragma once
+#pragma once
 #include<vector>
 #include"Framework.h"
 #include"Sprite.h"
 #include"ImguiManager.h"
-#include"SoundManager.h"
-#include<ImguiManager.h>
+#include"SoundManager.h" 
 #include<BaseScene.h>
 
 class MyGame:public Framework

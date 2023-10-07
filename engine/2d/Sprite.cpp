@@ -1,5 +1,10 @@
 #include "Sprite.h"
-#include"DirectXTex.h"
+#pragma warning( push )
+#pragma warning( disable :  4820)
+#pragma warning( disable :  4828)
+#pragma warning( disable :  4514)
+#include<DirectXTex.h>
+#pragma warning( pop )
 
 
 //インデックスデータ
