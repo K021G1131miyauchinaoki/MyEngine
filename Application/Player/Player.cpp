@@ -4,6 +4,8 @@
 #include<SpriteCommon.h>
 #include<Map.h>
 #include<SceneManager.h>
+#include"TitleScene.h"
+#include"Easing.h"
 
 void Player::Initialeze( Model* model_, Input* input_) {
 	assert(model_);
@@ -42,6 +44,7 @@ void Player::Initialeze( Model* model_, Input* input_) {
 }
 
 void Player::Update() {
+	TitleStaging();
 	if (SceneManager::sceneNum == SceneManager::play)
 	{
 		//デスフラグの立った弾を削除
@@ -226,5 +229,80 @@ void Player::OnCollision()
 	if (hp.value<=0)
 	{
 		hp.isDead = true;
+	}
+}
+
+void Player::TitleStaging() {
+	if ( SceneManager::sceneNum == SceneManager::title )
+	{
+		if ( TitleScene::movieCount == 0 )
+		{
+			if ( isTitleStaging )
+			{
+				if ( obj->GetPosition().x>0.0f )
+				{
+					isTitleStaging = false;
+					TitleScene::AddMovieCount();
+				}
+			}
+			else
+			{
+				obj->SetPosition({ -30.0f,5.0f,0.0f });
+				isTitleStaging = true;
+			}
+		}
+		else if ( TitleScene::movieCount == 1 )
+		{
+			if ( isTitleStaging )
+			{
+				if ( obj->GetPosition().x > 0.0f )
+				{
+					isTitleStaging = false;
+					TitleScene::AddMovieCount();
+				}
+			}
+			else
+			{
+				obj->SetPosition({ -45.0f,5.0f,0.0f });
+				isTitleStaging = true;
+			}
+		}
+		else if ( TitleScene::movieCount == 2 )
+		{
+			if ( isTitleStaging )
+			{
+				if ( obj->GetPosition().x > 0.0f )
+				{
+					isTitleStaging = false;
+					TitleScene::AddMovieCount();
+				}
+			}
+			else
+			{
+				easeTime=0.0f;
+				obj->SetPosition({ -45.0f,5.0f,0.0f });
+				isTitleStaging = true;
+			}
+		}
+		//移動
+		if ( TitleScene::movieCount < 2 )
+		{
+			Vector3 move = obj->GetPosition();
+			const float speed = 0.25f;
+			move.x += speed;
+			obj->SetPosition(move);
+		}
+		else if ( easeTime < easeTimer )
+		{
+			//イージング
+			Vector3 start = { -45.0f,5.0f,0.0f };
+			Vector3 end = { 0.0f,5.0f,0.0f };
+			Vector3 move = obj->GetPosition();
+			move.x = start.x + ( end.x - start.x ) * Easing::easeOutSine(easeTime / easeTimer);
+			obj->SetPosition(move);
+
+			easeTime+=0.3f;
+		}
+		
 	}
 }

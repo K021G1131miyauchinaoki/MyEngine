@@ -29,6 +29,12 @@ public://メンバ関数
 
 	//終了
 	void Finalize()override;
+	void BlackOutStaging();
+
+	static void AddMovieCount();
+
+	static int8_t movieCount;
+
 
 	TitleScene();
 	~TitleScene()override;
@@ -54,7 +60,7 @@ private:
 	std::unique_ptr<ImguiManager> ImgM;
 
 	//
-	std::array< std::unique_ptr<Sprite>,2> tSprite;
+	std::unique_ptr<Sprite> blackOutSprite;
 
 	//シェイク
 	Vector2 shake;
@@ -63,5 +69,13 @@ private:
 	int32_t movieTimer;
 	int32_t titleTimer;
 	bool isMovie;
+
+	//暗転
+	float blackOutTime;
+	const float blackOutTimer=1.0f;
+	float alpha;
+	bool isBlackOut;
+	bool isLightChange;
+	
 };
 

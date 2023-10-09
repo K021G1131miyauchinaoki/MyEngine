@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<Input.h>
 #include<Model.h>
 #include"Object3d.h"
@@ -58,6 +58,11 @@ public://メンバ関数
 	/// <returns></returns>
 	const	Vector3 GetPos() {return obj->GetPosition(); }
 
+	/// <summary>
+	/// タイトル演出
+	/// </summary>
+	void TitleStaging();
+
 	void OnCollision();
 
 	Vector3 GetVelocity(){ return velocity; }
@@ -87,11 +92,16 @@ private://メンバ変数
 	//半径
 	float radius = 5.0f;
 
-	bool isInvincible = false;
 	const int16_t invincibleTime=11;
 	int16_t invincibleTimer;
 
 	BaseHp hp;
 	std::vector<DrawHp> drawHp;
+
+	float easeTime;
+	const float easeTimer = 80.0f;
+
+	bool isTitleStaging = false;
+	bool isInvincible = false;
 };
 
