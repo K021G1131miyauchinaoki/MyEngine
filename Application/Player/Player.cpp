@@ -303,6 +303,11 @@ void Player::TitleStaging() {
 
 			easeTime+=0.3f;
 		}
+
+		if ( easeTime > easeTimer )
+		{
+			TitleScene::AddMovieCount();
+		}
 		
 	}
 }

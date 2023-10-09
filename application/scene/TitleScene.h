@@ -11,7 +11,7 @@
 #include<Map.h>
 #include<BaseScene.h>
 #include<array>
-#include"Vector2.h"
+#include"Vector3.h"
 
 class TitleScene:public BaseScene
 {
@@ -63,7 +63,7 @@ private:
 	std::unique_ptr<Sprite> blackOutSprite;
 
 	//シェイク
-	Vector2 shake;
+	Vector3 shake;
 	//ムービー
 	int32_t movieTime;
 	int32_t movieTimer;

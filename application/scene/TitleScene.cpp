@@ -1,6 +1,7 @@
 #include "TitleScene.h"
 #include<SceneManager.h>
 #include<Easing.h>
+#include<random>
 
 int8_t TitleScene::movieCount = NULL;
 
@@ -76,19 +77,37 @@ void TitleScene::Update() {
 	blackOutSprite->Update();
 	player->Update();
 	//カメラ位置
+#pragma region 乱数
+	//乱数シード生成器
+	std::random_device seed_gen;
+	//メルセンヌ・ツイスターの乱数エンジン
+	std::mt19937_64 engine(seed_gen());
+	//乱数　（回転）
+	std::uniform_real_distribution<float> posDist(-0.025f,0.025f);
+	//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
+	shake = { posDist(engine),posDist(engine),0.0f };
 	if ( movieCount==0 )
 	{
-		camera->SetEye({ 8.0f,0.5f,-15.0f });
+		DirectX::XMFLOAT3 eye = { 8.0f + shake.x,0.5f + shake.y,-15.0f };
+		camera->SetEye(eye);
 	}
 	else if ( movieCount == 1 )
 	{
-		camera->SetEye({ 10.0f,8.0f,15.0f });
+		DirectX::XMFLOAT3 eye = { 10.0f + shake.x,8.0f + shake.y,15.0f };
+		camera->SetEye(eye);
 	}
 	else if ( movieCount == 2 )
 	{
 		camera->SetTarget({ 0.0f, player->GetPos().y, player->GetPos().z });
-		camera->SetEye({ 15.0f,8.0f,-15.0f });
+		DirectX::XMFLOAT3 eye = { 15.0f + shake.x,8.0f + shake.y,-15.0f };
+		camera->SetEye(eye);
 	}
+	else if ( movieCount == 3 )
+	{
+		DirectX::XMFLOAT3 eye = { 15.0f ,8.0f,-15.0f };
+		camera->SetEye(eye);
+	}
+
 	//暗転
 	if ( movieCount < 2 &&player->GetPos().x>-1.0f)
 	{
