@@ -46,15 +46,17 @@ void TitleScene::Initialize() {
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
 	objSkydome->SetModel(modelSkydome.get());
-	objSkydome->SetScale({ 200.0f,200.0f,200.0f });
+	objSkydome->SetScale({ 150.0f,150.0f,150.0f });
 
 	//プレイヤー
 	player = std::make_unique<Player>();
 	player->Initialeze(tank.get(), input.get());
 	
 
-	camera->SetTarget({ 0.0f, player->GetPos().y, player->GetPos().z });
-	camera->SetEye({ player->GetPos().x+15.0f,player->GetPos().y +3.0f, player->GetPos().z - 15.0f });
+	camera->SetTarget({ 0.0f, 2.0f,0.0f });
+	//camera->SetEye({ 8.0f,0.5f,-15.0f });
+	camera->SetEye({ 10.0f,8.0f,15.0f });
+	//camera->SetEye({ 15.0f,8.0f,-15.0f });
 	//マップ
 	map = std::make_unique<Map>();
 	map->Initialize(false);
@@ -91,7 +93,7 @@ void TitleScene::SpriteDraw() {
 	for ( size_t i = 0; i < tSprite.size(); i++ )
 	{
 		tSprite[ i ]->SetTexIndex(5);
-		tSprite[ i ]->Draw();
+		//tSprite[ i ]->Draw();
 	}
 }
 

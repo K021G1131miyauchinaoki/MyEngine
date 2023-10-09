@@ -121,6 +121,8 @@ void Map::LoadCSV(const std::string& num_) {
 				pos.y = posEndY;
 				pos.z = (i * scaleEnd.z) * 2.0f - ((scaleEnd.z * height)/4.0f);
 			}
+			pos.z = ( i * scaleEnd.z ) * 2.0f - ( scaleEnd.z * height );
+
 			pos.x = (j * scaleEnd.x) * 2.0f - (scaleEnd.x * width);
 			//オブジェクトにパラメータをセット
 			blocks[i][j].obj = std::make_unique<Object3d>();
