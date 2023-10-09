@@ -63,10 +63,8 @@ void TitleScene::Initialize() {
 	map->LoadCSV("title");
 
 	isMovie = true;
-	movieTimer=300;
-	titleTimer=600;
-	movieTime=movieTimer;
-	movieCount = 0;
+	movieTime=0;
+	movieCount = 2;
 	isBlackOut = false;
 	isLightChange = false;
 	blackOutTime = 0.0f;
@@ -106,6 +104,12 @@ void TitleScene::Update() {
 	{
 		DirectX::XMFLOAT3 eye = { 15.0f ,8.0f,-15.0f };
 		camera->SetEye(eye);
+		movieTime++;
+		if ( movieTime>movieTimer )
+		{
+			movieCount = 0;
+			movieTime = 0;
+		}
 	}
 
 	//暗転

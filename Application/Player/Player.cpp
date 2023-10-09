@@ -271,7 +271,7 @@ void Player::TitleStaging() {
 		{
 			if ( isTitleStaging )
 			{
-				if ( obj->GetPosition().x > 0.0f )
+				if ( easeTime > easeTimer )
 				{
 					isTitleStaging = false;
 					TitleScene::AddMovieCount();
@@ -304,10 +304,7 @@ void Player::TitleStaging() {
 			easeTime+=0.3f;
 		}
 
-		if ( easeTime > easeTimer )
-		{
-			TitleScene::AddMovieCount();
-		}
+		
 		
 	}
 }

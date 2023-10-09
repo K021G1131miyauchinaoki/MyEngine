@@ -66,8 +66,7 @@ private:
 	Vector3 shake;
 	//ムービー
 	int32_t movieTime;
-	int32_t movieTimer;
-	int32_t titleTimer;
+	const int32_t movieTimer = 600;
 	bool isMovie;
 
 	//暗転
