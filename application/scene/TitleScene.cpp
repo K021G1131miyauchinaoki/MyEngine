@@ -11,7 +11,18 @@ void TitleScene::Initialize() {
 		false,//左右反転
 		false//上下反転
 		);
+	tSprite[0] = std::make_unique<Sprite>();
+	tSprite[ 1 ] = std::make_unique<Sprite>();
 	titleSprite->Initialize(SpriteCommon::GetInstance(), 1);
+	for ( size_t i = 0; i < tSprite.size(); i++ )
+	{
+		tSprite[i]->Initialize(SpriteCommon::GetInstance(),5);
+		tSprite[ i ]->SetPosition(XMFLOAT2{ 0.0f,50+620.0f*static_cast<float>(i) });
+		tSprite[ i ]->SetSize(XMFLOAT2{ 1280.0f,100.0f });
+		tSprite[ i ]->SetColor(XMFLOAT4{ 0,0,0,1 });
+		tSprite[ i ]->SetAnchorPoint(XMFLOAT2{ 0.0f,0.5f });
+
+	}
 	input.reset(Input::GetInstance());
 	//カメラ
 	camera = std::make_unique<Camera>();
@@ -47,11 +58,21 @@ void TitleScene::Initialize() {
 	//マップ
 	map = std::make_unique<Map>();
 	map->Initialize(false);
-	map->LoadCSV("1");
+	map->LoadCSV("title");
+
+	isMovie = true;
+	movieTimer=300;
+	titleTimer=600;
+	movieTime=movieTimer;
+
 }
 
 void TitleScene::Update() {
 	titleSprite->Update();
+	for ( size_t i = 0; i < tSprite.size(); i++ )
+	{
+		tSprite[ i ]->Update();
+	}
 	camera->Update();
 	player->Update();
 	objSkydome->Update();
@@ -67,7 +88,11 @@ void TitleScene::Update() {
 void TitleScene::SpriteDraw() {
 	titleSprite->SetTexIndex(1);
 	titleSprite->Draw();
-
+	for ( size_t i = 0; i < tSprite.size(); i++ )
+	{
+		tSprite[ i ]->SetTexIndex(5);
+		tSprite[ i ]->Draw();
+	}
 }
 
 void TitleScene::ObjDraw() {

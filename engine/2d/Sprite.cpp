@@ -186,8 +186,8 @@ void Sprite::Update()
 	};
 	float left = (0.0f - anchorPoint.x) * size.x;
 	float right = (1.0f - anchorPoint.x) * size.x;
-	float top = (0.0f - anchorPoint.x) * size.y;
-	float bottom = (1.0f - anchorPoint.x) * size.y;
+	float top = (0.0f - anchorPoint.y) * size.y;
+	float bottom = (1.0f - anchorPoint.y) * size.y;
 
 	if (isFlipX)
 	{// 左右入れ替え

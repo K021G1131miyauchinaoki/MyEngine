@@ -23,7 +23,8 @@ void Framework::Initialize(){
 	SpriteCommon::GetInstance()->Loadtexture(1, "title.png");
 	SpriteCommon::GetInstance()->Loadtexture(2, "clear.png");
 	SpriteCommon::GetInstance()->Loadtexture(3, "over.png");
-	SpriteCommon::GetInstance()->Loadtexture(4, "heart.png");
+	SpriteCommon::GetInstance()->Loadtexture(4,"heart.png");
+	SpriteCommon::GetInstance()->Loadtexture(5, "white1.png");
 }
 
 void Framework::Update(){

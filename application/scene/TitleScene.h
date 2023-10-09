@@ -10,6 +10,8 @@
 #include<Enemy.h>
 #include<Map.h>
 #include<BaseScene.h>
+#include<array>
+#include"Vector2.h"
 
 class TitleScene:public BaseScene
 {
@@ -50,5 +52,16 @@ private:
 	std::unique_ptr<Map>map;
 
 	std::unique_ptr<ImguiManager> ImgM;
+
+	//
+	std::array< std::unique_ptr<Sprite>,2> tSprite;
+
+	//シェイク
+	Vector2 shake;
+	//ムービー
+	int32_t movieTime;
+	int32_t movieTimer;
+	int32_t titleTimer;
+	bool isMovie;
 };
 
