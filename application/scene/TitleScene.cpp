@@ -64,7 +64,7 @@ void TitleScene::Initialize() {
 
 	isMovie = true;
 	movieTime=0;
-	movieCount = 2;
+	movieCount = 0;
 	isBlackOut = false;
 	isLightChange = false;
 	blackOutTime = 0.0f;
@@ -130,8 +130,11 @@ void TitleScene::Update() {
 }
 
 void TitleScene::SpriteDraw() {
-	titleSprite->SetTexIndex(1);
-	titleSprite->Draw();
+	if ( movieCount == 3 )
+	{
+		titleSprite->SetTexIndex(1);
+		titleSprite->Draw();
+	}
 	blackOutSprite->SetTexIndex(5);
 	blackOutSprite->Draw();
 }
