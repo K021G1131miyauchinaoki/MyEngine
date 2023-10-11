@@ -8,8 +8,7 @@
 
 void MyGame::Initialize() {
 	Framework::Initialize();
-	ImgM = std::make_unique<ImguiManager>();
-	ImgM->Initialize(winApp.get(), dxCommon.get());
+	ImguiManager::GetInstance()->Initialize(winApp.get(), dxCommon.get());
 	
 	//シーンマネージャーに最初のシーンをセット
 	sceneFactory = new SceneFactory();
@@ -18,18 +17,17 @@ void MyGame::Initialize() {
 }
 
 void MyGame::Update(){
+	float vec[2] = { input->GetMausePos().x,input->GetMausePos().y};
+	//imgui関連
+	ImguiManager::GetInstance()->Begin();
+	//ここから中身を書いていく
+	ImGui::Begin("a");
+	ImGui::SliderFloat2("mousePos", vec, -100.0f, static_cast<float>(WinApp::width));
+	ImGui::End();
 	Framework::Update();
 	//------------------------------
 	SceneManager::GetInstance()->Update();
-	
-	float vec[2] = { input->GetMausePos().x,input->GetMausePos().y};
-	//imgui関連
-	ImgM->Begin();
-	//ここから中身を書いていく
-	/*ImGui::Begin("a");
-	ImGui::SliderFloat2("mousePos", vec, -100.0f, static_cast<float>(WinApp::width));
-	ImGui::End();*/
-}
+}	
 
 void MyGame::Draw(){
 	//PostEffect::PostDrawScene(dxCommon->GetCommandList());
@@ -49,8 +47,8 @@ void MyGame::Draw(){
 	SpriteCommon::GetInstance()->PostDraw();
 
 	//imgui
-	ImgM->End();
-	ImgM->Draw();
+	ImguiManager::GetInstance()->End();
+	ImguiManager::GetInstance()->Draw();
 	//pe->ObjDraw(dxCommon->GetCommandList());
 
 	dxCommon->PostDraw();
