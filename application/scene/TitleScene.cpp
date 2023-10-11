@@ -31,6 +31,10 @@ void TitleScene::Initialize() {
 	camera->Initialeze();
 	Object3d::SetCamera(camera.get());
 
+	//ライト
+	light.reset(Light::Create());
+	light->SetLightColor({ 0.75f,0.75f,0.75f });
+	Object3d::SetLight(light.get());
 
 	// モデル読み込み
 	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
@@ -71,11 +75,26 @@ void TitleScene::Initialize() {
 }
 
 void TitleScene::Update() {
-	titleSprite->Update();
-	blackOutSprite->Update();
-	player->Update();
+
+	
+	if ( input->PushKey(DIK_W) )lightDir.m128_f32[ 1 ] += 1.0f;
+	if ( input->PushKey(DIK_S) )lightDir.m128_f32[ 1 ] -= 1.0f;
+	if ( input->PushKey(DIK_D) )lightDir.m128_f32[ 0 ] += 1.0f;
+	if ( input->PushKey(DIK_A) )lightDir.m128_f32[ 0 ]-= 1.0f;
+	if ( input->PushKey(DIK_Q) )lightDir.m128_f32[ 2 ] += 1.0f;
+	if ( input->PushKey(DIK_E) )lightDir.m128_f32[ 2 ] -= 1.0f;
+
+	light->SetLightDir(lightDir);
+	float a[4];
+	a[ 0 ] = lightDir.m128_f32[ 0 ];
+	a[ 1 ] = lightDir.m128_f32[ 1 ];
+	a[ 2 ] = lightDir.m128_f32[ 2 ];
+	a[ 3 ] = lightDir.m128_f32[ 3 ];
+	ImGui::Begin("lo");
+	ImGui::SliderFloat4("lightDir",a, -100.0f,100.0f);
+	ImGui::End();
+	
 	//カメラ位置
-#pragma region 乱数
 	//乱数シード生成器
 	std::random_device seed_gen;
 	//メルセンヌ・ツイスターの乱数エンジン
@@ -87,6 +106,7 @@ void TitleScene::Update() {
 	if ( movieCount==0 )
 	{
 		DirectX::XMFLOAT3 eye = { 8.0f + shake.x,0.5f + shake.y,-15.0f };
+		//DirectX::XMFLOAT3 eye = { 8.0f,2.0f,-0.0f };
 		camera->SetEye(eye);
 	}
 	else if ( movieCount == 1 )
@@ -118,6 +138,10 @@ void TitleScene::Update() {
 		isBlackOut = true;
 	}
 	BlackOutStaging();
+	light->Updata();
+	titleSprite->Update();
+	blackOutSprite->Update();
+	player->Update();
 	camera->Update();
 	objSkydome->Update();
 	map->Update();

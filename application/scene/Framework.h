@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<Input.h>
 #include<WinApp.h>
 #include<DirectXCommon.h>
@@ -12,6 +12,7 @@
 #include<memory>
 #include<SceneManager.h>
 #include<AbstractSceneFactory.h>
+#include<Light.h>
 
 class Framework
 {

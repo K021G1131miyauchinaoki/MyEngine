@@ -16,6 +16,7 @@ void Framework::Initialize(){
 	FbxObject3d::CreateGraphicsPipeline();
 	//デバイスをセット
 	Object3d::StaticInitialize(dxCommon->GetDevice());
+	Light::StaticInitialize(dxCommon->GetDevice());
 	//ポストエフェクト
 	PostEffect::StaticInitialize(dxCommon.get());
 	//スプライトコモン

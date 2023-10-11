@@ -12,6 +12,7 @@
 #include<BaseScene.h>
 #include<array>
 #include"Vector3.h"
+#include"Light.h"
 
 class TitleScene:public BaseScene
 {
@@ -40,8 +41,8 @@ public://メンバ関数
 	~TitleScene()override;
 
 private:
-	//スプライト
-	std::unique_ptr<Sprite> titleSprite;
+	//ライト
+	std::unique_ptr <Light>light;
 	//操作
 	std::unique_ptr <Input>input;
 	//カメラ初期化
@@ -57,9 +58,8 @@ private:
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Map>map;
 
-	std::unique_ptr<ImguiManager> ImgM;
-
-	//
+	//スプライト
+	std::unique_ptr<Sprite> titleSprite;
 	std::unique_ptr<Sprite> blackOutSprite;
 
 	//シェイク
@@ -75,6 +75,6 @@ private:
 	float alpha;
 	bool isBlackOut;
 	bool isLightChange;
-	
+	XMVECTOR lightDir = { 25,-100,10,0 };
 };
 

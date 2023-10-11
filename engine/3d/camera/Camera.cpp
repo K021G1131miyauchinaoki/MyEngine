@@ -44,7 +44,7 @@ void Camera::SetProjection(XMMATRIX matProjection_) {	this->matProjection = matP
 
 //getter
 const XMMATRIX& Camera::GetView() {	return matView;}
-const XMMATRIX& Camera::GetProjection() {return matProjection;}
+const XMMATRIX& Camera::GetMatProjection() {return matProjection;}
 const XMFLOAT3& Camera::GetEye() {return eye;}
 const XMFLOAT3& Camera::GetTarget() { return target;}
 const XMFLOAT3& Camera::GetUp() { return up;}

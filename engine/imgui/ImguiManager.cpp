@@ -4,6 +4,11 @@
 #include <imgui_impl_win32.h>
 #pragma warning( pop )
 
+ImguiManager* ImguiManager::GetInstance() {
+	static ImguiManager instance;
+	return &instance;
+}
+
 void ImguiManager::Initialize(WinApp* winApp_, DirectXCommon* dxCom_) {
 	winApp = winApp_;
 	dxCom = dxCom_;

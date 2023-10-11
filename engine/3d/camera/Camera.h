@@ -21,7 +21,7 @@ public:
 
 	//getter
 	const XMMATRIX& GetView();
-	const XMMATRIX& GetProjection();
+	const XMMATRIX& GetMatProjection();
 	const XMFLOAT3& GetEye();
 	const XMFLOAT3& GetTarget();
 	const XMFLOAT3& GetUp();

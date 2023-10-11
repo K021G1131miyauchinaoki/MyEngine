@@ -19,7 +19,7 @@ void Player::Initialeze( Model* model_, Input* input_) {
 	obj->SetModel(model_);
 	obj->SetPosition({ 0.0f,5.0f,0.0f });
 	obj->SetScale({ 5.0f,5.0f,5.0f });
-	obj->SetColor({ 0.0f,0.2f,0.0f,1.0f });
+	obj->SetColor({ 0.0f,0.0f,0.5f,1.0f });
 	obj->Update();
 	coolTime = 0;
 	invincibleTimer = invincibleTime;
@@ -205,14 +205,7 @@ void Player::Shot() {
 	//}
 }
 
-void Player::Rotate() {
-	//Vector3 a = obj->GetPosition();
-	////XMFLOAT3 a = obj->GetRotation();
-	//Vector3 b = aim->GetPosition();
-	//Vector3 vec = { 0,0,0 };
-	//vec.x = b.x - a.x;
-	//vec.z = b.z - a.z;
-	
+void Player::Rotate() {	
 	Vector3 rot = { 0,angle,0 };
 
 	obj->SetRotation(rot);
@@ -303,8 +296,5 @@ void Player::TitleStaging() {
 
 			easeTime+=0.3f;
 		}
-
-		
-		
 	}
 }

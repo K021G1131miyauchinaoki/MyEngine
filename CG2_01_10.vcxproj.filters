@@ -36,7 +36,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Base\input\Input.cpp">
+    <ClCompile Include="Engine\Base\Input\Input.cpp">
       <Filter>ソースファイル\Engine\Base\Input</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\WinApp\WinApp.cpp">
@@ -135,10 +135,10 @@
     <ClCompile Include="Engine\Easing\Easing.cpp">
       <Filter>ソースファイル\Engine\Easing</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\scene\AbstractSceneFactory.cpp">
+    <ClCompile Include="Engine\Base\Scene\AbstractSceneFactory.cpp">
       <Filter>ソースファイル\Engine\Base\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\scene\BaseScene.cpp">
+    <ClCompile Include="Engine\Base\Scene\BaseScene.cpp">
       <Filter>ソースファイル\Engine\Base\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Application\Scene\TitleScene.cpp">
@@ -150,7 +150,7 @@
     <ClCompile Include="Engine\2D\PostEffect.cpp">
       <Filter>ソースファイル\Engine\2D</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\scene\SceneFactory.cpp">
+    <ClCompile Include="Engine\Base\Scene\SceneFactory.cpp">
       <Filter>ソースファイル\Engine\Base\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Application\Scene\SceneManager.cpp">
@@ -159,6 +159,7 @@
     <ClCompile Include="Application\Particle\Explosion.cpp">
       <Filter>ソースファイル\Application\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\3D\Light\Light.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\Enemy.h">
@@ -245,16 +246,16 @@
     <ClInclude Include="Engine\Base\DirectXCommon\DirectXCommon.h">
       <Filter>ヘッダーファイル\Engine\Base\DirectXCommon</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\input\Input.h">
+    <ClInclude Include="Engine\Base\Input\Input.h">
       <Filter>ヘッダーファイル\Engine\Base\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\scene\AbstractSceneFactory.h">
+    <ClInclude Include="Engine\Base\Scene\AbstractSceneFactory.h">
       <Filter>ヘッダーファイル\Engine\Base\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\scene\BaseScene.h">
+    <ClInclude Include="Engine\Base\Scene\BaseScene.h">
       <Filter>ヘッダーファイル\Engine\Base\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\scene\SceneFactory.h">
+    <ClInclude Include="Engine\Base\Scene\SceneFactory.h">
       <Filter>ヘッダーファイル\Engine\Base\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\WinApp\WinApp.h">
@@ -290,6 +291,7 @@
     <ClInclude Include="resource.h">
       <Filter>ヘッダーファイル\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\3D\Light\Light.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

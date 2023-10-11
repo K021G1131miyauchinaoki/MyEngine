@@ -78,6 +78,13 @@ public: // サブクラス
 		XMFLOAT3 specular;//スペキュラー影響度
 		float alpha;//アルファ
 		std::string textureFilename;//テクスチャファイル名
+		//コンストラクタ
+		Material() {
+			ambient = { 0.3f,0.3f, 0.3f };
+			diffuse = { 0.0f,0.0f, 0.0f };
+			specular = { 0.0f,0.0f, 0.0f };
+			alpha = 1.0f;
+		}
 	};
 private:
 	//デバイス

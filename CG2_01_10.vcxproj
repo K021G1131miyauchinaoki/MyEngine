@@ -46,12 +46,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)External\imgui;$(ProjectDir)External\DirectXTex\inc;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)External\nlohmann-json\single_include;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\2D;$(ProjectDir)\Engine\3D\Camera;$(ProjectDir)\Engine\3D\Fbx;$(ProjectDir)\Engine\3D\Model;$(ProjectDir)\Engine\Audio;$(ProjectDir)\Engine\Base\DirectXCommon;$(ProjectDir)\Engine\Base\Input;$(ProjectDir)\Engine\Base\WinApp;$(ProjectDir)\Engine\Editor;$(ProjectDir)\Engine\Imgui;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\Easing;$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Particle;$(ProjectDir)\Engine\Base\Scene;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\Player</IncludePath>
+    <IncludePath>$(SolutionDir)External\imgui;$(ProjectDir)External\DirectXTex\inc;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)External\nlohmann-json\single_include;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\2D;$(ProjectDir)\Engine\3D\Camera;$(ProjectDir)\Engine\3D\Fbx;$(ProjectDir)\Engine\3D\Model;$(ProjectDir)\Engine\Audio;$(ProjectDir)\Engine\Base\DirectXCommon;$(ProjectDir)\Engine\Base\Input;$(ProjectDir)\Engine\Base\WinApp;$(ProjectDir)\Engine\Editor;$(ProjectDir)\Engine\Imgui;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\Easing;$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Particle;$(ProjectDir)\Engine\Base\Scene;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\Player;$(ProjectDir)\Engine\3D\Light</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)External\imgui;$(ProjectDir)External\DirectXTex\inc;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)External\nlohmann-json\single_include;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\2D;$(ProjectDir)\Engine\3D\Camera;$(ProjectDir)\Engine\3D\Fbx;$(ProjectDir)\Engine\3D\Model;$(ProjectDir)\Engine\Audio;$(ProjectDir)\Engine\Base\DirectXCommon;$(ProjectDir)\Engine\Base\Input;$(ProjectDir)\Engine\Base\WinApp;$(ProjectDir)\Engine\Editor;$(ProjectDir)\Engine\Imgui;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\Easing;$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Particle;$(ProjectDir)\Engine\Base\Scene;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\Player</IncludePath>
+    <IncludePath>$(SolutionDir)External\imgui;$(ProjectDir)External\DirectXTex\inc;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)External\nlohmann-json\single_include;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\2D;$(ProjectDir)\Engine\3D\Camera;$(ProjectDir)\Engine\3D\Fbx;$(ProjectDir)\Engine\3D\Model;$(ProjectDir)\Engine\Audio;$(ProjectDir)\Engine\Base\DirectXCommon;$(ProjectDir)\Engine\Base\Input;$(ProjectDir)\Engine\Base\WinApp;$(ProjectDir)\Engine\Editor;$(ProjectDir)\Engine\Imgui;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\Easing;$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Particle;$(ProjectDir)\Engine\Base\Scene;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\Player;$(ProjectDir)\Engine\3D\Light</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -106,11 +106,11 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Base\scene\AbstractSceneFactory.cpp" />
+    <ClCompile Include="Engine\Base\Scene\AbstractSceneFactory.cpp" />
     <ClCompile Include="Application\Enemy\Enemy.cpp" />
     <ClCompile Include="Application\Player\Bullet.cpp" />
     <ClCompile Include="Application\Enemy\EnemyBullet.cpp" />
-    <ClCompile Include="Engine\Base\scene\BaseScene.cpp" />
+    <ClCompile Include="Engine\Base\Scene\BaseScene.cpp" />
     <ClCompile Include="Application\Particle\BaseParticle.cpp" />
     <ClCompile Include="Engine\Easing\Easing.cpp" />
     <ClCompile Include="Engine\3D\Camera\Camera.cpp" />
@@ -122,7 +122,7 @@
     <ClCompile Include="Application\Scene\Framework.cpp" />
     <ClCompile Include="Application\Scene\MyGame.cpp" />
     <ClCompile Include="Engine\Imgui\ImguiManager.cpp" />
-    <ClCompile Include="Engine\Base\input\Input.cpp" />
+    <ClCompile Include="Engine\Base\Input\Input.cpp" />
     <ClCompile Include="Engine\Editor\LevelLoader.cpp" />
     <ClCompile Include="Application\main.cpp" />
     <ClCompile Include="Application\Particle\ParticleManager.cpp" />
@@ -143,10 +143,11 @@
     <ClCompile Include="Application\Scene\GamePlayScene.cpp" />
     <ClCompile Include="Application\Scene\TitleScene.cpp" />
     <ClCompile Include="Application\Scene\SceneManager.cpp" />
-    <ClCompile Include="Engine\Base\scene\SceneFactory.cpp" />
+    <ClCompile Include="Engine\Base\Scene\SceneFactory.cpp" />
     <ClCompile Include="Application\Scene\GameClear.cpp" />
     <ClCompile Include="Application\Scene\GameOverScene.cpp" />
     <ClCompile Include="Application\Particle\Explosion.cpp" />
+    <ClCompile Include="Engine\3D\Light\Light.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -220,11 +221,11 @@
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Base\scene\AbstractSceneFactory.h" />
+    <ClInclude Include="Engine\Base\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Application\Enemy\Enemy.h" />
     <ClInclude Include="Application\Player\Bullet.h" />
     <ClInclude Include="Application\Enemy\EnemyBullet.h" />
-    <ClInclude Include="Engine\Base\scene\BaseScene.h" />
+    <ClInclude Include="Engine\Base\Scene\BaseScene.h" />
     <ClInclude Include="Application\struct\BaseHp.h" />
     <ClInclude Include="Application\struct\BaseGrain.h" />
     <ClInclude Include="Application\Particle\BaseParticle.h" />
@@ -238,7 +239,7 @@
     <ClInclude Include="Application\Scene\Framework.h" />
     <ClInclude Include="Application\Scene\MyGame.h" />
     <ClInclude Include="Engine\Imgui\ImguiManager.h" />
-    <ClInclude Include="Engine\Base\input\Input.h" />
+    <ClInclude Include="Engine\Base\Input\Input.h" />
     <ClInclude Include="Engine\Editor\LevelLoader.h" />
     <ClInclude Include="Application\Particle\ParticleManager.h" />
     <ClInclude Include="Engine\3D\Model\Model.h" />
@@ -255,6 +256,7 @@
     <ClInclude Include="Application\Scene\GameClear.h" />
     <ClInclude Include="Application\Scene\GameOverScene.h" />
     <ClInclude Include="Application\Particle\Explosion.h" />
+    <ClInclude Include="Engine\3D\Light\Light.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Engine\Audio\SoundManager.h" />
     <ClInclude Include="Engine\2D\Sprite.h" />
@@ -262,7 +264,7 @@
     <ClInclude Include="Engine\Base\WinApp\WinApp.h" />
     <ClInclude Include="Application\Scene\TitleScene.h" />
     <ClInclude Include="Application\Scene\SceneManager.h" />
-    <ClInclude Include="Engine\Base\scene\SceneFactory.h" />
+    <ClInclude Include="Engine\Base\Scene\SceneFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CG2.rc" />

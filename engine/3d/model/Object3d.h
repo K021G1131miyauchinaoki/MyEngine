@@ -11,10 +11,11 @@
 #include <DirectXMath.h>
 #include<d3dx12.h>
 #pragma warning(pop)
-//#pragma warning(disable: 4820) // 警告 C4820 を無効にする
+#include<memory>
 #include"Model.h"
 #include"Camera.h"
 #include"Vector3.h"
+#include"Light.h"
 
 /// <summary>
 /// 3Dオブジェクト
@@ -35,7 +36,10 @@ public: // サブクラス
 	struct ConstBufferDataB0
 	{
 		XMFLOAT4 color;	// 色 (RGBA)
-		XMMATRIX mat;	// ３Ｄ変換行列
+		//XMMATRIX mat;	// ３Ｄ変換行列
+		XMMATRIX viewproj; //ビュープロジェクション行列
+		XMMATRIX world; //ワールド行列
+		XMFLOAT3 cameraPos;//カメラ座標（ワールド座標）
 	};
 
 private: // 定数
@@ -71,7 +75,10 @@ public: // 静的メンバ関数
 	/// <returns></returns>
 	static Object3d* Create();
 
+	//カメラ
 	static void SetCamera(Camera* camera_);
+	//ライト
+	static void SetLight(Light* light_);
 
 	static void Finalize();
 
@@ -85,7 +92,9 @@ private: // 静的メンバ変数
 	// パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState> pipelinestate;
 	//カメラ
-	static	Camera* camera;
+	static	std::unique_ptr<Camera> camera;
+	//ライト
+	static std::unique_ptr < Light> light;
 
 private:// 静的メンバ関数
 	/// <summary>

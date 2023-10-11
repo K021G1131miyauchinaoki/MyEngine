@@ -26,6 +26,7 @@ public://メンバ関数
 	//描画
 	void Draw();
 public://静的メンバ関数
+	static ImguiManager* GetInstance();
 private://メンバ変数
 	//SRV用デスクリプタヒープ
 	HRESULT result = NULL;

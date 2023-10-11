@@ -17,9 +17,5 @@ public://メンバ関数
 	void Update()override;
 	//描画
 	void Draw()override;
-
-private:
-	//imgui
-	std::unique_ptr<ImguiManager> ImgM;
 };
 
