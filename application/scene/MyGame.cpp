@@ -1,3 +1,7 @@
+/**
+ * @file GameClear.cpp
+ * @brief フレームワークを継承したゲームシーン
+ */
 #include "MyGame.h"
 #include<MyMath.h>
 #include<EnemyBullet.h>
