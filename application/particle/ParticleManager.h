@@ -1,3 +1,7 @@
+/**
+ * @file ParticleManager.h
+ * @brief パーティクルのマネージャー
+ */
 #pragma once
 #include"BaseParticle.h"
 #include<list>

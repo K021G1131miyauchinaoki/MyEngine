@@ -1,3 +1,7 @@
+/**
+ * @file Player.cpp
+ * @brief プレイヤーのソースファイル
+ */
 #include "Player.h"
 #include<WinApp.h>	
 #include<cassert>

@@ -1,3 +1,7 @@
+/**
+ * @file SpriteCommon.cpp
+ * @brief スプライトの共通部分の設定
+ */
 #include "SpriteCommon.h"
 #include<d3dcompiler.h>
 #pragma warning( push )

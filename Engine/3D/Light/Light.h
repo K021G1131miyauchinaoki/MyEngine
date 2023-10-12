@@ -1,3 +1,7 @@
+/**
+ * @file Light.cpp
+ * @brief　モデルのライト
+ */
 #pragma once
 #include<DirectXMath.h>	
 #include<d3dx12.h>

@@ -1,4 +1,8 @@
-﻿#pragma once
+/**
+ * @file FbxLoader.h
+ * @brief　FBXを読み込む
+ */
+#pragma once
 #pragma warning( push )
 #pragma warning( disable : 4324 )
 #pragma warning( disable : 4828 )

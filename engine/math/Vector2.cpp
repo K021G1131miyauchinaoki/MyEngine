@@ -1,3 +1,7 @@
+/**
+ * @file Vector2.cpp
+ * @brief x,y成分をもつ
+ */
 #include"Vector2.h"
 #include<cmath>//sqrt
 

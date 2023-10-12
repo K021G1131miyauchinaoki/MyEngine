@@ -1,3 +1,7 @@
+/**
+ * @file BaseHp.h
+ * @brief 体力
+ */
 #pragma once
 #include<Sprite.h>
 #include<memory>

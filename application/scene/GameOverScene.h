@@ -1,4 +1,8 @@
-﻿#pragma once
+/**
+ * @file GameOverScene.h
+ * @brief ベースシーンを継承したゲームオーバーシーン
+ */
+#pragma once
 #include<Input.h>
 #include<DirectXCommon.h>
 #include"Sprite.h"
@@ -15,21 +19,39 @@
 class GameOverScene :public BaseScene
 {
 public://メンバ関数
-
-//初期化
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Initialize()override;
 
-	//更新
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update()override;
 
-	//描画
+	/// <summary>
+	/// obj描画
+	/// </summary>
 	void ObjDraw()override;
+
+	/// <summary>
+	/// スプライト描画
+	/// </summary>
 	void SpriteDraw()override;
 
-	//終了
+	/// <summary>
+	/// 終了
+	/// </summary>
 	void Finalize()override;
 
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	GameOverScene();
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~GameOverScene()override;
 
 private:

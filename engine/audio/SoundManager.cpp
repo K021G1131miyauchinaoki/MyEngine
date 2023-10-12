@@ -1,3 +1,7 @@
+/**
+ * @file SoundManager.cpp
+ * @brief　waveファイル操作
+ */
 #include "SoundManager.h"
 #include <windows.h>
 #include<cassert>

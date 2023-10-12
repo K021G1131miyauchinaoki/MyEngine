@@ -1,3 +1,7 @@
+/**
+ * @file Sprite.cpp
+ * @brief スプライト
+ */
 #include "Sprite.h"
 #pragma warning( push )
 #pragma warning( disable :  4820)

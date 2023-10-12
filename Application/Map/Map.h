@@ -1,3 +1,7 @@
+/**
+ * @file Map.h
+ * @brief ステージ
+ */
 #pragma once
 #include"Object3d.h"
 #include"Model.h"

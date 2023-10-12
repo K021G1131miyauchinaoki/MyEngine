@@ -1,3 +1,7 @@
+/**
+ * @file main.cpp
+ * @brief メインのソースファイル
+ */
 #include<string>
 #include<d3dcompiler.h>
 #include<cassert>

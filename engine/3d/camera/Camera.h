@@ -1,3 +1,7 @@
+/**
+ * @file Camera.h
+ * @brief　カメラ
+ */
 #pragma once
 #include<DirectXMath.h>
 using namespace DirectX;

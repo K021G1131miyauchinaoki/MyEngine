@@ -1,3 +1,7 @@
+/**
+ * @file TitleScene.cpp
+ * @brief ベースシーンを継承したタイトルシーン
+ */
 #include "TitleScene.h"
 #include<SceneManager.h>
 #include<Easing.h>

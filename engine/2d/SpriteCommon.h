@@ -1,3 +1,7 @@
+/**
+ * @file SpriteCommon.h
+ * @brief スプライトの共通部分の設定
+ */
 #pragma once
 #include"DirectXCommon.h"
 #include<array>

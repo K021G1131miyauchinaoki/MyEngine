@@ -1,4 +1,8 @@
-﻿#pragma once
+/**
+ * @file LevelLoader.h
+ * @brief jsonファイルの読み込み
+ */
+#pragma once
 #include<fstream>
 #include <vector>
 #include <DirectXMath.h>

@@ -1,3 +1,7 @@
+/**
+ * @file ParticleManager.cpp
+ * @brief パーティクルのマネージャー
+ */
 #include "ParticleManager.h"
 #include"Explosion.h"
 

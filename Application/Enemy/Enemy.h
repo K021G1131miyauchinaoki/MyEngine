@@ -1,3 +1,7 @@
+/**
+ * @file Enemy.h
+ * @brief エネミークラス
+ */
 #pragma once
 #include<Model.h>
 #include"Object3d.h"
@@ -69,7 +73,9 @@ public://メンバ関数
 	const	Vector3 GetPos() { return obj->GetPosition(); }
 
 	const	float GetRadius() { return radius; }
-
+	/// <summary>
+	/// 衝突時
+	/// </summary>
 	void OnCollision();
 
 	bool IsDead()const { return hp.isDead; }

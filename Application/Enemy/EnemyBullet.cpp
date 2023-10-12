@@ -1,3 +1,7 @@
+/**
+ * @file EnemyBullet.cpp
+ * @brief 敵用弾
+ */
 #include "EnemyBullet.h"
 #include<assert.h>
 

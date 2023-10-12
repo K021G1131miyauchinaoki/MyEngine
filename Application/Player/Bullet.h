@@ -1,3 +1,7 @@
+/**
+ * @file Bullet.h
+ * @brief プレイヤー用弾
+ */
 #pragma once
 #include<Model.h>
 #include<Object3d.h>
@@ -17,13 +21,20 @@ public://メンバ関数
 	void Draw();
 	bool IsDead() const { return isDead_; }
 
-	//衝突を検出したら呼び出されるコールバック関数
+	/// <summary>
+	/// 衝突時のコールバック
+	/// </summary>
 	void OnCollision();
-	//ワールド座標を取得
+
+	/// <summary>
+	/// 衝突時のコールバック
+	/// </summary>
 	Vector3 GetPos();
-	//半径を取得
+
+	/// <summary>
+	/// /半径を取得
+	/// </summary>
 	float GetRadius() { return r; }
-	//終了
 
 private:
 	

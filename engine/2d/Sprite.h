@@ -1,4 +1,8 @@
-﻿#pragma once
+/**
+ * @file Sprite.h
+ * @brief スプライト
+ */
+#pragma once
 #include"SpriteCommon.h"
 #include"DirectXCommon.h"
 #include<DirectXMath.h>

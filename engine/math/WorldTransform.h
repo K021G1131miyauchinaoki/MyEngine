@@ -1,3 +1,7 @@
+/**
+ * @file WorldTransform.h
+ * @brief 変換行列
+ */
 #pragma once
 #include"Matrix4.h"
 #include"Vector3.h"

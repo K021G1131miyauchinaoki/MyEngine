@@ -1,3 +1,8 @@
+/**
+ * @file Player.h
+ * @brief プレイヤーのヘッダー
+ */
+
 #pragma once
 #include<Input.h>
 #include<Model.h>
@@ -63,9 +68,11 @@ public://メンバ関数
 	/// </summary>
 	void TitleStaging();
 
+	/// <summary>
+	/// 衝突時のコールバック
+	/// </summary>
 	void OnCollision();
 
-	Vector3 GetVelocity(){ return velocity; }
 
 	const	float GetRadius() { return radius; }
 

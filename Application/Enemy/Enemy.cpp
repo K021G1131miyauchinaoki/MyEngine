@@ -1,3 +1,7 @@
+/**
+ * @file Enemy.cpp
+ * @brief エネミークラス
+ */
 #include "Enemy.h"
 #include<cassert>
 #include<random>

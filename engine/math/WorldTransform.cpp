@@ -1,3 +1,7 @@
+/**
+ * @file WorldTransform.cpp
+ * @brief 変換行列
+ */
 #include "WorldTransform.h"
 
 void WorldTransform::Initialize() {

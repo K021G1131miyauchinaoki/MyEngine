@@ -1,4 +1,8 @@
-﻿#pragma once
+/**
+ * @file Vector4.h
+ * @brief x,y,z,w成分をもつ
+ */
+#pragma once
 class Vector4
 {
 public:

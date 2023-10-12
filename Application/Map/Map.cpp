@@ -1,3 +1,7 @@
+/**
+ * @file Map.cpp
+ * @brief ステージ
+ */
 #include "Map.h"
 #include<MyMath.h>	
 #include<Easing.h>

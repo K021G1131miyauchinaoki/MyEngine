@@ -1,3 +1,7 @@
+/**
+ * @file ImguiManager.h
+ * @brief Imguiのマネージャー
+ */
 #pragma once
 #pragma warning( push )
 #pragma warning( disable : 5039 )

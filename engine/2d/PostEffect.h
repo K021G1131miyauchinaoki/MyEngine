@@ -1,3 +1,7 @@
+/**
+ * @file PostEffect.h
+ * @brief ポストエフェクト
+ */
 #pragma once
 #include<DirectXMath.h>
 #include<DirectXCommon.h>

@@ -1,3 +1,7 @@
+/**
+ * @file GameOverScene.cpp
+ * @brief ベースシーンを継承したゲームオーバーシーン
+ */
 #include "GameOverScene.h"
 
 #include<SceneManager.h>

@@ -1,3 +1,7 @@
+/**
+ * @file DirectXCommon.cpp
+ * @brief　DirectXの基盤
+ */
 #include "DirectXCommon.h"
 #include<thread>
 #include<cassert>

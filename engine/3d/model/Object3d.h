@@ -1,3 +1,7 @@
+/**
+ * @file Object3d.h
+ * @brief　モデル操作
+ */
 #pragma once
 #pragma warning(push)
 #pragma warning(disable:4365)

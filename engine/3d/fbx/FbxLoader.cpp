@@ -1,3 +1,7 @@
+/**
+ * @file FbxLoader.cpp
+ * @brief　FBXを読み込む
+ */
 #include "FbxLoader.h"
 #include<cassert>
 #pragma warning( push )

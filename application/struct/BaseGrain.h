@@ -1,3 +1,7 @@
+/**
+ * @file BaseGrain.h
+ * @brief パーティクルの一粒
+ */
 #pragma once
 #include<Vector3.h>
 

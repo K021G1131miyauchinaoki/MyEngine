@@ -1,3 +1,7 @@
+/**
+ * @file WinApp.h
+ * @brief WindowsAPIクラス
+ */
 #pragma once
 #pragma warning (push)
 #pragma warning (disable:4668)

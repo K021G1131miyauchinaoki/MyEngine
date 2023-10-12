@@ -1,3 +1,7 @@
+/**
+ * @file EnemyBullet.h
+ * @brief 敵用弾
+ */
 #pragma once
 #include<Model.h>
 #include<Object3d.h>
@@ -27,7 +31,9 @@ public://メンバ関数
 	void Draw();
 	bool IsDead() const;
 
-	//衝突を検出したら呼び出されるコールバック関数
+	/// <summary>
+	/// 衝突時のコールバック
+	/// </summary>
 	void OnCollision();
 	//ワールド座標を取得
 	Vector3 GetPos();

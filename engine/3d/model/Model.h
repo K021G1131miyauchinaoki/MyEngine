@@ -1,3 +1,7 @@
+/**
+ * @file Model.h
+ * @brief　モデル生成
+ */
 #pragma once
 #include<fstream>
 #include<sstream>

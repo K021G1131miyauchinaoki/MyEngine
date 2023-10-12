@@ -1,3 +1,7 @@
+/**
+ * @file Light.h
+ * @brief　モデルのライト
+ */
 #include "Light.h"
 #include<cassert>
 

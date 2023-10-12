@@ -1,4 +1,8 @@
-﻿#pragma once
+/**
+ * @file Explosion.h
+ * @brief BaseParticleを継承した爆発パーティクル
+ */
+#pragma once
 #include<Object3d.h>
 #include<Model.h>
 #include<Vector3.h>

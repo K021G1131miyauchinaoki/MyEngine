@@ -11,7 +11,7 @@ VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOOR
 	//環境反射光
     float3 ambient = color.rgb *m_ambient;
 	//拡散反射光
-    float diffuse = dot(lightv, wnormal.xyz) * m_diffuse;
+    float3 diffuse = dot(lightv, wnormal.xyz) * m_diffuse;
 	//光沢度
     const float shininess = 1000.0f;
 	//頂点から視点への方向ベクトル

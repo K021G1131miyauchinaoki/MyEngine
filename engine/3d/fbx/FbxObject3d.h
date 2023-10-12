@@ -1,4 +1,8 @@
-﻿#pragma once
+/**
+ * @file FbxObject3d.h
+ * @brief　FBXのモデル操作
+ */
+#pragma once
 
 #include"FbxModel.h"
 #include"FbxLoader.h"

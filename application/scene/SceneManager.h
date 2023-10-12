@@ -1,4 +1,8 @@
-﻿#pragma once
+/**
+ * @file SceneManager.h
+ * @brief シーンマネージャー
+ */
+#pragma once
 #include<BaseScene.h>
 #include<memory>
 #include<AbstractSceneFactory.h>

@@ -1,3 +1,7 @@
+/**
+ * @file Vector4.cpp
+ * @brief x,y,z,w成分をもつ
+ */
 #include "Vector4.h"
 
 Vector4::Vector4()

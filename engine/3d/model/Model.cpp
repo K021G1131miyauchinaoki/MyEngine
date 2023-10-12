@@ -1,3 +1,7 @@
+/**
+ * @file Model.cpp
+ * @brief　モデル生成
+ */
 #include "Model.h"
 #pragma warning( push )
 #pragma warning( disable : 4828 )

@@ -1,3 +1,7 @@
+/**
+ * @file GameClear.cpp
+ * @brief ベースシーンを継承したゲームクリアシーン
+ */
 #include "GameClear.h"
 #include<SceneManager.h>
 
@@ -35,8 +39,3 @@ void GameClear::ObjDraw() {
 }
 
 void GameClear::Finalize() {}
-
-GameClear::GameClear() {}
-GameClear::~GameClear() {
-	Finalize();
-}

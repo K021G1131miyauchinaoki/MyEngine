@@ -1,3 +1,7 @@
+/**
+ * @file Framework.cpp
+ * @brief シーン用フレームワーク
+ */
 #include "Framework.h"
 
 void Framework::Initialize(){

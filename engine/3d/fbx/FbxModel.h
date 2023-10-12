@@ -1,4 +1,8 @@
-﻿#pragma once
+/**
+ * @file FbxModel.h
+ * @brief　FBXのモデル生成
+ */
+#pragma once
 #include<string>
 #include<vector>
 #include<Windows.h>

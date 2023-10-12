@@ -1,3 +1,7 @@
+/**
+ * @file GamePlayScene.cpp
+ * @brief ベースシーンを継承したプレイシーン
+ */
 #include "GamePlayScene.h"
 #include<SceneManager.h>
 
@@ -166,3 +170,8 @@ void GamePlayScene::CheckAllCollision() {
 }
 
 void GamePlayScene::Finalize(){}
+
+GamePlayScene::GamePlayScene() {}
+GamePlayScene::~GamePlayScene() {
+	Finalize();
+}

@@ -1,3 +1,7 @@
+/**
+ * @file LevelLoader.cpp
+ * @brief jsonファイルの読み込み
+ */
 #include "LevelLoader.h"
 #include<assert.h>
 

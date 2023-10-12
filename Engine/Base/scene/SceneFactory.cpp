@@ -1,3 +1,7 @@
+/**
+ * @file SceneFactory.cpp
+ * @brief シーン工場(概念)を継承したシーン工場
+ */
 #include "SceneFactory.h"
 #include<TitleScene.h>
 #include<GamePlayScene.h>
