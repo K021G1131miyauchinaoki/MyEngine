@@ -16,9 +16,24 @@ public://静的メンバ関数
 	static void StaticInitialize(Model* model_);
 	static void Finalize();
 public://メンバ関数
-	void Initialize( const Vector3& position, const Vector3& veclocity, const Vector3& rotation_);
+/// <summary>
+	/// 初期化
+	/// </summary>
+	void Initialize(const Vector3& position,const Vector3& veclocity,const Vector3& rotation_);
+
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
+
+	/// <summary>
+	///デスフラグを取得 
+	/// </summary>
 	bool IsDead() const { return isDead_; }
 
 	/// <summary>

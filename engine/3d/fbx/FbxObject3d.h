@@ -49,6 +49,9 @@ public://静的メンバ関数
 	/// </summary>
 	static void CreateGraphicsPipeline();
 
+	/// <summary>
+	/// 終了
+	/// </summary>
 	static void Finalize();
 
 private://静的メンバ変数

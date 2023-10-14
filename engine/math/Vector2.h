@@ -14,9 +14,13 @@ public:
 	Vector2(float	x,float	y);
 
 	//メンバ関数
+	//長さ
 	float	length()const;
+	//正規化
 	Vector2& normaleize();
+	//内積
 	float	dot(const Vector2& v)const;
+	//外積
 	float	cross(const Vector2& v)const;
 
 	//単項演算子オーバーロード

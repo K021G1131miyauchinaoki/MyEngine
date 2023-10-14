@@ -13,12 +13,21 @@
 class Explosion:public BaseParticle
 {
 public:
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~Explosion();
-
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Initialize(Model* model)override;
-
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update()override;
-
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw()override;
 
 private:

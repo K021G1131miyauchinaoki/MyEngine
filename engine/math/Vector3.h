@@ -13,10 +13,10 @@ public:
 	Vector3(float	x, float	y, float	z);
 
 	//メンバ関数
-	float	Length()const;
-	Vector3& Normaleize();
-	float	Dot(const Vector3& v)const;
-	float	Cross(const Vector3& v)const;
+	float	Length()const;//長さ
+	Vector3& Normaleize();//正規化
+	float	Dot(const Vector3& v)const;//内積
+	float	Cross(const Vector3& v)const;//外積
 
 	//単項演算子オーバーロード
 	Vector3	operator+()const;

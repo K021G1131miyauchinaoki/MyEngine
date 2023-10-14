@@ -62,7 +62,7 @@ public://メンバ関数
 	void Rotate();
 
 	/// <summary>
-	///デスフラグ 
+	///デスフラグを取得 
 	/// </summary>
 	bool IsDead() { return isDead; }
 
@@ -72,12 +72,21 @@ public://メンバ関数
 	/// <returns></returns>
 	const	Vector3 GetPos() { return obj->GetPosition(); }
 
+	/// <summary>
+	/// 半径を取得
+	/// </summary>
+	/// <returns></returns>
 	const	float GetRadius() { return radius; }
+
 	/// <summary>
 	/// 衝突時
 	/// </summary>
 	void OnCollision();
 
+	/// <summary>
+	/// デスフラグが立ったら
+	/// </summary>
+	/// <returns></returns>
 	bool IsDead()const { return hp.isDead; }
 
 	//弾リストを取得

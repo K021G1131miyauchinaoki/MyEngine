@@ -12,14 +12,15 @@ class SceneManager
 public:
 	//更新
 	void Update();
-	//描画
+	//オブジェクト描画
 	void ObjDraw();
+	//スプライト描画
 	void SpriteDraw();
 	//次シーン予約
 	void SetNextScene(BaseScene* nextScene_) { nextScene = nextScene_; }
 	//シーンファクトリーのセッター
 	void SetSceneFactory(AbstractSceneFactory* sceneFactory_) { sceneFactory = sceneFactory_; }
-	
+	//シーンの切り替え
 	void ChangeScene(const std::string& sceneName);
 
 	//インスタンス生成

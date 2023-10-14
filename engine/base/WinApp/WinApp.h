@@ -22,7 +22,6 @@ public://メンバ関数
 	//終了
 	void	Finalize();
 
-
 	WNDCLASSEX	GetWindow()const;
 
 	HWND	GetHwnd() { return hwnd; };

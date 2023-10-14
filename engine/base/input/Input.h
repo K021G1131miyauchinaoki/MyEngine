@@ -47,6 +47,7 @@ public://メンバ関数
 	//2D座標の取得
 	const Vector2 GetMausePos() { return mPos; }
 
+	//インスタンス生成
 	static Input* GetInstance();
 
 private:

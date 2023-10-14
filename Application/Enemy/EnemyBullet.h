@@ -10,8 +10,14 @@
 
 class EnemyBullet
 {
-public://コンストラクタ
+public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	EnemyBullet();
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~EnemyBullet();
 	//代入演算子明示的
 	EnemyBullet& operator=(const EnemyBullet&) = default;
@@ -26,9 +32,24 @@ private://静的メンバ変数
 	static	std::unique_ptr < Model> model;
 
 public://メンバ関数
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Initialize( const Vector3& position, const Vector3& veclocity, const Vector3& rotation_);
+	
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
+
+	/// <summary>
+	///デスフラグを取得 
+	/// </summary>
 	bool IsDead() const;
 
 	/// <summary>

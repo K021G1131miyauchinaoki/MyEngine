@@ -27,11 +27,11 @@ public://メンバ関数
 
 	//描画用テクスチャコマンド
 	void	SetTextureCommands(uint32_t index);
-	//ゲッター
+	//ヒープゲッター
 	ID3D12DescriptorHeap* GetSrvHeap()const { return srvHeap; }
-
+	//DirectXCommonゲッター
 	DirectXCommon* GetdxCom()const { return directXCom; }
-
+	//テクスチャの番号の取得
 	ID3D12Resource* GetTexBuff(uint32_t index)const { return texBuffers[index].Get(); }
 public://静的メンバ関数
 	static SpriteCommon* GetInstance();

@@ -41,6 +41,7 @@ public://メンバ関数
 	void	Initialize(SpriteCommon* spriteCommon_, uint32_t texIndex_ = UINT32_MAX);
 	//描画
 	void Draw();
+	//更新
 	void Update();
 
 

@@ -59,8 +59,13 @@ public://メンバ関数
 
 	static int8_t movieCount;
 
-
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	TitleScene();
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~TitleScene()override;
 
 private:

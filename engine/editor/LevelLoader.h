@@ -34,9 +34,11 @@ struct LevelData {
 class LevelLoader
 {
 public:
+	//jsonの読み込み
 	static LevelData* LoadJson(const std::string& fileName);
 
 private:
+	//値を取得
 	static LevelData* ImportValue(nlohmann::json& json, LevelData* levelData );
 };
 

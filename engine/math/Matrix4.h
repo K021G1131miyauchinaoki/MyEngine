@@ -27,10 +27,10 @@ Matrix4	MatIdentity();
 Matrix4	MatScale(const Vector3& s);
 
 //回転行列の作成
-Matrix4	MatRotX(float angle);
-Matrix4	MatRotY(float angle);
-Matrix4	MatRotZ(float angle);
-Matrix4 MatRot(Vector3 angle);
+Matrix4	MatRotX(float angle);//x
+Matrix4	MatRotY(float angle);//y
+Matrix4	MatRotZ(float angle);//z
+Matrix4 MatRot(Vector3 angle);//x,y,z
 
 //平行移動
 Matrix4	MatTrans(const Vector3& t);

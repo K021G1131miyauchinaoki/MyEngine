@@ -10,6 +10,7 @@ class SceneManager;
 class BaseScene
 {
 public:
+	//コンストラクタ
 	virtual ~BaseScene() = default;
 	//初期化
 	virtual void Initialize();
@@ -17,8 +18,9 @@ public:
 	virtual	void Finalize();
 	//更新
 	virtual	void Update();
-	//描画
+	//オブジェクト描画
 	virtual	void ObjDraw();
+	//スプライト描画
 	virtual	void SpriteDraw();
 	//シーンマネージャーをセット
 	virtual void SetSceneManager(SceneManager* sceneManager_) { sceneManager = sceneManager_; }

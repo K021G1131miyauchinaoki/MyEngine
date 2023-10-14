@@ -11,6 +11,7 @@ public:
 public:
 	//コンストラクタ
 	Vector4();
+	//デストラクタ
 	Vector4(float	x, float	y, float	z, float	w);
 };
 

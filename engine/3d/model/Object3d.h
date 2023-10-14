@@ -83,7 +83,7 @@ public: // 静的メンバ関数
 	static void SetCamera(Camera* camera_);
 	//ライト
 	static void SetLight(Light* light_);
-
+	//終了
 	static void Finalize();
 
 private: // 静的メンバ変数

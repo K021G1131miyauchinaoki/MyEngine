@@ -10,13 +10,23 @@
 class Map
 {
 public:
-	//コンストラクタ
+	/// <summary>
+	///コンストラクタ
+	/// </summary>
 	Map(float value) :constStartY(value) {};
 	Map() :constStartY(0.0f) {};
-	//デストラクタ
+	/// <summary>
+	///デストラクタ
+	/// <summary>
 	~Map();
 public://静的メンバ関数
+	/// <summary>
+	/// 静的初期化
+	/// </summary>
 	static void StaticInitialize(Model* model_);
+	/// <summary>
+	/// 終了
+	/// </summary>
 	static void Finalize();
 
 public://メンバ関数

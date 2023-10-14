@@ -13,22 +13,34 @@ public:
 	void Initialeze();
 	//更新
 	void Update();
+	//ビュー行列更新
 	void UpdateView();
+	//射影行列更新
 	void UpdateProjection();
+	//ビュープロジェクション行列更新
 	void UpdateViewProjection();
-	//setter
+	//位置セット
 	void SetEye(XMFLOAT3 eye_);
+	//ターゲットセット
 	void SetTarget(XMFLOAT3 target_);
+	//ベクトルのセット
 	void SetUp(XMFLOAT3 up_);
+	//ビュー行列セット
 	void SetView(XMMATRIX matView_);
+	//射影行列セット
 	void SetProjection(XMMATRIX matProjection_);
 
-	//getter
+	//ビュー行列を取得
 	const XMMATRIX& GetView();
+	//射影行列を取得
 	const XMMATRIX& GetMatProjection();
+	//位置を取得
 	const XMFLOAT3& GetEye();
+	//ターゲットの取得
 	const XMFLOAT3& GetTarget();
+	//ベクトルの取得
 	const XMFLOAT3& GetUp();
+	//ビュープロジェクション行列の取得
 	const XMMATRIX& GetViewProjection();
 private:
 	// 視点座標
