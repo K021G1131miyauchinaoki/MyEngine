@@ -3,6 +3,7 @@
  * @brief ベースシーンを継承したタイトルシーン
  */
 #include "TitleScene.h"
+#include"SceneTransition.h"
 #include<SceneManager.h>
 #include<Easing.h>
 #include<random>
@@ -146,8 +147,20 @@ void TitleScene::Update() {
 	camera->Update();
 	objSkydome->Update();
 	map->Update();
-	//エンターキーを押したら
-	if (input->TriggerKey(DIK_RETURN)||input->TriggerClick(Botton::RIGHT))
+	//キーを押したら
+	if (input->TriggerReleaseKey(DIK_SPACE)||input->TriggerReleaseClick(Botton::LEFT)
+		&&!SceneTransition::GetInstance()->GetIsBlackOut()
+		&&!SceneTransition::GetInstance()->GetIsLightChange() )
+	{
+		SceneTransition::GetInstance()->IsBlackOutTrue();
+	}
+	if ( waitTime <= waitTimer )
+	{
+		waitTime++;
+	}
+	if ( waitTime > waitTimer &&
+		!SceneTransition::GetInstance()->GetIsBlackOut() &&
+		SceneTransition::GetInstance()->GetIsLightChange() )
 	{
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");

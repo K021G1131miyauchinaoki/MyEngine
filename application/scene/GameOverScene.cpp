@@ -3,7 +3,7 @@
  * @brief ベースシーンを継承したゲームオーバーシーン
  */
 #include "GameOverScene.h"
-
+#include"SceneTransition.h"
 #include<SceneManager.h>
 
 void GameOverScene::Initialize() {
@@ -22,8 +22,22 @@ void GameOverScene::Initialize() {
 
 void GameOverScene::Update() {
 	overSprite->Update();
-	//エンターキーを押したら
-	if (input->TriggerKey(DIK_RETURN) || input->TriggerClick(Botton::RIGHT))
+	//キーを押したら
+	if ( input->TriggerKey(DIK_RETURN)
+		|| input->TriggerReleaseKey(DIK_SPACE)
+		|| input->TriggerReleaseClick(Botton::LEFT)
+		&& !SceneTransition::GetInstance()->GetIsBlackOut()
+		&& !SceneTransition::GetInstance()->GetIsLightChange() )
+	{
+		SceneTransition::GetInstance()->IsBlackOutTrue();
+	}
+	if ( waitTime <= waitTimer )
+	{
+		waitTime++;
+	}
+	if ( waitTime > waitTimer &&
+		!SceneTransition::GetInstance()->GetIsBlackOut() &&
+		SceneTransition::GetInstance()->GetIsLightChange() )
 	{
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("TITLE");

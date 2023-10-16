@@ -4,7 +4,7 @@
  */
 #include "GameClear.h"
 #include<SceneManager.h>
-
+#include"SceneTransition.h"
 void GameClear::Initialize() {
 	clearSprite = std::make_unique<Sprite>(
 		2,
@@ -17,15 +17,30 @@ void GameClear::Initialize() {
 		);
 	clearSprite->Initialize(SpriteCommon::GetInstance(), 2);
 	input.reset(Input::GetInstance());
+	waitTime = 0;
 }
 
 void GameClear::Update() {
 	clearSprite->Update();
-	//エンターキーを押したら
-	if (input->TriggerKey(DIK_RETURN) || input->TriggerClick(Botton::RIGHT))
+	if ( waitTime <= waitTimer )
+	{
+		waitTime++;
+	}
+	if (waitTime>waitTimer&&
+		!SceneTransition::GetInstance()->GetIsBlackOut() &&
+		SceneTransition::GetInstance()->GetIsLightChange() )
 	{
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("TITLE");
+	}
+	//キーを押したら
+	if ( input->TriggerKey(DIK_RETURN)
+		|| input->TriggerReleaseKey(DIK_SPACE)
+		|| input->TriggerReleaseClick(Botton::LEFT)
+		&& !SceneTransition::GetInstance()->GetIsBlackOut()
+		&& !SceneTransition::GetInstance()->GetIsLightChange() )
+	{
+		SceneTransition::GetInstance()->IsBlackOutTrue();
 	}
 }
 

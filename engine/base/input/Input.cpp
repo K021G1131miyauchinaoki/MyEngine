@@ -94,6 +94,17 @@ bool	Input::TriggerKey(BYTE keyNumber) {
 	return	false;
 }
 
+bool Input::TriggerReleaseKey(BYTE keyNumber) {
+	//キーが離れた瞬間にtrue
+	if ( !key[ keyNumber ] && keyPre[ keyNumber ] )
+	{
+		return	true;
+	}
+
+	//そうでなければfalseを返す
+	return	false;
+}
+
 bool	Input::PushClick(Botton botton) {
 	if (mouse.rgbButtons[botton])
 	{
@@ -104,6 +115,14 @@ bool	Input::PushClick(Botton botton) {
 
 bool	Input::TriggerClick(Botton botton) {
 	if (mouse.rgbButtons[botton] && !oldMouse.rgbButtons[botton])
+	{
+		return true;
+	}
+	return false;
+}
+
+bool Input::TriggerReleaseClick(BYTE botton) {
+	if ( !mouse.rgbButtons[ botton ] && oldMouse.rgbButtons[ botton ] )
 	{
 		return true;
 	}

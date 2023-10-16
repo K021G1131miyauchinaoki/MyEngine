@@ -20,7 +20,7 @@ public://メンバ関数
 	void Updata();
 	//描画
 	void Draw();
-	//フラグをtrueにする
+	//演出をtrueにする
 	void IsBlackOutTrue();
 	//フラグの取得
 	bool GetIsBlackOut() {
@@ -31,7 +31,7 @@ public://メンバ関数
 		return isLightChange;
 	}
 private:
-	//拡縮フラグ
+	//演出フラグ
 	//暗転
 	float blackOutTime;
 	const float blackOutTimer = 2.0f;

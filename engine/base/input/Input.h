@@ -38,12 +38,16 @@ public://メンバ関数
 	bool PushKey(BYTE	keyNumber);
 	//押した瞬間
 	bool TriggerKey(BYTE	keyNumber);
+	//離した瞬間
+	bool TriggerReleaseKey(BYTE keyNumber);
 	
 	/*マウス*/
 	//押したとき
 	bool PushClick(Botton botton);
 	//押した瞬間
 	bool TriggerClick(Botton botton);
+	//離した瞬間
+	bool TriggerReleaseClick(BYTE botton);
 	//2D座標の取得
 	const Vector2 GetMausePos() { return mPos; }
 

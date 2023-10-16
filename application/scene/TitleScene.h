@@ -104,6 +104,10 @@ private:
 	bool isBlackOut;
 	bool isLightChange;
 
+	//次シーンまでのタイマー
+	int waitTime;
+	const int waitTimer = 20;
+
 	//ライト
 	XMVECTOR lightDir = { 25,-100,10,0 };
 };

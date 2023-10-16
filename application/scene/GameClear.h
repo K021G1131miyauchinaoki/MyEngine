@@ -48,5 +48,8 @@ public://メンバ関数
 private:
 	std::unique_ptr<Sprite> clearSprite;
 	std::unique_ptr <Input>input;
+	//次シーンまでのタイマー
+	int waitTime;
+	const int waitTimer = 20;
 
 };
