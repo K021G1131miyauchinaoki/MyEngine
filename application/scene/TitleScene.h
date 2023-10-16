@@ -103,6 +103,8 @@ private:
 	float alpha;
 	bool isBlackOut;
 	bool isLightChange;
+
+	//ライト
 	XMVECTOR lightDir = { 25,-100,10,0 };
 };
 

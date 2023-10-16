@@ -9,6 +9,7 @@
 #include"ImguiManager.h"
 #include"SoundManager.h" 
 #include<BaseScene.h>
+#include<SceneTransition.h>
 
 class MyGame:public Framework
 {

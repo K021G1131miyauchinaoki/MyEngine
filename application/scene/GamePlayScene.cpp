@@ -3,6 +3,7 @@
  * @brief ベースシーンを継承したプレイシーン
  */
 #include "GamePlayScene.h"
+#include"SceneTransition.h"
 #include<SceneManager.h>
 
 void GamePlayScene::Initialize() {
@@ -52,23 +53,35 @@ void GamePlayScene::Initialize() {
 }
 
 void GamePlayScene::Update(){
-	CheckAllCollision();
-	camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
-	camera->SetEye({ player->GetPos().x, 100, player->GetPos().z - 30 });
-	camera->Update();
-	player->Update();
-	enemy->Update();
-	map->Update();
-	objSkydome->Update();
-	particle->Update();
-	if (input->TriggerKey(DIK_1)||player->IsDead())
+	if ( !player->IsDead() && !enemy->IsDead() )
 	{
-		SceneManager::GetInstance()->ChangeScene("GAMEOVER");
+		CheckAllCollision();
+		camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
+		camera->SetEye({ player->GetPos().x, 100, player->GetPos().z - 30 });
+		camera->Update();
+		player->Update();
+		enemy->Update();
+		map->Update();
+		objSkydome->Update();
+		particle->Update();
 	}
-	if (input->TriggerKey(DIK_2))
+	else if ( !SceneTransition::GetInstance()->GetIsBlackOut() &&
+		!SceneTransition::GetInstance()->GetIsLightChange() )
+	{
+		SceneTransition::GetInstance()->IsBlackOutTrue();
+	}
+	if (!SceneTransition::GetInstance()->GetIsBlackOut()&&
+		SceneTransition::GetInstance()->GetIsLightChange() )
 	{
 		//シーンの切り替え
-		//SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
+		if (player->IsDead())
+		{
+			SceneManager::GetInstance()->ChangeScene("GAMEOVER");
+		}
+		if (enemy->IsDead())
+		{
+			SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
+		}
 	}
 }
 
@@ -128,16 +141,14 @@ void GamePlayScene::CheckAllCollision() {
 			//
 			float radius = enemy->GetRadius() + p_bullet->GetRadius();
 			//判定
-			if (dis <= radius) {
-				//敵キャラのコールバックを呼び出し
+			if ( dis <= radius )
+			{
+//敵キャラのコールバックを呼び出し
 				enemy->OnCollision();
 				//自弾のコールバックを呼び出し
 				p_bullet->OnCollision();
 
-				particle->Add("1", 30, 15, enemy->GetPos(), 1.0f, 0.0f);
-
-				//シーンの切り替え
-				//SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
+				particle->Add("1",30,15,enemy->GetPos(),1.0f,0.0f);
 			}
 		}
 	#pragma endregion

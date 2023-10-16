@@ -62,11 +62,6 @@ public://メンバ関数
 	void Rotate();
 
 	/// <summary>
-	///デスフラグを取得 
-	/// </summary>
-	bool IsDead() { return isDead; }
-
-	/// <summary>
 	/// 位置
 	/// </summary>
 	/// <returns></returns>
@@ -128,8 +123,6 @@ private://メンバ変数
 	//乱数値格納
 	Vector3 value;
 	//デスフラグ
-	bool isDead = false;
-
 	float radius = 5.0f;
 
 	//仮

@@ -148,6 +148,7 @@
     <ClCompile Include="Application\Scene\GameOverScene.cpp" />
     <ClCompile Include="Application\Particle\Explosion.cpp" />
     <ClCompile Include="Engine\3D\Light\Light.cpp" />
+    <ClCompile Include="Application\Scene\SceneTransition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -265,6 +266,7 @@
     <ClInclude Include="Application\Scene\TitleScene.h" />
     <ClInclude Include="Application\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Base\Scene\SceneFactory.h" />
+    <ClInclude Include="Application\Scene\SceneTransition.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CG2.rc" />

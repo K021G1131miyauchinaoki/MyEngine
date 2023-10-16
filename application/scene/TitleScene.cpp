@@ -137,10 +137,7 @@ void TitleScene::Update() {
 	}
 
 	//暗転
-	if ( movieCount < 2 &&player->GetPos().x>-1.0f)
-	{
-		isBlackOut = true;
-	}
+	
 	BlackOutStaging();
 	light->Updata();
 	titleSprite->Update();
@@ -185,6 +182,10 @@ void TitleScene::AddMovieCount() {
 }
 
 void TitleScene::BlackOutStaging() {
+	if ( movieCount < 2 && player->GetPos().x>-1.0f )
+	{
+		isBlackOut = true;
+	}
 	const float min = 0.0f;
 	const float max = 1.0f;
 	if ( isBlackOut )

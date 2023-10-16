@@ -160,6 +160,7 @@
       <Filter>ソースファイル\Application\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3D\Light\Light.cpp" />
+    <ClCompile Include="Application\Scene\SceneTransition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\Enemy.h">
@@ -292,6 +293,7 @@
       <Filter>ヘッダーファイル\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3D\Light\Light.h" />
+    <ClInclude Include="Application\Scene\SceneTransition.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

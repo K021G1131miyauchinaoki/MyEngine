@@ -224,8 +224,4 @@ void Enemy::OnCollision()
 	{
 		hp.isDead = true;
 	}
-	if (hp.isDead)
-	{
-		SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
-	}
 }

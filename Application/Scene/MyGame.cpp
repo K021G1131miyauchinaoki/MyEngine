@@ -18,16 +18,13 @@ void MyGame::Initialize() {
 	sceneFactory = new SceneFactory();
 	SceneManager::GetInstance()->SetSceneFactory(sceneFactory);
 	SceneManager::GetInstance()->ChangeScene("TITLE");
+	SceneTransition::GetInstance()->Initialize();
 }
 
 void MyGame::Update(){
-	float vec[2] = { input->GetMausePos().x,input->GetMausePos().y};
 	//imgui関連
 	ImguiManager::GetInstance()->Begin();
-	//ここから中身を書いていく
-	ImGui::Begin("a");
-	ImGui::SliderFloat2("mousePos", vec, -100.0f, static_cast<float>(WinApp::width));
-	ImGui::End();
+	SceneTransition::GetInstance()->Updata();
 	Framework::Update();
 	//------------------------------
 	SceneManager::GetInstance()->Update();
@@ -48,6 +45,7 @@ void MyGame::Draw(){
 	//スプライト描画
 	SpriteCommon::GetInstance()->PreDraw();
 	SceneManager::GetInstance()->SpriteDraw();
+	SceneTransition::GetInstance()->Draw();
 	SpriteCommon::GetInstance()->PostDraw();
 
 	//imgui

@@ -3,6 +3,7 @@
  * @brief シーンマネージャー
  */
 #include "SceneManager.h"
+#include"SceneTransition.h"
 #include<cassert>
 
 int8_t SceneManager::sceneNum = SceneManager::title;
