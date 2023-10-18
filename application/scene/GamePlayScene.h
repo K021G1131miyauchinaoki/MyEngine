@@ -63,17 +63,9 @@ public://メンバ関数
 private:
 	//インプット
 	std::unique_ptr<Input>input;
-
-	//スプライト
-	//SpriteCommon* spriteCommon = nullptr;
-	//カメラ初期化
+	//カメラ
 	std::unique_ptr<Camera>camera;
-	//スプライト
-
-
-	//json読み込み
-	//LevelData* levelData = nullptr;
-
+	float cameraY;
 	//objモデル
 	std::unique_ptr <Model> modelSkydome = nullptr;
 	std::unique_ptr <Model> cube = nullptr;

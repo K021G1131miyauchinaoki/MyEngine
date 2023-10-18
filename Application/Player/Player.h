@@ -28,6 +28,11 @@ public://メンバ関数
 	void Initialeze(Model*model_,Input*input_);
 
 	/// <summary>
+	/// リセット
+	/// </summary>
+	void Reset();
+
+	/// <summary>
 	/// 更新
 	/// </summary>
 	void Update();
@@ -69,19 +74,23 @@ public://メンバ関数
 	void TitleStaging();
 
 	/// <summary>
+	/// プレイ時のスタート演出
+	/// </summary>
+	void StartStaging();
+
+	/// <summary>
 	/// 衝突時のコールバック
 	/// </summary>
 	void OnCollision();
 
-
+	//半径を取得
 	const	float GetRadius() { return radius; }
 
+	//弾のリストを取得
 	std::list<std::unique_ptr<Bullet>>& GetBullets() { return bullets_; };
 
+	//デスフラグの取得
 	bool IsDead()const { return hp.isDead; }
-
-
-	float getAngle() { return angle; }
 
 private://メンバ変数
 	Input*input = nullptr;
@@ -106,9 +115,15 @@ private://メンバ変数
 	std::vector<DrawHp> drawHp;
 
 	float easeTime;
-	const float easeTimer = 80.0f;
+	const float titleEaseTimer = 80.0f;
 
-	bool isTitleStaging = false;
-	bool isInvincible = false;
+	float startPosY;
+	float endPosY;
+	const float startEaseTimer=150;
+	float startEaseTime;
+
+	bool isTitleStaging;
+	bool isInvincible;
+	bool isStart;
 };
 

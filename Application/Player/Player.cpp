@@ -18,13 +18,17 @@ void Player::Initialeze( Model* model_, Input* input_) {
 	model = model_;
 	input = input_;
 	//モデル
+	startPosY = 120.0f;
+	endPosY = 5.0f;
 	obj=std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
-	obj->SetPosition({ 0.0f,5.0f,0.0f });
+	obj->SetPosition({ 0.0f,startPosY,0.0f });
 	obj->SetScale({ 5.0f,5.0f,5.0f });
 	obj->SetColor({ 0.0f,0.0f,0.5f,1.0f });
 	obj->Update();
+	//タイム
+	startEaseTime = 0;
 	coolTime = 0;
 	invincibleTimer = invincibleTime;
 	//体力
@@ -45,58 +49,76 @@ void Player::Initialeze( Model* model_, Input* input_) {
 			drawHp[i].Sprite->SetIsInvisible(drawHp[i].isDraw);
 		}
 	}
+	isTitleStaging = false;
+	isInvincible = false;
+	isStart = true;
+}
+
+void Player::Reset() {
+	startEaseTime = 0;
+	coolTime = 0;
+	invincibleTimer = invincibleTime;
 }
 
 void Player::Update() {
 	TitleStaging();
 	if (SceneManager::sceneNum == SceneManager::play)
 	{
-		//デスフラグの立った弾を削除
-		bullets_.remove_if([](std::unique_ptr<Bullet>& bullet) { return bullet->IsDead(); });
-
-		//マウスカーソルの位置取得
-		mausePos = input->GetMausePos();
-		vector = { 0.0f,0.0f };
-		//ウィンドウの中心点とマウスの現在点のベクトルをとる
-		vector.x = mausePos.x - WinApp::width / 2;
-		vector.y = mausePos.y - WinApp::height / 2;
-		//正規化
-		vector = MyMath::normaleizeVec2(vector);
-		//角度を算出
-		angle = atan2(vector.y, vector.x);
-
-		Shot();
-
-		//度数変換
-		angle = MyMath::DegreeTransform(angle);
-
-		Rotate();
-		Move();
-		//HPのスプライト
-		for (size_t i = 0; i < hp.value; i++)
+		if ( isStart )
 		{
-			drawHp[i].Sprite->Update();
+			StartStaging();
 		}
-		//点滅表現
-		if (isInvincible)
+		else
 		{
-			invincibleTimer--;
-		}
-		if (invincibleTimer < 0)
-		{
-			invincibleTimer = invincibleTime;
-			isInvincible = false;
-		}
-		//弾
-		for (std::unique_ptr<Bullet>& bullet : bullets_)
-		{
-			bullet->Update();
+			//デスフラグの立った弾を削除
+			bullets_.remove_if([ ] (std::unique_ptr<Bullet>& bullet)
+			{
+			 return bullet->IsDead();
+			});
+
+			//マウスカーソルの位置取得
+			mausePos = input->GetMausePos();
+			vector = { 0.0f,0.0f };
+			//ウィンドウの中心点とマウスの現在点のベクトルをとる
+			vector.x = mausePos.x - WinApp::width / 2;
+			vector.y = mausePos.y - WinApp::height / 2;
+			//正規化
+			vector = MyMath::normaleizeVec2(vector);
+			//角度を算出
+			angle = atan2(vector.y,vector.x);
+
+			Shot();
+
+			//度数変換
+			angle = MyMath::DegreeTransform(angle);
+
+			Rotate();
+			Move();
+			//HPのスプライト
+			for ( size_t i = 0; i < hp.value; i++ )
+			{
+				drawHp[ i ].Sprite->Update();
+			}
+			//点滅表現
+			if ( isInvincible )
+			{
+				invincibleTimer--;
+			}
+			if ( invincibleTimer < 0 )
+			{
+				invincibleTimer = invincibleTime;
+				isInvincible = false;
+			}
+			//弾
+			for ( std::unique_ptr<Bullet>& bullet : bullets_ )
+			{
+				bullet->Update();
+			}
 		}
 	}
 	//オブジェクト
 	obj->Update();
 }
-
 
 void Player::ObjDraw() {
 	
@@ -215,7 +237,6 @@ void Player::Rotate() {
 	obj->SetRotation(rot);
 }
 
-//衝突したら
 void Player::OnCollision() 
 { 
 	if (!isInvincible)
@@ -234,7 +255,7 @@ void Player::TitleStaging() {
 	{
 		if ( TitleScene::movieCount == 0 )
 		{
-			if ( isTitleStaging )
+			if ( isTitleStaging )//カウントを加算する
 			{
 				if ( obj->GetPosition().x>0.0f )
 				{
@@ -242,7 +263,7 @@ void Player::TitleStaging() {
 					TitleScene::AddMovieCount();
 				}
 			}
-			else
+			else//初期位置
 			{
 				obj->SetPosition({ -30.0f,5.0f,0.0f });
 				isTitleStaging = true;
@@ -268,7 +289,7 @@ void Player::TitleStaging() {
 		{
 			if ( isTitleStaging )
 			{
-				if ( easeTime > easeTimer )
+				if ( easeTime > titleEaseTimer )
 				{
 					isTitleStaging = false;
 					TitleScene::AddMovieCount();
@@ -289,16 +310,33 @@ void Player::TitleStaging() {
 			move.x += speed;
 			obj->SetPosition(move);
 		}
-		else if ( easeTime < easeTimer )
+		else if ( easeTime < titleEaseTimer )
 		{
 			//イージング
 			Vector3 start = { -45.0f,5.0f,0.0f };
 			Vector3 end = { 0.0f,5.0f,0.0f };
 			Vector3 move = obj->GetPosition();
-			move.x = start.x + ( end.x - start.x ) * Easing::easeOutSine(easeTime / easeTimer);
+			move.x = start.x + ( end.x - start.x ) * Easing::easeOutSine(easeTime / titleEaseTimer);
 			obj->SetPosition(move);
 
 			easeTime+=0.3f;
 		}
 	}
+}
+
+void Player::StartStaging() {
+	Vector3 pos = obj->GetPosition();
+	if ( startEaseTime<startEaseTimer )
+	{
+		startEaseTime++;
+		pos.y= startPosY + ( endPosY - startPosY ) * Easing::easeOutBounce(startEaseTime/ startEaseTimer);
+	}
+	else
+	{
+		startEaseTime = startEaseTimer;
+		isStart = false;
+	}
+	obj->SetPosition(pos);
+	obj->SetRotation({ 0.0f,-90.0f,0.0f });
+
 }

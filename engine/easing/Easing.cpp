@@ -36,3 +36,25 @@ float Easing::easeInOutCirc(float x) {
 float Easing::easeInOutSine(float x){
 	return -( std::cos(MyMath::PI_F * x) - 1.0f ) / 2.0f;
 }
+
+float Easing::easeOutBounce(float x) {
+	const float n1 = 4.0f;
+	const float d1 = 2.75f;
+
+	if ( x < 1.0f / d1 )
+	{
+		return n1 * x * x;
+	}
+	else if ( x < 2.0f / d1 )
+	{
+		return n1 * ( x -= 1.5f / d1 ) * x + 0.5f;
+	}
+	else if ( x < 2.5f / d1 )
+	{
+		return n1 * ( x -= 2.25f / d1 ) * x + 0.9375f;
+	}
+	else
+	{
+		return n1 * ( x -= 2.625f / d1 ) * x + 0.984375f;
+	}
+}

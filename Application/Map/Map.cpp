@@ -12,6 +12,7 @@ float Map::moveLimitW;
 float Map::moveLimitH;
 float Map::mapScaleW;
 float Map::mapScaleH;
+bool Map::isStaging;
 Map::~Map(){}
 
 void Map::StaticInitialize(Model* model_) {
@@ -35,6 +36,7 @@ void Map::Initialize(bool isStaging_) {
 	rotEndZ = 0;
 	rotStartZ=360*2;
 	isStaging = isStaging_;
+	timer = time;
 }
 
 void Map::Update() {
@@ -116,14 +118,12 @@ void Map::LoadCSV(const std::string& num_) {
 				rotZ = rotStartZ;
 				scale = scaleStart;
 				pos.y = posStartY;
-				pos.z = (i * scaleEnd.z) * 2.0f - (scaleEnd.z * height);
 			}
 			else
 			{
 				rotZ = rotEndZ;
 				scale = scaleEnd;
 				pos.y = posEndY;
-				pos.z = (i * scaleEnd.z) * 2.0f - ((scaleEnd.z * height)/4.0f);
 			}
 			pos.z = ( i * scaleEnd.z ) * 2.0f - ( scaleEnd.z * height );
 

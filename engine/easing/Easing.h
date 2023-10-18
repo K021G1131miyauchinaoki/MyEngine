@@ -12,5 +12,5 @@ namespace Easing
 	float easeOutQuint(float x);
 	float easeInOutCirc(float x);
 	float easeInOutSine(float x);
-
+	float easeOutBounce(float x);
 }

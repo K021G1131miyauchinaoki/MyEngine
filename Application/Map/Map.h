@@ -71,9 +71,9 @@ public:
 	static float moveLimitH;
 	static float mapScaleW;
 	static float mapScaleH;
-private://メンバ変数
 	//演出やるかやらないか用フラグ
-	bool isStaging;
+	static bool isStaging;
+private://メンバ変数
 
 	/*イージング*/
 	float endFrame;
@@ -94,7 +94,7 @@ private://メンバ変数
 	int16_t lineNum;
 
 	const int time = 20;
-	int timer = 0;
+	int timer;
 	int16_t nowMax;
 	int16_t setPoint;
 	int16_t numH;
