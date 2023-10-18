@@ -65,13 +65,13 @@ void GamePlayScene::Update(){
 		objSkydome->Update();
 		particle->Update();
 	}
-	else if ( !SceneTransition::GetInstance()->GetIsBlackOut() &&
-		!SceneTransition::GetInstance()->GetIsLightChange() )
+	else if ( !SceneTransition::GetInstance()->GetIsFadeOut() &&
+		!SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
-		SceneTransition::GetInstance()->IsBlackOutTrue();
+		SceneTransition::GetInstance()->IsFadeOutTrue();
 	}
-	if (!SceneTransition::GetInstance()->GetIsBlackOut()&&
-		SceneTransition::GetInstance()->GetIsLightChange() )
+	if (!SceneTransition::GetInstance()->GetIsFadeOut()&&
+		SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
 		//シーンの切り替え
 		if (player->IsDead())

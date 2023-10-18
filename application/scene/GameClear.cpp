@@ -27,8 +27,8 @@ void GameClear::Update() {
 		waitTime++;
 	}
 	if (waitTime>waitTimer&&
-		!SceneTransition::GetInstance()->GetIsBlackOut() &&
-		SceneTransition::GetInstance()->GetIsLightChange() )
+		!SceneTransition::GetInstance()->GetIsFadeOut() &&
+		SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("TITLE");
@@ -37,10 +37,10 @@ void GameClear::Update() {
 	if ( input->TriggerKey(DIK_RETURN)
 		|| input->TriggerReleaseKey(DIK_SPACE)
 		|| input->TriggerReleaseClick(Botton::LEFT)
-		&& !SceneTransition::GetInstance()->GetIsBlackOut()
-		&& !SceneTransition::GetInstance()->GetIsLightChange() )
+		&& !SceneTransition::GetInstance()->GetIsFadeOut()
+		&& !SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
-		SceneTransition::GetInstance()->IsBlackOutTrue();
+		SceneTransition::GetInstance()->IsFadeOutTrue();
 	}
 }
 

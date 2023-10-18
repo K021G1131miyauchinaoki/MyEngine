@@ -21,24 +21,24 @@ public://メンバ関数
 	//描画
 	void Draw();
 	//演出をtrueにする
-	void IsBlackOutTrue();
+	void IsFadeOutTrue();
 	//フラグの取得
-	bool GetIsBlackOut() {
-		return isBlackOut;
+	bool GetIsFadeOut() {
+		return isFadeOut;
 	}
 	//フラグの取得
-	bool GetIsLightChange() {
-		return isLightChange;
+	bool GetIsFadeIn() {
+		return isFadeIn;
 	}
 private:
 	//演出フラグ
 	//暗転
-	float blackOutTime;
-	const float blackOutTimer = 2.0f;
-	float alpha;
-	bool isBlackOut;
-	bool isLightChange;
 	std::unique_ptr<Sprite> transSprite;
+	float transTime;
+	const float transTimer = 2.0f;
+	float alpha;
+	bool isFadeOut;
+	bool isFadeIn;
 
 };
 

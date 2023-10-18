@@ -98,11 +98,11 @@ private:
 	bool isMovie;
 
 	//暗転
-	float blackOutTime;
-	const float blackOutTimer=1.0f;
+	float transTime;
+	const float transTimer=1.0f;
 	float alpha;
-	bool isBlackOut;
-	bool isLightChange;
+	bool isFadeOut;
+	bool isFadeIn;
 
 	//次シーンまでのタイマー
 	int waitTime;

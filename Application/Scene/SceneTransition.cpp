@@ -24,29 +24,29 @@ void SceneTransition::Initialize(){
 void SceneTransition::Updata() {
 	const float min = 0.0f;
 	const float max = 1.0f;
-	if ( isBlackOut )
+	if ( isFadeOut )
 	{
 		alpha = transSprite->GetColor().w;
-		alpha = min + ( max - min ) * Easing::easeOutSine(blackOutTime / blackOutTimer);
+		alpha = min + ( max - min ) * Easing::easeOutSine(transTime / transTimer);
 		transSprite->SetColor(XMFLOAT4{ 0.0f,0.0f,0.0f,alpha });
-		blackOutTime += 0.15f;
-		if ( blackOutTime > blackOutTimer )
+		transTime += 0.15f;
+		if ( transTime > transTimer )
 		{
-			blackOutTime = 0.0f;
-			isBlackOut = false;
-			isLightChange = true;
+			transTime = 0.0f;
+			isFadeOut = false;
+			isFadeIn = true;
 		}
 	}
-	if ( isLightChange )
+	if ( isFadeIn )
 	{
 		alpha = transSprite->GetColor().w;
-		alpha = max + ( min - max ) * Easing::easeOutSine(blackOutTime / blackOutTimer);
+		alpha = max + ( min - max ) * Easing::easeOutSine(transTime / transTimer);
 		transSprite->SetColor(XMFLOAT4{ 0.0f,0.0f,0.0f,alpha });
-		blackOutTime += 0.15f;
-		if ( blackOutTime > blackOutTimer )
+		transTime += 0.15f;
+		if ( transTime > transTimer )
 		{
-			blackOutTime = 0.0f;
-			isLightChange = false;
+			transTime = 0.0f;
+			isFadeIn = false;
 		}
 	}
 	transSprite->Update();
@@ -55,6 +55,6 @@ void SceneTransition::Draw() {
 	transSprite->Draw();
 }
 
-void SceneTransition::IsBlackOutTrue() {
-	isBlackOut = true;
+void SceneTransition::IsFadeOutTrue() {
+	isFadeOut = true;
 }

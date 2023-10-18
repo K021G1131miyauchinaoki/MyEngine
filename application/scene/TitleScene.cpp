@@ -74,9 +74,9 @@ void TitleScene::Initialize() {
 	isMovie = true;
 	movieTime=0;
 	movieCount = 0;
-	isBlackOut = false;
-	isLightChange = false;
-	blackOutTime = 0.0f;
+	isFadeOut = false;
+	isFadeIn = false;
+	transTime = 0.0f;
 }
 
 void TitleScene::Update() {
@@ -149,18 +149,18 @@ void TitleScene::Update() {
 	map->Update();
 	//キーを押したら
 	if (input->TriggerReleaseKey(DIK_SPACE)||input->TriggerReleaseClick(Botton::LEFT)
-		&&!SceneTransition::GetInstance()->GetIsBlackOut()
-		&&!SceneTransition::GetInstance()->GetIsLightChange() )
+		&&!SceneTransition::GetInstance()->GetIsFadeOut()
+		&&!SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
-		SceneTransition::GetInstance()->IsBlackOutTrue();
+		SceneTransition::GetInstance()->IsFadeOutTrue();
 	}
 	if ( waitTime <= waitTimer )
 	{
 		waitTime++;
 	}
 	if ( waitTime > waitTimer &&
-		!SceneTransition::GetInstance()->GetIsBlackOut() &&
-		SceneTransition::GetInstance()->GetIsLightChange() )
+		!SceneTransition::GetInstance()->GetIsFadeOut() &&
+		SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
@@ -197,33 +197,33 @@ void TitleScene::AddMovieCount() {
 void TitleScene::BlackOutStaging() {
 	if ( movieCount < 2 && player->GetPos().x>-1.0f )
 	{
-		isBlackOut = true;
+		isFadeOut = true;
 	}
 	const float min = 0.0f;
 	const float max = 1.0f;
-	if ( isBlackOut )
+	if ( isFadeOut )
 	{
 		alpha = blackOutSprite->GetColor().w;
-		alpha = min + ( max - min ) * Easing::easeOutSine(blackOutTime / blackOutTimer);
+		alpha = min + ( max - min ) * Easing::easeOutSine(transTime / transTimer);
 		blackOutSprite->SetColor(XMFLOAT4{ 0.0f,0.0f,0.0f,alpha });
-		blackOutTime += 0.15f;
-		if ( blackOutTime > blackOutTimer )
+		transTime += 0.15f;
+		if ( transTime > transTimer )
 		{
-			blackOutTime = 0.0f;
-			isBlackOut = false;
-			isLightChange = true;
+			transTime = 0.0f;
+			isFadeOut = false;
+			isFadeIn = true;
 		}
 	}
-	if ( isLightChange )
+	if ( isFadeIn )
 	{
 		alpha = blackOutSprite->GetColor().w;
-		alpha = max + ( min - max ) * Easing::easeOutSine(blackOutTime / blackOutTimer);
+		alpha = max + ( min - max ) * Easing::easeOutSine(transTime / transTimer);
 		blackOutSprite->SetColor(XMFLOAT4{ 0.0f,0.0f,0.0f,alpha });
-		blackOutTime += 0.15f;
-		if ( blackOutTime > blackOutTimer )
+		transTime += 0.15f;
+		if ( transTime > transTimer )
 		{
-			blackOutTime = 0.0f;
-			isLightChange = false;
+			transTime = 0.0f;
+			isFadeIn = false;
 		}
 	}
 }
