@@ -38,7 +38,7 @@ float Easing::easeInOutSine(float x){
 }
 
 float Easing::easeOutBounce(float x) {
-	const float n1 = 4.0f;
+	const float n1 = 7.5625f;
 	const float d1 = 2.75f;
 
 	if ( x < 1.0f / d1 )
@@ -47,7 +47,7 @@ float Easing::easeOutBounce(float x) {
 	}
 	else if ( x < 2.0f / d1 )
 	{
-		return n1 * ( x -= 1.5f / d1 ) * x + 0.5f;
+		return n1 * ( x -= 1.0f / d1 ) * x + 0.75f;
 	}
 	else if ( x < 2.5f / d1 )
 	{
