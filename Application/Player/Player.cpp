@@ -62,7 +62,7 @@ void Player::Reset() {
 
 void Player::Update() {
 	TitleStaging();
-	if (SceneManager::sceneNum == SceneManager::play)
+	if ( SceneManager::sceneNum == SceneManager::play )
 	{
 		if ( isStart )
 		{
@@ -73,7 +73,7 @@ void Player::Update() {
 			//デスフラグの立った弾を削除
 			bullets_.remove_if([ ] (std::unique_ptr<Bullet>& bullet)
 			{
-			 return bullet->IsDead();
+				return bullet->IsDead();
 			});
 
 			//マウスカーソルの位置取得
@@ -92,31 +92,32 @@ void Player::Update() {
 			//度数変換
 			angle = MyMath::DegreeTransform(angle);
 
-		Rotate();
-		Move();
-		//HPのスプライト
-		for (size_t i = 0; i < hp.value; i++)
-		{
-			drawHp[i].sprite->Update();
+			Rotate();
+			Move();
+			//HPのスプライト
+			for ( size_t i = 0; i < hp.value; i++ )
+			{
+				drawHp[ i ].sprite->Update();
+			}
+			//点滅表現
+			if ( isInvincible )
+			{
+				invincibleTimer--;
+			}
+			if ( invincibleTimer < 0 )
+			{
+				invincibleTimer = invincibleTime;
+				isInvincible = false;
+			}
+			//弾
+			for ( std::unique_ptr<Bullet>& bullet : bullets_ )
+			{
+				bullet->Update();
+			}
 		}
-		//点滅表現
-		if (isInvincible)
-		{
-			invincibleTimer--;
-		}
-		if (invincibleTimer < 0)
-		{
-			invincibleTimer = invincibleTime;
-			isInvincible = false;
-		}
-		//弾
-		for (std::unique_ptr<Bullet>& bullet : bullets_)
-		{
-			bullet->Update();
-		}
+		//オブジェクト
+		obj->Update();
 	}
-	//オブジェクト
-	obj->Update();
 }
 
 void Player::ObjDraw() {

@@ -36,7 +36,7 @@ void Map::Initialize(bool isStaging_) {
 	rotEndZ = 0;
 	rotStartZ=360*2;
 	isStaging = isStaging_;
-	timer = time;
+	stagingTime = stagingTimer;
 }
 
 void Map::Update() {
