@@ -23,14 +23,14 @@ void SoundManager::Initialize() {
 
 
 
-void SoundManager::LoadWave(const std::string& filename)
+void SoundManager::LoadWave(const std::string& filename_)
 {
 	//重複の場合抜ける
-	if (soundDatas.find(filename)!=soundDatas.end())
+	if (soundDatas.find(filename_)!=soundDatas.end())
 	{
 		return;
 	}
-	std::string filePath = directoryPath + filename;
+	std::string filePath = directoryPath + filename_;
 	//ファイル入力ストリームのインスタンス
 	std::ifstream file;
 	//.wavファイルをバイナリモードで開く
@@ -89,7 +89,7 @@ void SoundManager::LoadWave(const std::string& filename)
 	soundData.bufferSize = data.size;
 
 	//サウンドデータを連想配列に格納
-	soundDatas.insert(std::make_pair(filename, soundData));
+	soundDatas.insert(std::make_pair(filename_, soundData));
 }
 
 void SoundManager::Finalize() {
@@ -104,19 +104,19 @@ void SoundManager::Finalize() {
 	soundDatas.clear();
 }
 
-void SoundManager::UnLoad(SoundData* soundData) {
+void SoundManager::UnLoad(SoundData* soundData_) {
 	//バッファのメモリを解放
-	delete[] soundData->pBuffer;
+	delete[] soundData_->pBuffer;
 
-	soundData->pBuffer = 0;
-	soundData->bufferSize = 0;
-	soundData->wfex = {};
+	soundData_->pBuffer = 0;
+	soundData_->bufferSize = 0;
+	soundData_->wfex = {};
 }
 
-void SoundManager::PlayWave(const std::string& filename) {
+void SoundManager::PlayWave(const std::string& filename_) {
 	HRESULT	result;
 	
-	std::map<std::string, SoundData>::iterator it=soundDatas.find(filename);
+	std::map<std::string, SoundData>::iterator it=soundDatas.find(filename_);
 	//未読み込みの検出
 	assert(it != soundDatas.end());
 	//サウンドデータの参照を取得

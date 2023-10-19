@@ -19,7 +19,7 @@ public://メンバ関数
 /// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(const Vector3& position,const Vector3& veclocity,const Vector3& rotation_);
+	void Initialize(const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_);
 
 	/// <summary>
 	/// 更新
@@ -34,7 +34,7 @@ public://メンバ関数
 	/// <summary>
 	///デスフラグを取得 
 	/// </summary>
-	bool IsDead() const { return isDead_; }
+	bool IsDead() const { return isDead; }
 
 	/// <summary>
 	/// 衝突時のコールバック
@@ -56,13 +56,13 @@ private:
 	static	std::unique_ptr < Model>model;
 	std::unique_ptr<Object3d>obj = nullptr;
 	//速度
-	Vector3 velocity_;
+	Vector3 velocity;
 	//消滅
 	static const int32_t kLifeTime = 60;
 	//デスタイマー
 	int32_t deathTimer;
 	//デスフラグ
-	bool isDead_ = false;
+	bool isDead = false;
 
 	//半径
 	const float r = 1.0f;

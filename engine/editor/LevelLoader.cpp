@@ -5,14 +5,14 @@
 #include "LevelLoader.h"
 #include<assert.h>
 
-LevelData* LevelLoader::LoadJson(const std::string& fileName) {
+LevelData* LevelLoader::LoadJson(const std::string& filename_) {
 	
 	//拡張子
 	const std::string extension=".json";
 	//ディレクトリ
 	const std::string directoryPath = "Resources/";
 	//フルパス
-	const std::string fullPath = directoryPath + fileName + extension;
+	const std::string fullPath = directoryPath + filename_ + extension;
 	//ファイルストリーム
 	std::ifstream file;
 
@@ -60,7 +60,7 @@ LevelData* LevelLoader::LoadJson(const std::string& fileName) {
 
 	//		if (object.contains("file_name")) {
 	//			// ファイル名
-	//			objectData.fileName = object["file_name"];
+	//			objectData.filename_ = object["file_name"];
 	//		}
 
 	//		// トランスフォームのパラメータ読み込み

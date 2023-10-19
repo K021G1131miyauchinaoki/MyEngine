@@ -60,7 +60,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList_) {
 	D3D12_GPU_DESCRIPTOR_HANDLE descHeapSRVHandle = descHeapSRV->GetGPUDescriptorHandleForHeapStart();
 	cmdList_->SetGraphicsRootDescriptorTable(1, descHeapSRVHandle);
 	// 描画コマンド
-	cmdList_->DrawInstanced(_countof(vertices_), 1, 0, 0);//全ての頂点を使って描画
+	cmdList_->DrawInstanced(_countof(vertices), 1, 0, 0);//全ての頂点を使って描画
 }
 
 void PostEffect::CreateTex() {
@@ -200,7 +200,7 @@ void PostEffect::CreateVertexBuffer() {
 	assert(SUCCEEDED(result_));
 
 	//頂点データ
-	Vertex vertices[4] = {
+	Vertex createVertices[4] = {
 		{{-0.5f,-0.5f,0.0f},{0.0f,1.0f}},//左下
 		{{-0.5f,+0.5f,0.0f},{0.0f,0.0f}},//左上
 		{{+0.5f,-0.5f,0.0f},{1.0f,1.0f}},//右下

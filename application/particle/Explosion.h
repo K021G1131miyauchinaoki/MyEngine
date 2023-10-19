@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* model)override;
+	void Initialize(Model* model_)override;
 	/// <summary>
 	/// 更新
 	/// </summary>
@@ -32,7 +32,7 @@ public:
 
 private:
 	std::unique_ptr<Object3d>obj;
-	float speed = 1.0f;
+	const float speed = 1.0f;
 	Vector3 acc;
 	//移動
 	Vector3 move;

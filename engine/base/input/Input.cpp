@@ -33,15 +33,15 @@ void	Input::Initialize() {
 
 	/*                                 マウス                                     */
 	//マウスデバイスの生成
-	result = directInput->CreateDevice(GUID_SysMouse, &mouseDev, NULL);
+	result = directInput->CreateDevice(GUID_SysMouse, &mouseDevice, NULL);
 	assert(SUCCEEDED(result));
 
 	//入力データ形式のセット
-	result = mouseDev->SetDataFormat(&c_dfDIMouse);//標準形式
+	result = mouseDevice->SetDataFormat(&c_dfDIMouse);//標準形式
 	assert(SUCCEEDED(result));
 
 	//排他制御レベルのセット
-	result = mouseDev->SetCooperativeLevel(
+	result = mouseDevice->SetCooperativeLevel(
 		winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 }
@@ -59,11 +59,11 @@ void	Input::Update() {
 
 	/*マウス*/
 	HRESULT hr;
-	hr = mouseDev->Acquire();
+	hr = mouseDevice->Acquire();
 	//最新にする前に保存
 	oldMouse = mouse;
 	//最新のマウス情報の取得
-	hr = mouseDev->GetDeviceState(sizeof(DIMOUSESTATE), &mouse);
+	hr = mouseDevice->GetDeviceState(sizeof(DIMOUSESTATE), &mouse);
 	if (FAILED(hr))return;
 	POINT p;
 	GetCursorPos(&p);

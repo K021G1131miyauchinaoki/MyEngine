@@ -35,10 +35,10 @@ class LevelLoader
 {
 public:
 	//jsonの読み込み
-	static LevelData* LoadJson(const std::string& fileName);
+	static LevelData* LoadJson(const std::string& fileName_);
 
 private:
 	//値を取得
-	static LevelData* ImportValue(nlohmann::json& json, LevelData* levelData );
+	static LevelData* ImportValue(nlohmann::json& json_, LevelData* levelData_ );
 };
 

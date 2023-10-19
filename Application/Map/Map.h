@@ -76,13 +76,13 @@ public:
 private://メンバ変数
 
 	/*イージング*/
+	//スケール
+	Vector3 scaleEnd;
+	Vector3 scaleStart;
 	float endFrame;
 	//位置
 	float posStartY;
 	float posEndY;
-	//スケール
-	Vector3 scaleEnd;
-	Vector3 scaleStart;
 	//回転
 	float rotEndZ;
 	float rotStartZ;
@@ -93,8 +93,8 @@ private://メンバ変数
 	int8_t height;
 	int16_t lineNum;
 
-	const int time = 20;
-	int timer;
+	const int16_t stagingTimer = 20;
+	int16_t stagingTime = 0;
 	int16_t nowMax;
 	int16_t setPoint;
 	int16_t numH;

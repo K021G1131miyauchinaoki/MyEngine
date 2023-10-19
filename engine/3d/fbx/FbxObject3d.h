@@ -76,7 +76,7 @@ public://メンバ関数
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw(ID3D12GraphicsCommandList* cmdList_);
 
 	/// /// <summary>
 	/// モデルのセット

@@ -152,10 +152,10 @@ void Map::LoadCSV(const std::string& num_) {
 void Map::Preparation() {
 	if (isStaging)
 	{
-		timer--;
-		if (timer < 0)
+		stagingTime--;
+		if (stagingTime < 0)
 		{
-			timer = time;
+			stagingTime = stagingTimer;
 			if (nowMax <= numW || nowMax <= numH)
 			{
 				setPoint = -nowMax;

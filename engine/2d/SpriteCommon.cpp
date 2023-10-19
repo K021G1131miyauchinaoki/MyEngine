@@ -20,13 +20,13 @@ SpriteCommon* SpriteCommon::GetInstance() {
 	return&instance;
 }
 
-void	SpriteCommon::Loadtexture(uint32_t index, std::string fileName) {
+void	SpriteCommon::Loadtexture(uint32_t index_, std::string fileName_) {
 
 	DirectX::TexMetadata	metadata{};
 	DirectX::ScratchImage	scratchImg{};
 
 	//ディレクトリパスとファイル名を結合
-	std::string fullPath = defaultTextureDirectoryPath + fileName;
+	std::string fullPath = defaultTextureDirectoryPath + fileName_;
 	//ワイド文字列に変換した際の文字列バッファサイズを計算
 	int filePathBufferSize = MultiByteToWideChar(CP_ACP, 0, fullPath.c_str(), -1, nullptr, 0);
 	//ワイド文字列に変換
@@ -73,7 +73,7 @@ void	SpriteCommon::Loadtexture(uint32_t index, std::string fileName) {
 		&textureResourceDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&texBuffers[index]));
+		IID_PPV_ARGS(&texBuffers[index_]));
 
 	//全ミップマップについて
 	for (size_t i = 0; i < metadata.mipLevels; i++)
@@ -81,7 +81,7 @@ void	SpriteCommon::Loadtexture(uint32_t index, std::string fileName) {
 		//ミップマップレベルを指定してイメージを取得
 		const	DirectX::Image* img = scratchImg.GetImage(i, 0, 0);
 		//テクスチャバッファにデータ転送
-		result = texBuffers[index]->WriteToSubresource(
+		result = texBuffers[index_]->WriteToSubresource(
 			(UINT)i,
 			nullptr,			 //全領域へコピー
 			img->pixels,		 //元データアドレス
@@ -98,7 +98,7 @@ void	SpriteCommon::Loadtexture(uint32_t index, std::string fileName) {
 
 	//シェーダリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC	srvDesc{};		//設定構造体
-	D3D12_RESOURCE_DESC	resDesc = texBuffers[index]->GetDesc();
+	D3D12_RESOURCE_DESC	resDesc = texBuffers[index_]->GetDesc();
 	srvDesc.Format = resDesc.Format;//RGBA	float
 	srvDesc.Shader4ComponentMapping =
 		D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -107,17 +107,17 @@ void	SpriteCommon::Loadtexture(uint32_t index, std::string fileName) {
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
 	//srvHandle.ptr = 0;//1つハンドルを進める
-	for (size_t i = 0; i < index; i++)
+	for (size_t i = 0; i < index_; i++)
 	{
 		srvHandle.ptr += incrementSize;
 	}
-	directXCom->GetDevice()->CreateShaderResourceView(texBuffers[index].Get(),
+	directXCom->GetDevice()->CreateShaderResourceView(texBuffers[index_].Get(),
 		&srvDesc,
 		srvHandle);
 
 }
 
-void	SpriteCommon::SetTextureCommands(uint32_t index) {
+void	SpriteCommon::SetTextureCommands(uint32_t index_) {
 	comList = directXCom->GetCommandList();
 	// パイプラインステートとルートシグネチャの設定コマンド
 	comList->SetPipelineState(pipelineState);
@@ -136,7 +136,7 @@ void	SpriteCommon::SetTextureCommands(uint32_t index) {
 	D3D12_GPU_DESCRIPTOR_HANDLE	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ１番に設定
 	//srvGpuHandle.ptr = 0;
-	for (size_t i = 0; i < index; i++)
+	for (size_t i = 0; i < index_; i++)
 	{
 		srvGpuHandle.ptr += incrementSize;
 	}

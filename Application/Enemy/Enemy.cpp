@@ -22,10 +22,10 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 	obj->SetScale({ 5.0f,5.0f,5.0f });
 	obj->SetColor({ 0.0f,0.1f,0.3f,1.0f });
 	obj->Update();
-	moveTimer = moveTime;
+	moveTime = moveTimer;
 	shotTimer = shotTime;
-	waitTimer = 0.0f;
-	invincibleTimer = invincibleTime;
+	waitTime = 0.0f;
+	invincibleTime = invincibleTimer;
 	angle[0] = 0.0f;
 	angle[1] = 0.0f;
 	//体力
@@ -35,7 +35,7 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 
 void Enemy::Update() {
 	//デスフラグの立った弾を削除
-	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) { return bullet->IsDead(); });
+	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) { return bullet->IsDead(); });
 	switch (phase) {
 	case Phase::wait:
 		Wait();
@@ -49,7 +49,7 @@ void Enemy::Update() {
 		break;
 	}
 	obj->Update();
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets)
 	{
 		bullet->Update();
 	}
@@ -58,18 +58,18 @@ void Enemy::Update() {
 void Enemy::Draw() {
 	if (isInvincible)
 	{
-		invincibleTimer--;
+		invincibleTime--;
 	}
-	if (invincibleTimer < 0)
+	if (invincibleTime < 0)
 	{
-		invincibleTimer = invincibleTime;
+		invincibleTime = invincibleTimer;
 		isInvincible = false;
 	}
-	if (invincibleTimer % 2 == 1)
+	if (invincibleTime % 2 == 1)
 	{
 		obj->Draw();
 	}
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 		bullet->Draw();
 	}
 }
@@ -105,15 +105,15 @@ void Enemy::Move() {
 		#pragma endregion
 		isMove = true;
 	}
-	else if (moveTimer<0) {
+	else if (moveTime<0) {
 		move = { 0.0f,0.0f, 0.0f };
 		phase = Phase::wait;
 		isMove = false;
-		moveTimer = moveTime;
+		moveTime = moveTimer;
 	}
 	else
 	{
-		moveTimer--;
+		moveTime--;
 		Vector3 pos = obj->GetPosition();
 		pos += move;
 		//移動範囲の制限
@@ -143,10 +143,10 @@ void Enemy::Shot() {
 		const float kBulletSpeed = 1.0f;
 		velocity = { 0.0f,0.0f,0.0f };
 
-		ePos = obj->GetPosition();
-		pPos = player->GetPos();
+		Pos = obj->GetPosition();
+		playerPos = player->GetPos();
 
-		len= pPos - ePos;
+		len= playerPos - Pos;
 		velocity = MyMath::normaleizeVec3(len);
 		// 正規化
 		vector = MyMath::normaleizeVec3(len);
@@ -166,7 +166,7 @@ void Enemy::Shot() {
 		newBullet->Initialize(obj->GetPosition(), velocity, obj->GetRotation());
 
 		//弾を登録する
-		bullets_.push_back(std::move(newBullet));
+		bullets.push_back(std::move(newBullet));
 
 		//フェーズの切り替え
 		phase = Phase::wait;
@@ -180,11 +180,11 @@ void Enemy::Rotate() {
 }
 
 void Enemy::Wait() {
-	waitTimer++;
-	ePos = obj->GetPosition();
-	pPos = player->GetPos();
+	waitTime++;
+	Pos = obj->GetPosition();
+	playerPos = player->GetPos();
 
-	len = pPos - ePos;
+	len = playerPos - Pos;
 	// 正規化
 	vector = MyMath::normaleizeVec3(len);
 	//角度を算出
@@ -193,21 +193,21 @@ void Enemy::Wait() {
 	if (!isWait)
 	{
  		Vector3 rot = obj->GetRotation();
-		float t = waitTimer / waitTime[0];
+		float t = waitTime / waitTimerr[0];
 		rot.y = MyMath::LerpShortAngle(rot.y, angle[1], t);
 		obj->SetRotation(rot);
 	}
 
-	if (waitTimer > waitTime[0] && !isWait)
+	if (waitTime > waitTimerr[0] && !isWait)
 	{
 		isWait = true;
-		waitTimer = 0.0f;
+		waitTime = 0.0f;
 		phase = Phase::atack;
 	}
-	else if(waitTimer > waitTime[1] && isWait)
+	else if(waitTime > waitTimerr[1] && isWait)
 	{
 		isWait = false;
-		waitTimer = 0.0f;
+		waitTime = 0.0f;
 		phase = Phase::move;
 	}
 }

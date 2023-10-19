@@ -15,5 +15,5 @@ struct BaseHp
 struct DrawHp
 {
 	bool isDraw = false;
-	std::unique_ptr<Sprite> Sprite;
+	std::unique_ptr<Sprite> sprite;
 };

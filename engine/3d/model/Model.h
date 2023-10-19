@@ -41,14 +41,14 @@ public://静的メンバ関数
 	static void Finalize();
 public:
 	//描画
-	void	Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial);
+	void	Draw(ID3D12GraphicsCommandList* cmdList_, UINT rootParamIndexMaterial_);
 private://メンバ関数
 	//obj読み込み
-	void LoadFromOBJInternal(const	std::string& modelname);
+	void LoadFromOBJInternal(const	std::string& modelname_);
 	//テクスチャ
-	void LoadTexture(const	std::string& directoryPath, const std::string& filename);
+	void LoadTexture(const	std::string& directoryPath_, const std::string& filename_);
 	//マテリアル
-	void LoadMaterial(const std::string& directoryPath, const std::string& filename);
+	void LoadMaterial(const std::string& directoryPath_, const std::string& filename_);
 	//デスクリプタヒープの初期化
 	void InitializeDescriptorHeap();
 	//バッファ生成

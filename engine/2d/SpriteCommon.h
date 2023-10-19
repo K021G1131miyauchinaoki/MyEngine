@@ -19,20 +19,20 @@ public://メンバ関数
 	//初期化
 	void	Initialize(DirectXCommon* ditectXCom_);
 	//テクスチャ読み込み
-	void	Loadtexture(uint32_t index, std::string fileName);
+	void	Loadtexture(uint32_t index_, std::string fileName_);
 	//描画前処理
 	void PreDraw();
 	//描画後処理
 	void PostDraw();
 
 	//描画用テクスチャコマンド
-	void	SetTextureCommands(uint32_t index);
+	void	SetTextureCommands(uint32_t index_);
 	//ヒープゲッター
 	ID3D12DescriptorHeap* GetSrvHeap()const { return srvHeap; }
 	//DirectXCommonゲッター
 	DirectXCommon* GetdxCom()const { return directXCom; }
 	//テクスチャの番号の取得
-	ID3D12Resource* GetTexBuff(uint32_t index)const { return texBuffers[index].Get(); }
+	ID3D12Resource* GetTexBuff(uint32_t index_)const { return texBuffers[index_].Get(); }
 public://静的メンバ関数
 	static SpriteCommon* GetInstance();
 	 

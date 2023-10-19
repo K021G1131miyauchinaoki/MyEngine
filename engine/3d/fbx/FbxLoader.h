@@ -36,7 +36,7 @@ public:
 	/// </summary>
 	/// <param name="dst">書き込み</param>
 	/// <param name="src">書き込み</param>
-	static void ConvertMatrixFromFbx(DirectX::XMMATRIX* dst, const FbxAMatrix& src);
+	static void ConvertMatrixFromFbx(DirectX::XMMATRIX* dst_, const FbxAMatrix& src_);
 
 private:
 	// privateなコンストラクタ（シングルトンパターン）
@@ -44,9 +44,9 @@ private:
 	// privateなデストラクタ（シングルトンパターン）
 	~FbxLoader() = default;
 	// コピーコンストラクタを禁止（シングルトンパターン）
-	FbxLoader(const FbxLoader& obj) = delete;
+	FbxLoader(const FbxLoader& obj_) = delete;
 	// コピー代入演算子を禁止（シングルトンパターン）
-	void operator=(const FbxLoader& obj) = delete;
+	void operator=(const FbxLoader& obj_) = delete;
 public:
 	/// <summary>
 	/// 初期化
@@ -63,7 +63,7 @@ public:
 	/// ファイルからFBXモデル読み込み
 	/// </summary>
 	/// <param name="modelName">モデル名</param>
-	FbxModel* LoadModelFromFile(const string& modelName);
+	FbxModel* LoadModelFromFile(const string& modelName_);
 
 	/// <summary>
 	/// 再帰的にノード構成を解析
@@ -71,28 +71,28 @@ public:
 	/// <param name="model">読み込み先モデルオブジェクト</param>
 	/// <param name="fbxNode">解析対象のノード</param>
 	/// <param name="parent">親ノード</param>
-	void ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode,Node*parent=nullptr);
+	void ParseNodeRecursive(FbxModel* model_, FbxNode* fbxNode_,Node*parent_=nullptr);
 
 	/// <summary>
 	/// メッシュ読み取り
 	/// </summary>
 	/// <param name="model">読み込み先モデルオブジェクト</param>
 	/// <param name="fbxNode">解析対象のノード</param>
-	void ParseMesh(FbxModel* model, FbxNode* fbxNode);
+	void ParseMesh(FbxModel* model_, FbxNode* fbxNode_);
 
 	//頂点座標読み取り
-	void ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh);
+	void ParseMeshVertices(FbxModel* model_, FbxMesh* fbxMesh_);
 	//面情報読み取り
-	void ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh);
+	void ParseMeshFaces(FbxModel* model_, FbxMesh* fbxMesh_);
 	//マテリアル読み取り
-	void ParseMeshMaterial(FbxModel* model, FbxNode* fbxNode);
+	void ParseMeshMaterial(FbxModel* model_, FbxNode* fbxNode_);
 	//テクスチャ読み取り
-	void LoadTexture(FbxModel* model, const std::string& fullpath);
+	void LoadTexture(FbxModel* model_, const std::string& fullpath_);
 	//スキニング情報の読み取り
-	void ParseSkin(FbxModel* model, FbxMesh* fbxMesh);
+	void ParseSkin(FbxModel* model_, FbxMesh* fbxMesh_);
 
 	//ディレクトリを含んだファイルパスからファイル名を抽出する
-	std::string ExtractFileName(const std::string& path);
+	std::string ExtractFileName(const std::string& path_);
 
 private:
 	//d3d12デバイス

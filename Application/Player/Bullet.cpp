@@ -14,16 +14,16 @@ void Bullet::StaticInitialize(Model* model_) {
 	}
 }
 
-void Bullet::Initialize( const Vector3& position, const Vector3& velocity,const Vector3& rotation){
+void Bullet::Initialize(const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_){
 	//NULLポインタチェック
 	assert(model);
 	
-	velocity_ = velocity;
+	velocity = veclocity_;
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model.get());
-	obj->SetRotation(rotation);
-	obj->SetPosition(position);
+	obj->SetRotation(rotation_);
+	obj->SetPosition(position_);
 	obj->SetColor({ 0.0f,0.0f,0.0f,1.0f });
 	obj->Update();
 	deathTimer = kLifeTime;
@@ -32,14 +32,14 @@ void Bullet::Initialize( const Vector3& position, const Vector3& velocity,const 
 void Bullet::Update() {
 	{
 		Vector3 pos=obj->GetPosition();
-		pos.x += velocity_.x;
-		pos.y += velocity_.y;
-		pos.z += velocity_.z;
+		pos.x += velocity.x;
+		pos.y += velocity.y;
+		pos.z += velocity.z;
 		obj->SetPosition(pos);
 	}
 	//時間経過で消滅
 	if (--deathTimer <= 0) {
-		isDead_ = true;
+		isDead = true;
 	}
 	obj->Update();
 }
@@ -55,7 +55,7 @@ Vector3 Bullet::GetPos() {
 }
 
 //衝突したら
-void Bullet::OnCollision() { isDead_ = true; }
+void Bullet::OnCollision() { isDead = true; }
 
 //描画
 void Bullet::Draw() {

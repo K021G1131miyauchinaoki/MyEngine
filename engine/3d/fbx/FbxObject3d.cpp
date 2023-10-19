@@ -128,24 +128,24 @@ void FbxObject3d::Update(Camera* camera_) {
 	constBuffSkin->Unmap(0, nullptr);
 }
 
-void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList) {
+void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList_) {
 	//モデルが割り当てがなければ描画しない
 	if (fbxModel==nullptr)
 	{
 		return;
 	}
 	//パイプラインステートの設定
-	cmdList->SetPipelineState(pipelinestate.Get());
+	cmdList_->SetPipelineState(pipelinestate.Get());
 	//ルートシグネチャの設定
-	cmdList->SetGraphicsRootSignature(rootsignature.Get());
+	cmdList_->SetGraphicsRootSignature(rootsignature.Get());
 	//プリミディブ形状を設定
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	//定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetGPUVirtualAddress());
+	cmdList_->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetGPUVirtualAddress());
 	//定数バッファビューをセット(スキニング)
-	cmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());
+	cmdList_->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());
 	//モデル描画
-	fbxModel->Draw(cmdList);
+	fbxModel->Draw(cmdList_);
 }
 
 void FbxObject3d::CreateGraphicsPipeline() {

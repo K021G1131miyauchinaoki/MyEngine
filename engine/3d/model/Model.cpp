@@ -17,26 +17,26 @@ void Model::SetDevice(ID3D12Device* device_) {
 	Model::device = device_;
 }
 
-Model* Model::LoadFromOBJ(const	std::string& modelname) {
+Model* Model::LoadFromOBJ(const	std::string& modelname_) {
 	//インスタンスの生成
 	Model* model = new Model();
 	//デスクリプタヒープの生成
 	model->InitializeDescriptorHeap();
 	//obj読み込み
-	model->LoadFromOBJInternal(modelname);
+	model->LoadFromOBJInternal(modelname_);
 	//バッファの生成
 	model->CreateBuffers();
 
 	return model;
 }
 
-void Model::LoadFromOBJInternal(const	std::string& modelname) {
+void Model::LoadFromOBJInternal(const	std::string& modelname_) {
 	//ファイルストリーム
 	std::ifstream file;
 	//.objファイルを開く
-	const std::string filename = modelname + ".obj";
-	const std::string directoryPath = "Resources/" + modelname + "/";
-	file.open(directoryPath + filename);
+	const std::string filename_ = modelname_ + ".obj";
+	const std::string directoryPath_ = "Resources/" + modelname_ + "/";
+	file.open(directoryPath_ + filename_);
 	//ファイルオープン失敗をチェック
 	assert(!file.fail());
 
@@ -121,23 +121,23 @@ void Model::LoadFromOBJInternal(const	std::string& modelname) {
 		if (key == "mtllib")
 		{
 			//マテリアルのファイル名読み込み
-			std::string filenameMt;
-			line_stream >> filenameMt;
+			std::string filename_Mt;
+			line_stream >> filename_Mt;
 			//マテリアル読み込み
-			LoadMaterial(directoryPath, filenameMt);
+			LoadMaterial(directoryPath_, filename_Mt);
 		}
 	}
 	file.close();
 }
 
-void Model::LoadTexture(const	std::string& directoryPath, const std::string& filename) {
+void Model::LoadTexture(const	std::string& directoryPath_, const std::string& filename_) {
 	HRESULT result = S_FALSE;
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 
 	//ファイルパスを結合
-	std::string	filepath = directoryPath + filename;
+	std::string	filepath = directoryPath_ + filename_;
 
 	//ユニコード文字列に変更する
 	wchar_t	wfilepath[128];
@@ -211,11 +211,11 @@ void Model::LoadTexture(const	std::string& directoryPath, const std::string& fil
 	);
 }
 
-void Model::LoadMaterial(const std::string& directoryPath, const std::string& filename) {
+void Model::LoadMaterial(const std::string& directoryPath_, const std::string& filename_) {
 	//ファイルストリーム
 	std::ifstream	file;
 	//マテリアルファイルを開く
-	file.open(directoryPath + filename);
+	file.open(directoryPath_ + filename_);
 	//ファイルオープン失敗をチェック
 	if (file.fail())
 	{
@@ -270,7 +270,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 			//テクスチャのファイル名読み込み
 			line_stream >> material.textureFilename;
 			//テクスチャ読み込み
-			LoadTexture(directoryPath, material.textureFilename);
+			LoadTexture(directoryPath_, material.textureFilename);
 		}
 	}
 	file.close();
@@ -368,35 +368,35 @@ void Model::CreateBuffers() {
 	constBuffB1->Unmap(0, nullptr);
 }
 
-void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial)
+void Model::Draw(ID3D12GraphicsCommandList* cmdList_, UINT rootParamIndexMaterial_)
 {
 	// nullptrチェック
 	assert(device);
-	assert(cmdList);
+	assert(cmdList_);
 
 	// 頂点バッファの設定
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
+	cmdList_->IASetVertexBuffers(0, 1, &vbView);
 	// インデックスバッファの設定
-	cmdList->IASetIndexBuffer(&ibView);
+	cmdList_->IASetIndexBuffer(&ibView);
 
 	// 定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(rootParamIndexMaterial,
+	cmdList_->SetGraphicsRootConstantBufferView(rootParamIndexMaterial_,
 		constBuffB1->GetGPUVirtualAddress());
 
 	// デスクリプタヒープの配列
 	ID3D12DescriptorHeap* ppHeaps[] = { descHeap.Get() };
-	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	//// 定数バッファビューをセット
-	//cmdList->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
+	//cmdList_->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 	//// シェーダリソースビューをセット
-	//cmdList->SetGraphicsRootDescriptorTable(1, gpuDescHandleSRV);
+	//cmdList_->SetGraphicsRootDescriptorTable(1, gpuDescHandleSRV);
 	if (material.textureFilename.size() > 0)
 	{
 		// シェーダリソースビューをセット
-		cmdList->SetGraphicsRootDescriptorTable(2, gpuDescHandleSRV);
+		cmdList_->SetGraphicsRootDescriptorTable(2, gpuDescHandleSRV);
 	}
 	// 描画コマンド
-	//cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
-	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	//cmdList_->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
+	cmdList_->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }

@@ -7,7 +7,7 @@
 
 std::unique_ptr<Model> EnemyBullet::model = nullptr;
 
-bool EnemyBullet::IsDead() const { return isDead_; }
+bool EnemyBullet::IsDead() const { return isDead; }
 float EnemyBullet::GetRadius() {return r;}
 
 
@@ -18,17 +18,17 @@ void EnemyBullet::StaticInitialize(Model* model_) {
 	}
 }
 
-void EnemyBullet::Initialize( const Vector3& position, const Vector3& velocity, const Vector3& rotation) {
+void EnemyBullet::Initialize(const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_) {
 	//NULLポインタチェック
 	assert(model);
 	/*size_t s=sizeof(model);
 	size_t s = sizeof(model);*/
-	velocity_ = velocity;
+	velocity = veclocity_;
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model.get());
-	obj->SetRotation(rotation);
-	obj->SetPosition(position);
+	obj->SetRotation(rotation_);
+	obj->SetPosition(position_);
 	obj->SetColor({ 0.0f,0.0f,0.0f,1.0f });
 	obj->Update();
 }
@@ -36,14 +36,14 @@ void EnemyBullet::Initialize( const Vector3& position, const Vector3& velocity, 
 void EnemyBullet::Update() {
 	{
 		Vector3 pos = obj->GetPosition();
-		pos.x += velocity_.x;
-		pos.y += velocity_.y;
-		pos.z += velocity_.z;
+		pos.x += velocity.x;
+		pos.y += velocity.y;
+		pos.z += velocity.z;
 		obj->SetPosition(pos);
 	}
 	//時間経過で消滅
 	if (--deathTimer <= 0) {
-		isDead_ = true;
+		isDead = true;
 	}
 	obj->Update();
 }
@@ -59,7 +59,7 @@ Vector3 EnemyBullet::GetPos() {
 }
 
 //衝突したら
-void EnemyBullet::OnCollision() { isDead_ = true; }
+void EnemyBullet::OnCollision() { isDead = true; }
 
 void EnemyBullet::Draw() {
 	obj->Draw();
@@ -72,7 +72,7 @@ void EnemyBullet::Finalize() {
 
 //コンストラクタ
 EnemyBullet::EnemyBullet() {
-	deathTimer = kLifeTime;
+	deathTimer = lifeTime;
 }
 //デストラクタ
 EnemyBullet::~EnemyBullet() {

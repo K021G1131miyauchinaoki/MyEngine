@@ -99,9 +99,9 @@ public://メンバ関数
 	//デストラクタ
 	~FbxModel();
 	//バッファ生成
-	void CreateBuffers(ID3D12Device* device);
+	void CreateBuffers(ID3D12Device* device_);
 	//描画
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw(ID3D12GraphicsCommandList* cmdList_);
 	//モデルの変形行列取得
 	const XMMATRIX& GetModelTransform() { return meshNode->glabalTransform; }
 	//-------getter------

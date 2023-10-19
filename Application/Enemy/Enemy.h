@@ -85,7 +85,7 @@ public://メンバ関数
 	bool IsDead()const { return hp.isDead; }
 
 	//弾リストを取得
-	std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
+	std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets; }
 private://構造体
 	
 
@@ -95,20 +95,20 @@ private://メンバ変数
 	
 	std::unique_ptr<Object3d>obj = nullptr;
 	//弾
-	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+	std::list<std::unique_ptr<EnemyBullet>> bullets;
 	//移動フラグ
 	bool isMove = false;
 	//移動時間
-	int16_t moveTimer;
-	const int16_t  moveTime = 120;
+	int16_t moveTime;
+	const int16_t  moveTimer = 120;
 	//発射するまでの時間
 	int16_t shotTimer;
 	const int16_t  shotTime = 10;
 	//待機フラグ
 	bool isWait = false;
 	//待機時間
-	float waitTimer;
-	float waitTime[2] = { 5,60 };
+	float waitTime;
+	float waitTimerr[2] = { 5,60 };
 	//自キャラ
 	Player* player = nullptr;
 	//角度
@@ -127,12 +127,12 @@ private://メンバ変数
 
 	//仮
 	bool isInvincible = false;
-	const int16_t invincibleTime = 11;
-	int16_t invincibleTimer;
+	const int16_t invincibleTimer = 11;
+	int16_t invincibleTime;
 
 	//位置
-	Vector3 pPos;
-	Vector3 ePos;
+	Vector3 playerPos;
+	Vector3 Pos;
 	//距離
 	Vector3 len;
 	//hp

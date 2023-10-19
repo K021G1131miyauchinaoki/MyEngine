@@ -46,11 +46,11 @@ void SceneManager::ObjDraw()
 {
 	scene->ObjDraw();
 }
-void SceneManager::ChangeScene(const std::string& sceneName)
+void SceneManager::ChangeScene(const std::string& sceneName_)
 {
 	assert(sceneFactory);
 	assert(nextScene == nullptr);
 
 	// 次のシーンを生成
-	nextScene = sceneFactory->CreateScene(sceneName);
+	nextScene = sceneFactory->CreateScene(sceneName_);
 }

@@ -35,7 +35,7 @@ public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize( const Vector3& position, const Vector3& veclocity, const Vector3& rotation_);
+	void Initialize( const Vector3& position_, const Vector3& veclocity_, const Vector3& rotation_);
 	
 	/// <summary>
 	/// 更新
@@ -63,16 +63,16 @@ public://メンバ関数
 
 private://メンバ変数
 	//消滅
-	static const int32_t kLifeTime = 60;
+	static const int32_t lifeTime = 60;
 	//デスタイマー
 	int32_t deathTimer;
 	//速度
-	Vector3 velocity_;
+	Vector3 velocity;
 	//半径
 	std::unique_ptr<Object3d>obj = nullptr;
 	const float r = 1.0f;
 	//デスフラグ
-	bool isDead_ = false;
+	bool isDead = false;
 
 };
 

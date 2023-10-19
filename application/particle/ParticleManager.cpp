@@ -9,11 +9,11 @@ void ParticleManager::Initialize(Model* model_) {
 	assert(model_);
 	model.reset(model_);
 }
-void ParticleManager::Add(const std::string &name,int amount, int32_t life,Vector3	position,/* Vector3	velocity, Vector3	accel,*/ float	start_scale, float	end_scale) {
-	for (size_t i = 0; i < amount; i++)
+void ParticleManager::Add(const std::string& name_,int amount_,int32_t life_,Vector3 position_,float startScale_,float endScale_) {
+	for (size_t i = 0; i < amount_; i++)
 	{
 		BaseParticle* p;
-		if (name=="1")
+		if (name_=="1")
 		{
 			p = new Explosion();
 		}
@@ -21,10 +21,10 @@ void ParticleManager::Add(const std::string &name,int amount, int32_t life,Vecto
 			p = new Explosion();
 		}
 
-		p->oneGrain.pos = position;
-		p->oneGrain.endFrame = life;
-		p->oneGrain.stratScale = start_scale;
-		p->oneGrain.endScale = end_scale;
+		p->oneGrain.pos = position_;
+		p->oneGrain.endFrame = life_;
+		p->oneGrain.stratScale = startScale_;
+		p->oneGrain.endScale = endScale_;
 		p->Initialize(model.get());
 		particles.emplace_front(p);
 	}

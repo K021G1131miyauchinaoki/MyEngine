@@ -21,7 +21,7 @@ public:
 	//シーンファクトリーのセッター
 	void SetSceneFactory(AbstractSceneFactory* sceneFactory_) { sceneFactory = sceneFactory_; }
 	//シーンの切り替え
-	void ChangeScene(const std::string& sceneName);
+	void ChangeScene(const std::string& sceneName_);
 
 	//インスタンス生成
 	static SceneManager* GetInstance();

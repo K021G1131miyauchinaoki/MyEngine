@@ -32,7 +32,7 @@ public: // メンバ関数
 	/// 描画コマンドの発行
 	/// </summary>
 	/// <param name="cmdList">コマンドリスト</param>
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw(ID3D12GraphicsCommandList* cmdList_);
 
 	/// <summary>
 	/// テクスチャ生成
@@ -121,7 +121,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12PipelineState>pipelineState;
 	//ルートシグネチャ
 	Microsoft::WRL::ComPtr<ID3D12RootSignature>rootSignature;
-	Vertex vertices_[4];
+	Vertex vertices[4];
 	//カラー
 	DirectX::XMFLOAT4	color = { 1,1,1,1 };
 	HRESULT result_;

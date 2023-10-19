@@ -62,7 +62,7 @@ private:
 	ComPtr<	IDirectInput8> directInput = nullptr;
 
 	ComPtr < IDirectInputDevice8> keyboard = nullptr;
-	ComPtr < IDirectInputDevice8> mouseDev = nullptr;
+	ComPtr < IDirectInputDevice8> mouseDevice = nullptr;
 	//全キーの入力状態を取得する
 	BYTE	key[256] = {};
 	//前回の全キーの状態

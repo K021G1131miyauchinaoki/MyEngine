@@ -51,11 +51,11 @@ public:
 	//終了処理
 	void Finalize();
 	//サウンドデータの解放
-	void UnLoad(SoundData*sounData);
+	void UnLoad(SoundData*sounData_);
 	// wav読み込み
-	void LoadWave(const std::string& filename);
+	void LoadWave(const std::string& filename_);
 	//再生
-	void PlayWave(const std::string& filename);
+	void PlayWave(const std::string& filename_);
 private:
 	//xAudio2のインスタンス
 	Microsoft::WRL::ComPtr<IXAudio2>xAudio2;

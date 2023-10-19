@@ -29,7 +29,7 @@ public:
 	/// <summary>
 	/// 加算
 	/// </summary>
-	void Add(const std::string& name, int amount, int32_t life, Vector3	position, /*Vector3 velocity, Vector3 accel, */ float start_scale, float end_scale);
+	void Add(const std::string& name_, int amount_, int32_t life_, Vector3	position_,float startScale_, float endScale_);
 
 private:
 	std::forward_list<std::unique_ptr<BaseParticle>>particles;

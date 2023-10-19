@@ -94,7 +94,7 @@ private://メンバ変数
 	//リソースバリア
 	D3D12_RESOURCE_BARRIER barrierDesc{};
 	//記録時間（FPS固定用）
-	std::chrono::steady_clock::time_point reference_;
+	std::chrono::steady_clock::time_point reference;
 
 private:
 	WinApp* winApp = nullptr;
