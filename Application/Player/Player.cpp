@@ -115,9 +115,9 @@ void Player::Update() {
 				bullet->Update();
 			}
 		}
-		//オブジェクト
-		obj->Update();
 	}
+	//オブジェクト
+	obj->Update();
 }
 
 void Player::ObjDraw() {
