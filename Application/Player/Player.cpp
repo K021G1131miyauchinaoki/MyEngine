@@ -52,6 +52,7 @@ void Player::Initialeze( Model* model_, Input* input_) {
 	isTitleStaging = false;
 	isInvincible = false;
 	isStart = true;
+	startCount = 0;
 }
 
 void Player::Reset() {
@@ -326,10 +327,14 @@ void Player::TitleStaging() {
 
 void Player::StartStaging() {
 	Vector3 pos = obj->GetPosition();
+	if ( startCount<5 )
+	{
+
+	}
 	if ( startEaseTime<startEaseTimer )
 	{
 		startEaseTime++;
-		pos.y= startPosY + ( endPosY - startPosY ) * Easing::easeOutBounce(startEaseTime/ startEaseTimer);
+		pos.y= startPosY + ( endPosY - startPosY ) * Easing::easeInSine(startEaseTime/ startEaseTimer);
 	}
 	else
 	{

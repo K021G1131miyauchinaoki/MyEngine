@@ -92,6 +92,14 @@ public://メンバ関数
 	//デスフラグの取得
 	bool IsDead()const { return hp.isDead; }
 
+	//スタートフラグの取得
+	bool IsStart() {return isStart;	}
+
+	//スタートカウントの取得
+	int8_t GetStartCount() {
+		return startCount;
+	}
+
 private://メンバ変数
 	Input*input = nullptr;
 	Model* model = nullptr;
@@ -119,9 +127,9 @@ private://メンバ変数
 
 	float startPosY;
 	float endPosY;
-	const float startEaseTimer=150;
+	const float startEaseTimer=90;
 	float startEaseTime;
-
+	int8_t startCount;
 	bool isTitleStaging;
 	bool isInvincible;
 	bool isStart;
