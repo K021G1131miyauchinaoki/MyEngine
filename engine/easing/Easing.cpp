@@ -27,6 +27,10 @@ float Easing::easeOutQuint(float x) {
 	return 1 - (float)pow(1 - x, 5);
 }
 
+float Easing::easeOutCirc(float x) {
+return std::sqrt(1.0f - std::pow(x - 1.0f,2.0f));
+}
+
 float Easing::easeInOutCirc(float x) {
 	return x < 0.5f
 		? ( 1.0f - std::sqrt(1 - std::pow(2.0f * x,2.0f)) ) / 2.0f

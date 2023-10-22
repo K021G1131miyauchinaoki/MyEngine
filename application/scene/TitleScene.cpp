@@ -61,7 +61,7 @@ void TitleScene::Initialize() {
 
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->Initialeze(tank.get(), input.get());
+	player->TitleInitialeze(tank.get(), input.get());
 	
 
 	camera->SetTarget({ 0.0f, 2.0f,0.0f });

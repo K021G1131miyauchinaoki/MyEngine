@@ -23,9 +23,19 @@ public://静的メンバ関数
 
 public://メンバ関数
 	/// <summary>
-	/// 初期化
+	/// タイトル初期化
 	/// </summary>
-	void Initialeze(Model*model_,Input*input_);
+	/// <param name="tankModel_">自機</param>
+	/// <param name="input_">キー操作</param>
+	void TitleInitialeze(Model* tankModel_,Input* input_);
+
+	/// /// <summary>
+	/// プレイ初期化
+	/// </summary>
+	/// <param name="tankModel_">自機</param>
+	/// <param name="parachuteModel_">パラシュート</param>
+	/// <param name="input_">キー操作</param>
+	void PlayInitialeze(Model*tankModel_,Model* parachuteModel_,/*Model* model_,*/Input* input_);
 
 	/// <summary>
 	/// リセット
@@ -66,7 +76,7 @@ public://メンバ関数
 	/// 位置
 	/// </summary>
 	/// <returns></returns>
-	const	Vector3 GetPos() {return obj->GetPosition(); }
+	const	Vector3 GetPos() {return tank->GetPosition(); }
 
 	/// <summary>
 	/// タイトル演出
@@ -101,15 +111,17 @@ public://メンバ関数
 	}
 
 private://メンバ変数
-	Input*input = nullptr;
-	Model* model = nullptr;
-	std::unique_ptr<Object3d>obj = nullptr;
+	std::unique_ptr<Input>input = nullptr;
+	std::unique_ptr<Object3d>tank = nullptr;
+	std::unique_ptr<Object3d>parachute = nullptr;
 	//弾
 	std::list<std::unique_ptr<Bullet>> bullets_;
 	//クールタイム
 	int32_t coolTime;
 
 	float angle = 0.0f;
+	Vector3 tankPos;
+	Vector3 parachutePos;
 	Vector3 velocity;
 	Vector2	vector ;
 	Vector2	 mausePos;
@@ -127,11 +139,20 @@ private://メンバ変数
 
 	float startPosY;
 	float endPosY;
-	const float startEaseTimer=90;
+	float bound;
+	const float startEaseTimer=150;
 	float startEaseTime;
 	int8_t startCount;
 	bool isTitleStaging;
 	bool isInvincible;
 	bool isStart;
+	float parachutePosY;
+	float pStartRotZ;
+	float pEndRotZ;
+	float pStartScaleXZ;
+	float pEndScaleXZ;
+	float pLeaveTime;
+	const	float pLeaveTimer=60;
+
 };
 

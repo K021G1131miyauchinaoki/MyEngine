@@ -21,7 +21,7 @@ void GamePlayScene::Initialize() {
 	cube.reset(Model::LoadFromOBJ("cube"));
 	tank.reset(Model::LoadFromOBJ("tank"));
 	modelMap.reset(Model::LoadFromOBJ("map"));
-
+	parachute.reset(Model::LoadFromOBJ("parachute"));
 	//モデルのセット
 	EnemyBullet::StaticInitialize(cube.get());
 	Bullet::StaticInitialize(cube.get());
@@ -37,7 +37,7 @@ void GamePlayScene::Initialize() {
 
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->Initialeze(tank.get(), input.get());
+	player->PlayInitialeze(tank.get(),parachute.get(), input.get());
 	//エネミー
 	enemy = std::make_unique<Enemy>();
 	enemy->Initialeze(tank.get(), player.get());
