@@ -36,17 +36,21 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 void Enemy::Update() {
 	//デスフラグの立った弾を削除
 	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) { return bullet->IsDead(); });
-	switch (phase) {
-	case Phase::wait:
-		Wait();
-		break;
-	case Phase::move:
-		Move();
-		break;
-	case Phase::atack:
-		Shot();
+	if (! player->IsStart() )
+	{
+		switch ( phase )
+		{
+		case Phase::wait:
+			Wait();
+			break;
+		case Phase::move:
+			Move();
+			break;
+		case Phase::atack:
+			Shot();
 
-		break;
+			break;
+		}
 	}
 	obj->Update();
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets)
