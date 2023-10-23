@@ -11,18 +11,12 @@
 int8_t TitleScene::movieCount = NULL;
 
 void TitleScene::Initialize() {
-	titleSprite = std::make_unique<Sprite>(
-		1,
-		XMFLOAT2{ 640.0f,200.0f },//位置
-		XMFLOAT2{ 500.0f,200.0f },//サイズ
-		XMFLOAT4{ 1,1,1,1 },//カラー（RGBA）
-		XMFLOAT2{ 0.5f,0.5f },//アンカーポイント
-		false,//左右反転
-		false//上下反転
-		);
-	blackOutSprite = std::make_unique<Sprite>();
+	titleSprite = std::make_unique<Sprite>();
 	titleSprite->Initialize(SpriteCommon::GetInstance(), 1);
-	
+	titleSprite->SetAnchorPoint({ 0.5f,0.5f });
+	titleSprite->SetPosition({ 640.0f,200.0f });
+
+	blackOutSprite = std::make_unique<Sprite>();
 	blackOutSprite->Initialize(SpriteCommon::GetInstance(),5);
 	blackOutSprite->SetPosition(XMFLOAT2{ 0.0f,0.0f });
 	blackOutSprite->SetSize(XMFLOAT2{ 1280.0f,720.0f });

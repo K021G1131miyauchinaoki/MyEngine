@@ -102,14 +102,6 @@ public://メンバ関数
 	//デスフラグの取得
 	bool IsDead()const { return hp.isDead; }
 
-	//スタートフラグの取得
-	bool IsStart() {return isStart;	}
-
-	//スタートカウントの取得
-	int8_t GetStartCount() {
-		return startCount;
-	}
-
 private://メンバ変数
 	std::unique_ptr<Input>input = nullptr;
 	std::unique_ptr<Object3d>tank = nullptr;
@@ -142,10 +134,8 @@ private://メンバ変数
 	float bound;
 	const float startEaseTimer=150;
 	float startEaseTime;
-	int8_t startCount;
 	bool isTitleStaging;
 	bool isInvincible;
-	bool isStart;
 	float parachutePosY;
 	float pStartRotZ;
 	float pEndRotZ;

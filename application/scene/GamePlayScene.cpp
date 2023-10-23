@@ -4,7 +4,13 @@
  */
 #include "GamePlayScene.h"
 #include"SceneTransition.h"
+#include<SpriteCommon.h>
+#include"WinApp.h"
+#include"Easing.h"
 #include<SceneManager.h>
+
+int8_t GamePlayScene::startCount = 0;
+bool GamePlayScene::isStart = true;
 
 void GamePlayScene::Initialize() {
 	input.reset(Input::GetInstance());
@@ -50,6 +56,26 @@ void GamePlayScene::Initialize() {
 	//パーティクル
 	particle = new ParticleManager();
 	particle->Initialize(cube.get());
+
+	startCount = 0;
+	isStart = true;
+
+	spriteEaseTime = 0.0f;
+	spriteWaitTime = 0.0f;
+	rPosStartY=WinApp::height+150.0f;
+	sPosStartY=-100.0f;
+	rPosEndY = (static_cast<float>( WinApp::height) / 2.0f ) + 50.0f;
+	sPosEndY= ( static_cast< float >( WinApp::height ) / 2.0f ) - 50.0f;
+
+	ready = std::make_unique<Sprite>();
+	ready->Initialize(SpriteCommon::GetInstance(),7);
+	ready->SetAnchorPoint({ 0.5f,0.5f });
+	ready->SetPosition({ WinApp::width / 2.0f,rPosStartY });
+
+	stage = std::make_unique<Sprite>();
+	stage->Initialize(SpriteCommon::GetInstance(),8);
+	stage->SetAnchorPoint({ 0.5f,0.5f });
+	stage->SetPosition({ 640.0f,sPosStartY });
 }
 
 void GamePlayScene::Update(){
@@ -65,11 +91,13 @@ void GamePlayScene::Update(){
 		objSkydome->Update();
 		particle->Update();
 	}
+	//シーン遷移のフラグを立てる
 	else if ( !SceneTransition::GetInstance()->GetIsFadeOut() &&
 		!SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
 		SceneTransition::GetInstance()->IsFadeOutTrue();
 	}
+	//画面真っ暗になったら
 	if (!SceneTransition::GetInstance()->GetIsFadeOut()&&
 		SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
@@ -83,10 +111,13 @@ void GamePlayScene::Update(){
 			SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
 		}
 	}
+	StartStaging();
 }
 
 void GamePlayScene::SpriteDraw() {
 	player->SpriteDraw();
+	stage->Draw();
+	ready->Draw();
 }
 
 void GamePlayScene::ObjDraw(){
@@ -178,6 +209,40 @@ void GamePlayScene::CheckAllCollision() {
 			}
 		}
 	#pragma endregion
+}
+
+void GamePlayScene::StartStaging() {
+	if ( startCount >= 5)
+	{
+		isStart = false;
+		spriteWaitTime = 0;
+		spriteEaseTime = 0;
+	}
+	if ( startCount==4 )
+	{
+		XMFLOAT2 readyPos=ready->GetPosition();
+		XMFLOAT2 stagePos=stage->GetPosition();
+		
+		if ( spriteEaseTime== spriteEaseTimer )
+		{
+			spriteWaitTime++;
+		}
+		if ( spriteWaitTime>= spriteWaitTimer|| spriteWaitTime==0.0f )
+		{
+			spriteEaseTime++;
+			if ( spriteEaseTime == (spriteEaseTimer*2.0f) )
+			{
+				startCount++;
+			}
+		}
+
+		readyPos.y = rPosStartY + ( rPosEndY - rPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+		stagePos.y = sPosStartY + ( sPosEndY - sPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+		ready->SetPosition(readyPos);
+		stage->SetPosition(stagePos);
+	}
+	stage->Update();
+	ready->Update();
 }
 
 void GamePlayScene::Finalize(){}

@@ -8,6 +8,7 @@
 #include<SceneManager.h>
 #include<Map.h>
 #include<MyMath.h>
+#include"GamePlayScene.h"
 
 void Enemy::Initialeze(Model* model_,Player*player_) {
 	assert(model_);
@@ -18,7 +19,7 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
-	obj->SetPosition({ 0.0f,5.0f,10.0f });
+	obj->SetPosition({ 0.0f,5.0f,50.0f });
 	obj->SetScale({ 5.0f,5.0f,5.0f });
 	obj->SetColor({ 0.0f,0.1f,0.3f,1.0f });
 	obj->Update();
@@ -36,7 +37,7 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 void Enemy::Update() {
 	//デスフラグの立った弾を削除
 	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) { return bullet->IsDead(); });
-	if (! player->IsStart() )
+	if (!GamePlayScene::isStart )
 	{
 		switch ( phase )
 		{

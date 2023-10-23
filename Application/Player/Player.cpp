@@ -8,6 +8,7 @@
 #include<SpriteCommon.h>
 #include<Map.h>
 #include<SceneManager.h>
+#include "GamePlayScene.h"
 #include"TitleScene.h"
 #include"Easing.h"
 
@@ -47,8 +48,6 @@ void Player::TitleInitialeze(Model* tankModel_,Input* input_) {
 
 	isTitleStaging = false;
 	isInvincible = false;
-	isStart = true;
-	startCount = 0;
 }
 
 void Player::PlayInitialeze( Model* tankModel_,Model* parachuteModel_, Input* input_) {
@@ -112,8 +111,6 @@ void Player::PlayInitialeze( Model* tankModel_,Model* parachuteModel_, Input* in
 	}
 	isTitleStaging = false;
 	isInvincible = false;
-	isStart = true;
-	startCount = 0;
 }
 
 void Player::Reset() {
@@ -126,7 +123,7 @@ void Player::Update() {
 	TitleStaging();
 	if ( SceneManager::sceneNum == SceneManager::play )
 	{
-		if ( isStart )
+		if ( GamePlayScene::isStart )
 		{
 			StartStaging();
 		}
@@ -400,53 +397,52 @@ void Player::StartStaging() {
 	Vector3 pos = tank->GetPosition();
 	Vector3 rot = parachute->GetRotation();
 	Vector3 scale = parachute->GetScale();
-	if ( startCount<4 )
+	
+	if ( startEaseTime<startEaseTimer
+		&& GamePlayScene::startCount ==0)
 	{
-		if ( startEaseTime<startEaseTimer && startCount ==0)
+		startEaseTime++;
+		pos.y= startPosY + ( endPosY - startPosY ) * Easing::easeOutSine(startEaseTime/ startEaseTimer);
+		if ( startEaseTime >= startEaseTimer )
 		{
-			startEaseTime++;
-			pos.y= startPosY + ( endPosY - startPosY ) * Easing::easeOutSine(startEaseTime/ startEaseTimer);
-			if ( startEaseTime >= startEaseTimer )
-			{
-				startCount++;
-				bound = 1.5f;
-			}
-		}
-		else if ( startCount==1 )
-		{
-			const float minus = -0.5f;
-			pos.y += bound;
-			bound += minus;
-			if ( pos.y<=endPosY )
-			{
-				pos.y = endPosY;
-				startCount++;
-				bound = 1.0f;
-			}
-		}
-		else if ( startCount == 2 )
-		{
-			const float minus = -0.5;
-			pos.y += bound;
-			bound += minus;
-			if ( pos.y <= endPosY )
-			{
-				startCount++;
-				bound = 2.0f;
-			}
-		}
-		else if ( startCount == 3 )
-		{
-			if ( pLeaveTime >= pLeaveTimer )
-			{
-				startCount++;
-			}
+			GamePlayScene::startCount++;
+			bound = 1.5f;
 		}
 	}
+	else if ( GamePlayScene::startCount==1 )
+	{
+		const float minus = -0.5f;
+		pos.y += bound;
+		bound += minus;
+		if ( pos.y<=endPosY )
+		{
+			pos.y = endPosY;
+			GamePlayScene::startCount++;
+			bound = 1.0f;
+		}
+	}
+	else if ( GamePlayScene::startCount == 2 )
+	{
+		const float minus = -0.5;
+		pos.y += bound;
+		bound += minus;
+		if ( pos.y <= endPosY )
+		{
+			GamePlayScene::startCount++;
+			bound = 2.0f;
+		}
+	}
+	else if ( GamePlayScene::startCount == 3 )
+	{
+		if ( pLeaveTime >= pLeaveTimer )
+		{
+			GamePlayScene::startCount++;
+		}
+	}
+
 	else
 	{
 		startEaseTime = 0;
-		isStart = false;
 	}
 	//パラシュート
 	//タイマーが80％以下なら
