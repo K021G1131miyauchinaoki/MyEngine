@@ -107,6 +107,7 @@ void Player::PlayInitialeze( Model* tankModel_,Model* parachuteModel_, Input* in
 			drawHp[i].sprite->SetSize({ 50.0f,50.0f });
 			drawHp[i].sprite->SetPosition(XMFLOAT2{ 10.0f + (60.0f * i),10 });
 			drawHp[i].sprite->SetIsInvisible(drawHp[i].isDraw);
+			drawHp[ i ].sprite->Update();
 		}
 	}
 	isTitleStaging = false;
@@ -203,7 +204,8 @@ void Player::ObjDraw() {
 }
 
 void Player::SpriteDraw() {
-	if (SceneManager::sceneNum == SceneManager::play)
+	if (SceneManager::sceneNum == SceneManager::play
+		&&!GamePlayScene::isStart)
 	{
 		//スプライト
 		for (size_t i = 0; i < hp.value; i++)

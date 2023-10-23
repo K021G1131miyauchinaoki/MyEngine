@@ -89,9 +89,9 @@ void TitleScene::Update() {
 	a[ 1 ] = lightDir.m128_f32[ 1 ];
 	a[ 2 ] = lightDir.m128_f32[ 2 ];
 	a[ 3 ] = lightDir.m128_f32[ 3 ];
-	ImGui::Begin("lo");
+	/*ImGui::Begin("lo");
 	ImGui::SliderFloat4("lightDir",a, -100.0f,100.0f);
-	ImGui::End();
+	ImGui::End();*/
 	
 	//カメラ位置
 	//乱数シード生成器
