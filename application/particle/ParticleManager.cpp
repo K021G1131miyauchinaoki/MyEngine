@@ -4,6 +4,7 @@
  */
 #include "ParticleManager.h"
 #include"Explosion.h"
+#include"Smoke.h"
 
 void ParticleManager::Initialize(Model* model_) {
 	assert(model_);
@@ -18,7 +19,7 @@ void ParticleManager::Add(const std::string& name_,int amount_,int32_t life_,Vec
 			p = new Explosion();
 		}
 		else {
-			p = new Explosion();
+			p = new Smoke();
 		}
 
 		p->oneGrain.pos = position_;

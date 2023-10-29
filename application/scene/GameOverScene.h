@@ -10,11 +10,12 @@
 #include"SoundManager.h"
 #include"Camera.h"
 #include"LevelLoader.h"
-#include<Player.h>
 #include<ImguiManager.h>
 #include<Enemy.h>
 #include<Map.h>
 #include<BaseScene.h>
+#include<Object3d.h>
+#include<ParticleManager.h>
 
 class GameOverScene :public BaseScene
 {
@@ -55,9 +56,35 @@ public://メンバ関数
 	~GameOverScene()override;
 
 private:
-	std::unique_ptr<Sprite> overSprite;
+	
+	std::unique_ptr <Light>light;
+	//操作
 	std::unique_ptr <Input>input;
+	//カメラ初期化
+	std::unique_ptr<Camera>camera;
+	//objモデル
+	std::unique_ptr <Model> modelSkydome = nullptr;
+	std::unique_ptr <Model> cube = nullptr;
+	std::unique_ptr <Model> body = nullptr;
+	std::unique_ptr <Model> had = nullptr;
+	std::unique_ptr <Model> modelMap = nullptr;
+
+	std::unique_ptr <Object3d> objSkydome = nullptr;
+	std::unique_ptr <Object3d> tankBody = nullptr;
+	std::unique_ptr <Object3d> tankHad = nullptr;
+
+	std::unique_ptr<Map>map;
+	//パーティクル
+	std::unique_ptr < ParticleManager> particle;
+	//int8_t 
+
+	//スプライト
+	std::unique_ptr<Sprite> overSprite;
+
 	//次シーンまでのタイマー
 	int waitTime;
 	const int waitTimer = 20;
+
+	//ライト
+	XMVECTOR lightDir = { 25,-100,10,0 };
 };

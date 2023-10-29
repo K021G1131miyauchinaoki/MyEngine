@@ -149,6 +149,7 @@
     <ClCompile Include="Application\Particle\Explosion.cpp" />
     <ClCompile Include="Engine\3D\Light\Light.cpp" />
     <ClCompile Include="Application\Scene\SceneTransition.cpp" />
+    <ClCompile Include="Application\Particle\Smoke.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -267,6 +268,7 @@
     <ClInclude Include="Application\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Base\Scene\SceneFactory.h" />
     <ClInclude Include="Application\Scene\SceneTransition.h" />
+    <ClInclude Include="Application\Particle\Smoke.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CG2.rc" />

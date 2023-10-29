@@ -23,7 +23,7 @@ VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOOR
 	
 	//output.normal = normal;
     output.color.rbg = (ambient + diffuse + specular) * lightcolor;
-    output.color.a = m_alpha;
+    output.color.a = color.a*m_alpha;
 	output.uv = uv;
 	return output;
 }

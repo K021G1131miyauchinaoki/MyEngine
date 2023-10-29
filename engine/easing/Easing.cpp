@@ -23,6 +23,10 @@ float Easing::easeOutCubic(float x) {
 	return 1 - (float)pow(1 - x, 3);
 }
 
+float Easing::easeInCubic(float x) {
+	return x * x * x;
+}
+
 float Easing::easeOutQuint(float x) {
 	return 1 - (float)pow(1 - x, 5);
 }

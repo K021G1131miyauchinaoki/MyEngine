@@ -161,6 +161,7 @@
     </ClCompile>
     <ClCompile Include="Engine\3D\Light\Light.cpp" />
     <ClCompile Include="Application\Scene\SceneTransition.cpp" />
+    <ClCompile Include="Application\Particle\Smoke.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\Enemy.h">
@@ -294,6 +295,7 @@
     </ClInclude>
     <ClInclude Include="Engine\3D\Light\Light.h" />
     <ClInclude Include="Application\Scene\SceneTransition.h" />
+    <ClInclude Include="Application\Particle\Smoke.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

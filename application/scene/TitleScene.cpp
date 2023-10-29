@@ -11,6 +11,7 @@
 int8_t TitleScene::movieCount = NULL;
 
 void TitleScene::Initialize() {
+	//スプライト
 	titleSprite = std::make_unique<Sprite>();
 	titleSprite->Initialize(SpriteCommon::GetInstance(), 1);
 	titleSprite->SetAnchorPoint({ 0.5f,0.5f });
@@ -23,22 +24,23 @@ void TitleScene::Initialize() {
 	blackOutSprite->SetColor(XMFLOAT4{ 0.0f,0.0f,0.0f,0.0f });
 	blackOutSprite->SetAnchorPoint(XMFLOAT2{ 0.0f,0.0f });
 
-	
+	//操作
 	input.reset(Input::GetInstance());
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	Object3d::SetCamera(camera.get());
+	camera->SetTarget({ 0.0f, 2.0f,0.0f });
 
 	//ライト
 	light.reset(Light::Create());
-	light->SetLightColor({ 0.75f,0.75f,0.75f });
+	light->SetLightColor({ 1.0f,1.0f,1.0f });
 	Object3d::SetLight(light.get());
 
 	// モデル読み込み
 	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
 	cube.reset(Model::LoadFromOBJ("cube"));
-	tank.reset(Model::LoadFromOBJ("tank"));
+	tank.reset(Model::LoadFromOBJ("TankHad"));
 	modelMap.reset(Model::LoadFromOBJ("map"));
 
 	//モデルのセット
@@ -58,7 +60,6 @@ void TitleScene::Initialize() {
 	player->TitleInitialeze(tank.get(), input.get());
 	
 
-	camera->SetTarget({ 0.0f, 2.0f,0.0f });
 	
 	//マップ
 	map = std::make_unique<Map>();
