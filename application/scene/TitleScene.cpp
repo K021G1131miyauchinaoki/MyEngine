@@ -40,7 +40,7 @@ void TitleScene::Initialize() {
 	// モデル読み込み
 	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
 	cube.reset(Model::LoadFromOBJ("cube"));
-	tank.reset(Model::LoadFromOBJ("TankHad"));
+	tank.reset(Model::LoadFromOBJ("tank"));
 	modelMap.reset(Model::LoadFromOBJ("map"));
 
 	//モデルのセット

@@ -114,8 +114,8 @@ void GameOverScene::Update() {
 	float a2[ 3 ] = { tankBody->GetRotation().x,tankBody->GetRotation().y, tankBody->GetRotation().z };
 	float b[ 3 ] = { tankHad->GetPosition().x,tankHad->GetPosition().y, tankHad->GetPosition().z };
 	float b2[ 3 ] = { tankHad->GetRotation().x,tankHad->GetRotation().y, tankHad->GetRotation().z };
-	ImGui::Begin("lo");
-	ImGui::SliderFloat3("l",a,-100.0f,100.0f);
+	//ImGui::Begin("lo");
+	/*ImGui::SliderFloat3("l",a,-100.0f,100.0f);
 	ImGui::SliderFloat3("i",a2, -100.0f,100.0f);
 	ImGui::SliderFloat3("g",b,-30.0f,30.0f);
 	ImGui::SliderFloat3("t",b2,-50.0f,50.0f);
@@ -124,7 +124,7 @@ void GameOverScene::Update() {
 	tankBody->SetPosition({ a[ 0 ],a[ 1 ],a[ 2 ] });
 	tankBody->SetRotation({ a2[ 0 ],a2[ 1 ],a2[ 2 ] });
 	tankHad->SetPosition({ b[ 0 ],b[ 1 ],b[ 2 ] });
-	tankHad->SetRotation({ b2[ 0 ],b2[ 1 ],b2[ 2 ] });
+	tankHad->SetRotation({ b2[ 0 ],b2[ 1 ],b2[ 2 ] });*/
 	Vector3 particlePos= tankBody->GetPosition();
 	particlePos.x -= 2.0f;
 

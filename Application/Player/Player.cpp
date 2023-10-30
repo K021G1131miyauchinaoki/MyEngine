@@ -31,7 +31,7 @@ void Player::TitleInitialeze(Model* tankModel_,Input* input_) {
 	tank->SetModel(tankModel_);
 	tank->SetPosition(tankPos);
 	tank->SetScale({ 5.0f,5.0f,5.0f });
-	tank->SetColor({ 1.0f,1.0f,1.0f,1.0f });
+	tank->SetColor({ 0.0f,0.0f,0.5f,1.0f });
 	tank->Update();
 
 	parachute = nullptr;
