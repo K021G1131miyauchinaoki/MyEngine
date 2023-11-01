@@ -121,6 +121,7 @@ private://メンバ変数
 	float angle = 0.0f;
 	Vector3 tankPos;
 	Vector3 tankScale;
+	Vector3 bodyRot;
 	Vector3 parachutePos;
 	Vector3 velocity;
 	Vector2	vector ;

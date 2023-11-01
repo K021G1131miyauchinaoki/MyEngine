@@ -225,8 +225,8 @@ void Player::SpriteDraw() {
 }
 
 void Player::Move() {
-	Vector3 move = {0,0,0};
-
+	Vector3 move = { 0.0f,0.0f,0.0f };
+	
 	float speed = 0.1f;
 	if (input->PushKey(DIK_W)|| input->PushKey(DIK_S))
 	{
@@ -234,22 +234,48 @@ void Player::Move() {
 		{
 			speed = speed / 1.414213562f;
 		}
-
 	}
 
 	if (input->PushKey(DIK_W)) {
 		move.z += speed;
+		bodyRot = { 0.0f,-90.0f,0.0f };
 	}
 	if (input->PushKey(DIK_S)){
 		move.z += -speed;
+		bodyRot = { 0.0f,90.0f,0.0f };
 	}
 	if (input->PushKey(DIK_A)) {
 		move.x += -speed;
+		bodyRot = { 0.0f,180.0f,0.0f };
 	}
 	if (input->PushKey(DIK_D) ){
 		move.x += speed;
+		bodyRot = { 0.0f,0.0f,0.0f };
 	}
-	
+
+	if ( input->PushKey(DIK_W) )
+	{
+		if ( input->PushKey(DIK_A) )
+		{
+			bodyRot = { 0.0f,-135.0f,0.0f };
+		}
+		else if ( input->PushKey(DIK_D) )
+		{
+			bodyRot = { 0.0f,-45.0f,0.0f };
+		}
+	}if ( input->PushKey(DIK_S) )
+	{
+		if ( input->PushKey(DIK_A) )
+		{
+			bodyRot = { 0.0f,135.0f,0.0f };
+		}
+		else if ( input->PushKey(DIK_D) )
+		{
+			bodyRot = { 0.0f,45.0f,0.0f };
+		}
+	}
+
+
 	move += tankHad->GetPosition();
 	//移動範囲の制限
 	if (move.x >Map::moveLimitW-Map::mapScaleW*1.5) {
@@ -270,6 +296,7 @@ void Player::Move() {
 
 	tankHad->SetPosition(move);
 	tankBody->SetPosition(move);
+	tankBody->SetRotation(bodyRot);
 }
 
 void Player::Shot() {
