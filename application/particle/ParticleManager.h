@@ -33,6 +33,6 @@ public:
 
 private:
 	std::forward_list<std::unique_ptr<BaseParticle>>particles;
-	std::unique_ptr < Model>model;
+	std::unique_ptr <Model>model;
 };
 

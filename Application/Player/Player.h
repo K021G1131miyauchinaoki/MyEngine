@@ -27,7 +27,7 @@ public://メンバ関数
 	/// </summary>
 	/// <param name="tankModel_">自機</param>
 	/// <param name="input_">キー操作</param>
-	void TitleInitialeze(Model* tankModel_,Input* input_);
+	void TitleInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Input* input_);
 
 	/// /// <summary>
 	/// プレイ初期化
@@ -35,7 +35,7 @@ public://メンバ関数
 	/// <param name="tankModel_">自機</param>
 	/// <param name="parachuteModel_">パラシュート</param>
 	/// <param name="input_">キー操作</param>
-	void PlayInitialeze(Model*tankModel_,Model* parachuteModel_,/*Model* model_,*/Input* input_);
+	void PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_,Input* input_);
 
 	/// <summary>
 	/// リセット
@@ -76,7 +76,7 @@ public://メンバ関数
 	/// 位置
 	/// </summary>
 	/// <returns></returns>
-	const	Vector3 GetPos() {return tank->GetPosition(); }
+	const	Vector3 GetPos() {return tankHad->GetPosition(); }
 
 	/// <summary>
 	/// タイトル演出
@@ -104,7 +104,8 @@ public://メンバ関数
 
 private://メンバ変数
 	std::unique_ptr<Input>input = nullptr;
-	std::unique_ptr<Object3d>tank = nullptr;
+	std::unique_ptr<Object3d>tankHad = nullptr;
+	std::unique_ptr<Object3d>tankBody = nullptr;
 	std::unique_ptr<Object3d>parachute = nullptr;
 	//弾
 	std::list<std::unique_ptr<Bullet>> bullets_;
@@ -113,6 +114,7 @@ private://メンバ変数
 
 	float angle = 0.0f;
 	Vector3 tankPos;
+	Vector3 tankScale;
 	Vector3 parachutePos;
 	Vector3 velocity;
 	Vector2	vector ;

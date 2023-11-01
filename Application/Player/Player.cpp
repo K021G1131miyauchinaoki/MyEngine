@@ -12,8 +12,9 @@
 #include"TitleScene.h"
 #include"Easing.h"
 
-void Player::TitleInitialeze(Model* tankModel_,Input* input_) {
-	assert(tankModel_);
+void Player::TitleInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Input* input_) {
+	assert(tankHadModel_);
+	assert(tankBodyModel_);
 	assert(input_);
 
 	input.reset(input_);
@@ -26,13 +27,19 @@ void Player::TitleInitialeze(Model* tankModel_,Input* input_) {
 	parachutePos.y += parachutePosY;
 	
 	//モデル
-	tank = std::make_unique<Object3d>();
-	tank->Initialize();
-	tank->SetModel(tankModel_);
-	tank->SetPosition(tankPos);
-	tank->SetScale({ 5.0f,5.0f,5.0f });
-	tank->SetColor({ 0.0f,0.0f,0.5f,1.0f });
-	tank->Update();
+	tankHad = std::make_unique<Object3d>();
+	tankHad->Initialize();
+	tankHad->SetModel(tankHadModel_);
+	tankHad->SetPosition(tankPos);
+	tankHad->SetScale({ 5.0f,5.0f,5.0f });
+	tankHad->Update();
+
+	tankBody = std::make_unique<Object3d>();
+	tankBody->Initialize();
+	tankBody->SetModel(tankBodyModel_);
+	tankBody->SetPosition(tankPos);
+	tankBody->SetScale({ 5.0f,5.0f,5.0f });
+	tankBody->Update();
 
 	parachute = nullptr;
 
@@ -50,8 +57,9 @@ void Player::TitleInitialeze(Model* tankModel_,Input* input_) {
 	isInvincible = false;
 }
 
-void Player::PlayInitialeze( Model* tankModel_,Model* parachuteModel_, Input* input_) {
-	assert(tankModel_);
+void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_, Input* input_) {
+	assert(tankHadModel_);
+	assert(tankBodyModel_);
 	assert(parachuteModel_);
 	assert(input_);
 	
@@ -64,19 +72,26 @@ void Player::PlayInitialeze( Model* tankModel_,Model* parachuteModel_, Input* in
 	parachutePos = tankPos;
 	parachutePos.y += parachutePosY;
 	//サイズ
+	tankScale = { 5.0f,5.0f,5.0f };
 	pStartScaleXZ = 6.0f;
 	pEndScaleXZ = 0.0f;
 	//角度
 	pStartRotZ = 0;
 	pEndRotZ = -90;
 	//モデル
-	tank=std::make_unique<Object3d>();
-	tank->Initialize();
-	tank->SetModel(tankModel_);
-	tank->SetPosition(tankPos);
-	tank->SetScale({ 5.0f,5.0f,5.0f });
-	tank->SetColor({ 0.0f,0.0f,0.5f,1.0f });
-	tank->Update();
+	tankHad = std::make_unique<Object3d>();
+	tankHad->Initialize();
+	tankHad->SetModel(tankHadModel_);
+	tankHad->SetPosition(tankPos);
+	tankHad->SetScale(tankScale);
+	tankHad->Update();
+
+	tankBody = std::make_unique<Object3d>();
+	tankBody->Initialize();
+	tankBody->SetModel(tankBodyModel_);
+	tankBody->SetPosition(tankPos);
+	tankBody->SetScale(tankScale);
+	tankBody->Update();
 
 	parachute = std::make_unique<Object3d>();
 	parachute->Initialize();
@@ -177,7 +192,8 @@ void Player::Update() {
 		}
 	}
 	//オブジェクト
-	tank->Update();
+	tankBody->Update();
+	tankHad->Update();
 	if ( parachute != nullptr )
 	{
 		parachute->Update();
@@ -195,7 +211,8 @@ void Player::ObjDraw() {
 	//プレイヤー
 	if (invincibleTimer%2==1)
 	{
-		tank->Draw();
+		tankHad->Draw();
+		tankBody->Draw();
 	}
 	//弾
 	for (std::unique_ptr<Bullet>& bullet : bullets_) {
@@ -241,7 +258,7 @@ void Player::Move() {
 		move.x += speed;
 	}
 	
-	move += tank->GetPosition();
+	move += tankHad->GetPosition();
 	//移動範囲の制限
 	if (move.x >Map::moveLimitW-Map::mapScaleW*1.5) {
 		move.x = Map::moveLimitW- Map::mapScaleW*1.5f;
@@ -259,7 +276,8 @@ void Player::Move() {
 
 
 
-	tank->SetPosition(move);
+	tankHad->SetPosition(move);
+	tankBody->SetPosition(move);
 }
 
 void Player::Shot() {
@@ -281,7 +299,7 @@ void Player::Shot() {
 		{
 			//弾を生成し、初期化
 			std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
-			newBullet->Initialize(tank->GetPosition(), velocity,tank->GetRotation());
+			newBullet->Initialize(tankHad->GetPosition(), velocity,tankHad->GetRotation());
 
 			//弾を登録する
 			bullets_.push_back(std::move(newBullet));
@@ -305,7 +323,7 @@ void Player::Shot() {
 void Player::Rotate() {	
 	Vector3 rot = { 0,angle,0 };
 
-	tank->SetRotation(rot);
+	tankHad->SetRotation(rot);
 }
 
 void Player::OnCollision() 
@@ -328,7 +346,7 @@ void Player::TitleStaging() {
 		{
 			if ( isTitleStaging )//カウントを加算する
 			{
-				if ( tank->GetPosition().x>0.0f )
+				if ( tankHad->GetPosition().x>0.0f )
 				{
 					isTitleStaging = false;
 					TitleScene::AddMovieCount();
@@ -336,7 +354,9 @@ void Player::TitleStaging() {
 			}
 			else//初期位置
 			{
-				tank->SetPosition({ -30.0f,5.0f,0.0f });
+				const Vector3 pos = { -30.0f,5.0f,0.0f };
+				tankHad->SetPosition(pos);
+				tankBody->SetPosition(pos);
 				isTitleStaging = true;
 			}
 		}
@@ -344,7 +364,7 @@ void Player::TitleStaging() {
 		{
 			if ( isTitleStaging )
 			{
-				if ( tank->GetPosition().x > 0.0f )
+				if ( tankHad->GetPosition().x > 0.0f )
 				{
 					isTitleStaging = false;
 					TitleScene::AddMovieCount();
@@ -352,7 +372,10 @@ void Player::TitleStaging() {
 			}
 			else
 			{
-				tank->SetPosition({ -45.0f,5.0f,0.0f });
+				const Vector3 pos = { -45.0f,5.0f,0.0f };
+
+				tankHad->SetPosition(pos);
+				tankBody->SetPosition(pos);
 				isTitleStaging = true;
 			}
 		}
@@ -369,26 +392,30 @@ void Player::TitleStaging() {
 			else
 			{
 				easeTime=0.0f;
-				tank->SetPosition({ -45.0f,5.0f,0.0f });
+				const Vector3 pos = { -45.0f,5.0f,0.0f };
+				tankHad->SetPosition(pos);
+				tankBody->SetPosition(pos);
 				isTitleStaging = true;
 			}
 		}
 		//移動
 		if ( TitleScene::movieCount < 2 )
 		{
-			Vector3 move = tank->GetPosition();
+			Vector3 move = tankHad->GetPosition();
 			const float speed = 0.25f;
 			move.x += speed;
-			tank->SetPosition(move);
+			tankHad->SetPosition(move);
+			tankBody->SetPosition(move);
 		}
 		else if ( easeTime < titleEaseTimer )
 		{
 			//イージング
 			Vector3 start = { -45.0f,5.0f,0.0f };
 			Vector3 end = { 0.0f,5.0f,0.0f };
-			Vector3 move = tank->GetPosition();
+			Vector3 move = tankHad->GetPosition();
 			move.x = start.x + ( end.x - start.x ) * Easing::easeOutSine(easeTime / titleEaseTimer);
-			tank->SetPosition(move);
+			tankHad->SetPosition(move);
+			tankBody->SetPosition(move);
 
 			easeTime+=0.3f;
 		}
@@ -396,7 +423,7 @@ void Player::TitleStaging() {
 }
 
 void Player::StartStaging() {
-	Vector3 pos = tank->GetPosition();
+	Vector3 pos = tankHad->GetPosition();
 	Vector3 rot = parachute->GetRotation();
 	Vector3 scale = parachute->GetScale();
 	
@@ -469,7 +496,9 @@ void Player::StartStaging() {
 		parachutePos.x += 0.6f;
 		parachutePos.y -= 0.1f;
 	}
-	tank->SetPosition(pos);
-	tank->SetRotation({ 0.0f,-90.0f,0.0f });
+	tankHad->SetPosition(pos);
+	tankHad->SetRotation({ 0.0f,-90.0f,0.0f });
+	tankBody->SetPosition(pos);
+	tankBody->SetRotation({ 0.0f,-90.0f,0.0f });
 	parachute->SetPosition(parachutePos);
 }

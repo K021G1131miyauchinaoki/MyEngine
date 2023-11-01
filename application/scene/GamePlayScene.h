@@ -84,6 +84,8 @@ private:
 	//objモデル
 	std::unique_ptr <Model> modelSkydome = nullptr;
 	std::unique_ptr <Model> cube = nullptr;
+	std::unique_ptr <Model> body = nullptr;
+	std::unique_ptr <Model> had = nullptr;
 	std::unique_ptr <Model> tank = nullptr;
 	std::unique_ptr <Model> parachute = nullptr;
 	std::unique_ptr <Model> modelMap = nullptr;
@@ -102,7 +104,7 @@ private:
 	//マップクラスの初期座標
 	float mapStratY;
 	//パーティクルマネージャー
-	ParticleManager* particle;
+	std::unique_ptr<ParticleManager> particle;
 	//スプライトイージング
 	float spriteEaseTime;
 	const float spriteEaseTimer = 30;

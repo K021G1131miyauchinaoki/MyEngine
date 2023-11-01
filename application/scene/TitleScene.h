@@ -78,7 +78,8 @@ private:
 	//objモデル
 	std::unique_ptr <Model> modelSkydome = nullptr;
 	std::unique_ptr <Model> cube = nullptr;
-	std::unique_ptr <Model> tank = nullptr;
+	std::unique_ptr <Model> body = nullptr;
+	std::unique_ptr <Model> had = nullptr;
 	std::unique_ptr <Model> modelMap = nullptr;
 
 	std::unique_ptr <Object3d> objSkydome = nullptr;

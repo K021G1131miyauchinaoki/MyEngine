@@ -7,16 +7,6 @@
 #include<SceneManager.h>
 #include<Vector3.h>
 void GameOverScene::Initialize() {
-	//overSprite = std::make_unique<Sprite>(
-	//	3,
-	//	XMFLOAT2{ 640.0f,375.0f },//位置
-	//	XMFLOAT2{ 500.0f,200.0f },//サイズ
-	//	XMFLOAT4{ 1,1,1,1 },//カラー（RGBA）
-	//	XMFLOAT2{ 0.5f,0.5f },//アンカーポイント
-	//	false,//左右反転
-	//	false//上下反転
-	//	);
-	//overSprite->Initialize(SpriteCommon::GetInstance(), 3);
 	//スプライト
 	overSprite = std::make_unique<Sprite>();
 	overSprite->Initialize(SpriteCommon::GetInstance(),3);

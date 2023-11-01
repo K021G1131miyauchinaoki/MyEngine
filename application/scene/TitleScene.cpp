@@ -40,7 +40,8 @@ void TitleScene::Initialize() {
 	// モデル読み込み
 	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
 	cube.reset(Model::LoadFromOBJ("cube"));
-	tank.reset(Model::LoadFromOBJ("tank"));
+	had.reset(Model::LoadFromOBJ("TankHad"));
+	body.reset(Model::LoadFromOBJ("TankBody"));
 	modelMap.reset(Model::LoadFromOBJ("map"));
 
 	//モデルのセット
@@ -57,9 +58,7 @@ void TitleScene::Initialize() {
 
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->TitleInitialeze(tank.get(), input.get());
-	
-
+	player->TitleInitialeze(had.get(),body.get(),input.get());
 	
 	//マップ
 	map = std::make_unique<Map>();

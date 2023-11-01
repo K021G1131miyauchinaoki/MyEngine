@@ -13,13 +13,13 @@ void ParticleManager::Initialize(Model* model_) {
 void ParticleManager::Add(const std::string& name_,int amount_,int32_t life_,Vector3 position_,float startScale_,float endScale_) {
 	for (size_t i = 0; i < amount_; i++)
 	{
-		BaseParticle* p;
+		std::unique_ptr <BaseParticle> p;
 		if (name_=="1")
 		{
-			p = new Explosion();
+			p = std::make_unique <Explosion>();
 		}
 		else {
-			p = new Smoke();
+			p = std::make_unique <Smoke>();
 		}
 
 		p->oneGrain.pos = position_;
@@ -27,7 +27,7 @@ void ParticleManager::Add(const std::string& name_,int amount_,int32_t life_,Vec
 		p->oneGrain.stratScale = startScale_;
 		p->oneGrain.endScale = endScale_;
 		p->Initialize(model.get());
-		particles.emplace_front(p);
+		particles.emplace_front(std::move(p));
 	}
 	
 }

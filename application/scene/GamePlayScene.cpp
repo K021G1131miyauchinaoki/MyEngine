@@ -26,6 +26,8 @@ void GamePlayScene::Initialize() {
 	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
 	cube.reset(Model::LoadFromOBJ("cube"));
 	tank.reset(Model::LoadFromOBJ("tank"));
+	had.reset(Model::LoadFromOBJ("TankHad"));
+	body.reset(Model::LoadFromOBJ("TankBody"));
 	modelMap.reset(Model::LoadFromOBJ("map"));
 	parachute.reset(Model::LoadFromOBJ("parachute"));
 	//モデルのセット
@@ -43,7 +45,7 @@ void GamePlayScene::Initialize() {
 
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->PlayInitialeze(tank.get(),parachute.get(), input.get());
+	player->PlayInitialeze(had.get(),body.get(),parachute.get(),input.get());
 	//エネミー
 	enemy = std::make_unique<Enemy>();
 	enemy->Initialeze(tank.get(), player.get());
@@ -54,7 +56,7 @@ void GamePlayScene::Initialize() {
 	map->LoadCSV("1");
 
 	//パーティクル
-	particle = new ParticleManager();
+	particle = std::make_unique <ParticleManager>();
 	particle->Initialize(cube.get());
 
 	startCount = 0;
