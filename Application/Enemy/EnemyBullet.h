@@ -70,7 +70,7 @@ private://メンバ変数
 	Vector3 velocity;
 	//半径
 	std::unique_ptr<Object3d>obj = nullptr;
-	const float r = 1.0f;
+	const float r = 0.2f;
 	//デスフラグ
 	bool isDead = false;
 

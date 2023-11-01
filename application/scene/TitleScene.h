@@ -110,6 +110,6 @@ private:
 	const int waitTimer = 20;
 
 	//ライト
-	XMVECTOR lightDir = { 25,-100,10,0 };
+	XMVECTOR lightDir = { 0.73f,-30.0f,-0.21f,0.0f };
 };
 

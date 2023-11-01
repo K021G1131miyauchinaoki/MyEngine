@@ -12,73 +12,16 @@
 #include"TitleScene.h"
 #include"Easing.h"
 
-void Player::TitleInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Input* input_) {
-	assert(tankHadModel_);
-	assert(tankBodyModel_);
-	assert(input_);
-
-	input.reset(input_);
-	startPosY = 120.0f;
-	endPosY = 5.0f;
-	//位置
-	tankPos = { 0.0f,endPosY,0.0f };
-	parachutePosY = 0.0f;
-	parachutePos = tankPos;
-	parachutePos.y += parachutePosY;
-	
-	//モデル
-	tankHad = std::make_unique<Object3d>();
-	tankHad->Initialize();
-	tankHad->SetModel(tankHadModel_);
-	tankHad->SetPosition(tankPos);
-	tankHad->SetScale({ 5.0f,5.0f,5.0f });
-	tankHad->Update();
-
-	tankBody = std::make_unique<Object3d>();
-	tankBody->Initialize();
-	tankBody->SetModel(tankBodyModel_);
-	tankBody->SetPosition(tankPos);
-	tankBody->SetScale({ 5.0f,5.0f,5.0f });
-	tankBody->Update();
-
-	parachute = nullptr;
-
-	//タイム
-	startEaseTime = 0;
-	coolTime = 0;
-	invincibleTimer = invincibleTime;
-	//体力
-	hp.value = NULL;
-	hp.isDead = false;
-
-	drawHp.clear();
-
+void Player::ParameterCommonInitialeze() {
+	startPosY = 24.0f;
+	endPosY = 1.0f;
+	//サイズ
+	tankScale = { radius,radius,radius };
 	isTitleStaging = false;
 	isInvincible = false;
 }
 
-void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_, Input* input_) {
-	assert(tankHadModel_);
-	assert(tankBodyModel_);
-	assert(parachuteModel_);
-	assert(input_);
-	
-	input.reset(input_);
-	startPosY = 120.0f;
-	endPosY = 6.0f;
-	//位置
-	tankPos = { 0.0f,startPosY,0.0f };
-	parachutePosY = 6.0f;
-	parachutePos = tankPos;
-	parachutePos.y += parachutePosY;
-	//サイズ
-	tankScale = { 5.0f,5.0f,5.0f };
-	pStartScaleXZ = 6.0f;
-	pEndScaleXZ = 0.0f;
-	//角度
-	pStartRotZ = 0;
-	pEndRotZ = -90;
-	//モデル
+void Player::ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_) {
 	tankHad = std::make_unique<Object3d>();
 	tankHad->Initialize();
 	tankHad->SetModel(tankHadModel_);
@@ -92,6 +35,60 @@ void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* pa
 	tankBody->SetPosition(tankPos);
 	tankBody->SetScale(tankScale);
 	tankBody->Update();
+}
+
+void Player::TitleInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Input* input_) {
+	assert(tankHadModel_);
+	assert(tankBodyModel_);
+	assert(input_);
+
+	input.reset(input_);
+	//共通のパラメータ初期化
+	ParameterCommonInitialeze();
+
+	//位置
+	tankPos = { 0.0f,endPosY,0.0f };
+	parachutePosY = 0.0f;
+	parachutePos = tankPos;
+	parachutePos.y += parachutePosY;
+	
+	//モデル
+	ModelCommonInitialeze(tankHadModel_,tankBodyModel_);
+	parachute = nullptr;
+
+	//タイム
+	startEaseTime = 0;
+	coolTime = 0;
+	invincibleTimer = invincibleTime;
+	//体力
+	hp.value = NULL;
+	hp.isDead = false;
+
+	drawHp.clear();
+}
+
+void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_, Input* input_) {
+	assert(tankHadModel_);
+	assert(tankBodyModel_);
+	assert(parachuteModel_);
+	assert(input_);
+	
+	input.reset(input_);
+	//共通のパラメータ初期化
+	ParameterCommonInitialeze();
+	//位置
+	tankPos = { 0.0f,startPosY,0.0f };
+	parachutePosY = 6.0f;
+	parachutePos = tankPos;
+	parachutePos.y += parachutePosY;
+	//サイズ
+	pStartScaleXZ = 6.0f;
+	pEndScaleXZ = 0.0f;
+	//角度
+	pStartRotZ = 0;
+	pEndRotZ = -90;
+	//モデル
+	ModelCommonInitialeze(tankHadModel_,tankBodyModel_);
 
 	parachute = std::make_unique<Object3d>();
 	parachute->Initialize();
@@ -111,22 +108,17 @@ void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* pa
 	hp.isDead = false;
 
 	//サイズを決定
-	if (SceneManager::sceneNum == SceneManager::play)
+	drawHp.resize(hp.value);
+	for (size_t i = 0; i < hp.value; i++)
 	{
-		drawHp.resize(hp.value);
-		for (size_t i = 0; i < hp.value; i++)
-		{
-			drawHp[i].isDraw = false;
-			drawHp[i].sprite = std::make_unique<Sprite>();
-			drawHp[i].sprite->Initialize(SpriteCommon::GetInstance(), 4);
-			drawHp[i].sprite->SetSize({ 50.0f,50.0f });
-			drawHp[i].sprite->SetPosition(XMFLOAT2{ 10.0f + (60.0f * i),10 });
-			drawHp[i].sprite->SetIsInvisible(drawHp[i].isDraw);
-			drawHp[ i ].sprite->Update();
-		}
-	}
-	isTitleStaging = false;
-	isInvincible = false;
+		drawHp[i].isDraw = false;
+		drawHp[i].sprite = std::make_unique<Sprite>();
+		drawHp[i].sprite->Initialize(SpriteCommon::GetInstance(), 4);
+		drawHp[i].sprite->SetSize({ 50.0f,50.0f });
+		drawHp[i].sprite->SetPosition(XMFLOAT2{ 10.0f + (60.0f * i),10 });
+		drawHp[i].sprite->SetIsInvisible(drawHp[i].isDraw);
+		drawHp[ i ].sprite->Update();
+	}	
 }
 
 void Player::Reset() {
@@ -205,7 +197,7 @@ void Player::ObjDraw() {
 	//パラシュート
 	if ( parachute!=nullptr )
 	{
-		parachute->Draw();
+		//parachute->Draw();
 	}
 
 	//プレイヤー
@@ -235,7 +227,7 @@ void Player::SpriteDraw() {
 void Player::Move() {
 	Vector3 move = {0,0,0};
 
-	float speed = 0.5f;
+	float speed = 0.1f;
 	if (input->PushKey(DIK_W)|| input->PushKey(DIK_S))
 	{
 		if (input->PushKey(DIK_A)|| input->PushKey(DIK_D))

@@ -13,14 +13,15 @@
 void Enemy::Initialeze(Model* model_,Player*player_) {
 	assert(model_);
 	assert(player_);
+	InitialezePos = { 0.0f,1.0f,10.0f };
 
 	model = model_;
 	player = player_;
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
-	obj->SetPosition({ 0.0f,5.0f,50.0f });
-	obj->SetScale({ 5.0f,5.0f,5.0f });
+	obj->SetPosition(InitialezePos);
+	obj->SetScale({ radius,radius,radius });
 	obj->SetColor({ 0.0f,0.1f,0.3f,1.0f });
 	obj->Update();
 	moveTime = moveTimer;
@@ -104,7 +105,7 @@ void Enemy::Move() {
 		obj->SetRotation(rot);
 		
 		//敵の速度
-		const float speed = 0.2f;
+		const float speed = 0.075f;
 		move += value * speed;
 		
 		#pragma endregion

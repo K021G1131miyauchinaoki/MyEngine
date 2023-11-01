@@ -20,7 +20,7 @@ void GamePlayScene::Initialize() {
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	Object3d::SetCamera(camera.get());
-	cameraY = 100;
+	cameraY = 20;
 
 	// モデル読み込み
 	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
@@ -85,7 +85,7 @@ void GamePlayScene::Update(){
 	{
 		CheckAllCollision();
 		camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
-		camera->SetEye({ player->GetPos().x, cameraY, player->GetPos().z - 30 });
+		camera->SetEye({ player->GetPos().x, cameraY, player->GetPos().z - 6.0f });
 		camera->Update();
 		player->Update();
 		enemy->Update();

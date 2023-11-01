@@ -102,6 +102,12 @@ public://メンバ関数
 	//デスフラグの取得
 	bool IsDead()const { return hp.isDead; }
 
+	//共通パラメータの初期化
+	void ParameterCommonInitialeze();
+
+	//共通モデルの初期化
+	void ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_);
+
 private://メンバ変数
 	std::unique_ptr<Input>input = nullptr;
 	std::unique_ptr<Object3d>tankHad = nullptr;
@@ -120,7 +126,7 @@ private://メンバ変数
 	Vector2	vector ;
 	Vector2	 mausePos;
 	//半径
-	float radius = 5.0f;
+	float radius = 1.0f;
 
 	const int16_t invincibleTime=11;
 	int16_t invincibleTimer;

@@ -29,18 +29,22 @@ void EnemyBullet::Initialize(const Vector3& position_,const Vector3& veclocity_,
 	obj->SetModel(model.get());
 	obj->SetRotation(rotation_);
 	obj->SetPosition(position_);
+	obj->SetScale({r,r,r});
+
 	obj->SetColor({ 0.0f,0.0f,0.0f,1.0f });
 	obj->Update();
+	const float speed = 0.3f;
+	velocity *= speed;
 }
 
 void EnemyBullet::Update() {
-	{
-		Vector3 pos = obj->GetPosition();
-		pos.x += velocity.x;
-		pos.y += velocity.y;
-		pos.z += velocity.z;
-		obj->SetPosition(pos);
-	}
+	
+	Vector3 pos = obj->GetPosition();
+	pos.x += velocity.x;
+	pos.y += velocity.y;
+	pos.z += velocity.z;
+	obj->SetPosition(pos);
+	
 	//時間経過で消滅
 	if (--deathTimer <= 0) {
 		isDead = true;
