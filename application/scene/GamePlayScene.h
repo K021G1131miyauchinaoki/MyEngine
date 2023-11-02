@@ -66,6 +66,16 @@ public://メンバ関数
 	/// </summary>
 	~GamePlayScene()override;
 
+	enum start
+	{
+		Down,
+		Bound1,
+		Bound2,
+		Wait,
+		Redy,
+		Go,
+	};
+
 public:
 	//スタート演出のカウント
 	static int8_t startCount;

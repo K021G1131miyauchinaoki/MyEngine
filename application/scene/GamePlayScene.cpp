@@ -214,13 +214,13 @@ void GamePlayScene::CheckAllCollision() {
 }
 
 void GamePlayScene::StartStaging() {
-	if ( startCount >= 5)
+	if ( startCount >= start::Go)
 	{
 		isStart = false;
 		spriteWaitTime = 0;
 		spriteEaseTime = 0;
 	}
-	if ( startCount==4 )
+	if ( startCount== start::Redy )
 	{
 		XMFLOAT2 readyPos=ready->GetPosition();
 		XMFLOAT2 stagePos=stage->GetPosition();

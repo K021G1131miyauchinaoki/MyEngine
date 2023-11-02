@@ -11,6 +11,7 @@
 #include "GamePlayScene.h"
 #include"TitleScene.h"
 #include"Easing.h"
+#include"Player.h"
 
 void Player::ParameterCommonInitialeze() {
 	startPosY = 24.0f;
@@ -128,13 +129,19 @@ void Player::Reset() {
 }
 
 void Player::Update() {
+	const float half = 2.0f;
+	const int16_t zero = 0;
+	//タイトル演出
 	TitleStaging();
+	//ゲームプレイ
 	if ( SceneManager::sceneNum == SceneManager::play )
 	{
+		//スタート演出
 		if ( GamePlayScene::isStart )
 		{
 			StartStaging();
 		}
+		//プレイ
 		else
 		{
 			//デスフラグの立った弾を削除
@@ -145,14 +152,14 @@ void Player::Update() {
 
 			//マウスカーソルの位置取得
 			mausePos = input->GetMausePos();
-			vector = { 0.0f,0.0f };
+			mouseVec = { 0.0f,0.0f };
 			//ウィンドウの中心点とマウスの現在点のベクトルをとる
-			vector.x = mausePos.x - WinApp::width / 2;
-			vector.y = mausePos.y - WinApp::height / 2;
+			mouseVec.x = mausePos.x - static_cast<float>(WinApp::width) / half;
+			mouseVec.y = mausePos.y - static_cast< float >( WinApp::height ) / half;
 			//正規化
-			vector = MyMath::normaleizeVec2(vector);
+			mouseVec = MyMath::normaleizeVec2(mouseVec);
 			//角度を算出
-			angle = atan2(vector.y,vector.x);
+			angle = atan2(mouseVec.y,mouseVec.x);
 
 			Shot();
 
@@ -171,7 +178,7 @@ void Player::Update() {
 			{
 				invincibleTimer--;
 			}
-			if ( invincibleTimer < 0 )
+			if ( invincibleTimer < zero )
 			{
 				invincibleTimer = invincibleTime;
 				isInvincible = false;
@@ -225,17 +232,21 @@ void Player::SpriteDraw() {
 }
 
 void Player::Move() {
+	//移動
 	Vector3 move = { 0.0f,0.0f,0.0f };
-	
 	float speed = 0.1f;
+	float obliques = 1.414213562f;
+	//制限
+
+	//同時入力があれば45度に補正する
 	if (input->PushKey(DIK_W)|| input->PushKey(DIK_S))
 	{
 		if (input->PushKey(DIK_A)|| input->PushKey(DIK_D))
 		{
-			speed = speed / 1.414213562f;
+			speed = speed / obliques;
 		}
 	}
-
+	//キーが押されたら
 	if (input->PushKey(DIK_W)) {
 		move.z += speed;
 		bodyRot = { 0.0f,-90.0f,0.0f };
@@ -252,7 +263,7 @@ void Player::Move() {
 		move.x += speed;
 		bodyRot = { 0.0f,0.0f,0.0f };
 	}
-
+	//斜め入力の場合のオブジェクトの角度
 	if ( input->PushKey(DIK_W) )
 	{
 		if ( input->PushKey(DIK_A) )
@@ -278,18 +289,18 @@ void Player::Move() {
 
 	move += tankHad->GetPosition();
 	//移動範囲の制限
-	if (move.x >Map::moveLimitW-Map::mapScaleW*1.5) {
-		move.x = Map::moveLimitW- Map::mapScaleW*1.5f;
+	if (move.x >Map::moveLimitW-1.0f) {
+		move.x = Map::moveLimitW-1.0f;
 	}
-	else if (move.x < -Map::moveLimitW- Map::mapScaleW/2) {
-		move.x = -Map::moveLimitW- Map::mapScaleW/2.0f;
+	else if (move.x < -Map::moveLimitW) {
+		move.x = -Map::moveLimitW;
 	}
 
-	if (move.z > Map::moveLimitH- Map::mapScaleH * 1.5) {
-		move.z = Map::moveLimitH- Map::mapScaleH * 1.5f;
+	if (move.z > Map::moveLimitH) {
+		move.z = Map::moveLimitH;
 	}
-	else if (move.z < -Map::moveLimitH- Map::mapScaleH/2) {
-		move.z = -Map::moveLimitH- Map::mapScaleH/2.0f;
+	else if (move.z < -Map::moveLimitH) {
+		move.z = -Map::moveLimitH;
 	}
 
 
@@ -328,15 +339,6 @@ void Player::Shot() {
 
 		}
 	}
-	//if (input->TriggerClick(Botton::LEFT)) {
-	//	
-	//	//弾を生成し、初期化
-	//	std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
-	//	newBullet->Initialize(model, obj->GetPosition(), ImgM, obj->GetRotation());
-
-	//	//弾を登録する
-	//	bullets_.push_back(std::move(newBullet));
-	//}
 }
 
 void Player::Rotate() {	
@@ -447,7 +449,7 @@ void Player::StartStaging() {
 	Vector3 scale = parachute->GetScale();
 	
 	if ( startEaseTime<startEaseTimer
-		&& GamePlayScene::startCount ==0)
+		&& GamePlayScene::startCount == GamePlayScene::Down)
 	{
 		startEaseTime++;
 		pos.y= startPosY + ( endPosY - startPosY ) * Easing::easeOutSine(startEaseTime/ startEaseTimer);
@@ -457,7 +459,7 @@ void Player::StartStaging() {
 			bound = 1.5f;
 		}
 	}
-	else if ( GamePlayScene::startCount==1 )
+	else if ( GamePlayScene::startCount== GamePlayScene::Bound1 )
 	{
 		const float minus = -0.5f;
 		pos.y += bound;
@@ -469,7 +471,7 @@ void Player::StartStaging() {
 			bound = 1.0f;
 		}
 	}
-	else if ( GamePlayScene::startCount == 2 )
+	else if ( GamePlayScene::startCount == GamePlayScene::Bound2 )
 	{
 		const float minus = -0.5;
 		pos.y += bound;
@@ -480,28 +482,31 @@ void Player::StartStaging() {
 			bound = 2.0f;
 		}
 	}
-	else if ( GamePlayScene::startCount == 3 )
+	else if ( GamePlayScene::startCount == GamePlayScene::Wait )
 	{
 		if ( pLeaveTime >= pLeaveTimer )
 		{
 			GamePlayScene::startCount++;
 		}
 	}
-
 	else
 	{
 		startEaseTime = 0;
 	}
 	//パラシュート
 	//タイマーが80％以下なら
-	if ( startEaseTime < startEaseTimer*0.8f )
+	const float percent = 0.8f;
+	const float posX = 3.0f;
+	const float addX = 0.6f;
+	const float subtractY = 0.1f;
+	if ( startEaseTime < startEaseTimer* percent )
 	{
 		parachutePos = pos;
 		parachutePos.y += parachutePosY;
 	}
 	else
 	{
-		if ( pLeaveTime< pLeaveTimer&& parachutePos.x>3.0f )
+		if ( pLeaveTime< pLeaveTimer&& parachutePos.x>posX )
 		{
 			pLeaveTime++;
 			rot.z = pStartRotZ + ( pEndRotZ - pStartRotZ ) * Easing::easeOutSine(pLeaveTime / pLeaveTimer);
@@ -512,8 +517,8 @@ void Player::StartStaging() {
 
 		parachute->SetRotation(rot);
 		parachute->SetScale(scale);
-		parachutePos.x += 0.6f;
-		parachutePos.y -= 0.1f;
+		parachutePos.x += addX;
+		parachutePos.y -= subtractY;
 	}
 	tankHad->SetPosition(pos);
 	tankHad->SetRotation({ 0.0f,-90.0f,0.0f });

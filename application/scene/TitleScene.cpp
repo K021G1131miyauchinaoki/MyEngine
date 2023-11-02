@@ -143,6 +143,7 @@ void TitleScene::Update() {
 	map->Update();
 	//キーを押したら
 	if (input->TriggerReleaseKey(DIK_SPACE)
+		|| input->TriggerReleaseClick(Botton::LEFT)
 		&&!SceneTransition::GetInstance()->GetIsFadeOut()
 		&&!SceneTransition::GetInstance()->GetIsFadeIn() )
 	{

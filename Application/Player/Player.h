@@ -124,7 +124,7 @@ private://メンバ変数
 	Vector3 bodyRot;
 	Vector3 parachutePos;
 	Vector3 velocity;
-	Vector2	vector ;
+	Vector2	mouseVec ;
 	Vector2	 mausePos;
 	//半径
 	float radius = 1.0f;
