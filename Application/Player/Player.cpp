@@ -289,18 +289,18 @@ void Player::Move() {
 
 	move += tankHad->GetPosition();
 	//移動範囲の制限
-	if (move.x >Map::moveLimitW-1.0f) {
-		move.x = Map::moveLimitW-1.0f;
+	if (move.x >Map::moveLimitW- tankScale.x) {
+		move.x = Map::moveLimitW - tankScale.x;
 	}
-	else if (move.x < -Map::moveLimitW) {
-		move.x = -Map::moveLimitW;
+	else if (move.x < -Map::moveLimitW + tankScale.x ) {
+		move.x = -Map::moveLimitW + tankScale.x;
 	}
 
-	if (move.z > Map::moveLimitH) {
-		move.z = Map::moveLimitH;
+	if (move.z > Map::moveLimitH - tankScale.z) {
+		move.z = Map::moveLimitH - tankScale.z;
 	}
-	else if (move.z < -Map::moveLimitH) {
-		move.z = -Map::moveLimitH;
+	else if (move.z < -Map::moveLimitH+ tankScale.z ) {
+		move.z = -Map::moveLimitH+ tankScale.z;
 	}
 
 
