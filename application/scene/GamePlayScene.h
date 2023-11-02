@@ -66,6 +66,7 @@ public://メンバ関数
 	/// </summary>
 	~GamePlayScene()override;
 
+	//スタート演出
 	enum start
 	{
 		Down,

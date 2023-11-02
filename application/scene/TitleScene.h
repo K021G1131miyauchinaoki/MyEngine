@@ -68,6 +68,16 @@ public://メンバ関数
 	/// </summary>
 	~TitleScene()override;
 
+	//カメラワーク
+	enum Staging
+	{
+		CameraFirst,
+		CameraSecond,
+		CameraThird,
+		Title,
+
+	};
+
 private:
 	//ライト
 	std::unique_ptr <Light>light;

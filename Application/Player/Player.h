@@ -108,6 +108,7 @@ public://メンバ関数
 	//共通モデルの初期化
 	void ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_);
 
+
 private://メンバ変数
 	std::unique_ptr<Input>input = nullptr;
 	std::unique_ptr<Object3d>tankHad = nullptr;

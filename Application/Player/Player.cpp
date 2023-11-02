@@ -363,7 +363,7 @@ void Player::OnCollision()
 void Player::TitleStaging() {
 	if ( SceneManager::sceneNum == SceneManager::title )
 	{
-		if ( TitleScene::movieCount == 0 )
+		if ( TitleScene::movieCount == TitleScene::CameraFirst )
 		{
 			if ( isTitleStaging )//カウントを加算する
 			{
@@ -381,7 +381,7 @@ void Player::TitleStaging() {
 				isTitleStaging = true;
 			}
 		}
-		else if ( TitleScene::movieCount == 1 )
+		else if ( TitleScene::movieCount == TitleScene::CameraSecond )
 		{
 			if ( isTitleStaging )
 			{
@@ -400,7 +400,7 @@ void Player::TitleStaging() {
 				isTitleStaging = true;
 			}
 		}
-		else if ( TitleScene::movieCount == 2 )
+		else if ( TitleScene::movieCount == TitleScene::CameraThird )
 		{
 			if ( isTitleStaging )
 			{
@@ -420,7 +420,7 @@ void Player::TitleStaging() {
 			}
 		}
 		//移動
-		if ( TitleScene::movieCount < 2 )
+		if ( TitleScene::movieCount <= TitleScene::CameraSecond )
 		{
 			Vector3 move = tankHad->GetPosition();
 			const float speed = 0.25f;
@@ -428,7 +428,7 @@ void Player::TitleStaging() {
 			tankHad->SetPosition(move);
 			tankBody->SetPosition(move);
 		}
-		else if ( easeTime < titleEaseTimer )
+		else if ( easeTime < titleEaseTimer && TitleScene::movieCount == TitleScene::CameraThird )
 		{
 			//イージング
 			Vector3 start = { -45.0f,5.0f,0.0f };

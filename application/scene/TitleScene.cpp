@@ -102,31 +102,31 @@ void TitleScene::Update() {
 	std::uniform_real_distribution<float> posDist(-0.025f,0.025f);
 	//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
 	shake = { posDist(engine),posDist(engine),0.0f };
-	if ( movieCount==0 )
+	if ( movieCount== Staging::CameraFirst )
 	{
 		DirectX::XMFLOAT3 eye = { 8.0f + shake.x,0.5f + shake.y,-15.0f };
 		//DirectX::XMFLOAT3 eye = { 8.0f,2.0f,-0.0f };
 		camera->SetEye(eye);
 	}
-	else if ( movieCount == 1 )
+	else if ( movieCount == Staging::CameraSecond )
 	{
 		DirectX::XMFLOAT3 eye = { 10.0f + shake.x,8.0f + shake.y,15.0f };
 		camera->SetEye(eye);
 	}
-	else if ( movieCount == 2 )
+	else if ( movieCount == Staging::CameraThird )
 	{
 		camera->SetTarget({ 0.0f, player->GetPos().y, player->GetPos().z });
 		DirectX::XMFLOAT3 eye = { 15.0f + shake.x,8.0f + shake.y,-15.0f };
 		camera->SetEye(eye);
 	}
-	else if ( movieCount == 3 )
+	else if ( movieCount == Staging::Title )
 	{
 		DirectX::XMFLOAT3 eye = { 15.0f ,8.0f,-15.0f };
 		camera->SetEye(eye);
 		movieTime++;
 		if ( movieTime>movieTimer )
 		{
-			movieCount = 0;
+			movieCount = Staging::CameraFirst;
 			movieTime = 0;
 		}
 	}
@@ -163,7 +163,7 @@ void TitleScene::Update() {
 }
 
 void TitleScene::SpriteDraw() {
-	if ( movieCount == 3 )
+	if ( movieCount == Staging::Title )
 	{
 		titleSprite->SetTexIndex(1);
 		titleSprite->Draw();
