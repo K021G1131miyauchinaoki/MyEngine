@@ -36,6 +36,8 @@ public:
 		clear,
 		over,
 	};
+
+	static int8_t playerHP;
 	
 private:
 	//現在のシーン

@@ -7,6 +7,7 @@
 #include<cassert>
 
 int8_t SceneManager::sceneNum = SceneManager::title;
+int8_t SceneManager::playerHP = 3;
 
 SceneManager* SceneManager::GetInstance() {
 	static SceneManager instance;

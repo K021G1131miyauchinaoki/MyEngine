@@ -5,22 +5,42 @@
 #include "GameClear.h"
 #include<SceneManager.h>
 #include"SceneTransition.h"
+#include<Easing.h>
 void GameClear::Initialize() {
+	//変数
 	waitTime = 0;
-
+	startFovAngle=45.0f;
+	endFovAngle=90.0f;
+	fovAngleTime = 0;
+	startRot=720;
+	endRot=0;
+	startSize = {0,0};
+	endSize = { 100,100 };
 	//スプライト
 	clearSprite = std::make_unique<Sprite>();
 	clearSprite->Initialize(SpriteCommon::GetInstance(), 2);
 	clearSprite->SetAnchorPoint({ 0.5f,0.5f });
-	clearSprite->SetPosition({ 640.0f,200.0f });
+	clearSprite->SetPosition({ 640.0f,150.0f });
+	score.resize(SceneManager::playerHP);
+	for ( size_t i = 0; i < score.size(); i++ )
+	{
+		score[ i ].easeTime = 0;
+		score[ i ].sprite = std::make_unique<Sprite>();
+		score[ i ].sprite->Initialize(SpriteCommon::GetInstance(),9);
+		score[ i ].sprite->SetRotation(startRot);
+		score[ i ].sprite->SetSize(startSize);
+		score[ i ].sprite->SetPosition({ 530.0f+(i*110.0f),280.0f });
+		score[ i ].sprite->SetAnchorPoint({ 0.5f,0.5f });
+		score[ i ].sprite->Update();
 
-
+	}
 	//操作
 	input.reset(Input::GetInstance());
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	camera->SetEye({ 10.0f, 4.0f,10.0f });
+	camera->SetFovAngle(startFovAngle);
 	Object3d::SetCamera(camera.get());
 
 	//ライト
@@ -73,6 +93,38 @@ void GameClear::Update() {
 	tankBody->Update();
 	tankHad->Update();
 	clearSprite->Update();
+
+	for ( size_t i = 0; i < score.size(); i++ )
+	{
+		//タイマーが80％以下なら
+		const float percent = 0.8f;
+		if ( score[ i ].easeTime < easeTimer )
+		{
+			if (i==0)
+			{
+				score[ i ].easeTime++;
+			}
+			else if ( score[ i-1 ].easeTime>easeTimer*percent )
+			{
+				score[ i ].easeTime++;
+			}
+		}
+		XMFLOAT2 size;
+		size.x = startSize.x + ( endSize.x - startSize.x ) * Easing::easeOutCubic(score[ i ].easeTime / easeTimer);
+		size.y = startSize.x + ( endSize.x - startSize.x ) * Easing::easeOutCubic(score[ i ].easeTime / easeTimer);
+		float rot= startRot + ( endRot - startRot ) * Easing::easeOutCubic(score[ i ].easeTime / easeTimer);
+		score[ i ].sprite->SetRotation(rot);
+		score[ i ].sprite->SetSize(size);
+		score[ i ].sprite->Update();
+	}
+	
+	if ( score[ score.size() - 1 ].easeTime>= easeTimer && fovAngleTime< fovAngleTimer )
+	{
+		fovAngleTime++;
+		float fovAngle = startFovAngle + ( endFovAngle - startFovAngle ) * Easing::easeInCubic(fovAngleTime / fovAngleTimer);
+		camera->SetFovAngle(fovAngle);
+	}
+
 	if ( waitTime <= waitTimer )
 	{
 		waitTime++;
@@ -96,9 +148,11 @@ void GameClear::Update() {
 }
 
 void GameClear::SpriteDraw() {
-	//clearSprite->SetTexIndex(1);
 	clearSprite->Draw();
-	
+	for ( size_t i = 0; i < score.size(); i++ )
+	{
+		score[ i ].sprite->Draw();
+	}
 }
 
 void GameClear::ObjDraw() {

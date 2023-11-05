@@ -45,9 +45,23 @@ public://メンバ関数
 	/// </summary>
 	void Finalize()override;
 
+	
+
 private:
+	struct Score
+	{
+		std::unique_ptr<Sprite> sprite;
+		float easeTime;
+	};
+	const float easeTimer = 30;
+	float startRot;
+	float endRot;
+	XMFLOAT2 startSize;
+	XMFLOAT2 endSize;
 	//スプライト
 	std::unique_ptr<Sprite> clearSprite;
+	std::vector<Score>score;
+	
 	std::unique_ptr <Input>input;
 	//次シーンまでのタイマー
 	int waitTime;
@@ -67,11 +81,12 @@ private:
 	std::unique_ptr <Object3d> tankHad = nullptr;
 
 	std::unique_ptr<Map>map;
-
-	//int8_t 
-
-
 	//ライト
 	XMVECTOR lightDir = { -250.0f,-350.0f,20.0f,0.0f };
 
+	//画角
+	float startFovAngle;
+	float endFovAngle;
+	float fovAngleTime;
+	const float fovAngleTimer=30;
 };

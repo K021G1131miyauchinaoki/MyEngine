@@ -111,6 +111,7 @@ void GamePlayScene::Update(){
 		}
 		if (enemy->IsDead())
 		{
+			SceneManager::playerHP = player->GetHp();
 			SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
 		}
 	}

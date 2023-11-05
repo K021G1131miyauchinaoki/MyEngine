@@ -9,8 +9,7 @@ void	Camera::Initialeze() {
 	eye = { 10, 10, 10 };
 	target = { 0, 0, 0 };
 	up = { 0, 1, 0 };
-	fovAngle = 30.0f;
-	oldFovAngle = fovAngle;
+	fovAngle = 60.0f;
 	UpdateView();
 	UpdateProjection();
 }
@@ -34,7 +33,7 @@ void	Camera::UpdateView() {
 
 void	Camera::UpdateProjection() {
 	// 透視投影による射影行列の生成
-	
+	oldFovAngle = fovAngle;
 	matProjection = DirectX::XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(fovAngle),
 		(float)WinApp::width / WinApp::height,
@@ -52,6 +51,10 @@ void Camera::SetTarget(XMFLOAT3 target_) {this->target = target_;}
 void Camera::SetUp(XMFLOAT3 up_) {	this->up = up_;}
 void Camera::SetView(XMMATRIX matView_) {	this->matView = matView_;}
 void Camera::SetProjection(XMMATRIX matProjection_) {	this->matProjection = matProjection_;}
+void Camera::SetFovAngle(float fovAngle_){
+	oldFovAngle = fovAngle;
+	fovAngle = fovAngle_;
+}
 
 //getter
 const XMMATRIX& Camera::GetView() {	return matView;}
@@ -60,3 +63,4 @@ const XMFLOAT3& Camera::GetEye() {return eye;}
 const XMFLOAT3& Camera::GetTarget() { return target;}
 const XMFLOAT3& Camera::GetUp() { return up;}
 const XMMATRIX& Camera::GetViewProjection() {return matViewProjection;}
+const float& Camera::GetFovAngle(){return fovAngle;}

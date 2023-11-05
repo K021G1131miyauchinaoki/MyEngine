@@ -108,6 +108,8 @@ public://メンバ関数
 	//共通モデルの初期化
 	void ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_);
 
+	//HPの取得
+	int8_t GetHp() {return hp.value;}
 
 private://メンバ変数
 	std::unique_ptr<Input>input = nullptr;

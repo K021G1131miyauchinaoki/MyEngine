@@ -32,7 +32,8 @@ void Framework::Initialize(){
 	SpriteCommon::GetInstance()->Loadtexture(5,"white1.png");
 	SpriteCommon::GetInstance()->Loadtexture(6,"sceneTransition.png");
 	SpriteCommon::GetInstance()->Loadtexture(7,"stage/ready.png");
-	SpriteCommon::GetInstance()->Loadtexture(8, "stage/stage1.png");
+	SpriteCommon::GetInstance()->Loadtexture(8,"stage/stage1.png");
+	SpriteCommon::GetInstance()->Loadtexture(9, "star.png");
 }
 
 void Framework::Update(){
