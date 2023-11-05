@@ -29,6 +29,8 @@ public:
 	void SetView(XMMATRIX matView_);
 	//射影行列セット
 	void SetProjection(XMMATRIX matProjection_);
+	//画角のセット
+	void SetFovAngle(float fovAngle_);
 
 	//ビュー行列を取得
 	const XMMATRIX& GetView();
@@ -42,6 +44,8 @@ public:
 	const XMFLOAT3& GetUp();
 	//ビュープロジェクション行列の取得
 	const XMMATRIX& GetViewProjection();
+	//画角の取得
+	const float& GetFovAngle();
 private:
 	// 視点座標
 	XMFLOAT3 eye;
@@ -57,5 +61,8 @@ private:
 	XMMATRIX matViewProjection;
 	//ビューポート行列
 	XMMATRIX matViewPort;
+	//画角
+	float fovAngle;
+	float oldFovAngle;
 };
 

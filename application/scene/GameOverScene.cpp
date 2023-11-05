@@ -7,6 +7,8 @@
 #include<SceneManager.h>
 #include<Vector3.h>
 void GameOverScene::Initialize() {
+	waitTime = 0;
+
 	//スプライト
 	overSprite = std::make_unique<Sprite>();
 	overSprite->Initialize(SpriteCommon::GetInstance(),3);

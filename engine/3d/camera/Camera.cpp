@@ -9,6 +9,8 @@ void	Camera::Initialeze() {
 	eye = { 10, 10, 10 };
 	target = { 0, 0, 0 };
 	up = { 0, 1, 0 };
+	fovAngle = 30.0f;
+	oldFovAngle = fovAngle;
 	UpdateView();
 	UpdateProjection();
 }
@@ -16,6 +18,10 @@ void	Camera::Initialeze() {
 void	Camera::Update() {
 	UpdateView();
 	UpdateViewProjection();
+	if ( oldFovAngle != fovAngle )
+	{
+		UpdateProjection();
+	}
 }
 
 void	Camera::UpdateView() {
@@ -28,8 +34,9 @@ void	Camera::UpdateView() {
 
 void	Camera::UpdateProjection() {
 	// 透視投影による射影行列の生成
+	
 	matProjection = DirectX::XMMatrixPerspectiveFovLH(
-		XMConvertToRadians(60.0f),
+		XMConvertToRadians(fovAngle),
 		(float)WinApp::width / WinApp::height,
 		0.1f, 1000.0f);
 }
