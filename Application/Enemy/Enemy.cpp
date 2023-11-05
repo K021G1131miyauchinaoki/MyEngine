@@ -13,7 +13,7 @@
 void Enemy::Initialeze(Model* model_,Player*player_) {
 	assert(model_);
 	assert(player_);
-	InitialezePos = { 0.0f,1.0f,10.0f };
+	InitialezePos = { 0.0f,radius,10.0f };
 
 	model = model_;
 	player = player_;
@@ -105,7 +105,7 @@ void Enemy::Move() {
 		obj->SetRotation(rot);
 		
 		//敵の速度
-		const float speed = 0.075f;
+		const float speed = 0.2f;
 		move += value * speed;
 		
 		#pragma endregion
@@ -123,18 +123,18 @@ void Enemy::Move() {
 		Vector3 pos = obj->GetPosition();
 		pos += move;
 		//移動範囲の制限
-		if (pos.x > Map::moveLimitW - Map::mapScaleW * 1.5) {
-			pos.x = Map::moveLimitW - Map::mapScaleW * 1.5f;
+		if (pos.x > Map::moveLimitW -radius) {
+			pos.x = Map::moveLimitW - radius;
 		}
-		else if (pos.x < -Map::moveLimitW - Map::mapScaleW / 2) {
-			pos.x = -Map::moveLimitW - Map::mapScaleW / 2.0f;
+		else if (pos.x < -Map::moveLimitW + radius ) {
+			pos.x = -Map::moveLimitW + radius;
 		}
 
-		if (pos.z > Map::moveLimitH - Map::mapScaleH * 1.5) {
-			pos.z = Map::moveLimitH - Map::mapScaleH * 1.5f;
+		if (pos.z > Map::moveLimitH - radius ) {
+			pos.z = Map::moveLimitH - radius;
 		}
-		else if (pos.z < -Map::moveLimitH - Map::mapScaleH / 2) {
-			pos.z = -Map::moveLimitH - Map::mapScaleH / 2.0f;
+		else if (pos.z < -Map::moveLimitH + radius ) {
+			pos.z = -Map::moveLimitH + radius;
 		}
 		obj->SetPosition(pos);
 	}
@@ -146,7 +146,7 @@ void Enemy::Shot() {
 	if (shotTimer < 0)
 	{*/
 		//弾の速度
-		const float kBulletSpeed = 1.0f;
+		const float kBulletSpeed = 1.5f;
 		velocity = { 0.0f,0.0f,0.0f };
 
 		Pos = obj->GetPosition();

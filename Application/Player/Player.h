@@ -128,7 +128,7 @@ private://メンバ変数
 	Vector2	mouseVec ;
 	Vector2	 mausePos;
 	//半径
-	float radius = 1.0f;
+	float radius = 5.0f;
 
 	const int16_t invincibleTime=11;
 	int16_t invincibleTimer;

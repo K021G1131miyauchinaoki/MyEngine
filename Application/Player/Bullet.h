@@ -65,6 +65,6 @@ private:
 	bool isDead = false;
 
 	//半径
-	const float r = 0.2f;
+	const float r = 1.0f;
 };
 

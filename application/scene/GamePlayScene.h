@@ -88,7 +88,6 @@ private:
 	std::unique_ptr<Input>input;
 	//カメラ
 	std::unique_ptr<Camera>camera;
-	float cameraY;
 	//スプライト
 	std::unique_ptr <Sprite>stage = nullptr;
 	std::unique_ptr <Sprite>ready = nullptr;

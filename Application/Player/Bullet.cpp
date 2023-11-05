@@ -28,7 +28,7 @@ void Bullet::Initialize(const Vector3& position_,const Vector3& veclocity_,const
 	obj->SetColor({ 0.0f,0.0f,0.0f,1.0f });
 	obj->Update();
 	deathTimer = kLifeTime;
-	const float speed = 0.3f;
+	const float speed = 1.0f;
 	velocity *= speed;
 }
 

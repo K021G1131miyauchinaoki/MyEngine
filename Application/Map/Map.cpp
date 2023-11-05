@@ -26,8 +26,8 @@ void Map::Initialize(bool isStaging_) {
 	//変数の初期化
 	nowMax = 0;
 	//スケール
-	scaleEnd += 2.0f;
-	scaleStart += 0.01f;
+	scaleEnd += 10.0f;
+	scaleStart += 0.1f;
 	endFrame = 100;
 	//位置
 	posStartY = -(scaleEnd.y ) + constStartY;
@@ -125,9 +125,9 @@ void Map::LoadCSV(const std::string& num_) {
 				scale = scaleEnd;
 				pos.y = posEndY;
 			}
-			pos.z = ( i * scaleEnd.z ) * 2.0f - ( scaleEnd.z * height-2 );
+			pos.z = ( i * scaleEnd.z ) * 2.0f - ( scaleEnd.z * (height-1 ));
 
-			pos.x = (j * scaleEnd.x) * 2.0f - (scaleEnd.x * width-2);
+			pos.x = (j * scaleEnd.x) * 2.0f - (scaleEnd.x * (width-1 ));
 			//オブジェクトにパラメータをセット
 			blocks[i][j].obj = std::make_unique<Object3d>();
 			blocks[i][j].obj->Initialize();

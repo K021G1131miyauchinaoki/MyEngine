@@ -123,7 +123,7 @@ private://メンバ変数
 	//乱数値格納
 	Vector3 value;
 	//デスフラグ
-	float radius = 1.0f;
+	float radius = 5.0f;
 
 	//仮
 	bool isInvincible = false;

@@ -8,6 +8,7 @@
 #include"WinApp.h"
 #include"Easing.h"
 #include<SceneManager.h>
+#include<Vector3.h>
 
 int8_t GamePlayScene::startCount = 0;
 bool GamePlayScene::isStart = true;
@@ -20,7 +21,6 @@ void GamePlayScene::Initialize() {
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
 	Object3d::SetCamera(camera.get());
-	cameraY = 20;
 
 	// モデル読み込み
 	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
@@ -81,11 +81,12 @@ void GamePlayScene::Initialize() {
 }
 
 void GamePlayScene::Update(){
+	const XMFLOAT3 cameraPos = { player->GetPos().x, 100, player->GetPos().z - 30.0f };
 	if ( !player->IsDead() && !enemy->IsDead() )
 	{
 		CheckAllCollision();
 		camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
-		camera->SetEye({ player->GetPos().x, cameraY, player->GetPos().z - 6.0f });
+		camera->SetEye(cameraPos);
 		camera->Update();
 		player->Update();
 		enemy->Update();

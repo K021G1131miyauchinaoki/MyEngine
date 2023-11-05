@@ -33,8 +33,6 @@ void EnemyBullet::Initialize(const Vector3& position_,const Vector3& veclocity_,
 
 	obj->SetColor({ 0.0f,0.0f,0.0f,1.0f });
 	obj->Update();
-	const float speed = 0.3f;
-	velocity *= speed;
 }
 
 void EnemyBullet::Update() {

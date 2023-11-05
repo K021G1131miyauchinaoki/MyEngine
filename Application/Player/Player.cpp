@@ -14,8 +14,8 @@
 #include"Player.h"
 
 void Player::ParameterCommonInitialeze() {
-	startPosY = 24.0f;
-	endPosY = 1.0f;
+	startPosY = 120.0f;
+	endPosY = radius;
 	//サイズ
 	tankScale = { radius,radius,radius };
 	isTitleStaging = false;
@@ -234,7 +234,7 @@ void Player::SpriteDraw() {
 void Player::Move() {
 	//移動
 	Vector3 move = { 0.0f,0.0f,0.0f };
-	float speed = 0.1f;
+	float speed = 0.5f;
 	float obliques = 1.414213562f;
 	//制限
 
@@ -289,7 +289,7 @@ void Player::Move() {
 
 	move += tankHad->GetPosition();
 	//移動範囲の制限
-	if (move.x >Map::moveLimitW- tankScale.x) {
+	if (move.x >Map::moveLimitW - tankScale.x ) {
 		move.x = Map::moveLimitW - tankScale.x;
 	}
 	else if (move.x < -Map::moveLimitW + tankScale.x ) {
@@ -299,8 +299,8 @@ void Player::Move() {
 	if (move.z > Map::moveLimitH - tankScale.z) {
 		move.z = Map::moveLimitH - tankScale.z;
 	}
-	else if (move.z < -Map::moveLimitH+ tankScale.z ) {
-		move.z = -Map::moveLimitH+ tankScale.z;
+	else if (move.z < -Map::moveLimitH + tankScale.z ) {
+		move.z = -Map::moveLimitH + tankScale.z;
 	}
 
 
@@ -313,7 +313,7 @@ void Player::Move() {
 void Player::Shot() {
 	
 	//弾の速度
-	const float kBulletSpeed = 1.0f;
+	const float kBulletSpeed = 1.5f;
 	velocity +=0.0f;
 	
 	velocity.x = std::cos(angle);
