@@ -55,7 +55,7 @@ float Easing::easeOutBounce(float x) {
 	}
 	else if ( x < 2.0f / d1 )
 	{
-		return n1 * ( x -= 1.0f / d1 ) * x + 0.75f;
+		return n1 * ( x -= 1.5f / d1 ) * x + 0.75f;
 	}
 	else if ( x < 2.5f / d1 )
 	{

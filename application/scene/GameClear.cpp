@@ -9,18 +9,25 @@
 void GameClear::Initialize() {
 	//変数
 	waitTime = 0;
-	startFovAngle=45.0f;
+	clearTime = 0.0f;
+	startFovAngle=10.0f;
 	endFovAngle=90.0f;
 	fovAngleTime = 0;
 	startRot=720;
 	endRot=0;
-	startSize = {0,0};
-	endSize = { 100,100 };
-	//スプライト
+	startScoreSize = {0,0};
+	endScoreSize = { 100,100 };
+	clearColor = { 1.0f,1.0f,1.0f,alphaMin };
+	//スプライトx
 	clearSprite = std::make_unique<Sprite>();
 	clearSprite->Initialize(SpriteCommon::GetInstance(), 2);
 	clearSprite->SetAnchorPoint({ 0.5f,0.5f });
 	clearSprite->SetPosition({ 640.0f,150.0f });
+	clearSprite->SetColor(clearColor);
+	startClearSize.x = clearSprite->GetTexSize().x*1.5f;
+	startClearSize.y = clearSprite->GetTexSize().y * 1.5f;
+	clearSprite->SetSize(startClearSize);
+	endClearSize=clearSprite->GetTexSize();
 	score.resize(SceneManager::playerHP);
 	for ( size_t i = 0; i < score.size(); i++ )
 	{
@@ -28,7 +35,7 @@ void GameClear::Initialize() {
 		score[ i ].sprite = std::make_unique<Sprite>();
 		score[ i ].sprite->Initialize(SpriteCommon::GetInstance(),9);
 		score[ i ].sprite->SetRotation(startRot);
-		score[ i ].sprite->SetSize(startSize);
+		score[ i ].sprite->SetSize(startScoreSize);
 		score[ i ].sprite->SetPosition({ 530.0f+(i*110.0f),280.0f });
 		score[ i ].sprite->SetAnchorPoint({ 0.5f,0.5f });
 		score[ i ].sprite->Update();
@@ -39,8 +46,9 @@ void GameClear::Initialize() {
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
-	camera->SetEye({ 10.0f, 4.0f,10.0f });
+	camera->SetEye({ 10.0f, 5.0f,10.0f });
 	camera->SetFovAngle(startFovAngle);
+	camera->SetTarget({ 0.0f,7.0f,0.0f });
 	Object3d::SetCamera(camera.get());
 
 	//ライト
@@ -83,7 +91,7 @@ void GameClear::Initialize() {
 	map->LoadCSV("title");
 
 	//ターゲットの設定
-	camera->SetTarget({ tankBody->GetPosition().x, tankBody->GetPosition().y, tankBody->GetPosition().z });
+	
 }
 
 void GameClear::Update() {
@@ -94,37 +102,51 @@ void GameClear::Update() {
 	tankHad->Update();
 	clearSprite->Update();
 
+	//スコア
 	for ( size_t i = 0; i < score.size(); i++ )
 	{
-		//タイマーが80％以下なら
 		const float percent = 0.8f;
 		if ( score[ i ].easeTime < easeTimer )
 		{
+			//一番最初の要素はタイムを動かす
 			if (i==0)
 			{
 				score[ i ].easeTime++;
 			}
+			//一個前のタイマーが80％以下なら
 			else if ( score[ i-1 ].easeTime>easeTimer*percent )
 			{
 				score[ i ].easeTime++;
 			}
 		}
+		//イージング
 		XMFLOAT2 size;
-		size.x = startSize.x + ( endSize.x - startSize.x ) * Easing::easeOutCubic(score[ i ].easeTime / easeTimer);
-		size.y = startSize.x + ( endSize.x - startSize.x ) * Easing::easeOutCubic(score[ i ].easeTime / easeTimer);
+		size.x = startScoreSize.x + ( endScoreSize.x - startScoreSize.x ) * Easing::easeOutCubic(score[ i ].easeTime / easeTimer);
+		size.y = startScoreSize.x + ( endScoreSize.x - startScoreSize.x ) * Easing::easeOutCubic(score[ i ].easeTime / easeTimer);
 		float rot= startRot + ( endRot - startRot ) * Easing::easeOutCubic(score[ i ].easeTime / easeTimer);
 		score[ i ].sprite->SetRotation(rot);
 		score[ i ].sprite->SetSize(size);
 		score[ i ].sprite->Update();
 	}
-	
+	//スコアの最後の要素のタイマーがeaseTimer以上なら
 	if ( score[ score.size() - 1 ].easeTime>= easeTimer && fovAngleTime< fovAngleTimer )
 	{
+		//画角をイージング
 		fovAngleTime++;
-		float fovAngle = startFovAngle + ( endFovAngle - startFovAngle ) * Easing::easeInCubic(fovAngleTime / fovAngleTimer);
+		float fovAngle = startFovAngle + ( endFovAngle - startFovAngle ) * Easing::easeOutCubic(fovAngleTime / fovAngleTimer);
 		camera->SetFovAngle(fovAngle);
 	}
-
+	if ( fovAngleTime >= fovAngleTimer && clearTime < clearTimer )
+	{
+		clearTime++;
+		float alpha = alphaMin + ( alphaMax - alphaMin ) * Easing::easeOutCubic(clearTime / clearTimer);
+		clearColor.w = alpha;
+		XMFLOAT2 size;
+		size.x = startClearSize.x + ( endClearSize.x - startClearSize.x ) * Easing::easeOutBounce(clearTime / clearTimer);
+		size.y = startClearSize.y + ( endClearSize.y - startClearSize.y ) * Easing::easeOutBounce(clearTime / clearTimer);
+		clearSprite->SetColor(clearColor);
+		clearSprite->SetSize(size);
+	}
 	if ( waitTime <= waitTimer )
 	{
 		waitTime++;

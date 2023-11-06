@@ -49,9 +49,6 @@ void Player::TitleInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Input* i
 
 	//位置
 	tankPos = { 0.0f,endPosY,0.0f };
-	parachutePosY = 0.0f;
-	parachutePos = tankPos;
-	parachutePos.y += parachutePosY;
 	
 	//モデル
 	ModelCommonInitialeze(tankHadModel_,tankBodyModel_);
@@ -204,7 +201,7 @@ void Player::ObjDraw() {
 	//パラシュート
 	if ( parachute!=nullptr )
 	{
-		//parachute->Draw();
+		parachute->Draw();
 	}
 
 	//プレイヤー

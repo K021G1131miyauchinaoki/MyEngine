@@ -53,19 +53,18 @@ private:
 		std::unique_ptr<Sprite> sprite;
 		float easeTime;
 	};
-	const float easeTimer = 30;
-	float startRot;
-	float endRot;
-	XMFLOAT2 startSize;
-	XMFLOAT2 endSize;
+
+	XMFLOAT4 clearColor;
+	XMFLOAT2 startClearSize;
+	XMFLOAT2 endClearSize;
+	XMFLOAT2 startScoreSize;
+	XMFLOAT2 endScoreSize;
+	
 	//スプライト
 	std::unique_ptr<Sprite> clearSprite;
 	std::vector<Score>score;
 	
 	std::unique_ptr <Input>input;
-	//次シーンまでのタイマー
-	int waitTime;
-	const int waitTimer = 20;
 	std::unique_ptr <Light>light;
 	//操作
 	//カメラ初期化
@@ -89,4 +88,16 @@ private:
 	float endFovAngle;
 	float fovAngleTime;
 	const float fovAngleTimer=30;
+	//クリアスプライト
+	float clearTime;
+	const float clearTimer = 30;
+	const float alphaMax = 1.0f;
+	const float alphaMin = 0.0f;
+	//スコア
+	const float easeTimer = 30;
+	float startRot;
+	float endRot;
+	//次シーンまでのタイマー
+	int waitTime;
+	const int waitTimer = 20;
 };
