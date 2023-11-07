@@ -59,5 +59,11 @@ namespace MyMath
 	/// <param name="b">目標の角度</param>
 	/// <param name="t">タイム</param>
 	float LerpShortAngle(float a, float b, float t);
+
+	/// <summary>
+	/// 角度補正
+	/// </summary>
+	/// <param name="a">角度</param>
+	float AngleCorrection(float a);
 };
 

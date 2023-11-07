@@ -133,7 +133,7 @@ private://メンバ変数
 	//位置
 	Vector3 InitialezePos;
 	Vector3 playerPos;
-	Vector3 Pos;
+	Vector3 pos;
 	//距離
 	Vector3 len;
 	//hp

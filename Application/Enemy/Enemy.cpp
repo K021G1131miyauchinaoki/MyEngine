@@ -84,22 +84,50 @@ void Enemy::Move() {
 
 	if (!isMove)
 	{
+		pos = obj->GetPosition();
+		playerPos = player->GetPos();
+
+		//値を正規化
+		len = playerPos - pos;
+		len = MyMath::normaleizeVec3(len);
 		#pragma region 乱数
 		//乱数シード生成器
 		std::random_device seed_gen;
 		//メルセンヌ・ツイスターの乱数エンジン
 		std::mt19937_64 engine(seed_gen());
 		//乱数　（回転）
-		std::uniform_real_distribution<float> rotDist(-0.5f,0.5f);
-		//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
-		value = { rotDist(engine),0.0f,rotDist(engine) };
-		//値を正規化
-		value = MyMath::normaleizeVec3(value);
-		
-		angle[0] = -(atan2(value.z, value.x));
+		std::uniform_real_distribution<float> rotDist(-1.0f,1.0f);
 		Vector3 rot = { 0.0f,0.0f,0.0f };
-		//度数に変換
-		angle[0] = MyMath::DegreeTransform(angle[0]) ;
+		float criteriaRot = MyMath::DegreeTransform(-( atan2(len.z,len.x) ));
+		float shift = 30.0f;
+		while (true)
+		{
+			//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
+			value = { rotDist(engine),0.0f,rotDist(engine) };
+			//値を正規化
+			value = MyMath::normaleizeVec3(value);
+
+			angle[ 0 ] = -( atan2(value.z,value.x) );
+			//度数に変換
+			angle[ 0 ] = MyMath::DegreeTransform(angle[ 0 ]);
+			float max = criteriaRot + shift;
+			float min = criteriaRot - shift;
+			if ( angle[ 0 ]<=max && angle[ 0 ] >= min )
+			{
+				break;
+			}
+
+			float corMax = MyMath::AngleCorrection(min);
+			float corMin = MyMath::AngleCorrection(max);
+			if ( corMax > corMin )
+			{
+				if ( angle[ 0 ] >= corMax && angle[ 0 ] <= corMin )
+				{
+					break;
+				}
+			}
+		}
+
 		rot.y = angle[0];
 
 		obj->SetRotation(rot);
@@ -120,7 +148,7 @@ void Enemy::Move() {
 	else
 	{
 		moveTime--;
-		Vector3 pos = obj->GetPosition();
+		pos = obj->GetPosition();
 		pos += move;
 		//移動範囲の制限
 		if (pos.x > Map::moveLimitW -radius) {
@@ -149,10 +177,10 @@ void Enemy::Shot() {
 		const float kBulletSpeed = 1.5f;
 		velocity = { 0.0f,0.0f,0.0f };
 
-		Pos = obj->GetPosition();
+		pos = obj->GetPosition();
 		playerPos = player->GetPos();
 
-		len= playerPos - Pos;
+		len= playerPos - pos;
 		velocity = MyMath::normaleizeVec3(len);
 		// 正規化
 		vector = MyMath::normaleizeVec3(len);
@@ -187,10 +215,10 @@ void Enemy::Rotate() {
 
 void Enemy::Wait() {
 	waitTime++;
-	Pos = obj->GetPosition();
+	pos = obj->GetPosition();
 	playerPos = player->GetPos();
 
-	len = playerPos - Pos;
+	len = playerPos - pos;
 	// 正規化
 	vector = MyMath::normaleizeVec3(len);
 	//角度を算出

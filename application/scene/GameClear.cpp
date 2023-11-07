@@ -161,7 +161,7 @@ void GameClear::Update() {
 	//キーを押したら
 	if ( input->TriggerKey(DIK_RETURN)
 		|| input->TriggerReleaseKey(DIK_SPACE)
-		//|| input->TriggerReleaseClick(Botton::LEFT)
+		|| input->TriggerReleaseClick(Botton::LEFT)
 		&& !SceneTransition::GetInstance()->GetIsFadeOut()
 		&& !SceneTransition::GetInstance()->GetIsFadeIn() )
 	{

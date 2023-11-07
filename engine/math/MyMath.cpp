@@ -63,5 +63,19 @@ namespace MyMath
 
 		return total;
 	}
+	float AngleCorrection(float a) {
+		a = static_cast< float >( std::fmod(a,360) );
+		// 2πまたはπに補正
+		if ( a > 180 )
+		{
+			a -= 360;
+		}
+		else if ( a < -180 )
+		{
+			a += 360;
+		}
+
+		return a;
+	}
 
 }
