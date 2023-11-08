@@ -92,7 +92,7 @@ void Enemy::Move() {
 		len = playerPos - pos;
 		//長さを算出
 		float lenght = MyMath::Length(len);
-		float shift = 90.0f;
+		float shift = 60.0f;
 		Vector3 rot = { 0.0f,0.0f,0.0f };
 		lenght = 0.0f;
 		#pragma region 乱数

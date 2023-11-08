@@ -22,6 +22,13 @@ void GamePlayScene::Initialize() {
 	camera->Initialeze();
 	Object3d::SetCamera(camera.get());
 
+	//ライト
+	light.reset(Light::Create());
+	light->SetLightColor({ 1.0f,1.0f,1.0f });
+	light->SetLightDir(lightDir);
+	light->Updata();
+	Object3d::SetLight(light.get());
+
 	// モデル読み込み
 	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
 	cube.reset(Model::LoadFromOBJ("cube"));

@@ -88,6 +88,9 @@ private:
 	std::unique_ptr<Input>input;
 	//カメラ
 	std::unique_ptr<Camera>camera;
+	//ライト
+	std::unique_ptr <Light>light;
+	XMVECTOR lightDir = { 0.73f,-30.0f,-0.21f,0.0f };
 	//スプライト
 	std::unique_ptr <Sprite>stage = nullptr;
 	std::unique_ptr <Sprite>ready = nullptr;

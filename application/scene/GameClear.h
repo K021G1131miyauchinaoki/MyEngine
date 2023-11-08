@@ -64,9 +64,11 @@ private:
 	std::unique_ptr<Sprite> clearSprite;
 	std::vector<Score>score;
 	
-	std::unique_ptr <Input>input;
-	std::unique_ptr <Light>light;
 	//操作
+	std::unique_ptr <Input>input;
+	//ライト
+	std::unique_ptr <Light>light;
+	XMVECTOR lightDir = { -250.0f,-350.0f,20.0f,0.0f };
 	//カメラ初期化
 	std::unique_ptr<Camera>camera;
 	//objモデル
@@ -80,8 +82,6 @@ private:
 	std::unique_ptr <Object3d> tankHad = nullptr;
 
 	std::unique_ptr<Map>map;
-	//ライト
-	XMVECTOR lightDir = { -250.0f,-350.0f,20.0f,0.0f };
 
 	//画角
 	float startFovAngle;

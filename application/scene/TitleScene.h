@@ -81,6 +81,7 @@ public://メンバ関数
 private:
 	//ライト
 	std::unique_ptr <Light>light;
+	XMVECTOR lightDir = { 0.73f,-30.0f,-0.21f,0.0f };
 	//操作
 	std::unique_ptr <Input>input;
 	//カメラ初期化
@@ -119,7 +120,5 @@ private:
 	int waitTime;
 	const int waitTimer = 20;
 
-	//ライト
-	XMVECTOR lightDir = { 0.73f,-30.0f,-0.21f,0.0f };
 };
 
