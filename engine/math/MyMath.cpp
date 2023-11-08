@@ -46,7 +46,7 @@ namespace MyMath
 		return vec;
 	}
 
-	float length(Vector3 vec) { return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z); }
+	float Length(Vector3 vec) { return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z); }
 
 	float LerpShortAngle(float a, float b, float t) {
 		float diff = b - a;

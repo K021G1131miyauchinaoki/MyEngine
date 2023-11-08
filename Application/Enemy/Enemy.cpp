@@ -9,11 +9,12 @@
 #include<Map.h>
 #include<MyMath.h>
 #include"GamePlayScene.h"
+#include<cmath>
 
 void Enemy::Initialeze(Model* model_,Player*player_) {
 	assert(model_);
 	assert(player_);
-	InitialezePos = { 0.0f,radius,10.0f };
+	InitialezePos = { 50.0f,radius,0.0f };
 
 	model = model_;
 	player = player_;
@@ -59,18 +60,19 @@ void Enemy::Update() {
 	{
 		bullet->Update();
 	}
-}
-
-void Enemy::Draw() {
-	if (isInvincible)
+	if ( isInvincible )
 	{
 		invincibleTime--;
 	}
-	if (invincibleTime < 0)
+	if ( invincibleTime < 0 )
 	{
 		invincibleTime = invincibleTimer;
 		isInvincible = false;
 	}
+}
+
+void Enemy::Draw() {
+	
 	if (invincibleTime % 2 == 1)
 	{
 		obj->Draw();
@@ -87,47 +89,32 @@ void Enemy::Move() {
 		pos = obj->GetPosition();
 		playerPos = player->GetPos();
 
-		//値を正規化
 		len = playerPos - pos;
-		len = MyMath::normaleizeVec3(len);
+		//長さを算出
+		float lenght = MyMath::Length(len);
+		float shift = 90.0f;
+		Vector3 rot = { 0.0f,0.0f,0.0f };
+		lenght = 0.0f;
 		#pragma region 乱数
 		//乱数シード生成器
 		std::random_device seed_gen;
 		//メルセンヌ・ツイスターの乱数エンジン
 		std::mt19937_64 engine(seed_gen());
 		//乱数　（回転）
-		std::uniform_real_distribution<float> rotDist(-1.0f,1.0f);
-		Vector3 rot = { 0.0f,0.0f,0.0f };
-		float criteriaRot = MyMath::DegreeTransform(-( atan2(len.z,len.x) ));
-		float shift = 30.0f;
-		while (true)
-		{
-			//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
-			value = { rotDist(engine),0.0f,rotDist(engine) };
-			//値を正規化
-			value = MyMath::normaleizeVec3(value);
+		std::uniform_real_distribution<float> rotDist(-shift,shift);
+		//値を正規化
+		len = MyMath::normaleizeVec3(len);
+		float criteriaRot = MyMath::DegreeTransform(( atan2(len.z,len.x) ));
+		
+		angle[ 0 ] = rotDist(engine)+ criteriaRot;
+		angle[ 0 ] = MyMath::RadianTransform(angle[ 0 ]);
+		//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
+		value = { std::cos(angle[ 0 ]),0.0f,std::sin(angle[ 0 ]) };
+		//値を正規化
+		value = MyMath::normaleizeVec3(value);
 
-			angle[ 0 ] = -( atan2(value.z,value.x) );
-			//度数に変換
-			angle[ 0 ] = MyMath::DegreeTransform(angle[ 0 ]);
-			float max = criteriaRot + shift;
-			float min = criteriaRot - shift;
-			if ( angle[ 0 ]<=max && angle[ 0 ] >= min )
-			{
-				break;
-			}
-
-			float corMax = MyMath::AngleCorrection(min);
-			float corMin = MyMath::AngleCorrection(max);
-			if ( corMax > corMin )
-			{
-				if ( angle[ 0 ] >= corMax && angle[ 0 ] <= corMin )
-				{
-					break;
-				}
-			}
-		}
-
+		angle[ 0 ] = -MyMath::DegreeTransform(angle[ 0 ]);//角度の算出
+		angle[ 0 ] = MyMath::AngleCorrection(angle[ 0 ]);//角度の補正
 		rot.y = angle[0];
 
 		obj->SetRotation(rot);

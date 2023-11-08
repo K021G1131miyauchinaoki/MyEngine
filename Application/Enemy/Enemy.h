@@ -11,6 +11,7 @@
 #include<Vector3.h>
 #include<Player.h>
 #include<BaseHp.h>
+#include<array>
 
 //自機クラスの前方前言
 class Player;
@@ -21,6 +22,12 @@ enum class Phase {
 	wait,//待機
 	move, //移動する
 	atack,    //攻撃する
+};
+enum class MovePhase
+{
+	approach,//近づく
+	leave,//離れる
+	rotate,//回転する
 };
 
 class Enemy
@@ -108,6 +115,7 @@ private://メンバ変数
 	bool isWait = false;
 	//待機時間
 	float waitTime;
+	//std::array<float>
 	float waitTimerr[2] = { 5,60 };
 	//自キャラ
 	Player* player = nullptr;
@@ -120,6 +128,7 @@ private://メンバ変数
 	Vector3 move;
 	//フェーズ
 	Phase phase = Phase::move;
+	MovePhase movePhase = MovePhase::approach;
 	//乱数値格納
 	Vector3 value;
 	//デスフラグ

@@ -45,7 +45,7 @@ namespace MyMath
 	/// 距離を算出
 	/// </summary>
 	/// <param name="vec">ベクトル</param>
-	float length(Vector3	vec);
+	float Length(Vector3	vec);
 
 	/// <summary>
 	/// 円周率

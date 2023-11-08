@@ -149,7 +149,7 @@ void GamePlayScene::CheckAllCollision() {
 			posB = e_bullet->GetPos();
 			//A,Bの距離
 			Vector3 vecPos = MyMath::lens(posA, posB);
-			float dis = MyMath::length(vecPos);
+			float dis = MyMath::Length(vecPos);
 			//
 			float	radius = player->GetRadius() + e_bullet->GetRadius();
 			//判定
@@ -172,7 +172,7 @@ void GamePlayScene::CheckAllCollision() {
 			posB = p_bullet->GetPos();
 			// A,Bの距離
 			Vector3 vecPos = MyMath::lens(posA, posB);
-			float dis = MyMath::length(vecPos);
+			float dis = MyMath::Length(vecPos);
 			//
 			float radius = enemy->GetRadius() + p_bullet->GetRadius();
 			//判定
@@ -198,7 +198,7 @@ void GamePlayScene::CheckAllCollision() {
 				posB = e_bullet->GetPos();
 				// A,Bの距離
 				Vector3 vecPos = MyMath::lens(posA, posB);
-				float dis = MyMath::length(vecPos);
+				float dis = MyMath::Length(vecPos);
 				//
 				float radius = e_bullet->GetRadius() + p_bullet->GetRadius();
 				//判定
