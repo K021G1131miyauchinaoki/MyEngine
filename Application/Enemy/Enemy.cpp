@@ -94,17 +94,25 @@ void Enemy::Move() {
 		float lenght = MyMath::Length(len);
 		float shift = 60.0f;
 		Vector3 rot = { 0.0f,0.0f,0.0f };
-		lenght = 0.0f;
 		#pragma region 乱数
 		//乱数シード生成器
 		std::random_device seed_gen;
 		//メルセンヌ・ツイスターの乱数エンジン
 		std::mt19937_64 engine(seed_gen());
 		//乱数　（回転）
-		std::uniform_real_distribution<float> rotDist(-shift,shift);
 		//値を正規化
 		len = MyMath::normaleizeVec3(len);
 		float criteriaRot = MyMath::DegreeTransform(( atan2(len.z,len.x) ));
+		if ( lenght>100.0f )
+		{
+			criteriaRot = 0.0f;
+			shift = 0.0f;
+		}
+		else if ( lenght<20.0f )
+		{
+			criteriaRot = -MyMath::DegreeTransform(( atan2(len.z,len.x) ));
+		}
+		std::uniform_real_distribution<float> rotDist(-shift,shift);
 		
 		angle[ 0 ] = rotDist(engine)+ criteriaRot;
 		angle[ 0 ] = MyMath::RadianTransform(angle[ 0 ]);
@@ -157,43 +165,39 @@ void Enemy::Move() {
 }
 
 void Enemy::Shot() {
-	/*shotTimer--;
-	if (shotTimer < 0)
-	{*/
-		//弾の速度
-		const float kBulletSpeed = 1.5f;
-		velocity = { 0.0f,0.0f,0.0f };
+	
+	//弾の速度
+	const float kBulletSpeed = 1.5f;
+	velocity = { 0.0f,0.0f,0.0f };
 
-		pos = obj->GetPosition();
-		playerPos = player->GetPos();
+	pos = obj->GetPosition();
+	playerPos = player->GetPos();
 
-		len= playerPos - pos;
-		velocity = MyMath::normaleizeVec3(len);
-		// 正規化
-		vector = MyMath::normaleizeVec3(len);
-		//角度を算出
-		angle[1] = -atan2(vector.z, vector.x);
-		vector.x = 0.0f;
-		vector.z = 0.0f;
-		vector.y=MyMath::DegreeTransform(angle[1]);
-		velocity *= kBulletSpeed;
+	len= playerPos - pos;
+	velocity = MyMath::normaleizeVec3(len);
+	// 正規化
+	vector = MyMath::normaleizeVec3(len);
+	//角度を算出
+	angle[1] = -atan2(vector.z, vector.x);
+	vector.x = 0.0f;
+	vector.z = 0.0f;
+	vector.y=MyMath::DegreeTransform(angle[1]);
+	velocity *= kBulletSpeed;
 
-		//角度を格納
-		obj->SetRotation(vector);
-		//速度ベクトルを自機の向きに合わせて回転させる
-		//ImgM = Vec_rot(ImgM, worldTransform_.matWorld_);
-		//弾を生成し、初期化
-		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-		newBullet->Initialize(obj->GetPosition(), velocity, obj->GetRotation());
+	//角度を格納
+	obj->SetRotation(vector);
+	//速度ベクトルを自機の向きに合わせて回転させる
+	//ImgM = Vec_rot(ImgM, worldTransform_.matWorld_);
+	//弾を生成し、初期化
+	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+	newBullet->Initialize(obj->GetPosition(), velocity, obj->GetRotation());
 
-		//弾を登録する
-		bullets.push_back(std::move(newBullet));
+	//弾を登録する
+	bullets.push_back(std::move(newBullet));
 
-		//フェーズの切り替え
-		phase = Phase::wait;
-		shotTimer = shotTime;
-	//}
-
+	//フェーズの切り替え
+	phase = Phase::wait;
+	shotTimer = shotTime;
 }
 
 void Enemy::Rotate() {
@@ -214,18 +218,18 @@ void Enemy::Wait() {
 	if (!isWait)
 	{
  		Vector3 rot = obj->GetRotation();
-		float t = waitTime / waitTimerr[0];
+		float t = waitTime / waitTimer[ before ];
 		rot.y = MyMath::LerpShortAngle(rot.y, angle[1], t);
 		obj->SetRotation(rot);
 	}
 
-	if (waitTime > waitTimerr[0] && !isWait)
+	if (waitTime > waitTimer[ before ] && !isWait)
 	{
 		isWait = true;
 		waitTime = 0.0f;
 		phase = Phase::atack;
 	}
-	else if(waitTime > waitTimerr[1] && isWait)
+	else if(waitTime > waitTimer[after] && isWait)
 	{
 		isWait = false;
 		waitTime = 0.0f;

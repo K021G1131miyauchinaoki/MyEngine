@@ -29,6 +29,11 @@ enum class MovePhase
 	leave,//離れる
 	rotate,//回転する
 };
+enum
+{
+	before,//前
+	after,//後ろ
+};
 
 class Enemy
 {
@@ -116,7 +121,7 @@ private://メンバ変数
 	//待機時間
 	float waitTime;
 	//std::array<float>
-	float waitTimerr[2] = { 5,60 };
+	float waitTimer[2] = { 5,60 };
 	//自キャラ
 	Player* player = nullptr;
 	//角度
