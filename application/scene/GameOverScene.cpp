@@ -50,7 +50,7 @@ void GameOverScene::Initialize() {
 	objSkydome->Initialize();
 	objSkydome->SetModel(modelSkydome.get());
 	objSkydome->SetScale({ 150.0f,150.0f,150.0f });
-
+	//タンク
 	tankBody = std::make_unique<Object3d>();
 	tankBody->Initialize();
 	tankBody->SetModel(body.get());
