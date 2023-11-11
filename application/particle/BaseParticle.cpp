@@ -2,6 +2,7 @@
  * @file BaseParticle.cpp
  * @brief 継承用パーティクルの基盤
  */
+
 #include "BaseParticle.h"
 #include<cassert>
 

@@ -2,10 +2,12 @@
  * @file GameOverScene.cpp
  * @brief ベースシーンを継承したゲームオーバーシーン
  */
+
 #include "GameOverScene.h"
 #include"SceneTransition.h"
 #include<SceneManager.h>
 #include<Vector3.h>
+
 void GameOverScene::Initialize() {
 	waitTime = 0;
 

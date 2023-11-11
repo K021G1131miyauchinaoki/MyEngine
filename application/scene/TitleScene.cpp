@@ -76,14 +76,13 @@ void TitleScene::Initialize() {
 void TitleScene::Update() {
 
 	
-	if ( input->PushKey(DIK_W) )lightDir.m128_f32[ 1 ] += 1.0f;
+	/*if ( input->PushKey(DIK_W) )lightDir.m128_f32[ 1 ] += 1.0f;
 	if ( input->PushKey(DIK_S) )lightDir.m128_f32[ 1 ] -= 1.0f;
 	if ( input->PushKey(DIK_D) )lightDir.m128_f32[ 0 ] += 1.0f;
 	if ( input->PushKey(DIK_A) )lightDir.m128_f32[ 0 ]-= 1.0f;
 	if ( input->PushKey(DIK_Q) )lightDir.m128_f32[ 2 ] += 1.0f;
 	if ( input->PushKey(DIK_E) )lightDir.m128_f32[ 2 ] -= 1.0f;
 
-	light->SetLightDir(lightDir);
 	float a[4];
 	a[ 0 ] = lightDir.m128_f32[ 0 ];
 	a[ 1 ] = lightDir.m128_f32[ 1 ];
@@ -91,8 +90,9 @@ void TitleScene::Update() {
 	a[ 3 ] = lightDir.m128_f32[ 3 ];
 	ImGui::Begin("lo");
 	ImGui::SliderFloat4("lightDir",a, -100.0f,100.0f);
-	ImGui::End();
+	ImGui::End();*/
 	
+	light->SetLightDir(lightDir);
 	//カメラ位置
 	//乱数シード生成器
 	std::random_device seed_gen;
