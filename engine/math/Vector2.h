@@ -33,6 +33,7 @@ public:
 	Vector2& operator*=(float	s);
 	Vector2& operator/=(float	s);
 };
+
 //2項演算子オーバーロード
 //※色んな引数(引数の型と順序)のパターンに対応するため、以下のように準備している
 const	Vector2	operator+(const	Vector2& v1, const	Vector2& v2);

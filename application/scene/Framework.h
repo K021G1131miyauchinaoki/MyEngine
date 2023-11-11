@@ -2,6 +2,7 @@
  * @file Framework.h
  * @brief シーン用フレームワーク
  */
+
 #pragma once
 #include<Input.h>
 #include<WinApp.h>

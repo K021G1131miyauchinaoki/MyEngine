@@ -3,11 +3,9 @@
  * @brief　FBXのモデル操作
  */
 #pragma once
-
 #include"FbxModel.h"
 #include"FbxLoader.h"
 #include"Camera.h"
-
 #include<Windows.h>
 #include<wrl.h>
 #include<d3dx12.h>

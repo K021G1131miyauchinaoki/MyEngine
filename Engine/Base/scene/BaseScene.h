@@ -2,6 +2,7 @@
  * @file BaseScene.h
  * @brief シーン基盤
  */
+
 #pragma once
 #include<memory>
 

@@ -2,6 +2,7 @@
  * @file TitleScene.h
  * @brief ベースシーンを継承したタイトルシーン
  */
+
 #pragma once
 #include<Input.h>
 #include<DirectXCommon.h>

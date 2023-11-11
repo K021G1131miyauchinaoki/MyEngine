@@ -18,9 +18,6 @@
 
 class Player
 {
-public://静的メンバ関数
-	//Player GetInstnce();
-
 public://メンバ関数
 	/// <summary>
 	/// タイトル初期化

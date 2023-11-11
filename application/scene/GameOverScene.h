@@ -2,6 +2,7 @@
  * @file GameOverScene.h
  * @brief ベースシーンを継承したゲームオーバーシーン
  */
+
 #pragma once
 #include<Input.h>
 #include<DirectXCommon.h>

@@ -2,6 +2,7 @@
  * @file Easing.cpp
  * @brief イージング処理
  */
+
 #include "Easing.h"
 #include<MyMath.h>
 #include<cmath>

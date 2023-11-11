@@ -29,6 +29,7 @@ public:
 	Vector3& operator*=(float s);
 	Vector3& operator/=(float s);
 };
+
 //2項演算子オーバーロード
 //※色んな引数(引数の型と順序)のパターンに対応するため、以下のように準備している
 const	Vector3	operator+(const	Vector3& v1, const	Vector3& v2);

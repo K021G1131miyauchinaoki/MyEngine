@@ -2,6 +2,7 @@
  * @file SceneManager.cpp
  * @brief シーンマネージャー
  */
+
 #include "SceneManager.h"
 #include"SceneTransition.h"
 #include<cassert>

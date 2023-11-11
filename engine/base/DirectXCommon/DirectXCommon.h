@@ -2,6 +2,7 @@
  * @file DirectXCommon.h
  * @brief　DirectXの基盤
  */
+
 #pragma warning( push )
 #pragma warning( disable : 4324 )
 #pragma warning (disable:5204)

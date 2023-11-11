@@ -2,6 +2,7 @@
  * @file Easing.h
  * @brief イージング処理
  */
+
 #pragma once
 namespace Easing
 {

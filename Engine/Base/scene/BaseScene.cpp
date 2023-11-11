@@ -2,6 +2,7 @@
  * @file BaseScene.cpp
  * @brief シーン基盤
  */
+
 #include "BaseScene.h"
 
 void BaseScene::Initialize(){}

@@ -2,6 +2,7 @@
  * @file GamePlayScene.h
  * @brief ベースシーンを継承したプレイシーン
  */
+
 #pragma once
 #include<Input.h>
 #include<DirectXCommon.h>

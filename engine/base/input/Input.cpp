@@ -2,6 +2,7 @@
  * @file Input.cpp
  * @brief　入力装置の操作
  */
+
 #include "Input.h"
 
 Input* Input::GetInstance() {

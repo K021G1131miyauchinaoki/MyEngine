@@ -2,10 +2,12 @@
  * @file GameClear.cpp
  * @brief ベースシーンを継承したゲームクリアシーン
  */
+
 #include "GameClear.h"
 #include<SceneManager.h>
 #include"SceneTransition.h"
 #include<Easing.h>
+
 void GameClear::Initialize() {
 	//変数
 	waitTime = 0;

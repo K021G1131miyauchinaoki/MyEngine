@@ -2,6 +2,7 @@
  * @file Input.h
  * @brief　入力装置の操作
  */
+
 #define	DIRECTINPUT_VERSION	0x0800 //DirectInputのバージョン指定
 #pragma warning(push)
 #pragma warning(disable:4820)

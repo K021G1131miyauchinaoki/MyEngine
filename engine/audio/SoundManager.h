@@ -2,6 +2,7 @@
  * @file SoundManager.h
  * @brief　waveファイル操作
  */
+
 #pragma once
 #include <wrl.h>
 #include <DirectXMath.h>
@@ -11,7 +12,6 @@
 #include<map>
 #include<xaudio2.h>
 #include<cstdint>
-
 
 class SoundManager
 {

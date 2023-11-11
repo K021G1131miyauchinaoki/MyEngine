@@ -2,6 +2,7 @@
  * @file SceneFactory.h
  * @brief シーン工場(概念)を継承したシーン工場
  */
+
 #pragma once
 #include<AbstractSceneFactory.h>
 class SceneFactory:public AbstractSceneFactory

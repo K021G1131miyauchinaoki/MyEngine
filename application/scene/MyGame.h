@@ -2,6 +2,7 @@
  * @file GameClear.h
  * @brief フレームワークを継承したゲームシーン
  */
+
 #pragma once
 #include<vector>
 #include"Framework.h"

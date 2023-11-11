@@ -20,6 +20,7 @@ struct Matrix4
 	};
 };
 
+
 //単位行列
 Matrix4	MatIdentity();
 

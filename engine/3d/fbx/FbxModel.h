@@ -17,7 +17,6 @@
 #include<fbxsdk.h>
 #pragma warning( pop)
 
-
 struct Node
 {
 	//----------------------自作クラスに置き換えたい	

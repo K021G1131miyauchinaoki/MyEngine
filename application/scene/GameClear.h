@@ -2,6 +2,7 @@
  * @file GameClear.h
  * @brief ベースシーンを継承したゲームクリアシーン
  */
+
 #pragma once
 #include<Input.h>
 #include<DirectXCommon.h>

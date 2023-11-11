@@ -1,3 +1,8 @@
+/**
+ * @file MyMath.cpp
+ * @brief 計算式を保持
+ */
+
 #include "MyMath.h"
 #include<cmath>	
 #define PI (3.14f)

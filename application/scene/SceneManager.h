@@ -2,6 +2,7 @@
  * @file SceneManager.h
  * @brief シーンマネージャー
  */
+
 #pragma once
 #include<BaseScene.h>
 #include<memory>
