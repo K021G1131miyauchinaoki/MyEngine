@@ -132,7 +132,7 @@ public: // メンバ関数
 	void SetPosition(const Vector3& position_);
 	
 	/// <summary>
-	/// 座標の取得
+	/// 回転の取得
 	/// </summary>
 	/// <returns>座標</returns>
 	const Vector3& GetRotation() const;

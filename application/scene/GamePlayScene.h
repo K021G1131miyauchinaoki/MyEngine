@@ -17,6 +17,8 @@
 #include<Map.h>
 #include<BaseScene.h>
 #include<ParticleManager.h>
+#include<LevelLoader.h>
+#include<list>
 
 class GamePlayScene:public BaseScene
 {
@@ -110,8 +112,13 @@ private:
 	//FbxModel* fbxM = nullptr;
 	//FbxObject3d* fbxObj = nullptr;
 	std::unique_ptr<Player> player;
-	std::unique_ptr<Enemy>enemy;
+	std::list< std::unique_ptr<Enemy>>enemys;
 	std::unique_ptr<Map>map;
+
+	//外部ファイルの読み込み
+	std::unique_ptr< LevelData>jsonLoader;
+	std::map<std::string, Model*> models;
+	std::vector<Object3d*> objects;
 
 	std::unique_ptr<ImguiManager> ImgM;
 

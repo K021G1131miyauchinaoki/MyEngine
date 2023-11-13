@@ -18,6 +18,7 @@ void GamePlayScene::Initialize() {
 	input.reset(Input::GetInstance());
 	/*変数*/
 	mapStratY = -400;
+	
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
@@ -38,6 +39,34 @@ void GamePlayScene::Initialize() {
 	body.reset(Model::LoadFromOBJ("TankBody"));
 	modelMap.reset(Model::LoadFromOBJ("map"));
 	parachute.reset(Model::LoadFromOBJ("parachute"));
+	//プレイヤー
+	player = std::make_unique<Player>();
+	player->PlayInitialeze(had.get(),body.get(),parachute.get(),input.get());
+	//json読み込み
+	jsonLoader = std::make_unique<LevelData>();
+	jsonLoader.reset(LevelLoader::LoadJson("1"));
+	models.insert(std::make_pair("enemy",tank.get()));
+
+	// レベルデータからオブジェクトを生成、配置
+	for ( auto& objectData : jsonLoader->objects )
+	{
+		// ファイル名から登録済みモデルを検索
+		Model* model = nullptr;
+		decltype( models )::iterator it = models.find(objectData.fileName);
+		if ( it != models.end() )
+		{
+			model = it->second;
+		}
+
+		//エネミー
+		if ( objectData.fileName=="enemy" )
+		{
+			Enemy* newEnemy = new Enemy();
+			newEnemy->Initialeze(tank.get(),player.get(),objectData.translation,objectData.rotation);
+			enemys.emplace_back(std::move(newEnemy));
+
+		}
+	}
 	//モデルのセット
 	EnemyBullet::StaticInitialize(cube.get());
 	Bullet::StaticInitialize(cube.get());
@@ -51,12 +80,6 @@ void GamePlayScene::Initialize() {
 	objSkydome->SetScale({ 200.0f,200.0f,200.0f });
 
 
-	//プレイヤー
-	player = std::make_unique<Player>();
-	player->PlayInitialeze(had.get(),body.get(),parachute.get(),input.get());
-	//エネミー
-	enemy = std::make_unique<Enemy>();
-	enemy->Initialeze(tank.get(), player.get());
 
 	//マップ
 	map = std::make_unique<Map>(mapStratY);
@@ -89,15 +112,22 @@ void GamePlayScene::Initialize() {
 }
 
 void GamePlayScene::Update(){
+	enemys.remove_if([ ] (std::unique_ptr<Enemy>& enemy)
+	{
+		return enemy->IsDead();
+	});
 	const XMFLOAT3 cameraPos = { player->GetPos().x, 100, player->GetPos().z - 30.0f };
-	if ( !player->IsDead() && !enemy->IsDead() )
+	if ( !player->IsDead() && enemys.size()!=0 )
 	{
 		CheckAllCollision();
 		camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
 		camera->SetEye(cameraPos);
 		camera->Update();
 		player->Update();
-		enemy->Update();
+		for ( std::unique_ptr<Enemy>& enemy : enemys )
+		{
+			enemy->Update();
+		}
 		map->Update();
 		objSkydome->Update();
 		particle->Update();
@@ -117,7 +147,7 @@ void GamePlayScene::Update(){
 		{
 			SceneManager::GetInstance()->ChangeScene("GAMEOVER");
 		}
-		if (enemy->IsDead())
+		if (enemys.size()==0)
 		{
 			SceneManager::playerHP = player->GetHp();
 			SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
@@ -133,7 +163,10 @@ void GamePlayScene::SpriteDraw() {
 }
 
 void GamePlayScene::ObjDraw(){
-	enemy->Draw();
+	for ( std::unique_ptr<Enemy>& enemy : enemys )
+	{
+		enemy->Draw();
+	}
 	objSkydome->Draw();
 	player->ObjDraw();
 	map->Draw();
@@ -147,76 +180,87 @@ void GamePlayScene::CheckAllCollision() {
 		//自弾リストを取得
 		const std::list<std::unique_ptr<Bullet>>& playerBullets = player->GetBullets();
 		//敵弾リストを取得
-		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy->GetBullets();
-	#pragma	region	自キャラと敵弾の当たり判定
 		//自キャラの座標
 		posA = player->GetPos();
-		//自キャラと敵弾全ての当たり判定
-		for (const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets) {
-			//敵弾の座標
-			posB = e_bullet->GetPos();
-			//A,Bの距離
-			Vector3 vecPos = MyMath::lens(posA, posB);
-			float dis = MyMath::Length(vecPos);
-			//
-			float	radius = player->GetRadius() + e_bullet->GetRadius();
-			//判定
-			if (dis <= radius) {
-				//自キャラのコールバックを呼び出し
-				player->OnCollision();
-				//敵弾のコールバックを呼び出し
-				e_bullet->OnCollision();
-				particle->Add("1", 30, 15, player->GetPos(), 1.0f, 0.0f);
-			}
-		}
-	#pragma	endregion
-	
-	#pragma region 自弾と敵キャラの当たり判定
-		//敵弾の座標
-		posA = enemy->GetPos();
-		//敵キャラと自弾全ての当たり判定
-		for (const std::unique_ptr<Bullet>& p_bullet : playerBullets) {
-			//自弾の座標
-			posB = p_bullet->GetPos();
-			// A,Bの距離
-			Vector3 vecPos = MyMath::lens(posA, posB);
-			float dis = MyMath::Length(vecPos);
-			//
-			float radius = enemy->GetRadius() + p_bullet->GetRadius();
-			//判定
-			if ( dis <= radius )
+		for ( std::unique_ptr<Enemy>& enemy : enemys )
+		{
+			const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy->GetBullets();
+			#pragma	region	自キャラと敵弾の当たり判定
+			//自キャラと敵弾全ての当たり判定
+			for ( const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets )
 			{
-//敵キャラのコールバックを呼び出し
-				enemy->OnCollision();
-				//自弾のコールバックを呼び出し
-				p_bullet->OnCollision();
-
-				particle->Add("1",30,15,enemy->GetPos(),1.0f,0.0f);
-			}
-		}
-	#pragma endregion
-	
-	#pragma region 自弾と敵弾の当たり判定
-		//自弾の座標
-		for (const std::unique_ptr<Bullet>& p_bullet : playerBullets) {
-			posA = p_bullet->GetPos();
-			//自弾と敵弾全ての当たり判定
-			for (const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets) {
 				//敵弾の座標
 				posB = e_bullet->GetPos();
-				// A,Bの距離
-				Vector3 vecPos = MyMath::lens(posA, posB);
+				//A,Bの距離
+				Vector3 vecPos = MyMath::lens(posA,posB);
 				float dis = MyMath::Length(vecPos);
 				//
-				float radius = e_bullet->GetRadius() + p_bullet->GetRadius();
+				float	radius = player->GetRadius() + e_bullet->GetRadius();
 				//判定
-				if (dis <= radius) {
-					//自弾のコールバックを呼び出し
-					p_bullet->OnCollision();
+				if ( dis <= radius )
+				{
+					//自キャラのコールバックを呼び出し
+					player->OnCollision();
 					//敵弾のコールバックを呼び出し
 					e_bullet->OnCollision();
-					particle->Add("1", 5, 10, p_bullet->GetPos(), 1.0f, 0.0f);
-					particle->Add("1", 5, 10, e_bullet->GetPos(), 1.0f, 0.0f);
+					particle->Add("1",30,15,player->GetPos(),1.0f,0.0f);
+				}
+			}
+			#pragma	endregion
+
+			#pragma region 自弾と敵キャラの当たり判定
+
+			//敵弾の座標
+			posA = enemy->GetPos();
+			//敵キャラと自弾全ての当たり判定
+			for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
+			{
+				//自弾の座標
+				posB = p_bullet->GetPos();
+				// A,Bの距離
+				Vector3 vecPos = MyMath::lens(posA,posB);
+				float dis = MyMath::Length(vecPos);
+				//
+				float radius = enemy->GetRadius() + p_bullet->GetRadius();
+				//判定
+				if ( dis <= radius )
+				{
+					//敵キャラのコールバックを呼び出し
+					enemy->OnCollision();
+					//自弾のコールバックを呼び出し
+					p_bullet->OnCollision();
+
+					particle->Add("1",30,15,enemy->GetPos(),1.0f,0.0f);
+				}
+			}
+
+			#pragma endregion
+
+			#pragma region 自弾と敵弾の当たり判定
+			//自弾の座標
+			for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
+			{
+				posA = p_bullet->GetPos();
+				//自弾と敵弾全ての当たり判定
+				for ( const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets )
+				{
+					//敵弾の座標
+					posB = e_bullet->GetPos();
+					// A,Bの距離
+					Vector3 vecPos = MyMath::lens(posA,posB);
+					float dis = MyMath::Length(vecPos);
+					//
+					float radius = e_bullet->GetRadius() + p_bullet->GetRadius();
+					//判定
+					if ( dis <= radius )
+					{
+						//自弾のコールバックを呼び出し
+						p_bullet->OnCollision();
+						//敵弾のコールバックを呼び出し
+						e_bullet->OnCollision();
+						particle->Add("1",5,10,p_bullet->GetPos(),1.0f,0.0f);
+						particle->Add("1",5,10,e_bullet->GetPos(),1.0f,0.0f);
+					}
 				}
 			}
 		}
