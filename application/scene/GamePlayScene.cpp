@@ -181,11 +181,11 @@ void GamePlayScene::CheckAllCollision() {
 		const std::list<std::unique_ptr<Bullet>>& playerBullets = player->GetBullets();
 		//敵弾リストを取得
 		//自キャラの座標
-		posA = player->GetPos();
 		for ( std::unique_ptr<Enemy>& enemy : enemys )
 		{
 			const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy->GetBullets();
 			#pragma	region	自キャラと敵弾の当たり判定
+			posA = player->GetPos();
 			//自キャラと敵弾全ての当たり判定
 			for ( const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets )
 			{
