@@ -42,7 +42,7 @@ public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialeze(Model* model_, Player*player_);
+	void Initialeze(Model* model_, Player*player_,Vector3 pos_,Vector3 rot_);
 
 	/// <summary>
 	/// 更新
@@ -99,6 +99,13 @@ public://メンバ関数
 
 	//弾リストを取得
 	std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets; }
+
+	//コンストラクタ
+	Enemy();
+	//デストラクタ
+	~Enemy();
+
+
 private://構造体
 	
 

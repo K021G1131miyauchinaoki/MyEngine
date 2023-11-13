@@ -7,6 +7,7 @@
 #include<fstream>
 #include <vector>
 #include <DirectXMath.h>
+#include<Vector3.h>
 #include<nlohmann/json.hpp>
 
 #pragma warning( disable : 4324 )
@@ -17,11 +18,11 @@ struct LevelData {
 	struct ObjectData  
 	{
 		// 平行移動
-		DirectX::XMVECTOR translation;
+		Vector3 translation;
 		// 回転角
-		DirectX::XMVECTOR rotation;
+		Vector3 rotation;
 		// スケーリング
-		DirectX::XMVECTOR scaling;
+		Vector3 scaling;
 		// ファイル名
 		std::string fileName;
 	};

@@ -12,10 +12,11 @@
 #include"GamePlayScene.h"
 #include<cmath>
 
-void Enemy::Initialeze(Model* model_,Player*player_) {
+void Enemy::Initialeze(Model* model_,Player*player_,Vector3 pos_,Vector3 rot_) {
 	assert(model_);
 	assert(player_);
-	InitialezePos = { 50.0f,radius,0.0f };
+	InitialezePos = pos_;
+	InitialezePos.y = radius;
 
 	model = model_;
 	player = player_;
@@ -23,6 +24,7 @@ void Enemy::Initialeze(Model* model_,Player*player_) {
 	obj->Initialize();
 	obj->SetModel(model_);
 	obj->SetPosition(InitialezePos);
+	obj->SetRotation(rot_);
 	obj->SetScale({ radius,radius,radius });
 	obj->SetColor({ 0.0f,0.1f,0.3f,1.0f });
 	obj->Update();
@@ -251,3 +253,6 @@ void Enemy::OnCollision()
 		hp.isDead = true;
 	}
 }
+
+Enemy::Enemy() {}
+Enemy::~Enemy() {}

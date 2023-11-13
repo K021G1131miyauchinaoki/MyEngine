@@ -45,53 +45,7 @@ LevelData* LevelLoader::LoadJson(const std::string& filename_) {
 
 	//"objects"の全オブジェクトを走査
 	ImportValue(deserialized,levelData);
-	// "objects"の全オブジェクトを走査
-	//for (nlohmann::json& object : deserialized["objects"]) {
-	//	assert(object.contains("type"));
-
-	//	// 種別を取得
-	//	std::string type = object["type"].get<std::string>();
-
-	//	// MESH
-	//	if (type.compare("MESH") == 0) {
-	//		// 要素追加
-	//		levelData->objects.emplace_back(LevelData::ObjectData{});
-	//		// 今追加した要素の参照を得る
-	//		LevelData::ObjectData& objectData = levelData->objects.back();
-
-	//		if (object.contains("file_name")) {
-	//			// ファイル名
-	//			objectData.filename_ = object["file_name"];
-	//		}
-
-	//		// トランスフォームのパラメータ読み込み
-	//		nlohmann::json& transform = object["transform"];
-	//		// 平行移動
-	//		objectData.translation.m128_f32[0] = (float)transform["translation"][1];
-	//		objectData.translation.m128_f32[1] = (float)transform["translation"][2];
-	//		objectData.translation.m128_f32[2] = -(float)transform["translation"][0];
-	//		objectData.translation.m128_f32[3] = 1.0f;
-	//		// 回転角
-	//		objectData.rotation.m128_f32[0] = -(float)transform["rotation"][1];
-	//		objectData.rotation.m128_f32[1] = -(float)transform["rotation"][2];
-	//		objectData.rotation.m128_f32[2] = (float)transform["rotation"][0];
-	//		objectData.rotation.m128_f32[3] = 0.0f;
-	//		// スケーリング
-	//		objectData.scaling.m128_f32[0] = (float)transform["scaling"][1];
-	//		objectData.scaling.m128_f32[1] = (float)transform["scaling"][2];
-	//		objectData.scaling.m128_f32[2] = (float)transform["scaling"][0];
-	//		objectData.scaling.m128_f32[3] = 0.0f;
-
-	//		// TODO: コライダーのパラメータ読み込み
-	//	}
-
-	//	// TODO: オブジェクト走査を再帰関数にまとめ、再帰呼出で枝を走査する
-	//	if (object.contains("children")) {
-
-	//	}
-	//}
-
-
+	
 	return  levelData;
 }
 
@@ -117,20 +71,17 @@ LevelData* LevelLoader::ImportValue(nlohmann::json& json, LevelData* levelData){
 			//トランスフォームのパラメータ読み込み
 			nlohmann::json& transform = object["transform"];
 			//平行移動
-			objectData.translation.m128_f32[0] = (float)transform["translation"][1];
-			objectData.translation.m128_f32[1] = (float)transform["translation"][2];
-			objectData.translation.m128_f32[2] = (float)transform["translation"][0];
-			objectData.translation.m128_f32[3] = 1.0f;
+			objectData.translation.x = (float)transform["translation"][0];
+			objectData.translation.y = (float)transform["translation"][2];
+			objectData.translation.z = (float)transform["translation"][1];
 			//回転角
-			objectData.rotation.m128_f32[0] = (float)transform["rotation"][1];
-			objectData.rotation.m128_f32[1] = (float)transform["rotation"][2];
-			objectData.rotation.m128_f32[2] = (float)transform["rotation"][0];
-			objectData.rotation.m128_f32[3] = 0.0f;
+			objectData.rotation.x = -( float ) transform[ "rotation" ][ 0 ];
+			objectData.rotation.y = -( float ) transform[ "rotation" ][ 2 ];
+			objectData.rotation.z = (float)transform["rotation"][1];
 			//スケーリング
-			objectData.scaling.m128_f32[0] = (float)transform["scaling"][1];
-			objectData.scaling.m128_f32[1] = (float)transform["scaling"][2];
-			objectData.scaling.m128_f32[2] = (float)transform["scaling"][0];
-			objectData.scaling.m128_f32[3] = 0.0f;
+			objectData.scaling.x = ( float ) transform[ "scaling" ][ 1 ];
+			objectData.scaling.y = ( float ) transform[ "scaling" ][ 2 ];
+			objectData.scaling.z = (float)transform["scaling"][0];
 			//子がいたら走査
 			if (object.contains("children"))
 			{
