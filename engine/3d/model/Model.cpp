@@ -18,20 +18,20 @@ void Model::SetDevice(ID3D12Device* device_) {
 	Model::device = device_;
 }
 
-Model* Model::LoadFromOBJ(const	std::string& modelname_) {
+Model* Model::LoadFromOBJ(const	std::string& modelname_,bool smoothing_) {
 	//インスタンスの生成
 	Model* model = new Model();
 	//デスクリプタヒープの生成
 	model->InitializeDescriptorHeap();
 	//obj読み込み
-	model->LoadFromOBJInternal(modelname_);
+	model->LoadFromOBJInternal(modelname_,smoothing_);
 	//バッファの生成
 	model->CreateBuffers();
 
 	return model;
 }
 
-void Model::LoadFromOBJInternal(const	std::string& modelname_) {
+void Model::LoadFromOBJInternal(const	std::string& modelname_,bool smoothing) {
 	//ファイルストリーム
 	std::ifstream file;
 	//.objファイルを開く
@@ -90,11 +90,18 @@ void Model::LoadFromOBJInternal(const	std::string& modelname_) {
 				vertex.normal = normals[indexNormal - 1];
 				vertex.uv = texcoords[indexTexcoord - 1];
 				vertices.emplace_back(vertex);
+				//エッジ平滑化用のデータを追加
+				if ( smoothing )
+				{
+					//vキー（座標データ）の番号と、すべて合成した頂点のインデックスをセットで登録する
+					AddSmoothData(indexPosition,static_cast< unsigned short >( vertices.size() - 1 ));
+				}
+
 				//頂点インデックスに追加
 				indices.emplace_back((unsigned short)indices.size());
 			}
 		}
-		//先頭文字列がvtならポリゴン
+		//先頭文字列がvtならテクスチャ
 		if (key == "vt")
 		{
 			//UV成分の読み込み
@@ -106,7 +113,7 @@ void Model::LoadFromOBJInternal(const	std::string& modelname_) {
 			//テクスチャ座標データに追加
 			texcoords.emplace_back(texcoord);
 		}
-		//先頭文字列がvnならポリゴン
+		//先頭文字列がvnなら法線ベクトル
 		if (key == "vn")
 		{
 			//xyz成分の読み込み
@@ -118,7 +125,7 @@ void Model::LoadFromOBJInternal(const	std::string& modelname_) {
 			//法線ベクトルデータに追加
 			normals.emplace_back(normal);
 		}
-		//先頭文字列がならポリゴン
+		//先頭文字列がmtllibならマテリアル
 		if (key == "mtllib")
 		{
 			//マテリアルのファイル名読み込み
@@ -129,6 +136,11 @@ void Model::LoadFromOBJInternal(const	std::string& modelname_) {
 		}
 	}
 	file.close();
+	//頂点法線の平均によるエッジの平滑化
+	if ( smoothing )
+	{
+		CalculateSmoothedVertexNormals();
+	}
 }
 
 void Model::LoadTexture(const	std::string& directoryPath_, const std::string& filename_) {
@@ -400,4 +412,29 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList_, UINT rootParamIndexMateria
 	// 描画コマンド
 	//cmdList_->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
 	cmdList_->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+}
+
+void Model::AddSmoothData(unsigned short indexPosition,unsigned short indexVertex) {
+	smoothData[ indexPosition ].emplace_back(indexVertex);
+}
+
+void Model::CalculateSmoothedVertexNormals() {
+	auto itr = smoothData.begin();
+	for ( ; itr != smoothData.end(); ++itr )
+	{
+		//各面用の共通頂点コレクション
+		std::vector<unsigned short>& v = itr->second;
+		//全頂点の法線を平均化 
+		DirectX::XMVECTOR normal = {};
+		for ( unsigned short index : v )
+		{
+			normal += XMVectorSet(vertices[ index ].normal.x,vertices[ index ].normal.y,vertices[ index ].normal.z,0);
+		}
+		normal = DirectX::XMVector3Normalize(normal / static_cast< float >( v.size()));
+		//共通法線を使用するすべての頂点データに書き込む
+		for ( unsigned short index : v )
+		{
+			vertices[ index ].normal = { normal.m128_f32[ 0 ],normal.m128_f32[ 1 ],normal.m128_f32[ 2 ] };
+		}
+	}
 }

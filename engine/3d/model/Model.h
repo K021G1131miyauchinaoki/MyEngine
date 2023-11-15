@@ -8,6 +8,7 @@
 #include<string>
 #include<vector>
 #include<cassert>
+#include<unordered_map>
 #pragma warning( push )
 #pragma warning(disable:4061)
 #pragma warning(disable:4265)
@@ -34,7 +35,7 @@ class Model
 {
 public://静的メンバ関数
 	//obj読み込み
-	static Model* LoadFromOBJ(const	std::string& modelname);
+	static Model* LoadFromOBJ(const	std::string& modelname,bool smoothing_=false);
 	//セッター
 	static void SetDevice(ID3D12Device* device_);
 
@@ -44,7 +45,7 @@ public:
 	void	Draw(ID3D12GraphicsCommandList* cmdList_, UINT rootParamIndexMaterial_);
 private://メンバ関数
 	//obj読み込み
-	void LoadFromOBJInternal(const	std::string& modelname_);
+	void LoadFromOBJInternal(const	std::string& modelname_,bool smoothing_);
 	//テクスチャ
 	void LoadTexture(const	std::string& directoryPath_, const std::string& filename_);
 	//マテリアル
@@ -53,6 +54,10 @@ private://メンバ関数
 	void InitializeDescriptorHeap();
 	//バッファ生成
 	void CreateBuffers();
+	//エッジ平滑化データの追加
+	void AddSmoothData(unsigned short indexPosition,unsigned short indexVertex);
+	//平滑化された頂点法線の計算
+	void CalculateSmoothedVertexNormals();
 public: // サブクラス
 	// 頂点データ構造体
 	struct VertexPosNormalUv
@@ -94,6 +99,8 @@ private:
 	//デバイス
 	static ComPtr<ID3D12Device> device;
 private://メンバ変数
+	//頂点法線スムージング用データ
+	std::unordered_map<unsigned short,std::vector<unsigned short>>smoothData;
 	//頂点インデックス配列
 	std::vector<VertexPosNormalUv>vertices;
 	// デスクリプタヒープ

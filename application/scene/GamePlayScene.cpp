@@ -32,7 +32,7 @@ void GamePlayScene::Initialize() {
 	Object3d::SetLight(light.get());
 
 	// モデル読み込み
-	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
+	modelSkydome.reset(Model::LoadFromOBJ("skydome",true));
 	cube.reset(Model::LoadFromOBJ("cube"));
 	tank.reset(Model::LoadFromOBJ("tank"));
 	had.reset(Model::LoadFromOBJ("TankHad"));

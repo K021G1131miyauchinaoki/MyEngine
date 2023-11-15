@@ -38,7 +38,7 @@ void TitleScene::Initialize() {
 	Object3d::SetLight(light.get());
 
 	// モデル読み込み
-	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
+	modelSkydome.reset(Model::LoadFromOBJ("skydome",true));
 	cube.reset(Model::LoadFromOBJ("cube"));
 	had.reset(Model::LoadFromOBJ("TankHad"));
 	body.reset(Model::LoadFromOBJ("TankBody"));
