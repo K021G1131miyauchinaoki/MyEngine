@@ -129,6 +129,7 @@ void GamePlayScene::Update(){
 			enemy->Update();
 		}
 		map->Update();
+		objSkydome->SetPosition(player->GetPos());
 		objSkydome->Update();
 		particle->Update();
 	}
