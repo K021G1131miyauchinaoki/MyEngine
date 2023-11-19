@@ -87,6 +87,11 @@ public://メンバ関数
 	const	float GetRadius() { return radius; }
 
 	/// <summary>
+	/// スケール取得
+	/// </summary>
+	Vector3 GetScale() {return obj->GetScale();};
+
+	/// <summary>
 	/// 衝突時
 	/// </summary>
 	void OnCollision();

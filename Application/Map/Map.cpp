@@ -51,7 +51,6 @@ void Map::Update() {
 			blocks[i][j].obj->Update();
 		}
 	}
-	blocks[ 8 ][ 8 ].stagingTime;
 }
 
 void Map::Draw() {

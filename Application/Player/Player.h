@@ -76,6 +76,11 @@ public://メンバ関数
 	const	Vector3 GetPos() {return tankHad->GetPosition(); }
 
 	/// <summary>
+	/// スケール取得
+	/// </summary>
+	Vector3 GetScale() {return tankBody->GetScale();};
+
+	/// <summary>
 	/// タイトル演出
 	/// </summary>
 	void TitleStaging();

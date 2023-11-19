@@ -59,6 +59,12 @@ public://メンバ関数
 	void OnCollision();
 	//ワールド座標を取得
 	Vector3 GetPos();
+
+	/// <summary>
+	/// スケール取得
+	/// </summary>
+	Vector3 GetScale();
+
 	//半径を取得
 	float GetRadius();
 

@@ -58,6 +58,14 @@ Vector3 Bullet::GetPos() {
 	return worldPos;
 }
 
+Vector3 Bullet::GetScale() {
+	Vector3 scale;
+	//スケールを取得
+	scale = obj->GetScale();
+
+	return scale;
+}
+
 //衝突したら
 void Bullet::OnCollision() { isDead = true; }
 

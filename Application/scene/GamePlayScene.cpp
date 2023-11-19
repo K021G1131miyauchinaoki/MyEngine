@@ -14,6 +14,58 @@
 int8_t GamePlayScene::startCount = 0;
 bool GamePlayScene::isStart = true;
 
+bool CheckBox(
+  Vector3 pos1,Vector3 scale1,Vector3 pos2,Vector3 scale2)
+{
+	float cl1 = pos1.x - scale1.x;
+	float cr1 = cl1 + ( scale1.x * 2 );
+	float cl2 = pos2.x - scale2.x;
+	float cr2 = cl2 + ( scale2.x * 2 );
+
+	if ( cr1 <= cl2 )
+	{
+		return 0;
+	}
+
+	if ( cr2 <= cl1 )
+	{
+		return false;
+	}
+
+	float cu1 = pos1.y - scale1.y;
+	float cd1 = cu1 + ( scale1.y * 2 );
+	float cu2 = pos2.y - scale2.y;
+	float cd2 = cu2 + ( scale2.y * 2 );
+
+	if ( cd1 <= cu2 )
+	{
+		return false;
+	}
+
+	if ( cd2 <= cu1 )
+	{
+		return false;
+	}
+
+	float cf1 = pos1.z - scale1.z;
+	float cb1 = cf1 + ( scale1.z * 2 );
+	float cf2 = pos2.z - scale2.z;
+	float cb2 = cf2 + ( scale2.z * 2 );
+
+	if ( cb1 <= cf2 )
+	{
+		return false;
+	}
+
+	if ( cb2 <= cf1 )
+	{
+		return false;
+	}
+
+	return true;
+}
+
+
 void GamePlayScene::Initialize() {
 	input.reset(Input::GetInstance());
 	/*変数*/
@@ -197,8 +249,7 @@ void GamePlayScene::ObjDraw(){
 }
 
 void GamePlayScene::CheckAllCollision() {
-		//判定対象AとBの座標
-		Vector3 posA, posB;
+		
 	
 		//自弾リストを取得
 		const std::list<std::unique_ptr<Bullet>>& playerBullets = player->GetBullets();
@@ -208,10 +259,13 @@ void GamePlayScene::CheckAllCollision() {
 		{
 			const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy->GetBullets();
 			#pragma	region	自キャラと敵弾の当たり判定
-			posA = player->GetPos();
 			//自キャラと敵弾全ての当たり判定
 			for ( const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets )
 			{
+				//判定対象AとBの座標
+				Vector3 posA,posB;
+				//自キャラの座標
+				posA = player->GetPos();
 				//敵弾の座標
 				posB = e_bullet->GetPos();
 				//A,Bの距離
@@ -232,12 +286,14 @@ void GamePlayScene::CheckAllCollision() {
 			#pragma	endregion
 
 			#pragma region 自弾と敵キャラの当たり判定
-
-			//敵弾の座標
-			posA = enemy->GetPos();
+				
 			//敵キャラと自弾全ての当たり判定
 			for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
 			{
+				//判定対象AとBの座標
+				Vector3 posA,posB;
+				//敵弾の座標
+				posA = enemy->GetPos();
 				//自弾の座標
 				posB = p_bullet->GetPos();
 				// A,Bの距離
@@ -260,9 +316,11 @@ void GamePlayScene::CheckAllCollision() {
 			#pragma endregion
 
 			#pragma region 自弾と敵弾の当たり判定
-			//自弾の座標
 			for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
 			{
+				//判定対象AとBの座標
+				Vector3 posA,posB;
+				//自弾の座標
 				posA = p_bullet->GetPos();
 				//自弾と敵弾全ての当たり判定
 				for ( const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets )
@@ -286,8 +344,58 @@ void GamePlayScene::CheckAllCollision() {
 					}
 				}
 			}
+			#pragma endregion
+
+			#pragma region 自弾とブロックの当たり判定
+			for ( const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets )
+			{
+				//判定対象AとBの座標
+				Vector3 posA,posB;
+				//自弾の座標
+				posA = e_bullet->GetPos();
+				//自弾と敵弾全ての当たり判定
+				for ( const std::unique_ptr<BaseBlock>& block : blocks )
+				{
+					//敵弾の座標
+					posB = block->obj->GetPosition();
+
+					//判定
+					if ( CheckBox(posA,e_bullet->GetScale(),posB,block->obj->GetScale()) )
+					{
+						//自弾のコールバックを呼び出し
+						e_bullet->OnCollision();
+						//パーティクルの呼び出し
+						particle->Add("1",5,10,e_bullet->GetPos(),1.0f,0.0f);
+					}
+				}
+			}
+			#pragma endregion
+
 		}
-	#pragma endregion
+		#pragma region 自弾とブロックの当たり判定
+		for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
+		{
+			//判定対象AとBの座標
+			Vector3 posA,posB;
+			//自弾の座標
+			posA = p_bullet->GetPos();
+			//自弾と敵弾全ての当たり判定
+			for ( const std::unique_ptr<BaseBlock>& block : blocks )
+			{
+				//敵弾の座標
+				posB = block->obj->GetPosition();
+				
+				//判定
+				if ( CheckBox(posA,p_bullet->GetScale(),posB,block->obj->GetScale()) )
+				{
+					//自弾のコールバックを呼び出し
+					p_bullet->OnCollision();
+					//パーティクルの呼び出し
+					particle->Add("1",5,10,p_bullet->GetPos(),1.0f,0.0f);
+				}
+			}
+		}
+		#pragma endregion
 }
 
 void GamePlayScene::StartStaging() {

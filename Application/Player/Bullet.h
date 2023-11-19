@@ -43,7 +43,12 @@ public://メンバ関数
 	void OnCollision();
 
 	/// <summary>
-	/// 衝突時のコールバック
+	/// スケール取得
+	/// </summary>
+	Vector3 GetScale();
+
+	/// <summary>
+	/// 位置の取得
 	/// </summary>
 	Vector3 GetPos();
 
