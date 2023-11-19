@@ -19,6 +19,7 @@
 #include<ParticleManager.h>
 #include<LevelLoader.h>
 #include<list>
+#include<BaseBlock.h>
 
 class GamePlayScene:public BaseScene
 {
@@ -110,6 +111,7 @@ private:
 
 	std::unique_ptr<Player> player;
 	std::list< std::unique_ptr<Enemy>>enemys;
+	std::list< std::unique_ptr<BaseBlock>>blocks;
 	std::unique_ptr<Map>map;
 
 	//外部ファイルの読み込み
@@ -117,11 +119,11 @@ private:
 	std::map<std::string, Model*> models;
 
 	std::unique_ptr<ImguiManager> ImgM;
+	//パーティクルマネージャー
+	std::unique_ptr<ParticleManager> particle;
 
 	//マップクラスの初期座標
 	float mapStratY;
-	//パーティクルマネージャー
-	std::unique_ptr<ParticleManager> particle;
 	//スプライトイージング
 	float spriteEaseTime;
 	const float spriteEaseTimer = 30;

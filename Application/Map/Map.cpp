@@ -37,7 +37,7 @@ void Map::Initialize(bool isStaging_) {
 	rotEndZ = 0;
 	rotStartZ=360*2;
 	isStaging = isStaging_;
-	stagingTime = stagingTimer;
+	provisionTime = provisionTimer;
 }
 
 void Map::Update() {
@@ -51,7 +51,7 @@ void Map::Update() {
 			blocks[i][j].obj->Update();
 		}
 	}
-
+	blocks[ 8 ][ 8 ].stagingTime;
 }
 
 void Map::Draw() {
@@ -151,10 +151,10 @@ void Map::LoadCSV(const std::string& num_) {
 void Map::Preparation() {
 	if (isStaging)
 	{
-		stagingTime--;
-		if (stagingTime < 0)
+		provisionTime--;
+		if (provisionTime < 0)
 		{
-			stagingTime = stagingTimer;
+			provisionTime = provisionTimer;
 			if (nowMax <= numW || nowMax <= numH)
 			{
 				setPoint = -nowMax;
@@ -190,23 +190,28 @@ void Map::Staging(size_t y_, size_t x_) {
 	{
 		//スケール
 		Vector3 easeScale = blocks[y_][x_].obj->GetScale();
-		easeScale = scaleStart + (scaleEnd - scaleStart) * Easing::easeOutCubic(blocks[y_][x_].range);
+		easeScale = scaleStart + (scaleEnd - scaleStart) * Easing::easeOutCubic(blocks[y_][x_].stagingTime/ stagingTimer);
 		blocks[y_][x_].obj->SetScale(easeScale);
 		//回転
 		Vector3 easeRot = blocks[y_][x_].obj->GetRotation();
-		easeRot.z = rotStartZ + (rotEndZ - rotStartZ) * Easing::easeOutSine(blocks[y_][x_].range);
+		easeRot.z = rotStartZ + (rotEndZ - rotStartZ) * Easing::easeOutSine(blocks[y_][x_].stagingTime/ stagingTimer);
 		blocks[y_][x_].obj->SetRotation(easeRot);
 		//座標
 		Vector3 easePos = blocks[y_][x_].obj->GetPosition();
-		easePos.y = posStartY + (posEndY - posStartY) * Easing::easeOutCubic(blocks[y_][x_].range);
+		easePos.y = posStartY + (posEndY - posStartY) * Easing::easeOutCubic(blocks[y_][x_].stagingTime/ stagingTimer);
 		blocks[y_][x_].obj->SetPosition(easePos);
 		//1.0fまで加算
-		blocks[y_][x_].range += 0.02f;
-		if (blocks[y_][x_].range >= 1.0f)
+		if ( blocks[ y_ ][ x_ ].stagingTime < stagingTimer )
+		{
+			blocks[ y_ ][ x_ ].stagingTime++;
+		}
+		else
 		{
 			blocks[y_][x_].isUp = false;
 		}
 	}
+	
+
 }
 
 //終了

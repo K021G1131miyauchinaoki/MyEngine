@@ -223,6 +223,7 @@
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application\struct\BaseBlock.h" />
     <ClInclude Include="Engine\base\scene\AbstractSceneFactory.h" />
     <ClInclude Include="Application\Enemy\Enemy.h" />
     <ClInclude Include="Application\Player\Bullet.h" />

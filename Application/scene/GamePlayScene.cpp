@@ -46,6 +46,7 @@ void GamePlayScene::Initialize() {
 	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson("1"));
 	models.insert(std::make_pair("enemy",tank.get()));
+	models.insert(std::make_pair("block",modelMap.get()));
 
 	// レベルデータからオブジェクトを生成、配置
 	for ( auto& objectData : jsonLoader->objects )
@@ -62,8 +63,21 @@ void GamePlayScene::Initialize() {
 		if ( objectData.fileName=="enemy" )
 		{
 			Enemy* newEnemy = new Enemy();
-			newEnemy->Initialeze(tank.get(),player.get(),objectData.translation,objectData.rotation);
+			newEnemy->Initialeze(model,player.get(),objectData.translation,objectData.rotation);
 			enemys.emplace_back(std::move(newEnemy));
+
+		}
+		//ブロック
+		if ( objectData.fileName == "block" )
+		{
+			BaseBlock* newBlock = new BaseBlock();
+			newBlock->obj = std::make_unique<Object3d>();
+			newBlock->obj->Initialize();
+			newBlock->obj->SetModel(model);
+			newBlock->obj->SetColor({0.5f,0.5f,0.5f,1.0f});
+			newBlock->obj->SetPosition(objectData.translation);
+			newBlock->obj->SetScale(objectData.scaling);
+			blocks.emplace_back(std::move(newBlock));
 
 		}
 	}
@@ -128,6 +142,10 @@ void GamePlayScene::Update(){
 		{
 			enemy->Update();
 		}
+		for ( std::unique_ptr<BaseBlock>& block : blocks )
+		{
+			block->obj->Update();
+		}
 		map->Update();
 		objSkydome->SetPosition(player->GetPos());
 		objSkydome->Update();
@@ -167,6 +185,10 @@ void GamePlayScene::ObjDraw(){
 	for ( std::unique_ptr<Enemy>& enemy : enemys )
 	{
 		enemy->Draw();
+	}
+	for ( std::unique_ptr<BaseBlock>& block : blocks )
+	{
+		block->obj->Draw();
 	}
 	objSkydome->Draw();
 	player->ObjDraw();

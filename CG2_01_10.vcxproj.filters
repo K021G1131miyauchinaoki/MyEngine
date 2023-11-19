@@ -296,6 +296,7 @@
     <ClInclude Include="Engine\3d\Light\Light.h" />
     <ClInclude Include="Application\scene\SceneTransition.h" />
     <ClInclude Include="Application\particle\Smoke.h" />
+    <ClInclude Include="Application\struct\BaseBlock.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

@@ -7,6 +7,7 @@
 #include"Object3d.h"
 #include"Model.h"
 #include<Vector3.h>
+#include<BaseBlock.h>
 
 class Map
 {
@@ -53,18 +54,7 @@ public://メンバ関数
 	void Preparation();
 	//演出
 	void Staging(size_t y_,size_t x_);
-
-
-private://構造体
-	//ブロック
-	struct Block {
-		std::unique_ptr<Object3d> obj;
-		Vector3	pos;
-		bool isUp = false;
-		bool isDrow = false;
-		float frame;
-		float range = 0.0f;
-	};
+	
 private://静的メンバ変数
 	static	std::unique_ptr < Model> model;
 public:
@@ -88,14 +78,15 @@ private://メンバ変数
 	float rotEndZ;
 	float rotStartZ;
 	//ブロック
-	std::vector<std::vector< Block>> blocks;
+	std::vector<std::vector< BaseBlock>> blocks;
 	const float constStartY= -400;
 	int8_t width;
 	int8_t height;
 	int16_t lineNum;
 
-	const int16_t stagingTimer = 20;
-	int16_t stagingTime = 0;
+	const int16_t stagingTimer = 50;
+	const int16_t provisionTimer = 20;
+	int16_t provisionTime = 0;
 	int16_t nowMax;
 	int16_t setPoint;
 	int16_t numH;
