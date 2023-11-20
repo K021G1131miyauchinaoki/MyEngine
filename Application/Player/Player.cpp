@@ -117,7 +117,10 @@ void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* pa
 		drawHp[i].sprite->SetPosition(XMFLOAT2{ 10.0f + (60.0f * i),10 });
 		drawHp[i].sprite->SetIsInvisible(drawHp[i].isDraw);
 		drawHp[ i ].sprite->Update();
-	}	
+	}
+
+	isMove = false;
+
 }
 
 void Player::Reset() {
@@ -166,6 +169,7 @@ void Player::Update() {
 
 			Rotate();
 			Move();
+			
 			//HPのスプライト
 			for ( size_t i = 0; i < hp.value; i++ )
 			{
@@ -230,6 +234,7 @@ void Player::SpriteDraw() {
 }
 
 void Player::Move() {
+	
 	//移動
 	Vector3 move = { 0.0f,0.0f,0.0f };
 	float speed = 0.5f;
@@ -237,6 +242,7 @@ void Player::Move() {
 	//制限
 
 	//同時入力があれば45度に補正する
+
 	if (input->PushKey(DIK_W)|| input->PushKey(DIK_S))
 	{
 		if (input->PushKey(DIK_A)|| input->PushKey(DIK_D))
@@ -284,8 +290,18 @@ void Player::Move() {
 		}
 	}
 
+	if (isMove)
+	{
+		move = oldPos;
+		isMove = false;
+	}
+	else
+	{
+		oldPos = tankHad->GetPosition();
+		move += tankHad->GetPosition();
+	}
 
-	move += tankHad->GetPosition();
+	
 	//移動範囲の制限
 	if (move.x >Map::moveLimitW - tankScale.x ) {
 		move.x = Map::moveLimitW - tankScale.x;
@@ -300,7 +316,6 @@ void Player::Move() {
 	else if (move.z < -Map::moveLimitH + tankScale.z ) {
 		move.z = -Map::moveLimitH + tankScale.z;
 	}
-
 
 
 	tankHad->SetPosition(move);
@@ -356,6 +371,16 @@ void Player::OnCollision()
 	{
 		hp.isDead = true;
 	}
+}
+
+void Player::OnCollisionPos()
+{
+	isMove = true;
+	
+	tankHad->SetPosition(oldPos);
+	tankBody->SetPosition(oldPos);
+	tankHad->Update();
+	tankBody->Update();
 }
 
 void Player::TitleStaging() {

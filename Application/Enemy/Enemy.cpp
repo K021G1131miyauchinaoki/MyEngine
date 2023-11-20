@@ -146,6 +146,7 @@ void Enemy::Move() {
 	else
 	{
 		moveTime--;
+		oldPos = obj->GetPosition();
 		pos = obj->GetPosition();
 		pos += move;
 		//移動範囲の制限
@@ -253,6 +254,13 @@ void Enemy::OnCollision()
 		hp.isDead = true;
 	}
 }
+
+void Enemy::OnCollisionPos()
+{
+	obj->SetPosition(oldPos);
+	obj->Update();
+}
+
 
 Enemy::Enemy() {}
 Enemy::~Enemy() {}

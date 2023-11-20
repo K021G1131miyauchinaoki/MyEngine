@@ -95,6 +95,7 @@ public://メンバ関数
 	/// 衝突時
 	/// </summary>
 	void OnCollision();
+	void OnCollisionPos();
 
 	/// <summary>
 	/// デスフラグが立ったら
@@ -161,6 +162,7 @@ private://メンバ変数
 	Vector3 InitialezePos;
 	Vector3 playerPos;
 	Vector3 pos;
+	Vector3 oldPos;
 	//距離
 	Vector3 len;
 	//hp

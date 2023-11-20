@@ -95,6 +95,11 @@ public://メンバ関数
 	/// </summary>
 	void OnCollision();
 
+	/// <summary>
+	/// 衝突時のコールバック
+	/// </summary>
+	void OnCollisionPos();
+
 	//半径を取得
 	const	float GetRadius() { return radius; }
 
@@ -124,6 +129,7 @@ private://メンバ変数
 	int32_t coolTime;
 
 	float angle = 0.0f;
+	Vector3 oldPos;
 	Vector3 tankPos;
 	Vector3 tankScale;
 	Vector3 bodyRot;
@@ -150,6 +156,7 @@ private://メンバ変数
 	float startEaseTime;
 	bool isTitleStaging;
 	bool isInvincible;
+	bool isMove;
 	float parachutePosY;
 	float pStartRotZ;
 	float pEndRotZ;

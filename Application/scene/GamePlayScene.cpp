@@ -13,9 +13,10 @@
 
 int8_t GamePlayScene::startCount = 0;
 bool GamePlayScene::isStart = true;
-
-bool CheckBox(
-  Vector3 pos1,Vector3 scale1,Vector3 pos2,Vector3 scale2)
+/// <summary>
+/// 矩形の判定
+/// </summary>
+bool CheckBoxXZ( Vector3 pos1,Vector3 scale1,Vector3 pos2,Vector3 scale2)
 {
 	float cl1 = pos1.x - scale1.x;
 	float cr1 = cl1 + ( scale1.x * 2 );
@@ -24,25 +25,10 @@ bool CheckBox(
 
 	if ( cr1 <= cl2 )
 	{
-		return 0;
+		return false;
 	}
 
 	if ( cr2 <= cl1 )
-	{
-		return false;
-	}
-
-	float cu1 = pos1.y - scale1.y;
-	float cd1 = cu1 + ( scale1.y * 2 );
-	float cu2 = pos2.y - scale2.y;
-	float cd2 = cu2 + ( scale2.y * 2 );
-
-	if ( cd1 <= cu2 )
-	{
-		return false;
-	}
-
-	if ( cd2 <= cu1 )
 	{
 		return false;
 	}
@@ -64,7 +50,54 @@ bool CheckBox(
 
 	return true;
 }
+/// <summary>
+/// 線分の判定
+/// </summary>
+/// <param name="startA">直線のスタート</param>
+/// <param name="startB">線分のスタート</param>
+/// <param name="endA">直線のエンド</param>
+/// <param name="endB">線分のエンド</param>
+/// <returns></returns>
+int	HitLine(/*始点*/Vector3 startA,Vector3 startB,
+	/*終点*/ Vector3 endA,Vector3 endB)//aが直線、bが線分,_sはstartの略,_lはlastの略
+{
 
+	{
+		const	float	baseX = endB.x - startB.x;	//目標までの距離x
+		const	float	baseY = endB.z - startB.z;	//		〃		y
+		const	float	sub1X = startA.x - startB.x;	//		〃		x
+		const	float	sub1Y = startA.z - startB.z;	//		〃		y
+		const	float	sub2X = endA.x - startB.x;	//		〃		x
+		const	float	sub2Y = endA.z - startB.z;	//		〃		y
+
+		const	float	bs1 = baseX * sub1Y - baseY * sub1X;
+		const	float	bs2 = baseX * sub2Y - baseY * sub2X;
+		const	float	re = bs1 * bs2;
+
+		if ( re > 0 )
+		{
+			return	false;
+		}
+	}
+	{
+		const	float	baseX = endA.x - startA.x;	//目標までの距離x
+		const	float	baseY = endA.z - startA.z;	//		〃		y
+		const	float	sub1X = startB.x - startA.x;	//		〃		x
+		const	float	sub1Y = startB.z - startA.z;	//		〃		y
+		const	float	sub2X = endB.x - startA.x;	//		〃		x
+		const	float	sub2Y = endB.z - startA.z;	//		〃		y
+
+		const	float	bs1 = baseX * sub1Y - baseY * sub1X;
+		const	float	bs2 = baseX * sub2Y - baseY * sub2X;
+		const	float	re = bs1 * bs2;
+
+		if ( re > 0 )
+		{
+			return	false;
+		}
+	}
+	return	true;
+}
 
 void GamePlayScene::Initialize() {
 	input.reset(Input::GetInstance());
@@ -185,7 +218,6 @@ void GamePlayScene::Update(){
 	const XMFLOAT3 cameraPos = { player->GetPos().x, 100, player->GetPos().z - 30.0f };
 	if ( !player->IsDead() && enemys.size()!=0 )
 	{
-		CheckAllCollision();
 		camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
 		camera->SetEye(cameraPos);
 		camera->Update();
@@ -202,6 +234,7 @@ void GamePlayScene::Update(){
 		objSkydome->SetPosition(player->GetPos());
 		objSkydome->Update();
 		particle->Update();
+		CheckAllCollision();
 	}
 	//シーン遷移のフラグを立てる
 	else if ( !SceneTransition::GetInstance()->GetIsFadeOut() &&
@@ -277,7 +310,7 @@ void GamePlayScene::CheckAllCollision() {
 				if ( dis <= radius )
 				{
 					//自キャラのコールバックを呼び出し
-					player->OnCollision();
+					//player->OnCollision();
 					//敵弾のコールバックを呼び出し
 					e_bullet->OnCollision();
 					particle->Add("1",30,15,player->GetPos(),1.0f,0.0f);
@@ -346,7 +379,7 @@ void GamePlayScene::CheckAllCollision() {
 			}
 			#pragma endregion
 
-			#pragma region 自弾とブロックの当たり判定
+			#pragma region 敵弾とブロックの当たり判定
 			for ( const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets )
 			{
 				//判定対象AとBの座標
@@ -360,7 +393,7 @@ void GamePlayScene::CheckAllCollision() {
 					posB = block->obj->GetPosition();
 
 					//判定
-					if ( CheckBox(posA,e_bullet->GetScale(),posB,block->obj->GetScale()) )
+					if ( CheckBoxXZ(posA,e_bullet->GetScale(),posB,block->obj->GetScale()) )
 					{
 						//自弾のコールバックを呼び出し
 						e_bullet->OnCollision();
@@ -371,22 +404,38 @@ void GamePlayScene::CheckAllCollision() {
 			}
 			#pragma endregion
 
-		}
-		#pragma region 自弾とブロックの当たり判定
-		for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
-		{
-			//判定対象AとBの座標
-			Vector3 posA,posB;
-			//自弾の座標
-			posA = p_bullet->GetPos();
-			//自弾と敵弾全ての当たり判定
 			for ( const std::unique_ptr<BaseBlock>& block : blocks )
 			{
+				//判定対象AとBの座標
+				Vector3 posA,posB;
+				posA = enemy->GetPos();
 				//敵弾の座標
 				posB = block->obj->GetPosition();
+
+				//判定
+				if(CheckBoxXZ(posA,enemy->GetScale(),block->obj->GetPosition(),block->obj->GetScale()))
+				{
+					enemy->OnCollisionPos();
+				}
+			}
+			
+
+		}
+		for ( const std::unique_ptr<BaseBlock>& block : blocks )
+		{
+			
+			#pragma region 自弾とブロックの当たり判定
+			for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
+			{
+				//判定対象AとBの座標
+				Vector3 posA,posB;
+				//自弾の座標
+				posA = p_bullet->GetPos();
+				//ブロック
+				posB = block->obj->GetPosition();				
 				
 				//判定
-				if ( CheckBox(posA,p_bullet->GetScale(),posB,block->obj->GetScale()) )
+				if ( CheckBoxXZ(posA,p_bullet->GetScale(),posB,block->obj->GetScale()) )
 				{
 					//自弾のコールバックを呼び出し
 					p_bullet->OnCollision();
@@ -394,8 +443,62 @@ void GamePlayScene::CheckAllCollision() {
 					particle->Add("1",5,10,p_bullet->GetPos(),1.0f,0.0f);
 				}
 			}
+			#pragma endregion
+
+			{
+				Vector3 topLP,topRP,bottomRP,bottomLP;
+				Vector3 topLB,topRB,bottomRB,bottomLB;
+				/*プレイヤー*/
+				//左奥
+				topLP.x = player->GetPos().x - player->GetScale().x;
+				topLP.z = player->GetPos().z + player->GetScale().z;
+				//右奥
+				topRP.x = player->GetPos().x + player->GetScale().x;
+				topRP.z = player->GetPos().z + player->GetScale().z;
+
+				//左前
+				bottomLP.x = player->GetPos().x - player->GetScale().x;
+				bottomLP.z = player->GetPos().z - player->GetScale().z;
+				//右前
+				bottomRP.x = player->GetPos().x + player->GetScale().x;
+				bottomRP.z = player->GetPos().z - player->GetScale().z;
+
+				/*ブロック*/
+				//左奥
+				topLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
+				topLB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
+				//右奥
+				topRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
+				topRB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
+
+				//左前
+				bottomLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
+				bottomLB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
+				//右前
+				bottomRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
+				bottomRB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
+			}
+
+			#pragma region 自機とブロックの当たり判定
+			if ( CheckBoxXZ(player->GetPos(),player->GetScale(),block->obj->GetPosition(),block->obj->GetScale()))
+			{
+				player->OnCollisionPos();
+			}
+			/*if ( SideHit(posA,scaleA,posB,scaleB,"-x") )
+			{
+				block->obj->SetColor({ 0.0f,1.0f,0.0f,1.0f });
+			}
+			if ( SideHit(posA,scaleA,posB,scaleB,"z") )
+			{
+				block->obj->SetColor({ 0.0f,0.0f,1.0f,1.0f });
+			}
+			if ( SideHit(posA,scaleA,posB,scaleB,"-z") )
+			{
+				block->obj->SetColor({ 0.0f,0.0f,0.0f,1.0f });
+			}*/
+			#pragma endregion
+			
 		}
-		#pragma endregion
 }
 
 void GamePlayScene::StartStaging() {
