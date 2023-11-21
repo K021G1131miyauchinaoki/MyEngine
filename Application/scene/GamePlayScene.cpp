@@ -446,37 +446,37 @@ void GamePlayScene::CheckAllCollision() {
 			#pragma endregion
 
 			{
-				Vector3 topLP,topRP,bottomRP,bottomLP;
-				Vector3 topLB,topRB,bottomRB,bottomLB;
-				/*プレイヤー*/
-				//左奥
-				topLP.x = player->GetPos().x - player->GetScale().x;
-				topLP.z = player->GetPos().z + player->GetScale().z;
-				//右奥
-				topRP.x = player->GetPos().x + player->GetScale().x;
-				topRP.z = player->GetPos().z + player->GetScale().z;
+				//Vector3 topLP,topRP,bottomRP,bottomLP;
+				//Vector3 topLB,topRB,bottomRB,bottomLB;
+				///*プレイヤー*/
+				////左奥
+				//topLP.x = player->GetPos().x - player->GetScale().x;
+				//topLP.z = player->GetPos().z + player->GetScale().z;
+				////右奥
+				//topRP.x = player->GetPos().x + player->GetScale().x;
+				//topRP.z = player->GetPos().z + player->GetScale().z;
 
-				//左前
-				bottomLP.x = player->GetPos().x - player->GetScale().x;
-				bottomLP.z = player->GetPos().z - player->GetScale().z;
-				//右前
-				bottomRP.x = player->GetPos().x + player->GetScale().x;
-				bottomRP.z = player->GetPos().z - player->GetScale().z;
+				////左前
+				//bottomLP.x = player->GetPos().x - player->GetScale().x;
+				//bottomLP.z = player->GetPos().z - player->GetScale().z;
+				////右前
+				//bottomRP.x = player->GetPos().x + player->GetScale().x;
+				//bottomRP.z = player->GetPos().z - player->GetScale().z;
 
-				/*ブロック*/
-				//左奥
-				topLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
-				topLB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
-				//右奥
-				topRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
-				topRB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
+				///*ブロック*/
+				////左奥
+				//topLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
+				//topLB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
+				////右奥
+				//topRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
+				//topRB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
 
-				//左前
-				bottomLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
-				bottomLB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
-				//右前
-				bottomRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
-				bottomRB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
+				////左前
+				//bottomLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
+				//bottomLB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
+				////右前
+				//bottomRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
+				//bottomRB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
 			}
 
 			#pragma region 自機とブロックの当たり判定

@@ -34,7 +34,7 @@ void GameOverScene::Initialize() {
 
 	// モデル読み込み
 	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
-	cube.reset(Model::LoadFromOBJ("cube"));
+	cube.reset(Model::LoadFromOBJ("smoke"));
 	had.reset(Model::LoadFromOBJ("TankHad"));
 	body.reset(Model::LoadFromOBJ("TankBody"));
 	modelMap.reset(Model::LoadFromOBJ("map"));
