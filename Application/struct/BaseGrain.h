@@ -10,6 +10,8 @@ struct BaseGrain
 {
 	//座標
 	Vector3 pos = {};
+	//回転
+	Vector3 rot = {};
 	//速度
 	Vector3 velocity = {};
 	//加速度

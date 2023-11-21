@@ -124,7 +124,7 @@ void GameOverScene::Update() {
 	particlePos.x -= 2.0f;
 
 	particlePos.y -= 2.0f;
-	particle->Add("2",2,50,particlePos,2.0f,4.0f);
+	particle->Add("2",2,50,particlePos,2.0f,5.0f);
 }
 
 void GameOverScene::SpriteDraw() {

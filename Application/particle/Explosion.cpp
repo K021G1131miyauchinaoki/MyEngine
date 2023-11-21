@@ -32,13 +32,6 @@ void Explosion::Initialize(Model* model_) {
 	value.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 
 	oneGrain.velocity = value;
-	
-	//重力に見立ててYのみランダムに分布
-	acc = { 0,0,0 };
-	const float rnd_acc = 0.5f;
-	acc.y = (float)rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
-	
-	oneGrain.accel = acc;
 
 	//乱数　（スケール）
 	//oneGrain.stratScale = 1.0f;

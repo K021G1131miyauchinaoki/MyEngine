@@ -28,6 +28,7 @@ void Smoke::Initialize(Model* model_) {
 	std::uniform_real_distribution<float> posDist(-0.75f,0.75f);
 	std::uniform_real_distribution<float> valueDistXZ(-0.1f,0.1f);
 	std::uniform_real_distribution<float> valueDistY(0.15f,0.2f);
+	std::uniform_real_distribution<float> rotY(-180.0f,180.0f);
 	//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
 	Vector3 pos = { 0,0,0 };
 	pos= { posDist(engine),0.0f,posDist(engine) };
@@ -39,12 +40,8 @@ void Smoke::Initialize(Model* model_) {
 
 	oneGrain.velocity = value;
 
-	//重力に見立ててYのみランダムに分布
-	acc = { 0,0,0 };
-	const float rnd_acc = 0.5f;
-	acc.y = ( float ) rand() / RAND_MAX * rnd_acc - rnd_acc / 2.0f;
-
-	oneGrain.accel = acc;
+	Vector3 rot = { 0,0,0 };
+	rot.y = rotY(engine);
 
 	//乱数　（スケール）
 	//oneGrain.stratScale = 1.0f;
@@ -52,6 +49,7 @@ void Smoke::Initialize(Model* model_) {
 	//oneGrain.endScale = 0.0f;
 
 	obj->SetPosition(oneGrain.pos);
+	obj->SetRotation(oneGrain.rot);
 
 }
 
