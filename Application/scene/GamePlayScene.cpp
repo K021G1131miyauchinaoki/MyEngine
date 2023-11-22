@@ -54,47 +54,73 @@ bool CheckBoxXZ( Vector3 pos1,Vector3 scale1,Vector3 pos2,Vector3 scale2)
 /// 線分の判定
 /// </summary>
 /// <param name="startA">直線のスタート</param>
-/// <param name="startB">線分のスタート</param>
 /// <param name="endA">直線のエンド</param>
+/// <param name="startB">線分のスタート</param>
 /// <param name="endB">線分のエンド</param>
 /// <returns></returns>
-int	HitLine(/*始点*/Vector3 startA,Vector3 startB,
-	/*終点*/ Vector3 endA,Vector3 endB)//aが直線、bが線分,_sはstartの略,_lはlastの略
+bool HitLine(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB,std::string direction)//aが直線、bが線分,_sはstartの略,_lはlastの略
 {
-
+	if ( direction == "x" )
 	{
-		const	float	baseX = endB.x - startB.x;	//目標までの距離x
-		const	float	baseY = endB.z - startB.z;	//		〃		y
-		const	float	sub1X = startA.x - startB.x;	//		〃		x
-		const	float	sub1Y = startA.z - startB.z;	//		〃		y
-		const	float	sub2X = endA.x - startB.x;	//		〃		x
-		const	float	sub2Y = endA.z - startB.z;	//		〃		y
-
-		const	float	bs1 = baseX * sub1Y - baseY * sub1X;
-		const	float	bs2 = baseX * sub2Y - baseY * sub2X;
-		const	float	re = bs1 * bs2;
-
-		if ( re > 0 )
-		{
-			return	false;
-		}
+		startB.x += 0.5f;
+		endB.x += 0.5f;
 	}
+	else if ( direction == "-x" )
 	{
-		const	float	baseX = endA.x - startA.x;	//目標までの距離x
-		const	float	baseY = endA.z - startA.z;	//		〃		y
-		const	float	sub1X = startB.x - startA.x;	//		〃		x
-		const	float	sub1Y = startB.z - startA.z;	//		〃		y
-		const	float	sub2X = endB.x - startA.x;	//		〃		x
-		const	float	sub2Y = endB.z - startA.z;	//		〃		y
+		startB.x -= 0.5f;
+		endB.x -= 0.5f;
+	}
+	else if ( direction == "z" )
+	{
+		startB.z += 0.5f;
+		endB.z += 0.5f;
+	}
+	else if ( direction == "-z" )
+	{
+		startB.z -= 0.5f;
+		endB.z -= 0.5f;
+	}
+	float s,t;
+	s = ( startA.x - endA.x ) * ( endB.z - startA.z ) - ( startA.z - endA.z ) * ( endB.x - startA.x );
+	t = ( startA.x - endA.x ) * ( startB.z - startA.z ) - ( startA.z - endA.z ) * ( startB.x - startA.x );
+	if ( s * t > 0 )
+	{
+		return false;
+	}
 
-		const	float	bs1 = baseX * sub1Y - baseY * sub1X;
-		const	float	bs2 = baseX * sub2Y - baseY * sub2X;
-		const	float	re = bs1 * bs2;
+	s = ( endB.x - startB.x ) * ( startA.z - endB.z ) - ( endB.z - startB.z ) * ( startA.x - endB.x );
+	t = ( endB.x - startB.x ) * ( endA.z - endB.z ) - ( endB.z - startB.z ) * ( endA.x - endB.x );
+	if ( s * t > 0 )
+	{
+		return false;
+	}
+	return	true;
+}
+/// <summary>
+/// 線分の判定
+/// </summary>
+/// <param name="startA">直線のスタート</param>
+/// <param name="endA">直線のエンド</param>
+/// <param name="startB">線分のスタート</param>
+/// <param name="endB">線分のエンド</param>
+/// <param name="direction">方向</param>
+/// <returns></returns>
+bool HitLine(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB)//aが直線、bが線分,_sはstartの略,_lはlastの略
+{
+	
+	float s,t;
+	s = ( startA.x - endA.x ) * ( endB.z - startA.z ) - ( startA.z - endA.z ) * ( endB.x - startA.x );
+	t = ( startA.x - endA.x ) * ( startB.z - startA.z ) - ( startA.z - endA.z ) * ( startB.x - startA.x );
+	if ( s * t > 0 )
+	{
+		return false;
+	}
 
-		if ( re > 0 )
-		{
-			return	false;
-		}
+	s = ( endB.x - startB.x ) * ( startA.z - endB.z ) - ( endB.z - startB.z ) * ( startA.x - endB.x );
+	t = ( endB.x - startB.x ) * ( endA.z - endB.z ) - ( endB.z - startB.z ) * ( endA.x - endB.x );
+	if ( s * t > 0 )
+	{
+		return false;
 	}
 	return	true;
 }
@@ -310,7 +336,7 @@ void GamePlayScene::CheckAllCollision() {
 				if ( dis <= radius )
 				{
 					//自キャラのコールバックを呼び出し
-					player->OnCollision();
+					//player->OnCollision();
 					//敵弾のコールバックを呼び出し
 					e_bullet->OnCollision();
 					particle->Add("1",30,15,player->GetPos(),1.0f,0.0f);
@@ -445,57 +471,72 @@ void GamePlayScene::CheckAllCollision() {
 			}
 			#pragma endregion
 
-			{
-				//Vector3 topLP,topRP,bottomRP,bottomLP;
-				//Vector3 topLB,topRB,bottomRB,bottomLB;
-				///*プレイヤー*/
-				////左奥
-				//topLP.x = player->GetPos().x - player->GetScale().x;
-				//topLP.z = player->GetPos().z + player->GetScale().z;
-				////右奥
-				//topRP.x = player->GetPos().x + player->GetScale().x;
-				//topRP.z = player->GetPos().z + player->GetScale().z;
+			Vector3 topLP,topRP,bottomRP,bottomLP;
+			Vector3 topLB,topRB,bottomRB,bottomLB;
+			/*プレイヤー*/
+			//左奥
+			topLP.x = player->GetPos().x - player->GetScale().x;
+			topLP.z = player->GetPos().z + player->GetScale().z;
+			//右奥
+			topRP.x = player->GetPos().x + player->GetScale().x;
+			topRP.z = player->GetPos().z + player->GetScale().z;
 
-				////左前
-				//bottomLP.x = player->GetPos().x - player->GetScale().x;
-				//bottomLP.z = player->GetPos().z - player->GetScale().z;
-				////右前
-				//bottomRP.x = player->GetPos().x + player->GetScale().x;
-				//bottomRP.z = player->GetPos().z - player->GetScale().z;
+			//左前
+			bottomLP.x = player->GetPos().x - player->GetScale().x;
+			bottomLP.z = player->GetPos().z - player->GetScale().z;
+			//右前
+			bottomRP.x = player->GetPos().x + player->GetScale().x;
+			bottomRP.z = player->GetPos().z - player->GetScale().z;
 
-				///*ブロック*/
-				////左奥
-				//topLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
-				//topLB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
-				////右奥
-				//topRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
-				//topRB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
+			/*ブロック*/
+			//左奥
+			topLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
+			topLB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
+			//右奥
+			topRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
+			topRB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
 
-				////左前
-				//bottomLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
-				//bottomLB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
-				////右前
-				//bottomRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
-				//bottomRB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
-			}
-
+			//左前
+			bottomLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
+			bottomLB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
+			//右前
+			bottomRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
+			bottomRB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
 			#pragma region 自機とブロックの当たり判定
-			if ( CheckBoxXZ(player->GetPos(),player->GetScale(),block->obj->GetPosition(),block->obj->GetScale()))
+			//if ( CheckBoxXZ(player->GetPos(),player->GetScale(),block->obj->GetPosition(),block->obj->GetScale()) )
+
+
+			//左辺と（上辺、下辺）の判定
+			//右辺と（上辺、下辺）の判定
+			if ( HitLine(topLP,bottomLP,bottomLB,bottomRB,"-z") || HitLine(topLP,bottomLP,topLB,topRB,"z")
+				||HitLine(topRP,bottomRP,bottomLB,bottomRB,"-z") || HitLine(topRP,bottomRP,topLB,topRB,"z") )
 			{
-				player->OnCollisionPos();
+				player->OnCollisionPos("z");
+				
 			}
-			/*if ( SideHit(posA,scaleA,posB,scaleB,"-x") )
+			//上辺と（左辺、右辺）の判定
+			//下辺と（左辺、右辺）の判定
+			if ( HitLine(topLP,topRP,topLB,bottomLB,"-x") || HitLine(topLP,topRP,topRB,bottomRB,"x")
+				|| HitLine(bottomRP,bottomLP,topLB,bottomLB,"-x") || HitLine(bottomRP,bottomLP,topRB,bottomRB,"x") )
 			{
-				block->obj->SetColor({ 0.0f,1.0f,0.0f,1.0f });
+				player->OnCollisionPos("x");
 			}
-			if ( SideHit(posA,scaleA,posB,scaleB,"z") )
-			{
-				block->obj->SetColor({ 0.0f,0.0f,1.0f,1.0f });
-			}
-			if ( SideHit(posA,scaleA,posB,scaleB,"-z") )
-			{
-				block->obj->SetColor({ 0.0f,0.0f,0.0f,1.0f });
-			}*/
+
+			////左辺と（上辺、下辺）の判定
+			////右辺と（上辺、下辺）の判定
+			//if ( HitLine(topLP,bottomLP,bottomLB,bottomRB) || HitLine(topLP,bottomLP,topLB,topRB)
+			//	|| HitLine(topRP,bottomRP,bottomLB,bottomRB) || HitLine(topRP,bottomRP,topLB,topRB) )
+			//{
+			//	player->OnCollisionPos("x");
+
+			//}
+			////上辺と（左辺、右辺）の判定
+			////下辺と（左辺、右辺）の判定
+			//if ( HitLine(topLP,topRP,topLB,bottomLB) || HitLine(topLP,topRP,topRB,bottomRB)
+			//	|| HitLine(bottomRP,bottomLP,topLB,bottomLB) || HitLine(bottomRP,bottomLP,topRB,bottomRB) )
+			//{
+			//	player->OnCollisionPos("z");
+			//}
 			#pragma endregion
 			
 		}

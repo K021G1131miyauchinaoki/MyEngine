@@ -91,14 +91,15 @@ public://メンバ関数
 	void StartStaging();
 
 	/// <summary>
-	/// 衝突時のコールバック
+	/// 攻撃を食らった時のコールバック
 	/// </summary>
 	void OnCollision();
 
 	/// <summary>
-	/// 衝突時のコールバック
+	/// オブジェクト衝突時のコールバック
 	/// </summary>
-	void OnCollisionPos();
+	/// <param name="hitDirection">当たった方向</param>
+	void OnCollisionPos(std::string hitDirection);
 
 	//半径を取得
 	const	float GetRadius() { return radius; }
@@ -156,7 +157,6 @@ private://メンバ変数
 	float startEaseTime;
 	bool isTitleStaging;
 	bool isInvincible;
-	bool isMove;
 	float parachutePosY;
 	float pStartRotZ;
 	float pEndRotZ;

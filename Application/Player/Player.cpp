@@ -118,9 +118,6 @@ void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* pa
 		drawHp[i].sprite->SetIsInvisible(drawHp[i].isDraw);
 		drawHp[ i ].sprite->Update();
 	}
-
-	isMove = false;
-
 }
 
 void Player::Reset() {
@@ -236,7 +233,7 @@ void Player::SpriteDraw() {
 void Player::Move() {
 	
 	//移動
-	Vector3 move = { 0.0f,0.0f,0.0f };
+	Vector3 move = tankHad->GetPosition();
 	float speed = 0.5f;
 	float obliques = 1.414213562f;
 	//制限
@@ -289,17 +286,7 @@ void Player::Move() {
 			bodyRot = { 0.0f,45.0f,0.0f };
 		}
 	}
-
-	if (isMove)
-	{
-		move = oldPos;
-		isMove = false;
-	}
-	else
-	{
-		oldPos = tankHad->GetPosition();
-		move += tankHad->GetPosition();
-	}
+	oldPos = tankHad->GetPosition();
 
 	
 	//移動範囲の制限
@@ -373,12 +360,19 @@ void Player::OnCollision()
 	}
 }
 
-void Player::OnCollisionPos()
+void Player::OnCollisionPos(std::string hitDirection)
 {
-	isMove = true;
-	
-	tankHad->SetPosition(oldPos);
-	tankBody->SetPosition(oldPos);
+	Vector3 pos=tankBody->GetPosition();
+	if ( hitDirection == "x" )
+	{
+		pos.x = oldPos.x;
+	}
+	else if ( hitDirection == "z" )
+	{
+		pos.z = oldPos.z;
+	}
+	tankHad->SetPosition(pos);
+	tankBody->SetPosition(pos);
 	tankHad->Update();
 	tankBody->Update();
 }
