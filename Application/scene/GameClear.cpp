@@ -10,7 +10,6 @@
 
 void GameClear::Initialize() {
 	//変数
-	waitTime = 0;
 	clearTime = 0.0f;
 	startFovAngle=10.0f;
 	endFovAngle=90.0f;
@@ -138,6 +137,7 @@ void GameClear::Update() {
 		float fovAngle = startFovAngle + ( endFovAngle - startFovAngle ) * Easing::easeOutCubic(fovAngleTime / fovAngleTimer);
 		camera->SetFovAngle(fovAngle);
 	}
+	//ゲームクリアのスプライトをイージング
 	if ( fovAngleTime >= fovAngleTimer && clearTime < clearTimer )
 	{
 		clearTime++;
@@ -149,25 +149,25 @@ void GameClear::Update() {
 		clearSprite->SetColor(clearColor);
 		clearSprite->SetSize(size);
 	}
-	if ( waitTime <= waitTimer )
-	{
-		waitTime++;
-	}
-	if (waitTime>waitTimer&&
-		!SceneTransition::GetInstance()->GetIsFadeOut() &&
+
+	if (!SceneTransition::GetInstance()->GetIsFadeOut() &&
 		SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("TITLE");
 	}
 	//キーを押したら
-	if ( input->TriggerKey(DIK_RETURN)
+	if (input->TriggerKey(DIK_RETURN)
 		|| input->TriggerReleaseKey(DIK_SPACE)
 		|| input->TriggerReleaseClick(Botton::LEFT)
-		&& !SceneTransition::GetInstance()->GetIsFadeOut()
-		&& !SceneTransition::GetInstance()->GetIsFadeIn() )
+		 )
 	{
-		SceneTransition::GetInstance()->IsFadeOutTrue();
+		if ( clearTime >= clearTimer
+			&& !SceneTransition::GetInstance()->GetIsFadeOut()
+			&& !SceneTransition::GetInstance()->GetIsFadeIn() )
+		{
+			SceneTransition::GetInstance()->IsFadeOutTrue();
+		}
 	}
 }
 
