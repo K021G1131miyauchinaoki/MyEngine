@@ -98,4 +98,7 @@ private:
 	const float easeTimer = 30;
 	float startRot;
 	float endRot;
+	//次シーンまでのタイマー
+	int waitTime;
+	const int waitTimer = 20;
 };

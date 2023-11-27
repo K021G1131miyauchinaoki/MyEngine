@@ -150,7 +150,12 @@ void GameClear::Update() {
 		clearSprite->SetSize(size);
 	}
 
-	if (!SceneTransition::GetInstance()->GetIsFadeOut() &&
+	if ( waitTime <= waitTimer )
+	{
+		waitTime++;
+	}
+	if ( waitTime > waitTimer &&
+		!SceneTransition::GetInstance()->GetIsFadeOut() &&
 		SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
 		//シーンの切り替え
