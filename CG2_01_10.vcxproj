@@ -106,6 +106,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application\Enemy\BaseEnemy.cpp" />
     <ClCompile Include="Engine\base\scene\AbstractSceneFactory.cpp" />
     <ClCompile Include="Application\Enemy\Enemy.cpp" />
     <ClCompile Include="Application\Player\Bullet.cpp" />
@@ -224,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\struct\BaseBlock.h" />
+    <ClInclude Include="Application\Enemy\BaseEnemy.h" />
     <ClInclude Include="Engine\base\scene\AbstractSceneFactory.h" />
     <ClInclude Include="Application\Enemy\Enemy.h" />
     <ClInclude Include="Application\Player\Bullet.h" />

@@ -4,167 +4,88 @@
  */
 
 #pragma once
-#include<Model.h>
-#include"Object3d.h"
-#include<memory>
-#include<list>
-#include<EnemyBullet.h>
-#include<Vector3.h>
-#include<Player.h>
-#include<BaseHp.h>
-#include<array>
+#include"BaseEnemy.h"
 
-//自機クラスの前方前言
-class Player;
-
-
-//行動フェーズ
-enum class Phase {
-	wait,//待機
-	move, //移動する
-	atack,    //攻撃する
-};
-enum class MovePhase
-{
-	approach,//近づく
-	leave,//離れる
-	rotate,//回転する
-};
-enum
-{
-	before,//前
-	after,//後ろ
-};
-
-class Enemy
+class Enemy :public BaseEnemy
 {
 public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialeze(Model* model_, Player*player_,Vector3 pos_,Vector3 rot_);
+	void Initialeze(Model* model_, Player*player_,Vector3 pos_,Vector3 rot_)override;
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update()override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	void Draw()override;
 
 	/// <summary>
 	/// 待機
 	/// </summary>
-	void Wait();
+	void Wait()override;
 
 	/// <summary>
 	/// 移動
 	/// </summary>
-	void Move();
+	void Move()override;
 
 	/// <summary>
 	/// 発射
 	/// </summary>
-	void Shot();
+	void Shot()override;
 
 	/// <summary>
 	/// 回転
 	/// </summary>
-	void Rotate();
+	void Rotate()override;
 
 	/// <summary>
 	/// 位置
 	/// </summary>
 	/// <returns></returns>
-	const	Vector3 GetPos() { return obj->GetPosition(); }
+	const	Vector3 GetPos()override { return obj->GetPosition(); }
 
 	/// <summary>
 	/// 半径を取得
 	/// </summary>
 	/// <returns></returns>
-	const	float GetRadius() { return radius; }
+	const	float GetRadius()override { return radius; }
 
 	/// <summary>
 	/// スケール取得
 	/// </summary>
-	Vector3 GetScale() {return obj->GetScale();};
+	Vector3 GetScale()override {return obj->GetScale();};
 
 	/// <summary>
 	/// 衝突時
 	/// </summary>
-	void OnCollision();
-	void OnCollisionPos();
+	void OnCollision()override;
+
+	/// <summary>
+	/// オブジェクト衝突時のコールバック
+	/// </summary>
+	/// <param name="hitDirection">当たった方向</param>
+	void OnCollisionPos(std::string hitDirection)override;
 
 	/// <summary>
 	/// デスフラグが立ったら
 	/// </summary>
 	/// <returns></returns>
-	bool IsDead()const { return hp.isDead; }
+	bool IsDead()const override { return hp.isDead; }
 
 	//弾リストを取得
-	std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets; }
+	std::list<std::unique_ptr<EnemyBullet>>& GetBullets()override { return bullets; }
 
 	//コンストラクタ
 	Enemy();
 	//デストラクタ
 	~Enemy();
 
-
-private://構造体
-	
-
-
 private://メンバ変数
-	Model* model = nullptr;
-	
-	std::unique_ptr<Object3d>obj = nullptr;
-	//弾
-	std::list<std::unique_ptr<EnemyBullet>> bullets;
-	//移動フラグ
-	bool isMove = false;
-	//移動時間
-	int16_t moveTime;
-	const int16_t  moveTimer = 120;
-	//発射するまでの時間
-	int16_t shotTimer;
-	const int16_t  shotTime = 10;
-	//待機フラグ
-	bool isWait = false;
-	//待機時間
-	float waitTime;
-	//std::array<float>
-	float waitTimer[2] = { 5,60 };
-	//自キャラ
-	Player* player = nullptr;
-	//角度
-	Vector3 vector;
-	float angle[2];
-	//速度
-	Vector3 velocity;
-	//移動
-	Vector3 move;
-	//フェーズ
-	Phase phase = Phase::move;
-	MovePhase movePhase = MovePhase::approach;
-	//乱数値格納
-	Vector3 value;
-	//デスフラグ
-	float radius = 5.0f;
 
-	//仮
-	bool isInvincible = false;
-	const int16_t invincibleTimer = 11;
-	int16_t invincibleTime;
-
-	//位置
-	Vector3 InitialezePos;
-	Vector3 playerPos;
-	Vector3 pos;
-	Vector3 oldPos;
-	//距離
-	Vector3 len;
-	//hp
-	BaseHp hp;
 };

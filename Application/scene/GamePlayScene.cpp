@@ -441,7 +441,7 @@ void GamePlayScene::CheckAllCollision() {
 				//判定
 				if(CheckBoxXZ(posA,enemy->GetScale(),block->obj->GetPosition(),block->obj->GetScale()))
 				{
-					enemy->OnCollisionPos();
+					//enemy->OnCollisionPos();
 				}
 			}
 			

@@ -40,10 +40,7 @@ void ParticleManager::Update() {
 
 	for (std::unique_ptr<BaseParticle>& p : particles) {
 		p->Update();
-		if (p->oneGrain.stratFrame >= p->oneGrain.endFrame)
-		{
-			//p->isDead = true;
-		}
+		
 	}
 }
 

@@ -22,7 +22,7 @@
 class Framework
 {
 public://メンバ関数
-	//コンストラクタ
+	//デストラクタ
 	virtual ~Framework() = default;
 	//初期化
 	virtual void Initialize();
