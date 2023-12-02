@@ -12,7 +12,7 @@ public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialeze(Model* model_, Player*player_,Vector3 pos_,Vector3 rot_)override;
+	void Initialeze(Model* model_, Player*player_,const Vector3& pos_,const Vector3& rot_)override;
 
 	/// <summary>
 	/// 更新
@@ -83,9 +83,6 @@ public://メンバ関数
 
 	//コンストラクタ
 	Enemy();
-	//デストラクタ
-	~Enemy();
-
 private://メンバ変数
 
 };

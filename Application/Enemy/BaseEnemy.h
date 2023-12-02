@@ -28,7 +28,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialeze(Model* model_,Player* player_,Vector3 pos_,Vector3 rot_);
+	virtual void Initialeze(Model* model_,Player* player_,const Vector3 &pos_,const Vector3& rot_);
 
 	/// <summary>
 	/// 更新

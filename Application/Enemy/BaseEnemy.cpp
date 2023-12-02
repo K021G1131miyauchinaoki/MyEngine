@@ -12,7 +12,7 @@
 #include"GamePlayScene.h"
 #include<cmath>
 
-void BaseEnemy::Initialeze(Model* model_,Player* player_,Vector3 pos_,Vector3 rot_) {
+void BaseEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_) {
 	assert(model_);
 	assert(player_);
 	InitialezePos = pos_;

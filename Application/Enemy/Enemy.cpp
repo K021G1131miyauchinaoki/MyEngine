@@ -12,7 +12,7 @@
 #include"GamePlayScene.h"
 #include<cmath>
 
-void Enemy::Initialeze(Model* model_,Player*player_,Vector3 pos_,Vector3 rot_) {
+void Enemy::Initialeze(Model* model_,Player*player_,const Vector3& pos_,const Vector3& rot_) {
 	BaseEnemy::Initialeze(model_,player_,pos_,rot_);
 	obj->SetColor({ 0.0f,0.1f,0.2f,1.0f });
 	obj->Update();
