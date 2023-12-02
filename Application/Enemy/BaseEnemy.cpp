@@ -18,8 +18,7 @@ void BaseEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,con
 	InitialezePos = pos_;
 	InitialezePos.y = radius;
 
-	model = model_;
-	player = player_;
+	player.reset(player_);
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
@@ -198,7 +197,7 @@ void BaseEnemy::OnCollision()
 	}
 }
 
-void BaseEnemy::OnCollisionPos(std::string hitDirection)
+void BaseEnemy::OnCollisionPos(const std::string& hitDirection)
 {
 	Vector3 pos = obj->GetPosition();
 	if ( hitDirection == "x" )

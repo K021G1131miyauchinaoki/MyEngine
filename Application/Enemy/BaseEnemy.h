@@ -92,7 +92,7 @@ public:
 	/// オブジェクト衝突時のコールバック
 	/// </summary>
 	/// <param name="hitDirection">当たった方向</param>
-	virtual void OnCollisionPos(std::string hitDirection);
+	virtual void OnCollisionPos(const std::string &hitDirection);
 
 	/// <summary>
 	/// デスフラグが立ったら
@@ -129,8 +129,6 @@ protected://メンバ変数
 	};
 
 protected://メンバ変数
-	Model* model = nullptr;
-
 	std::unique_ptr<Object3d>obj = nullptr;
 	//弾
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
@@ -149,7 +147,7 @@ protected://メンバ変数
 	//std::array<float>
 	float waitTimer[ 2 ] = { 5,60 };
 	//自キャラ
-	Player* player = nullptr;
+	std::unique_ptr < Player> player = nullptr;
 	//角度
 	Vector3 vector;
 	float angle[ 2 ];
