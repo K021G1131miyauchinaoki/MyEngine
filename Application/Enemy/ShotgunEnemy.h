@@ -93,6 +93,6 @@ public://メンバ関数
 	//コンストラクタ
 	ShotgunEnemy();
 private:
-	int8_t bulletNum;
+	int8_t shiftNum;
 };
 

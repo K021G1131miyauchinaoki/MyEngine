@@ -106,7 +106,7 @@
                     5.0
                 ]
             },
-            "file_name": "enemy"
+            "file_name": "enemy1"
         },
         {
             "type": "MESH",
@@ -128,7 +128,7 @@
                     5.0
                 ]
             },
-            "file_name": "enemy"
+            "file_name": "enemy1"
         },
         {
             "type": "MESH",
@@ -150,7 +150,7 @@
                     5.0
                 ]
             },
-            "file_name": "enemy"
+            "file_name": "enemy1"
         },
         {
             "type": "MESH",

@@ -16,7 +16,7 @@ void ShotgunEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,
 	BaseEnemy::Initialeze(model_,player_,pos_,rot_);
 	obj->SetColor({ 0.2f,0.1f,0.0f,1.0f });
 	obj->Update();
-	bulletNum = 3;
+	shiftNum = 2;
 }
 
 void ShotgunEnemy::Update() {
@@ -56,9 +56,9 @@ void ShotgunEnemy::Shot() {
 	obj->SetRotation(rot);
 	//速度ベクトルを自機の向きに合わせて回転させる
 	//ImgM = Vec_rot(ImgM, worldTransform_.matWorld_);
-	for ( int8_t i = -1; i < bulletNum - 1; i++ )
+	for ( int8_t i = -1; i < shiftNum; i++ )
 	{
-		const float shift = 15.0f;
+		const float shift = 30.0f;
 		float radian = -MyMath::RadianTransform(angle+shift*static_cast<float>(i));
 		velocity = { std::cos(radian),0.0f,std::sin(radian) };
 		velocity = MyMath::normaleizeVec3(velocity);
