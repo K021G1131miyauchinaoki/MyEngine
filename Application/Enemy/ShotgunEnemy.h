@@ -1,18 +1,17 @@
 /**
- * @file Enemy.h
- * @brief エネミークラス
+ * @file ShotgunEnemy.h
+ * @brief 散弾敵クラス
  */
 
 #pragma once
-#include"BaseEnemy.h"
-
-class Enemy :public BaseEnemy
+#include "BaseEnemy.h"
+class ShotgunEnemy :public BaseEnemy
 {
 public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialeze(Model* model_, Player*player_,const Vector3& pos_,const Vector3& rot_)override;
+	void Initialeze(Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_)override;
 
 	/// <summary>
 	/// 更新
@@ -48,18 +47,24 @@ public://メンバ関数
 	/// 位置
 	/// </summary>
 	/// <returns></returns>
-	const	Vector3 GetPos()override { return obj->GetPosition(); }
+	const	Vector3 GetPos()override {
+		return obj->GetPosition();
+	}
 
 	/// <summary>
 	/// 半径を取得
 	/// </summary>
 	/// <returns></returns>
-	const	float GetRadius()override { return radius; }
+	const	float GetRadius()override {
+		return radius;
+	}
 
 	/// <summary>
 	/// スケール取得
 	/// </summary>
-	Vector3 GetScale()override {return obj->GetScale();};
+	Vector3 GetScale()override {
+		return obj->GetScale();
+	};
 
 	/// <summary>
 	/// 衝突時
@@ -70,19 +75,24 @@ public://メンバ関数
 	/// オブジェクト衝突時のコールバック
 	/// </summary>
 	/// <param name="hitDirection">当たった方向</param>
-	void OnCollisionPos(const std::string &hitDirection)override;
+	void OnCollisionPos(const std::string& hitDirection)override;
 
 	/// <summary>
 	/// デスフラグが立ったら
 	/// </summary>
 	/// <returns></returns>
-	bool IsDead()const override { return hp.isDead; }
+	bool IsDead()const override {
+		return hp.isDead;
+	}
 
 	//弾リストを取得
-	std::list<std::unique_ptr<EnemyBullet>>& GetBullets()override { return bullets; }
+	std::list<std::unique_ptr<EnemyBullet>>& GetBullets()override {
+		return bullets;
+	}
 
 	//コンストラクタ
-	Enemy();
-private://メンバ変数
-
+	ShotgunEnemy();
+private:
+	int8_t bulletNum;
 };
+

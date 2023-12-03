@@ -151,6 +151,7 @@
     <ClCompile Include="Engine\3d\Light\Light.cpp" />
     <ClCompile Include="Application\scene\SceneTransition.cpp" />
     <ClCompile Include="Application\particle\Smoke.cpp" />
+    <ClCompile Include="Application\Enemy\ShotgunEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -272,6 +273,7 @@
     <ClInclude Include="Engine\base\scene\SceneFactory.h" />
     <ClInclude Include="Application\scene\SceneTransition.h" />
     <ClInclude Include="Application\particle\Smoke.h" />
+    <ClInclude Include="Application\Enemy\ShotgunEnemy.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CG2.rc" />

@@ -19,6 +19,7 @@
 #include<ParticleManager.h>
 #include<LevelLoader.h>
 #include<list>
+#include "ShotgunEnemy.h"
 #include<BaseBlock.h>
 
 class GamePlayScene:public BaseScene
@@ -110,7 +111,7 @@ private:
 	std::unique_ptr <Object3d> objSkydome = nullptr;
 
 	std::unique_ptr<Player> player;
-	std::list< std::unique_ptr<Enemy>>enemys;
+	std::list< std::unique_ptr<ShotgunEnemy>>enemys;
 	std::list< std::unique_ptr<BaseBlock>>blocks;
 	std::unique_ptr<Map>map;
 

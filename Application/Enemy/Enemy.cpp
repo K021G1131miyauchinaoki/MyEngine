@@ -20,38 +20,6 @@ void Enemy::Initialeze(Model* model_,Player*player_,const Vector3& pos_,const Ve
 
 void Enemy::Update() {
 	BaseEnemy::Update();
-	//デスフラグの立った弾を削除
-	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) { return bullet->IsDead(); });
-	if (!GamePlayScene::isStart )
-	{
-		switch ( phase )
-		{
-		case Phase::wait:
-			Wait();
-			break;
-		case Phase::move:
-			Move();
-			break;
-		case Phase::atack:
-			Shot();
-
-			break;
-		}
-	}
-	obj->Update();
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets)
-	{
-		bullet->Update();
-	}
-	if ( isInvincible )
-	{
-		invincibleTime--;
-	}
-	if ( invincibleTime < 0 )
-	{
-		invincibleTime = invincibleTimer;
-		isInvincible = false;
-	}
 }
 
 void Enemy::Draw() {
@@ -75,16 +43,16 @@ void Enemy::Shot() {
 	len= playerPos - pos;
 	velocity = MyMath::normaleizeVec3(len);
 	// 正規化
-	vector = MyMath::normaleizeVec3(len);
+	rot = MyMath::normaleizeVec3(len);
 	//角度を算出
-	angle[1] = -atan2(vector.z, vector.x);
-	vector.x = 0.0f;
-	vector.z = 0.0f;
-	vector.y=MyMath::DegreeTransform(angle[1]);
+	angle = -atan2(rot.z, rot.x);
+	rot.x = 0.0f;
+	rot.z = 0.0f;
+	rot.y=MyMath::DegreeTransform(angle);
 	velocity *= kBulletSpeed;
 
 	//角度を格納
-	obj->SetRotation(vector);
+	obj->SetRotation(rot);
 	//速度ベクトルを自機の向きに合わせて回転させる
 	//ImgM = Vec_rot(ImgM, worldTransform_.matWorld_);
 	//弾を生成し、初期化
@@ -94,9 +62,7 @@ void Enemy::Shot() {
 	//弾を登録する
 	bullets.push_back(std::move(newBullet));
 
-	//フェーズの切り替え
-	phase = Phase::wait;
-	shotTimer = shotTime;
+	BaseEnemy::Shot();
 }
 
 void Enemy::Rotate() {
@@ -113,7 +79,7 @@ void Enemy::OnCollision()
 	BaseEnemy::OnCollision();
 }
 
-void Enemy::OnCollisionPos(std::string hitDirection)
+void Enemy::OnCollisionPos(const std::string &hitDirection)
 {
 	BaseEnemy::OnCollisionPos(hitDirection);
 }

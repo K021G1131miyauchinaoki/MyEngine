@@ -149,8 +149,8 @@ protected://メンバ変数
 	//自キャラ
 	std::unique_ptr < Player> player = nullptr;
 	//角度
-	Vector3 vector;
-	float angle[ 2 ];
+	Vector3 rot;
+	float angle;
 	//速度
 	Vector3 velocity;
 	//移動

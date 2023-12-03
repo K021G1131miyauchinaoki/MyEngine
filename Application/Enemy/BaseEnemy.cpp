@@ -29,15 +29,48 @@ void BaseEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,con
 	shotTimer = shotTime;
 	waitTime = 0.0f;
 	invincibleTime = invincibleTimer;
-	angle[ 0 ] = 0.0f;
-	angle[ 1 ] = 0.0f;
+	angle = 0.0f;
+	angle = 0.0f;
 	//体力
 	hp.value = 3;
 	hp.isDead = false;
 }
 
 void BaseEnemy::Update() {
-	
+	//デスフラグの立った弾を削除
+	bullets.remove_if([ ] (std::unique_ptr<EnemyBullet>& bullet)
+ {
+	 return bullet->IsDead();
+ });
+	if ( !GamePlayScene::isStart )
+	{
+		switch ( phase )
+		{
+		case Phase::wait:
+			Wait();
+			break;
+		case Phase::move:
+			Move();
+			break;
+		case Phase::atack:
+			Shot();
+			break;
+		}
+	}
+	obj->Update();
+	for ( std::unique_ptr<EnemyBullet>& bullet : bullets )
+	{
+		bullet->Update();
+	}
+	if ( isInvincible )
+	{
+		invincibleTime--;
+	}
+	if ( invincibleTime < 0 )
+	{
+		invincibleTime = invincibleTimer;
+		isInvincible = false;
+	}
 }
 
 void BaseEnemy::Draw() {
@@ -64,9 +97,9 @@ void BaseEnemy::Move() {
 		//長さを算出
 		float lenght = MyMath::Length(len);
 		float shift = 60.0f;
-		Vector3 rot = { 0.0f,0.0f,0.0f };
-#pragma region 乱数
-//乱数シード生成器
+		rot = { 0.0f,0.0f,0.0f };
+		#pragma region 乱数
+		//乱数シード生成器
 		std::random_device seed_gen;
 		//メルセンヌ・ツイスターの乱数エンジン
 		std::mt19937_64 engine(seed_gen());
@@ -85,16 +118,16 @@ void BaseEnemy::Move() {
 		}
 		std::uniform_real_distribution<float> rotDist(-shift,shift);
 
-		angle[ 0 ] = rotDist(engine) + criteriaRot;
-		angle[ 0 ] = MyMath::RadianTransform(angle[ 0 ]);
+		angle = rotDist(engine) + criteriaRot;
+		angle = MyMath::RadianTransform(angle);
 		//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
-		value = { std::cos(angle[ 0 ]),0.0f,std::sin(angle[ 0 ]) };
+		value = { std::cos(angle),0.0f,std::sin(angle) };
 		//値を正規化
 		value = MyMath::normaleizeVec3(value);
 
-		angle[ 0 ] = -MyMath::DegreeTransform(angle[ 0 ]);//角度の算出
-		angle[ 0 ] = MyMath::AngleCorrection(angle[ 0 ]);//角度の補正
-		rot.y = angle[ 0 ];
+		angle = -MyMath::DegreeTransform(angle);//角度の算出
+		angle = MyMath::AngleCorrection(angle);//角度の補正
+		rot.y = angle;
 
 		obj->SetRotation(rot);
 
@@ -142,7 +175,9 @@ void BaseEnemy::Move() {
 }
 
 void BaseEnemy::Shot() {
-	
+	//フェーズの切り替え
+	phase = Phase::wait;
+	shotTimer = shotTime;
 }
 
 void BaseEnemy::Rotate() {
@@ -151,21 +186,22 @@ void BaseEnemy::Rotate() {
 
 void BaseEnemy::Wait() {
 	Vector3 pos;
+	rot = { 0.0f,0.0f,0.0f };
 	waitTime++;
 	pos = obj->GetPosition();
 	playerPos = player->GetPos();
 
 	len = playerPos - pos;
 	// 正規化
-	vector = MyMath::normaleizeVec3(len);
+	rot = MyMath::normaleizeVec3(len);
 	//角度を算出
-	angle[ 1 ] = MyMath::DegreeTransform(-atan2(vector.z,vector.x));
+	angle = MyMath::DegreeTransform(-atan2(rot.z,rot.x));
 
 	if ( !isWait )
 	{
-		Vector3 rot = obj->GetRotation();
+		rot = obj->GetRotation();
 		float t = waitTime / waitTimer[ before ];
-		rot.y = MyMath::LerpShortAngle(rot.y,angle[ 1 ],t);
+		rot.y = MyMath::LerpShortAngle(rot.y,angle,t);
 		obj->SetRotation(rot);
 	}
 

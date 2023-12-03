@@ -163,6 +163,7 @@
     <ClCompile Include="Application\scene\SceneTransition.cpp" />
     <ClCompile Include="Application\particle\Smoke.cpp" />
     <ClCompile Include="Application\Enemy\BaseEnemy.cpp" />
+    <ClCompile Include="Application\Enemy\ShotgunEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\Enemy.h">
@@ -299,6 +300,7 @@
     <ClInclude Include="Application\particle\Smoke.h" />
     <ClInclude Include="Application\struct\BaseBlock.h" />
     <ClInclude Include="Application\Enemy\BaseEnemy.h" />
+    <ClInclude Include="Application\Enemy\ShotgunEnemy.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

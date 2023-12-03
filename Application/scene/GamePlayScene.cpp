@@ -173,7 +173,7 @@ void GamePlayScene::Initialize() {
 		//エネミー
 		if ( objectData.fileName=="enemy" )
 		{
-			Enemy* newEnemy = new Enemy();
+			ShotgunEnemy* newEnemy = new ShotgunEnemy();
 			newEnemy->Initialeze(model,player.get(),objectData.translation,objectData.rotation);
 			enemys.emplace_back(std::move(newEnemy));
 
@@ -237,7 +237,7 @@ void GamePlayScene::Initialize() {
 }
 
 void GamePlayScene::Update(){
-	enemys.remove_if([ ] (std::unique_ptr<Enemy>& enemy)
+	enemys.remove_if([ ] (std::unique_ptr<ShotgunEnemy>& enemy)
 	{
 		return enemy->IsDead();
 	});
@@ -248,7 +248,7 @@ void GamePlayScene::Update(){
 		camera->SetEye(cameraPos);
 		camera->Update();
 		player->Update();
-		for ( std::unique_ptr<Enemy>& enemy : enemys )
+		for ( std::unique_ptr<ShotgunEnemy>& enemy : enemys )
 		{
 			enemy->Update();
 		}
@@ -293,7 +293,7 @@ void GamePlayScene::SpriteDraw() {
 }
 
 void GamePlayScene::ObjDraw(){
-	for ( std::unique_ptr<Enemy>& enemy : enemys )
+	for ( std::unique_ptr<ShotgunEnemy>& enemy : enemys )
 	{
 		enemy->Draw();
 	}
@@ -314,7 +314,7 @@ void GamePlayScene::CheckAllCollision() {
 		const std::list<std::unique_ptr<Bullet>>& playerBullets = player->GetBullets();
 		//敵弾リストを取得
 		//自キャラの座標
-		for ( std::unique_ptr<Enemy>& enemy : enemys )
+		for ( std::unique_ptr<ShotgunEnemy>& enemy : enemys )
 		{
 			const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy->GetBullets();
 			#pragma	region	自キャラと敵弾の当たり判定
