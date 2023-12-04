@@ -84,3 +84,4 @@ void Enemy::OnCollisionPos(const std::string &hitDirection)
 	BaseEnemy::OnCollisionPos(hitDirection);
 }
 Enemy::Enemy() {}
+Enemy::~Enemy() {}

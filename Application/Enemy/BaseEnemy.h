@@ -147,7 +147,7 @@ protected://メンバ変数
 	//std::array<float>
 	float waitTimer[ 2 ] = { 5,60 };
 	//自キャラ
-	std::unique_ptr < Player> player = nullptr;
+	Player* player = nullptr;
 	//角度
 	Vector3 rot;
 	float angle;

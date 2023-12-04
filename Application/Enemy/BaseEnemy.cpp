@@ -18,7 +18,7 @@ void BaseEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,con
 	InitialezePos = pos_;
 	InitialezePos.y = radius;
 
-	player.reset(player_);
+	player=player_;
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);

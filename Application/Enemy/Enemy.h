@@ -79,10 +79,12 @@ public://メンバ関数
 	bool IsDead()const override { return hp.isDead; }
 
 	//弾リストを取得
-	std::list<std::unique_ptr<EnemyBullet>>& GetBullets()override { return bullets; }
+	std::list<std::unique_ptr<EnemyBullet>>& GetBullets(){ return bullets; }
 
 	//コンストラクタ
 	Enemy();
+
+	~Enemy()override;
 private://メンバ変数
 
 };
