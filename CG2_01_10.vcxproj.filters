@@ -164,6 +164,8 @@
     <ClCompile Include="Application\particle\Smoke.cpp" />
     <ClCompile Include="Application\Enemy\BaseEnemy.cpp" />
     <ClCompile Include="Application\Enemy\ShotgunEnemy.cpp" />
+    <ClCompile Include="Application\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Application\BulletManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\Enemy.h">
@@ -301,6 +303,8 @@
     <ClInclude Include="Application\struct\BaseBlock.h" />
     <ClInclude Include="Application\Enemy\BaseEnemy.h" />
     <ClInclude Include="Application\Enemy\ShotgunEnemy.h" />
+    <ClInclude Include="Application\Enemy\EnemyManager.h" />
+    <ClInclude Include="Application\BulletManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
