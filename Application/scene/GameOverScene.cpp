@@ -33,7 +33,7 @@ void GameOverScene::Initialize() {
 	Object3d::SetLight(light.get());
 
 	// モデル読み込み
-	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
+	modelSkydome.reset(Model::LoadFromOBJ("skydome",true));
 	cube.reset(Model::LoadFromOBJ("smoke"));
 	had.reset(Model::LoadFromOBJ("TankHad"));
 	body.reset(Model::LoadFromOBJ("TankBody"));

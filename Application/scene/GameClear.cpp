@@ -60,7 +60,7 @@ void GameClear::Initialize() {
 	Object3d::SetLight(light.get());
 
 	// モデル読み込み
-	modelSkydome.reset(Model::LoadFromOBJ("skydome"));
+	modelSkydome.reset(Model::LoadFromOBJ("skydome",true));
 	had.reset(Model::LoadFromOBJ("TankHad"));
 	body.reset(Model::LoadFromOBJ("TankBody"));
 	modelMap.reset(Model::LoadFromOBJ("map"));
