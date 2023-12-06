@@ -3,26 +3,18 @@
  * @brief プレイヤー用弾
  */
 
+#include<Model.h>
 #include "Bullet.h"
 #include<assert.h>
 
-std::unique_ptr < Model>Bullet::model = nullptr;
-
-void Bullet::StaticInitialize(Model* model_) {
-	if (model==nullptr)
-	{
-		model.reset(model_);
-	}
-}
-
-void Bullet::Initialize(const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_){
+void Bullet::Initialize(Model* model_,const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_){
 	//NULLポインタチェック
-	assert(model);
+	assert(model_);
 	
 	velocity = veclocity_;
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
-	obj->SetModel(model.get());
+	obj->SetModel(model_);
 	obj->SetRotation(rotation_);
 	obj->SetPosition(position_);
 	obj->SetScale({ r,r,r });
@@ -74,10 +66,6 @@ void Bullet::Draw() {
 	obj->Draw();
 }
 
-//終了
-void Bullet::Finalize() {
-	model.release();
-}
 //コンストラクタ
 Bullet::Bullet() {
 	

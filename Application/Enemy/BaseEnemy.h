@@ -8,12 +8,11 @@
 #include"Object3d.h"
 #include<memory>
 #include<list>
-#include<EnemyBullet.h>
 #include<Vector3.h>
 #include<Player.h>
 #include<BaseHp.h>
 #include<array>
-
+#include"BulletManager.h"
 //自機クラスの前方前言
 class Player;
 
@@ -28,7 +27,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialeze(Model* model_,Player* player_,const Vector3 &pos_,const Vector3& rot_);
+	virtual void Initialeze(Model* model_,Player* player_,const Vector3 &pos_,const Vector3& rot_,BulletManager* bulletManager_);
 
 	/// <summary>
 	/// 更新
@@ -102,12 +101,6 @@ public:
 		return hp.isDead;
 	}
 
-	//弾リストを取得
-	virtual std::list<std::unique_ptr<EnemyBullet>>& GetBullets() {
-		return bullets;
-	}
-
-
 protected://メンバ変数
 	//行動フェーズ
 	enum class Phase
@@ -130,8 +123,7 @@ protected://メンバ変数
 
 protected://メンバ変数
 	std::unique_ptr<Object3d>obj = nullptr;
-	//弾
-	std::list<std::unique_ptr<EnemyBullet>> bullets;
+	BulletManager* bulletManager = nullptr;
 	//移動フラグ
 	bool isMove = false;
 	//移動時間

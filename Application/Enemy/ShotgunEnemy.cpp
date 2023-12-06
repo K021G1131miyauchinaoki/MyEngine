@@ -11,9 +11,10 @@
 #include<MyMath.h>
 #include"GamePlayScene.h"
 #include<cmath>
+#include"BulletManager.h"
 
-void ShotgunEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_) {
-	BaseEnemy::Initialeze(model_,player_,pos_,rot_);
+void ShotgunEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
+	BaseEnemy::Initialeze(model_,player_,pos_,rot_,bulletManager_);
 	obj->SetColor({ 0.2f,0.1f,0.0f,1.0f });
 	obj->Update();
 	shiftNum = 2;
@@ -58,40 +59,21 @@ void ShotgunEnemy::Shot() {
 	//ImgM = Vec_rot(ImgM, worldTransform_.matWorld_);
 	for ( int8_t i = -1; i < shiftNum; i++ )
 	{
+		Vector3 bulletRot = { 0,0,0 };
 		const float shift = 30.0f;
 		float radian = -MyMath::RadianTransform(angle+shift*static_cast<float>(i));
 		velocity = { std::cos(radian),0.0f,std::sin(radian) };
 		velocity = MyMath::normaleizeVec3(velocity);
 		velocity *= kBulletSpeed;
-		//弾を生成し、初期化
-		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-		newBullet->Initialize(obj->GetPosition(),velocity,obj->GetRotation());
 
-		//弾を登録する
-		bullets.push_back(std::move(newBullet));
+		bulletRot.y = angle + shift * static_cast< float >( i );
+
+		bulletManager->EnemyBulletCreate(obj->GetPosition(),velocity,bulletRot);
+
 	}
 	
 
 	BaseEnemy::Shot();
-
-	//len = MyMath::normaleizeVec3(len);
-	//float criteriaRot = MyMath::DegreeTransform(( atan2(len.z,len.x) ));
-	//
-	//else if ( lenght < 20.0f )
-	//{
-	//	criteriaRot = -MyMath::DegreeTransform(( atan2(len.z,len.x) ));
-	//}
-	//std::uniform_real_distribution<float> rotDist(-shift,shift);
-
-	//angle = rotDist(engine) + criteriaRot;
-	//angle = MyMath::RadianTransform(angle);
-	////乱数エンジンを渡し、指定範囲かっランダムな数値を得る
-	//value = { std::cos(angle),0.0f,std::sin(angle) };
-	////値を正規化
-	//value = MyMath::normaleizeVec3(value);
-
-	//angle = -MyMath::DegreeTransform(angle);//角度の算出
-	//angle = MyMath::AngleCorrection(angle);//角度の補正
 }
 
 void ShotgunEnemy::Rotate() {

@@ -11,7 +11,7 @@ public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialeze(Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_)override;
+	void Initialeze(Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_)override;
 
 	/// <summary>
 	/// 更新
@@ -83,11 +83,6 @@ public://メンバ関数
 	/// <returns></returns>
 	bool IsDead()const override {
 		return hp.isDead;
-	}
-
-	//弾リストを取得
-	std::list<std::unique_ptr<EnemyBullet>>& GetBullets()override {
-		return bullets;
 	}
 
 	//コンストラクタ

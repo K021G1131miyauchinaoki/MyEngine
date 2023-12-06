@@ -40,8 +40,6 @@ void GameOverScene::Initialize() {
 	modelMap.reset(Model::LoadFromOBJ("map"));
 
 	//モデルのセット
-	EnemyBullet::StaticInitialize(cube.get());
-	Bullet::StaticInitialize(cube.get());
 	Map::StaticInitialize(modelMap.get());
 
 

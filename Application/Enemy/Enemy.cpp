@@ -11,9 +11,10 @@
 #include<MyMath.h>
 #include"GamePlayScene.h"
 #include<cmath>
+#include"BulletManager.h"
 
-void Enemy::Initialeze(Model* model_,Player*player_,const Vector3& pos_,const Vector3& rot_) {
-	BaseEnemy::Initialeze(model_,player_,pos_,rot_);
+void Enemy::Initialeze(Model* model_,Player*player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
+	BaseEnemy::Initialeze(model_,player_,pos_,rot_,bulletManager_);
 	obj->SetColor({ 0.0f,0.1f,0.2f,1.0f });
 	obj->Update();
 }
@@ -55,12 +56,8 @@ void Enemy::Shot() {
 	obj->SetRotation(rot);
 	//速度ベクトルを自機の向きに合わせて回転させる
 	//ImgM = Vec_rot(ImgM, worldTransform_.matWorld_);
-	//弾を生成し、初期化
-	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-	newBullet->Initialize(obj->GetPosition(), velocity, obj->GetRotation());
-
-	//弾を登録する
-	bullets.push_back(std::move(newBullet));
+	//弾を生成
+	bulletManager->EnemyBulletCreate(obj->GetPosition(),velocity,obj->GetRotation());
 
 	BaseEnemy::Shot();
 }

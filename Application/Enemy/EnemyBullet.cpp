@@ -4,30 +4,19 @@
  */
 
 #include "EnemyBullet.h"
+#include<Model.h>
 #include<assert.h>
-
-std::unique_ptr<Model> EnemyBullet::model = nullptr;
 
 bool EnemyBullet::IsDead() const { return isDead; }
 float EnemyBullet::GetRadius() {return r;}
 
-
-void EnemyBullet::StaticInitialize(Model* model_) {
-	if (model == nullptr)
-	{
-		model.reset(model_);
-	}
-}
-
-void EnemyBullet::Initialize(const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_) {
+void EnemyBullet::Initialize(Model* model_,const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_) {
 	//NULLポインタチェック
-	assert(model);
-	/*size_t s=sizeof(model);
-	size_t s = sizeof(model);*/
+	assert(model_);
 	velocity = veclocity_;
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
-	obj->SetModel(model.get());
+	obj->SetModel(model_);
 	obj->SetRotation(rotation_);
 	obj->SetPosition(position_);
 	obj->SetScale({r,r,r});
@@ -75,11 +64,6 @@ void EnemyBullet::OnCollision() { isDead = true; }
 
 void EnemyBullet::Draw() {
 	obj->Draw();
-}
-
-//終了
-void EnemyBullet::Finalize() {
-	model.release();
 }
 
 //コンストラクタ

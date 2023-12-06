@@ -57,8 +57,6 @@ void MyGame::Draw(){
 }
 
 void MyGame::Finalize(){
-	Bullet::Finalize();
-	EnemyBullet::Finalize();
 	Map::Finalize();
 	Framework::Finalize();
 }

@@ -4,7 +4,6 @@
  */
 
 #pragma once
-#include<Model.h>
 #include<Object3d.h>
 #include<Vector3.h>
 #include<memory>
@@ -25,18 +24,12 @@ public:
 
 	//コピーコンストラクタ明示的
 	EnemyBullet(const EnemyBullet&) = default;
-public://静的メンバ関数
-	static void StaticInitialize(Model* model_);
-	static void Finalize();
-
-private://静的メンバ変数
-	static	std::unique_ptr < Model> model;
 
 public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize( const Vector3& position_, const Vector3& veclocity_, const Vector3& rotation_);
+	void Initialize(Model*model_, const Vector3& position_, const Vector3& veclocity_, const Vector3& rotation_);
 	
 	/// <summary>
 	/// 更新

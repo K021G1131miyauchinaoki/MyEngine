@@ -13,6 +13,7 @@
 #include"TitleScene.h"
 #include"Easing.h"
 #include"Player.h"
+#include"BulletManager.h"
 
 void Player::ParameterCommonInitialeze() {
 	startPosY = 120.0f;
@@ -66,7 +67,7 @@ void Player::TitleInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Input* i
 	drawHp.clear();
 }
 
-void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_, Input* input_) {
+void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_, Input* input_,BulletManager* bulletManager_) {
 	assert(tankHadModel_);
 	assert(tankBodyModel_);
 	assert(parachuteModel_);
@@ -118,6 +119,8 @@ void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* pa
 		drawHp[i].sprite->SetIsInvisible(drawHp[i].isDraw);
 		drawHp[ i ].sprite->Update();
 	}
+	//コピー
+	bulletManager = bulletManager_;
 }
 
 void Player::Reset() {
@@ -142,12 +145,6 @@ void Player::Update() {
 		//プレイ
 		else
 		{
-			//デスフラグの立った弾を削除
-			bullets_.remove_if([ ] (std::unique_ptr<Bullet>& bullet)
-			{
-				return bullet->IsDead();
-			});
-
 			//マウスカーソルの位置取得
 			mausePos = input->GetMausePos();
 			mouseVec = { 0.0f,0.0f };
@@ -182,11 +179,6 @@ void Player::Update() {
 				invincibleTimer = invincibleTime;
 				isInvincible = false;
 			}
-			//弾
-			for ( std::unique_ptr<Bullet>& bullet : bullets_ )
-			{
-				bullet->Update();
-			}
 		}
 	}
 	//オブジェクト
@@ -211,10 +203,6 @@ void Player::ObjDraw() {
 	{
 		tankHad->Draw();
 		tankBody->Draw();
-	}
-	//弾
-	for (std::unique_ptr<Bullet>& bullet : bullets_) {
-		bullet->Draw();
 	}
 }
 
@@ -327,12 +315,8 @@ void Player::Shot() {
 	if (input->PushKey(DIK_SPACE)||input->PushClick(Botton::LEFT)) {
 		if (coolTime < 0)
 		{
-			//弾を生成し、初期化
-			std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
-			newBullet->Initialize(tankHad->GetPosition(), velocity,tankHad->GetRotation());
-
-			//弾を登録する
-			bullets_.push_back(std::move(newBullet));
+			//弾を生成し
+			bulletManager->PlayerBulletShot(tankHad->GetPosition(),velocity,tankHad->GetRotation());
 			
 			//タイムリセット
 			coolTime = 30;

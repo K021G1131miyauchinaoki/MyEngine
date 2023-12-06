@@ -21,6 +21,7 @@
 #include<list>
 #include "ShotgunEnemy.h"
 #include<BaseBlock.h>
+#include"BulletManager.h"
 
 class GamePlayScene:public BaseScene
 {
@@ -107,14 +108,18 @@ private:
 	std::unique_ptr <Model> tank = nullptr;
 	std::unique_ptr <Model> parachute = nullptr;
 	std::unique_ptr <Model> modelMap = nullptr;
-
+	//天球
 	std::unique_ptr <Object3d> objSkydome = nullptr;
-
+	//プレイヤー
 	std::unique_ptr<Player> player;
+	//敵
 	std::list< std::unique_ptr<ShotgunEnemy>>enemys;
+	//壁
 	std::list< std::unique_ptr<BaseBlock>>blocks;
+	//床
 	std::unique_ptr<Map>map;
-
+	//弾
+	std::unique_ptr<BulletManager>bulletManager;
 	//外部ファイルの読み込み
 	std::unique_ptr< LevelData>jsonLoader;
 	std::map<std::string, Model*> models;

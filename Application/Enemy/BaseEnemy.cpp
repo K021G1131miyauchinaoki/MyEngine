@@ -12,7 +12,7 @@
 #include"GamePlayScene.h"
 #include<cmath>
 
-void BaseEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_) {
+void BaseEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
 	assert(model_);
 	assert(player_);
 	InitialezePos = pos_;
@@ -34,14 +34,10 @@ void BaseEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,con
 	//体力
 	hp.value = 3;
 	hp.isDead = false;
+	bulletManager = bulletManager_;
 }
 
 void BaseEnemy::Update() {
-	//デスフラグの立った弾を削除
-	bullets.remove_if([ ] (std::unique_ptr<EnemyBullet>& bullet)
- {
-	 return bullet->IsDead();
- });
 	if ( !GamePlayScene::isStart )
 	{
 		switch ( phase )
@@ -58,10 +54,6 @@ void BaseEnemy::Update() {
 		}
 	}
 	obj->Update();
-	for ( std::unique_ptr<EnemyBullet>& bullet : bullets )
-	{
-		bullet->Update();
-	}
 	if ( isInvincible )
 	{
 		invincibleTime--;
@@ -78,10 +70,6 @@ void BaseEnemy::Draw() {
 	if ( invincibleTime % 2 == 1 )
 	{
 		obj->Draw();
-	}
-	for ( std::unique_ptr<EnemyBullet>& bullet : bullets )
-	{
-		bullet->Draw();
 	}
 }
 

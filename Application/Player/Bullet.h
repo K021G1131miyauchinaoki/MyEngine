@@ -4,7 +4,6 @@
  */
 
 #pragma once
-#include<Model.h>
 #include<Object3d.h>
 #include<Vector3.h>
 
@@ -13,14 +12,11 @@ class Bullet
 public://コンストラクタ
 	Bullet();
 	~Bullet();
-public://静的メンバ関数
-	static void StaticInitialize(Model* model_);
-	static void Finalize();
 public://メンバ関数
 /// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_);
+	void Initialize(Model* model_,const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_);
 
 	/// <summary>
 	/// 更新
@@ -58,8 +54,6 @@ public://メンバ関数
 	float GetRadius() { return r; }
 
 private:
-	
-	static	std::unique_ptr < Model>model;
 	std::unique_ptr<Object3d>obj = nullptr;
 	//速度
 	Vector3 velocity;

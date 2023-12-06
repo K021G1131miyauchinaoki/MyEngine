@@ -4,14 +4,14 @@
 #include<memory>
 #include<Bullet.h>
 #include<EnemyBullet.h>
-
+#include<Model.h>
 class BulletManager
 {
 public:
 	/// <summary>
 	///　初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(Model*model_);
 
 	/// <summary>
 	/// 弾の更新
@@ -41,10 +41,7 @@ public:
 	/// <param name="vec_"></param>
 	/// <param name="rot_"></param>
 	/// <param name="bulletSpeed"></param>
-	void EnemyBulletShot(const Vector3& pos,const Vector3& vec_,const Vector3& rot_);
-
-	// インスタンスゲッター
-	static BulletManager* GetInstance();
+	void EnemyBulletCreate(const Vector3& pos,const Vector3& vec_,const Vector3& rot_);
 
 	// 存命の弾を全部削除
 	void AllBulletDelete();
@@ -62,12 +59,11 @@ public:
 private:
 	// プレイヤーの弾
 	std::list<std::unique_ptr<Bullet>> playerBullets;
-	//KModel* playersBulletModel = nullptr;
-	std::unique_ptr<Model> playersBulletModel = nullptr;
+	std::unique_ptr<Model> playerBulletModel = nullptr;
 
 	// 敵の弾
 	std::list<std::unique_ptr<EnemyBullet>> enemyBullets;
-	std::unique_ptr<Model> enemysBulletModel = nullptr;
+	std::unique_ptr<Model> enemyBulletModel = nullptr;
 
 	// インスタンス
 	static BulletManager* bulletManager;

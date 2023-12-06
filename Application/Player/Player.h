@@ -10,11 +10,11 @@
 #include<memory>
 #include<list>
 #include<vector>
-#include<Bullet.h>
 #include<Vector3.h>
 #include<Vector2.h>
 #include<MyMath.h>
 #include<BaseHp.h>
+#include"BulletManager.h"
 
 class Player
 {
@@ -32,7 +32,7 @@ public://メンバ関数
 	/// <param name="tankModel_">自機</param>
 	/// <param name="parachuteModel_">パラシュート</param>
 	/// <param name="input_">キー操作</param>
-	void PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_,Input* input_);
+	void PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_,Input* input_,BulletManager* bulletManager_);
 
 	/// <summary>
 	/// リセット
@@ -104,9 +104,6 @@ public://メンバ関数
 	//半径を取得
 	const	float GetRadius() { return radius; }
 
-	//弾のリストを取得
-	std::list<std::unique_ptr<Bullet>>& GetBullets() { return bullets_; };
-
 	//デスフラグの取得
 	bool IsDead()const { return hp.isDead; }
 
@@ -124,8 +121,7 @@ private://メンバ変数
 	std::unique_ptr<Object3d>tankHad = nullptr;
 	std::unique_ptr<Object3d>tankBody = nullptr;
 	std::unique_ptr<Object3d>parachute = nullptr;
-	//弾
-	std::list<std::unique_ptr<Bullet>> bullets_;
+	BulletManager* bulletManager=nullptr;
 	//クールタイム
 	int32_t coolTime;
 
