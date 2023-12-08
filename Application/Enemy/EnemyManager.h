@@ -5,10 +5,10 @@
 
 #pragma once
 #include"BaseEnemy.h"
+#include"Vector3.h"
 #include<list>
 #include<memory>
-#include<Vector3.h>
-#include<BulletManager.h>
+#include<Model.h>
 class EnemyManager
 {
 public:
@@ -27,7 +27,7 @@ public:
 	/// </summary>
 	void Add(const std::string& name_,Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager*bulletManager_);
 
-	//弾リストを取得
+	//リストを取得
 	std::list<std::unique_ptr<BaseEnemy>>& GetEnemys() {
 		return enemys;
 	}

@@ -19,7 +19,7 @@
 #include<ParticleManager.h>
 #include<LevelLoader.h>
 #include<list>
-#include "ShotgunEnemy.h"
+#include "EnemyManager.h"
 #include<BaseBlock.h>
 #include"BulletManager.h"
 
@@ -113,7 +113,7 @@ private:
 	//プレイヤー
 	std::unique_ptr<Player> player;
 	//敵
-	std::list< std::unique_ptr<ShotgunEnemy>>enemys;
+	std::unique_ptr<EnemyManager>enemyManager;
 	//壁
 	std::list< std::unique_ptr<BaseBlock>>blocks;
 	//床

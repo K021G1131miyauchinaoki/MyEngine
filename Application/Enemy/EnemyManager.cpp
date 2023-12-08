@@ -5,9 +5,13 @@
 void EnemyManager::Add(const std::string& name_,Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
 
 	std::unique_ptr <BaseEnemy> e;
-	if ( name_ == "1" )
+	if ( name_ == "Normal" )
 	{
 		e = std::make_unique <Enemy>();
+	}
+	else if(name_=="Shotgun" )
+	{
+		e = std::make_unique<ShotgunEnemy>();
 	}
 	else
 	{

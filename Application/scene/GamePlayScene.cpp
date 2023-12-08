@@ -154,6 +154,8 @@ void GamePlayScene::Initialize() {
 	//弾
 	bulletManager=std::make_unique<BulletManager>();
 	bulletManager->Initialize(cube.get());
+	//敵
+	enemyManager = std::make_unique<EnemyManager>();
 	//プレイヤー
 	player = std::make_unique<Player>();
 	player->PlayInitialeze(had.get(),body.get(),parachute.get(),input.get(),bulletManager.get());
@@ -177,10 +179,7 @@ void GamePlayScene::Initialize() {
 		//エネミー
 		if ( objectData.fileName=="enemy" )
 		{
-			ShotgunEnemy* newEnemy = new ShotgunEnemy();
-			newEnemy->Initialeze(model,player.get(),objectData.translation,objectData.rotation,bulletManager.get());
-			enemys.emplace_back(std::move(newEnemy));
-
+			enemyManager->Add(objectData.fileName,model,player.get(),objectData.translation,objectData.rotation,bulletManager.get());
 		}
 		//ブロック
 		if ( objectData.fileName == "block" )
@@ -241,22 +240,15 @@ void GamePlayScene::Initialize() {
 }
 
 void GamePlayScene::Update(){
-	enemys.remove_if([ ] (std::unique_ptr<ShotgunEnemy>& enemy)
-	{
-		return enemy->IsDead();
-	});
 	const XMFLOAT3 cameraPos = { player->GetPos().x, 100, player->GetPos().z - 30.0f };
-	if ( !player->IsDead() && enemys.size()!=0 )
+	if ( !player->IsDead() && enemyManager->GetSize()!=0 )
 	{
 		camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
 		camera->SetEye(cameraPos);
 		camera->Update();
 		player->Update();
 		bulletManager->Update();
-		for ( std::unique_ptr<ShotgunEnemy>& enemy : enemys )
-		{
-			enemy->Update();
-		}
+		enemyManager->Update();
 		for ( std::unique_ptr<BaseBlock>& block : blocks )
 		{
 			block->obj->Update();
@@ -283,7 +275,7 @@ void GamePlayScene::Update(){
 		{
 			SceneManager::GetInstance()->ChangeScene("GAMEOVER");
 		}
-		if (enemys.size()==0)
+		if (enemyManager->GetSize()==0)
 		{
 			SceneManager::playerHP = player->GetHp();
 			SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
@@ -299,10 +291,7 @@ void GamePlayScene::SpriteDraw() {
 }
 
 void GamePlayScene::ObjDraw(){
-	for ( std::unique_ptr<ShotgunEnemy>& enemy : enemys )
-	{
-		enemy->Draw();
-	}
+	enemyManager->Draw();
 	for ( std::unique_ptr<BaseBlock>& block : blocks )
 	{
 		block->obj->Draw();
@@ -393,7 +382,7 @@ void GamePlayScene::CheckAllCollision() {
 		}
 
 		//敵
-		for ( std::unique_ptr<ShotgunEnemy>& enemy : enemys )
+		for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys() )
 		{
 			#pragma region 自弾との当たり判定
 				
