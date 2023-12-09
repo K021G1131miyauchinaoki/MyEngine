@@ -64,6 +64,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -90,6 +91,7 @@
       <Optimization>Disabled</Optimization>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -109,6 +111,8 @@
     <ClCompile Include="Application\Enemy\BaseEnemy.cpp" />
     <ClCompile Include="Application\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Application\BulletManager.cpp" />
+    <ClCompile Include="Application\Block\BaseBlock.cpp" />
+    <ClCompile Include="Application\Block\BlockManager.cpp" />
     <ClCompile Include="Engine\base\scene\AbstractSceneFactory.cpp" />
     <ClCompile Include="Application\Enemy\Enemy.cpp" />
     <ClCompile Include="Application\Player\Bullet.cpp" />
@@ -227,10 +231,11 @@
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application\struct\BaseBlock.h" />
     <ClInclude Include="Application\Enemy\BaseEnemy.h" />
     <ClInclude Include="Application\Enemy\EnemyManager.h" />
     <ClInclude Include="Application\BulletManager.h" />
+    <ClInclude Include="Application\Block\BaseBlock.h" />
+    <ClInclude Include="Application\Block\BlockManager.h" />
     <ClInclude Include="Engine\base\scene\AbstractSceneFactory.h" />
     <ClInclude Include="Application\Enemy\Enemy.h" />
     <ClInclude Include="Application\Player\Bullet.h" />

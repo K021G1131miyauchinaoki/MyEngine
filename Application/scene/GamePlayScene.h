@@ -20,7 +20,7 @@
 #include<LevelLoader.h>
 #include<list>
 #include "EnemyManager.h"
-#include<BaseBlock.h>
+#include"BlockManager.h"
 #include"BulletManager.h"
 
 class GamePlayScene:public BaseScene
@@ -115,7 +115,7 @@ private:
 	//敵
 	std::unique_ptr<EnemyManager>enemyManager;
 	//壁
-	std::list< std::unique_ptr<BaseBlock>>blocks;
+	std::unique_ptr<BlockManager>blockManager;
 	//床
 	std::unique_ptr<Map>map;
 	//弾

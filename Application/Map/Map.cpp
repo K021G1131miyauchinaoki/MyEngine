@@ -48,7 +48,7 @@ void Map::Update() {
 		for (size_t j = 0; j < width; j++)
 		{
 			Staging(i, j);
-			blocks[i][j].obj->Update();
+			blocks[i][j].Updata();
 		}
 	}
 }
@@ -58,7 +58,7 @@ void Map::Draw() {
 	{
 		for (size_t j = 0; j < width; j++)
 		{
-			blocks[i][j].obj->Draw();
+			blocks[i][j].Draw();
 		}
 	}
 }
@@ -112,7 +112,7 @@ void Map::LoadCSV(const std::string& num_) {
 		{
 			//フラグで挿入するパラメータを変化
 			float rotZ;
-			Vector3	scale, pos;
+			Vector3	scale, pos,rot;
 			if (isStaging)
 			{
 				rotZ = rotStartZ;
@@ -125,18 +125,13 @@ void Map::LoadCSV(const std::string& num_) {
 				scale = scaleEnd;
 				pos.y = posEndY;
 			}
-			pos.z = ( i * scaleEnd.z ) * 2.0f - ( scaleEnd.z * (height-1 ));
-
+			pos.z = ( i * scaleEnd.z ) * 2.0f - ( scaleEnd.z * ( height - 1 ) );
 			pos.x = (j * scaleEnd.x) * 2.0f - (scaleEnd.x * (width-1 ));
+
+			rot = { 0.0f,0.0f,rotZ };
 			//オブジェクトにパラメータをセット
-			blocks[i][j].obj = std::make_unique<Object3d>();
-			blocks[i][j].obj->Initialize();
-			blocks[i][j].obj->SetModel(model.get());
-			blocks[i][j].obj->SetScale(scale); 
-			blocks[i][j].obj->SetRotation({0.0f,0.0f,rotZ});
-			blocks[i][j].obj->SetPosition(pos);
-			blocks[i][j].frame = 0;
-			blocks[i][j].obj->Update();
+			blocks[ i ][ j ].Initialize(pos,rot,scale,model.get());
+
 		}
 	}
 
@@ -170,9 +165,9 @@ void Map::Preparation() {
 						if (w < 0)	w = 0;
 						if (w >= width)w = width - 1;
 						//フラグが立っていない場合
-						if (!blocks[h][w].isUp)
+						if (!blocks[h][w].GetIsUp())
 						{
-							blocks[h][w].isUp = true;
+							blocks[h][w].SetIsUp(true);
 						}
 
 					}
@@ -184,29 +179,30 @@ void Map::Preparation() {
 }
 
 void Map::Staging(size_t y_, size_t x_) {
+	float time = blocks[ y_ ][ x_ ].GetTime();
 	//フラグが立っていたら
-	if (blocks[y_][x_].isUp&&isStaging)
+	if (blocks[y_][x_].GetIsUp() &&isStaging)
 	{
 		//スケール
-		Vector3 easeScale = blocks[y_][x_].obj->GetScale();
-		easeScale = scaleStart + (scaleEnd - scaleStart) * Easing::easeOutCubic(blocks[y_][x_].stagingTime/ stagingTimer);
-		blocks[y_][x_].obj->SetScale(easeScale);
+		Vector3 easeScale = blocks[y_][x_].GetScale();
+		easeScale = scaleStart + (scaleEnd - scaleStart) * Easing::easeOutCubic(time/ stagingTimer);
 		//回転
-		Vector3 easeRot = blocks[y_][x_].obj->GetRotation();
-		easeRot.z = rotStartZ + (rotEndZ - rotStartZ) * Easing::easeOutSine(blocks[y_][x_].stagingTime/ stagingTimer);
-		blocks[y_][x_].obj->SetRotation(easeRot);
+		Vector3 easeRot = blocks[y_][x_].GetRot();
+		easeRot.z = rotStartZ + (rotEndZ - rotStartZ) * Easing::easeOutSine(time/ stagingTimer);
 		//座標
-		Vector3 easePos = blocks[y_][x_].obj->GetPosition();
-		easePos.y = posStartY + (posEndY - posStartY) * Easing::easeOutCubic(blocks[y_][x_].stagingTime/ stagingTimer);
-		blocks[y_][x_].obj->SetPosition(easePos);
+		Vector3 easePos = blocks[y_][x_].GetPos();
+		easePos.y = posStartY + (posEndY - posStartY) * Easing::easeOutCubic(time/ stagingTimer);
+
+		blocks[ y_ ][ x_ ].SetParameter(easePos,easeRot,easeScale);
 		//1.0fまで加算
-		if ( blocks[ y_ ][ x_ ].stagingTime < stagingTimer )
+		if ( time < stagingTimer )
 		{
-			blocks[ y_ ][ x_ ].stagingTime++;
+			time++;
+			blocks[ y_ ][ x_ ].SetTime(time);
 		}
 		else
 		{
-			blocks[y_][x_].isUp = false;
+			blocks[y_][x_].SetIsUp(false);
 		}
 	}
 	

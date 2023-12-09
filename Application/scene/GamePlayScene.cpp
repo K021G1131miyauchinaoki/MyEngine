@@ -159,6 +159,8 @@ void GamePlayScene::Initialize() {
 	//プレイヤー
 	player = std::make_unique<Player>();
 	player->PlayInitialeze(had.get(),body.get(),parachute.get(),input.get(),bulletManager.get());
+	//壁
+	blockManager = std::make_unique<BlockManager>();
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson("1"));
@@ -184,16 +186,7 @@ void GamePlayScene::Initialize() {
 		//ブロック
 		if ( objectData.fileName == "block" )
 		{
-			BaseBlock* newBlock = new BaseBlock();
-			newBlock->obj = std::make_unique<Object3d>();
-			newBlock->obj->Initialize();
-			newBlock->obj->SetModel(model);
-			newBlock->obj->SetColor({0.5f,0.5f,0.5f,1.0f});
-			newBlock->obj->SetPosition(objectData.translation);
-			newBlock->obj->SetScale(objectData.scaling);
-			newBlock->obj->SetRotation(objectData.rotation);
-			blocks.emplace_back(std::move(newBlock));
-
+			blockManager->Add(objectData.fileName,model,objectData.translation,objectData.rotation,objectData.scaling);
 		}
 	}
 	//モデルのセット
@@ -250,10 +243,7 @@ void GamePlayScene::Update(){
 		player->Update();
 		bulletManager->Update();
 		enemyManager->Update();
-		for ( std::unique_ptr<BaseBlock>& block : blocks )
-		{
-			block->obj->Update();
-		}
+		blockManager->Update();
 		map->Update();
 		objSkydome->SetPosition(player->GetPos());
 		objSkydome->Update();
@@ -293,10 +283,7 @@ void GamePlayScene::SpriteDraw() {
 
 void GamePlayScene::ObjDraw(){
 	enemyManager->Draw();
-	for ( std::unique_ptr<BaseBlock>& block : blocks )
-	{
-		block->obj->Draw();
-	}
+	blockManager->Draw();
 	bulletManager->Draw();
 	objSkydome->Draw();
 	player->ObjDraw();
@@ -363,15 +350,15 @@ void GamePlayScene::CheckAllCollision() {
 			#pragma endregion
 
 			#pragma region ブロックとの当たり判定	
-			for ( const std::unique_ptr<BaseBlock>& block : blocks )
+			for ( const std::unique_ptr<BaseBlock>& block : blockManager->GetBlocks() )
 			{
 				//自弾の座標
 				posA = e_bullet->GetPos();
 				//敵弾の座標
-				posB = block->obj->GetPosition();
+				posB = block->GetPos();
 
 				//判定
-				if ( CheckBoxXZ(posA,e_bullet->GetScale(),posB,block->obj->GetScale()) )
+				if ( CheckBoxXZ(posA,e_bullet->GetScale(),posB,block->GetScale()) )
 				{
 					//自弾のコールバックを呼び出し
 					e_bullet->OnCollision();
@@ -416,7 +403,7 @@ void GamePlayScene::CheckAllCollision() {
 			#pragma endregion
 
 			#pragma region ブロックとの当たり判定
-			for ( const std::unique_ptr<BaseBlock>& block : blocks )
+			for ( const std::unique_ptr<BaseBlock>& block : blockManager->GetBlocks() )
 			{
 				
 				Vector3 topLE,topRE,bottomRE,bottomLE;
@@ -438,18 +425,18 @@ void GamePlayScene::CheckAllCollision() {
 
 				/*ブロック*/
 				//左奥
-				topLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
-				topLB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
+				topLB.x = block->GetPos().x - block->GetScale().x;
+				topLB.z = block->GetPos().z + block->GetScale().z;
 				//右奥
-				topRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
-				topRB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
+				topRB.x = block->GetPos().x + block->GetScale().x;
+				topRB.z = block->GetPos().z + block->GetScale().z;
 
 				//左前
-				bottomLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
-				bottomLB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
+				bottomLB.x = block->GetPos().x - block->GetScale().x;
+				bottomLB.z = block->GetPos().z - block->GetScale().z;
 				//右前
-				bottomRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
-				bottomRB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
+				bottomRB.x = block->GetPos().x + block->GetScale().x;
+				bottomRB.z = block->GetPos().z - block->GetScale().z;
 				//左辺と（上辺、下辺）の判定
 				//右辺と（上辺、下辺）の判定
 				if ( HitLine(topLE,bottomLE,bottomLB,bottomRB,"-z") || HitLine(topLE,bottomLE,topLB,topRB,"z")
@@ -470,7 +457,7 @@ void GamePlayScene::CheckAllCollision() {
 		}
 
 		//ブロック
-		for ( const std::unique_ptr<BaseBlock>& block : blocks )
+		for ( const std::unique_ptr<BaseBlock>& block : blockManager->GetBlocks() )
 		{
 			
 			#pragma region 自弾との当たり判定
@@ -481,10 +468,10 @@ void GamePlayScene::CheckAllCollision() {
 				//自弾の座標
 				posA = p_bullet->GetPos();
 				//ブロック
-				posB = block->obj->GetPosition();				
+				posB = block->GetPos();				
 				
 				//判定
-				if ( CheckBoxXZ(posA,p_bullet->GetScale(),posB,block->obj->GetScale()) )
+				if ( CheckBoxXZ(posA,p_bullet->GetScale(),posB,block->GetScale()) )
 				{
 					//自弾のコールバックを呼び出し
 					p_bullet->OnCollision();
@@ -514,18 +501,18 @@ void GamePlayScene::CheckAllCollision() {
 
 			/*ブロック*/
 			//左奥
-			topLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
-			topLB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
+			topLB.x = block->GetPos().x - block->GetScale().x;
+			topLB.z = block->GetPos().z + block->GetScale().z;
 			//右奥
-			topRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
-			topRB.z = block->obj->GetPosition().z + block->obj->GetScale().z;
+			topRB.x = block->GetPos().x + block->GetScale().x;
+			topRB.z = block->GetPos().z + block->GetScale().z;
 
 			//左前
-			bottomLB.x = block->obj->GetPosition().x - block->obj->GetScale().x;
-			bottomLB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
+			bottomLB.x = block->GetPos().x - block->GetScale().x;
+			bottomLB.z = block->GetPos().z - block->GetScale().z;
 			//右前
-			bottomRB.x = block->obj->GetPosition().x + block->obj->GetScale().x;
-			bottomRB.z = block->obj->GetPosition().z - block->obj->GetScale().z;
+			bottomRB.x = block->GetPos().x + block->GetScale().x;
+			bottomRB.z = block->GetPos().z - block->GetScale().z;
 			//左辺と（上辺、下辺）の判定
 			//右辺と（上辺、下辺）の判定
 			if ( HitLine(topLP,bottomLP,bottomLB,bottomRB,"-z") || HitLine(topLP,bottomLP,topLB,topRB,"z")

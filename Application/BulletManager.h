@@ -1,3 +1,7 @@
+/*
+*@file BulletManager.h
+* @brief 弾マネージャー
+*/
 #pragma once
 #include"Vector3.h"
 #include<list>
@@ -26,12 +30,9 @@ public:
 	/// <summary>
 	/// プレイヤーの弾発射
 	/// </summary>
-	/// <param name="model"></param>
-	/// <param name="pipeline_"></param>
 	/// <param name="pos"></param>
 	/// <param name="vec_"></param>
 	/// <param name="rot_"></param>
-	/// <param name="bulletSpeed"></param>
 	void PlayerBulletShot(const Vector3& pos_,const Vector3& vec_,const Vector3& rot_);
 
 	/// <summary>
@@ -40,7 +41,6 @@ public:
 	/// <param name="pos"></param>
 	/// <param name="vec_"></param>
 	/// <param name="rot_"></param>
-	/// <param name="bulletSpeed"></param>
 	void EnemyBulletCreate(const Vector3& pos,const Vector3& vec_,const Vector3& rot_);
 
 	// 存命の弾を全部削除
@@ -64,8 +64,5 @@ private:
 	// 敵の弾
 	std::list<std::unique_ptr<EnemyBullet>> enemyBullets;
 	std::unique_ptr<Model> enemyBulletModel = nullptr;
-
-	// インスタンス
-	static BulletManager* bulletManager;
 };
 

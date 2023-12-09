@@ -12,10 +12,7 @@ void BaseParticle::Initialize(Model* model_) {
 }
 
 void BaseParticle::Update(){
-	/*if (oneGrain.stratFrame>=oneGrain.endFrame)
-	{
-		isDead = true;
-	}*/
+
 }
 
 void BaseParticle::Draw(){}
