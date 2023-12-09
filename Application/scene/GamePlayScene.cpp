@@ -148,7 +148,7 @@ void GamePlayScene::Initialize() {
 	tank.reset(Model::LoadFromOBJ("tank"));
 	had.reset(Model::LoadFromOBJ("TankHad"));
 	body.reset(Model::LoadFromOBJ("TankBody"));
-	modelMap.reset(Model::LoadFromOBJ("map"));
+	modelMap.reset(Model::LoadFromOBJ("fixedgun"));
 	parachute.reset(Model::LoadFromOBJ("parachute"));
 
 	//弾
@@ -191,6 +191,7 @@ void GamePlayScene::Initialize() {
 			newBlock->obj->SetColor({0.5f,0.5f,0.5f,1.0f});
 			newBlock->obj->SetPosition(objectData.translation);
 			newBlock->obj->SetScale(objectData.scaling);
+			newBlock->obj->SetRotation(objectData.rotation);
 			blocks.emplace_back(std::move(newBlock));
 
 		}
