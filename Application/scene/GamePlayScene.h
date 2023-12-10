@@ -108,6 +108,7 @@ private:
 	std::unique_ptr <Model> tank = nullptr;
 	std::unique_ptr <Model> parachute = nullptr;
 	std::unique_ptr <Model> modelMap = nullptr;
+	std::unique_ptr <Model> fixedgun = nullptr;
 	//天球
 	std::unique_ptr <Object3d> objSkydome = nullptr;
 	//プレイヤー

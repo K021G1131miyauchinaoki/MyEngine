@@ -33,7 +33,7 @@ public:
 	/// <param name="pos"></param>
 	/// <param name="vec_"></param>
 	/// <param name="rot_"></param>
-	void PlayerBulletShot(const Vector3& pos_,const Vector3& vec_,const Vector3& rot_);
+	void PlayerBulletCreate(const Vector3& pos_,const Vector3& vec_,const Vector3& rot_);
 
 	/// <summary>
 	/// 敵の弾発射

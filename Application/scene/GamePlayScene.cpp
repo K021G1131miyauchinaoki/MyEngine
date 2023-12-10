@@ -148,7 +148,8 @@ void GamePlayScene::Initialize() {
 	tank.reset(Model::LoadFromOBJ("tank"));
 	had.reset(Model::LoadFromOBJ("TankHad"));
 	body.reset(Model::LoadFromOBJ("TankBody"));
-	modelMap.reset(Model::LoadFromOBJ("fixedgun"));
+	modelMap.reset(Model::LoadFromOBJ("map"));
+	fixedgun.reset(Model::LoadFromOBJ("fixedgun"));
 	parachute.reset(Model::LoadFromOBJ("parachute"));
 
 	//弾
@@ -161,11 +162,13 @@ void GamePlayScene::Initialize() {
 	player->PlayInitialeze(had.get(),body.get(),parachute.get(),input.get(),bulletManager.get());
 	//壁
 	blockManager = std::make_unique<BlockManager>();
+	blockManager->Initialize(bulletManager.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson("1"));
 	models.insert(std::make_pair("enemy",tank.get()));
 	models.insert(std::make_pair("block",modelMap.get()));
+	models.insert(std::make_pair("fixedgun",fixedgun.get()));
 
 	// レベルデータからオブジェクトを生成、配置
 	for ( auto& objectData : jsonLoader->objects )
@@ -184,7 +187,7 @@ void GamePlayScene::Initialize() {
 			enemyManager->Add(objectData.fileName,model,player.get(),objectData.translation,objectData.rotation,bulletManager.get());
 		}
 		//ブロック
-		if ( objectData.fileName == "block" )
+		if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
 		{
 			blockManager->Add(objectData.fileName,model,objectData.translation,objectData.rotation,objectData.scaling);
 		}

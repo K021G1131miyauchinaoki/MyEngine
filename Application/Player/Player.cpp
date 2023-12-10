@@ -316,7 +316,7 @@ void Player::Shot() {
 		if (coolTime < 0)
 		{
 			//弾を生成し
-			bulletManager->PlayerBulletShot(tankHad->GetPosition(),velocity,tankHad->GetRotation());
+			bulletManager->PlayerBulletCreate(tankHad->GetPosition(),velocity,tankHad->GetRotation());
 			
 			//タイムリセット
 			coolTime = 30;

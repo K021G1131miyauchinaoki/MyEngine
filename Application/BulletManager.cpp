@@ -39,7 +39,7 @@ void BulletManager::Draw(){
 	}
 }
 
-void BulletManager::PlayerBulletShot(const Vector3& pos_,const Vector3& vec_,const Vector3& rot_){
+void BulletManager::PlayerBulletCreate(const Vector3& pos_,const Vector3& vec_,const Vector3& rot_){
 	// 弾生成
 	std::unique_ptr<Bullet> newBullet=std::make_unique<Bullet>();
 	newBullet->Initialize(playerBulletModel.get(),pos_,vec_,rot_);

@@ -168,6 +168,7 @@
     <ClCompile Include="Application\BulletManager.cpp" />
     <ClCompile Include="Application\Block\BlockManager.cpp" />
     <ClCompile Include="Application\Block\BaseBlock.cpp" />
+    <ClCompile Include="Application\Block\Fixedgun.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\Enemy.h">
@@ -308,6 +309,7 @@
     <ClInclude Include="Application\BulletManager.h" />
     <ClInclude Include="Application\Block\BlockManager.h" />
     <ClInclude Include="Application\Block\BaseBlock.h" />
+    <ClInclude Include="Application\Block\Fixedgun.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

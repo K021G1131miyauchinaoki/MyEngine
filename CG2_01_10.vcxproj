@@ -158,6 +158,7 @@
     <ClCompile Include="Application\scene\SceneTransition.cpp" />
     <ClCompile Include="Application\particle\Smoke.cpp" />
     <ClCompile Include="Application\Enemy\ShotgunEnemy.cpp" />
+    <ClCompile Include="Application\Block\Fixedgun.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -272,6 +273,7 @@
     <ClInclude Include="Application\scene\GameOverScene.h" />
     <ClInclude Include="Application\particle\Explosion.h" />
     <ClInclude Include="Engine\3d\Light\Light.h" />
+    <ClInclude Include="Application\Block\Fixedgun.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Engine\audio\SoundManager.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />

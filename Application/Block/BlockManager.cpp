@@ -1,4 +1,10 @@
 #include "BlockManager.h"
+#include"Fixedgun.h"
+
+
+void BlockManager::Initialize(BulletManager* bulletManager_) {
+	bulletManager = bulletManager_;
+}
 
 void BlockManager::Update()
 {
@@ -23,7 +29,8 @@ void BlockManager::Add(const std::string name_,Model* model_,const Vector3& pos_
 	}
 	else if ( name_=="fixedgun" )
 	{
-		b = std::make_unique<BaseBlock>();
+		b = std::make_unique<Fixedgun>();
+		b->SetBulletManager(bulletManager);
 	}
 	else
 	{

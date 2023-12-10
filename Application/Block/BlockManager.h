@@ -1,9 +1,14 @@
 #pragma once
 #include<BaseBlock.h>
+#include<BulletManager.h>
 
 class BlockManager
 {
 public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Initialize(BulletManager* bulletManager_);
 	/// <summary>
 	/// 更新
 	/// </summary>
@@ -28,8 +33,10 @@ public:
 	std::list<std::unique_ptr<BaseBlock>>& GetBlocks() {
 		return blocks;
 	}
-	private:
-	// プレイヤーの弾
+private:
+	// ブロック
 	std::list<std::unique_ptr<BaseBlock>> blocks;
+	//弾マネージャー
+	BulletManager* bulletManager;
 };
 
