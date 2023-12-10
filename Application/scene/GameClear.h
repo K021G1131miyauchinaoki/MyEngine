@@ -63,6 +63,8 @@ private:
 	
 	//スプライト
 	std::unique_ptr<Sprite> clearSprite;
+	std::unique_ptr<Sprite> pushKey;
+
 	std::vector<Score>score;
 	
 	//操作

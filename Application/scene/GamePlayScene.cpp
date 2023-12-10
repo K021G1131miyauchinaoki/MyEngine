@@ -166,7 +166,8 @@ void GamePlayScene::Initialize() {
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson("1"));
-	models.insert(std::make_pair("enemy",tank.get()));
+	models.insert(std::make_pair("Normal",tank.get()));
+	models.insert(std::make_pair("Shotgun",tank.get()));
 	models.insert(std::make_pair("block",modelMap.get()));
 	models.insert(std::make_pair("fixedgun",fixedgun.get()));
 
@@ -182,7 +183,7 @@ void GamePlayScene::Initialize() {
 		}
 
 		//エネミー
-		if ( objectData.fileName=="enemy" )
+		if (objectData.fileName == "Shotgun" || objectData.fileName == "Normal" )
 		{
 			enemyManager->Add(objectData.fileName,model,player.get(),objectData.translation,objectData.rotation,bulletManager.get());
 		}

@@ -24,6 +24,11 @@ void TitleScene::Initialize() {
 	blackOutSprite->SetColor(XMFLOAT4{ 0.0f,0.0f,0.0f,0.0f });
 	blackOutSprite->SetAnchorPoint(XMFLOAT2{ 0.0f,0.0f });
 
+	pushKey = std::make_unique<Sprite>();
+	pushKey->Initialize(SpriteCommon::GetInstance(),10);
+	pushKey->SetAnchorPoint({ 0.5f,0.5f });
+	pushKey->SetPosition({ 640.0f,600.0f });
+
 	//操作
 	input.reset(Input::GetInstance());
 	//カメラ
@@ -135,6 +140,7 @@ void TitleScene::Update() {
 	light->Updata();
 	titleSprite->Update();
 	blackOutSprite->Update();
+	pushKey->Update();
 	player->Update();
 	camera->Update();
 	objSkydome->Update();
@@ -165,6 +171,7 @@ void TitleScene::SpriteDraw() {
 	{
 		titleSprite->SetTexIndex(1);
 		titleSprite->Draw();
+		pushKey->Draw();
 	}
 	blackOutSprite->SetTexIndex(5);
 	blackOutSprite->Draw();

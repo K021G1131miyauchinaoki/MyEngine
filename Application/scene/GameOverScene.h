@@ -81,6 +81,7 @@ private:
 
 	//スプライト
 	std::unique_ptr<Sprite> overSprite;
+	std::unique_ptr<Sprite> pushKey;
 
 	//次シーンまでのタイマー
 	int waitTime;

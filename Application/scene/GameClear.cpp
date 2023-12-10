@@ -25,10 +25,17 @@ void GameClear::Initialize() {
 	clearSprite->SetAnchorPoint({ 0.5f,0.5f });
 	clearSprite->SetPosition({ 640.0f,150.0f });
 	clearSprite->SetColor(clearColor);
+
 	startClearSize.x = clearSprite->GetTexSize().x*1.5f;
 	startClearSize.y = clearSprite->GetTexSize().y * 1.5f;
 	clearSprite->SetSize(startClearSize);
 	endClearSize=clearSprite->GetTexSize();
+
+	pushKey = std::make_unique<Sprite>();
+	pushKey->Initialize(SpriteCommon::GetInstance(),10);
+	pushKey->SetAnchorPoint({ 0.5f,0.5f });
+	pushKey->SetPosition({ 640.0f,600.0f });
+
 	score.resize(SceneManager::playerHP);
 	for ( size_t i = 0; i < score.size(); i++ )
 	{
@@ -102,6 +109,7 @@ void GameClear::Update() {
 	tankBody->Update();
 	tankHad->Update();
 	clearSprite->Update();
+	pushKey->Update();
 
 	//スコア
 	for ( size_t i = 0; i < score.size(); i++ )
@@ -178,6 +186,10 @@ void GameClear::Update() {
 
 void GameClear::SpriteDraw() {
 	clearSprite->Draw();
+	if ( clearTime >= clearTimer )
+	{
+		pushKey->Draw();
+	}
 	for ( size_t i = 0; i < score.size(); i++ )
 	{
 		score[ i ].sprite->Draw();

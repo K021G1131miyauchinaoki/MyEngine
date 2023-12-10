@@ -102,6 +102,7 @@ private:
 	//スプライト
 	std::unique_ptr<Sprite> titleSprite;
 	std::unique_ptr<Sprite> blackOutSprite;
+	std::unique_ptr<Sprite> pushKey;
 
 	//シェイク
 	Vector3 shake;

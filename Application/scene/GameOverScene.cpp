@@ -17,7 +17,10 @@ void GameOverScene::Initialize() {
 	overSprite->SetAnchorPoint({ 0.5f,0.5f });
 	overSprite->SetPosition({ 640.0f,200.0f });
 
-
+	pushKey = std::make_unique<Sprite>();
+	pushKey->Initialize(SpriteCommon::GetInstance(),10);
+	pushKey->SetAnchorPoint({ 0.5f,0.5f });
+	pushKey->SetPosition({ 640.0f,600.0f });
 	//操作
 	input.reset(Input::GetInstance());
 	//input.reset(Input::GetInstance());
@@ -76,6 +79,7 @@ void GameOverScene::Initialize() {
 
 void GameOverScene::Update() {
 	overSprite->Update();
+	pushKey->Update();
 	camera->Update();
 	map->Update();
 	objSkydome->Update();
@@ -126,9 +130,8 @@ void GameOverScene::Update() {
 }
 
 void GameOverScene::SpriteDraw() {
-	//overSprite->SetTexIndex(1);
 	overSprite->Draw();
-
+	pushKey->Draw();
 }
 
 void GameOverScene::ObjDraw() {
