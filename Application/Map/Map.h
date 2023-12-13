@@ -91,5 +91,8 @@ private://メンバ変数
 	int16_t setPoint;
 	int16_t numH;
 	int16_t numW;
+	bool change;
+	bool flag;
+	int8_t count;
 };
 

@@ -35,6 +35,9 @@ public:
 	void SetTime(const float&time_) {stagingTime=time_;}
 	//弾マネージャーのセット
 	virtual void SetBulletManager(BulletManager* bulletManager_) {bulletManager = bulletManager_;}
+
+	void SetColor(const XMFLOAT4 color_) {obj->SetColor(color_);}
+
 protected://メンバ変数
 	std::unique_ptr<Object3d> obj;
 	BulletManager* bulletManager;

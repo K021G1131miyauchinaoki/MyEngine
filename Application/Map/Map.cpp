@@ -38,6 +38,8 @@ void Map::Initialize(bool isStaging_) {
 	rotStartZ=360*2;
 	isStaging = isStaging_;
 	provisionTime = provisionTimer;
+	change = false;
+	flag = false;
 }
 
 void Map::Update() {
@@ -131,6 +133,11 @@ void Map::LoadCSV(const std::string& num_) {
 			rot = { 0.0f,0.0f,rotZ };
 			//オブジェクトにパラメータをセット
 			blocks[ i ][ j ].Initialize(pos,rot,scale,model.get());
+			if ( change )
+			{
+				blocks[ i ][ j ].SetColor({0.7f,0.7f, 0.7f, 1.0f});
+			}
+			change ^= 1;
 
 		}
 	}
@@ -143,7 +150,7 @@ void Map::LoadCSV(const std::string& num_) {
 }
 
 void Map::Preparation() {
-	if (isStaging)
+	if (isStaging&&!flag)
 	{
 		provisionTime--;
 		if (provisionTime < 0)
@@ -181,7 +188,7 @@ void Map::Preparation() {
 void Map::Staging(size_t y_, size_t x_) {
 	float time = blocks[ y_ ][ x_ ].GetTime();
 	//フラグが立っていたら
-	if (blocks[y_][x_].GetIsUp() &&isStaging)
+	if (blocks[y_][x_].GetIsUp() &&isStaging&&!flag)
 	{
 		//スケール
 		Vector3 easeScale = blocks[y_][x_].GetScale();
@@ -203,6 +210,17 @@ void Map::Staging(size_t y_, size_t x_) {
 		else
 		{
 			blocks[y_][x_].SetIsUp(false);
+			if ( x_==0||x_==width-1 )
+			{
+				if ( y_ == 0 || y_ == height - 1 )
+				{
+					count++;
+					if ( count>=4 )
+					{
+						flag = true;
+					}
+				}
+			}
 		}
 	}
 	
