@@ -169,6 +169,7 @@
     <ClCompile Include="Application\Block\BlockManager.cpp" />
     <ClCompile Include="Application\Block\BaseBlock.cpp" />
     <ClCompile Include="Application\Block\Fixedgun.cpp" />
+    <ClCompile Include="Application\Block\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\Enemy.h">
@@ -310,6 +311,7 @@
     <ClInclude Include="Application\Block\BlockManager.h" />
     <ClInclude Include="Application\Block\BaseBlock.h" />
     <ClInclude Include="Application\Block\Fixedgun.h" />
+    <ClInclude Include="Application\Block\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

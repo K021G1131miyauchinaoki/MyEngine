@@ -18,9 +18,9 @@ public:
 	virtual void SetParameter(const Vector3& pos_,const Vector3& rot_,const Vector3& scale_);
 
 	//演出セッター
-	void SetIsUp(const bool& isUp_);
+	void SetIsStaging(const bool& isStaging_);
 	//演出ゲッター
-	bool GetIsUp() {return isUp;}
+	bool GetIsStaging() {return isStaging;}
 	/*getter*/
 	//位置
 	virtual Vector3 GetPos() {return obj->GetPosition();}
@@ -43,6 +43,6 @@ protected://メンバ変数
 	BulletManager* bulletManager;
 	float frame;
 	float stagingTime;
-	bool isUp = false;
+	bool isStaging = false;
 };
 

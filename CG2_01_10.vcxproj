@@ -159,6 +159,7 @@
     <ClCompile Include="Application\particle\Smoke.cpp" />
     <ClCompile Include="Application\Enemy\ShotgunEnemy.cpp" />
     <ClCompile Include="Application\Block\Fixedgun.cpp" />
+    <ClCompile Include="Application\Block\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -285,6 +286,7 @@
     <ClInclude Include="Application\scene\SceneTransition.h" />
     <ClInclude Include="Application\particle\Smoke.h" />
     <ClInclude Include="Application\Enemy\ShotgunEnemy.h" />
+    <ClInclude Include="Application\Block\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CG2.rc" />

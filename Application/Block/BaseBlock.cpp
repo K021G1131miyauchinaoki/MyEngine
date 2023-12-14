@@ -24,8 +24,8 @@ void BaseBlock::SetParameter(const Vector3& pos_,const Vector3& rot_,const Vecto
 	obj->SetScale(scale_);
 }
 
-void BaseBlock::SetIsUp(const bool& isUp_) {
-	isUp = isUp_;
+void BaseBlock::SetIsStaging(const bool& isStaging_) {
+	isStaging = isStaging_;
 }
 
 //Vector3 BaseBlock::GetPos() {

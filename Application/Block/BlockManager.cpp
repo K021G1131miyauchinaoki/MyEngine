@@ -1,6 +1,6 @@
 #include "BlockManager.h"
 #include"Fixedgun.h"
-
+#include"Wall.h"
 
 void BlockManager::Initialize(BulletManager* bulletManager_) {
 	bulletManager = bulletManager_;
@@ -25,7 +25,7 @@ void BlockManager::Add(const std::string name_,Model* model_,const Vector3& pos_
 	std::unique_ptr<BaseBlock> b;
 	if ( name_=="block" )
 	{
-		b = std::make_unique<BaseBlock>();
+		b = std::make_unique<Wall>();
 	}
 	else if ( name_=="fixedgun" )
 	{

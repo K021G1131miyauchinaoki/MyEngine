@@ -172,9 +172,9 @@ void Map::Preparation() {
 						if (w < 0)	w = 0;
 						if (w >= width)w = width - 1;
 						//フラグが立っていない場合
-						if (!blocks[h][w].GetIsUp())
+						if (!blocks[h][w].GetIsStaging())
 						{
-							blocks[h][w].SetIsUp(true);
+							blocks[h][w].SetIsStaging(true);
 						}
 
 					}
@@ -188,7 +188,7 @@ void Map::Preparation() {
 void Map::Staging(size_t y_, size_t x_) {
 	float time = blocks[ y_ ][ x_ ].GetTime();
 	//フラグが立っていたら
-	if (blocks[y_][x_].GetIsUp() &&isStaging&&!flag)
+	if (blocks[y_][x_].GetIsStaging() &&isStaging&&!flag)
 	{
 		//スケール
 		Vector3 easeScale = blocks[y_][x_].GetScale();
@@ -209,7 +209,7 @@ void Map::Staging(size_t y_, size_t x_) {
 		}
 		else
 		{
-			blocks[y_][x_].SetIsUp(false);
+			blocks[y_][x_].SetIsStaging(false);
 			if ( x_==0||x_==width-1 )
 			{
 				if ( y_ == 0 || y_ == height - 1 )
