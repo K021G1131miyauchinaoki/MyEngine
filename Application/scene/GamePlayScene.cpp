@@ -151,6 +151,7 @@ void GamePlayScene::Initialize() {
 	modelMap.reset(Model::LoadFromOBJ("map"));
 	fixedgun.reset(Model::LoadFromOBJ("fixedgun"));
 	parachute.reset(Model::LoadFromOBJ("parachute"));
+	wall.reset(Model::LoadFromOBJ("wall"));
 
 	//弾
 	bulletManager=std::make_unique<BulletManager>();
@@ -168,7 +169,7 @@ void GamePlayScene::Initialize() {
 	jsonLoader.reset(LevelLoader::LoadJson("1"));
 	models.insert(std::make_pair("Normal",tank.get()));
 	models.insert(std::make_pair("Shotgun",tank.get()));
-	models.insert(std::make_pair("block",modelMap.get()));
+	models.insert(std::make_pair("block",wall.get()));
 	models.insert(std::make_pair("fixedgun",fixedgun.get()));
 
 	// レベルデータからオブジェクトを生成、配置
