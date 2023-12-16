@@ -22,7 +22,7 @@ void BaseEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,con
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
-	obj->SetPosition(InitialezePos);
+	obj->SetPosition(pos_);
 	obj->SetRotation(rot_);
 	obj->SetScale({ radius,radius,radius });
 	moveTime = moveTimer;
@@ -232,6 +232,7 @@ void BaseEnemy::OnCollisionPos(const std::string& hitDirection)
 	{
 		pos.z = oldPos.z;
 	}
+
 	obj->SetPosition(pos);
 	obj->Update();
 }

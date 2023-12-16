@@ -253,7 +253,10 @@ void GamePlayScene::Update(){
 		objSkydome->SetPosition(player->GetPos());
 		objSkydome->Update();
 		particle->Update();
-		CheckAllCollision();
+		if (!isStart)
+		{
+			CheckAllCollision();
+		}
 	}
 	//シーン遷移のフラグを立てる
 	else if ( !SceneTransition::GetInstance()->GetIsFadeOut() &&
@@ -378,8 +381,6 @@ void GamePlayScene::CheckAllCollision() {
 		for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys() )
 		{
 			#pragma region 自弾との当たり判定
-				
-			//敵キャラと自弾全ての当たり判定
 			for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
 			{
 				//判定対象AとBの座標
@@ -404,7 +405,6 @@ void GamePlayScene::CheckAllCollision() {
 					particle->Add("1",30,15,enemy->GetPos(),1.0f,0.0f);
 				}
 			}
-
 			#pragma endregion
 
 			#pragma region ブロックとの当たり判定
