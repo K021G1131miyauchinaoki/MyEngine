@@ -497,7 +497,7 @@ void Player::StartStaging() {
 	//パラシュート
 	//タイマーが80％以下なら
 	const float percent = 0.8f;
-	const float posX = 3.0f;
+	const float posX = parachutePos.y + 3.0f;
 	const float addX = 0.6f;
 	const float subtractY = 0.1f;
 	if ( startEaseTime < startEaseTimer* percent )

@@ -13,8 +13,8 @@
 #include<cmath>
 #include"BulletManager.h"
 
-void ShotgunEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
-	BaseEnemy::Initialeze(model_,player_,pos_,rot_,bulletManager_);
+void ShotgunEnemy::Initialeze(Model* model_,Model* parachuteModel_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
+	BaseEnemy::Initialeze(model_,parachuteModel_,player_,pos_,rot_,bulletManager_);
 	obj->SetColor({ 0.2f,0.1f,0.0f,1.0f });
 	obj->Update();
 	shiftNum = 2;

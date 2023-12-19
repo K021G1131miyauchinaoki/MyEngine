@@ -186,7 +186,7 @@ void GamePlayScene::Initialize() {
 		//エネミー
 		if (objectData.fileName == "Shotgun" || objectData.fileName == "Normal" )
 		{
-			enemyManager->Add(objectData.fileName,model,player.get(),objectData.translation,objectData.rotation,bulletManager.get());
+			enemyManager->Add(objectData.fileName,model,parachute.get(),player.get(),objectData.translation,objectData.rotation,bulletManager.get());
 		}
 		//ブロック
 		if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
