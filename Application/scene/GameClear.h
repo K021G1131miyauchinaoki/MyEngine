@@ -103,4 +103,8 @@ private:
 	//次シーンまでのタイマー
 	int waitTime;
 	const int waitTimer = 20;
+	//点滅
+	int8_t flashTime;
+	const int8_t flashTimer = 45;
+	bool isFlash;
 };
