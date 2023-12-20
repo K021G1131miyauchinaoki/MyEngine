@@ -95,12 +95,14 @@ void BaseEnemy::Update() {
 }
 
 void BaseEnemy::Draw() {
-
-	if ( invincibleTime % 2 == 1 )
+	if ( GamePlayScene::startCount >= GamePlayScene::Bound2 )
 	{
-		obj->Draw();
+		if ( invincibleTime % 2 == 1 )
+		{
+			obj->Draw();
+		}
+		parachute->Draw();
 	}
-	parachute->Draw();
 }
 
 void BaseEnemy::Move() {
