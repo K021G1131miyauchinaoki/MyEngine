@@ -243,12 +243,12 @@ void BaseEnemy::StartStaging() {
 	float percent = 0.9f;
 
 	if ( startEaseTime < startEaseTimer
-		&& player->GetPos().y<=5.0f )
+		&& GamePlayScene::startCount >= GamePlayScene::Bound2 )
 	{
 		startEaseTime++;
 		if ( startEaseTime < (startEaseTimer*percent))
 		{
-			pos.y = startPosY + ( endPosY - startPosY ) * Easing::easeOutQuad(startEaseTime / (startEaseTimer*percent));
+			pos.y = startPosY + ( endPosY - startPosY ) * Easing::easeInSine(startEaseTime / (startEaseTimer*percent));
 		}
 		else
 		{
@@ -259,9 +259,8 @@ void BaseEnemy::StartStaging() {
 	}
 	//パラシュート
 	//タイマーが50％以下なら
-	percent = 0.5f;
-	//const float posX = parachutePos.y + 3.0f;
-	const float addX = 0.1f;
+	percent = 0.8f;
+	const float addX = 0.5f;
 	float subtractY = 0.6f;
 	if ( startEaseTime < startEaseTimer * percent )
 	{

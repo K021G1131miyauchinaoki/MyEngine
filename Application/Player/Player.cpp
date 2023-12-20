@@ -81,6 +81,8 @@ void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* pa
 	parachutePosY = 6.0f;
 	parachutePos = tankPos;
 	parachutePos.y += parachutePosY;
+	pPosX = parachutePos.x + 3.0f;
+
 	//サイズ
 	pStartScaleXZ = 6.0f;
 	pEndScaleXZ = 0.0f;
@@ -497,7 +499,6 @@ void Player::StartStaging() {
 	//パラシュート
 	//タイマーが80％以下なら
 	const float percent = 0.8f;
-	const float posX = parachutePos.y + 3.0f;
 	const float addX = 0.6f;
 	const float subtractY = 0.1f;
 	if ( startEaseTime < startEaseTimer* percent )
@@ -507,7 +508,7 @@ void Player::StartStaging() {
 	}
 	else
 	{
-		if ( pLeaveTime< pLeaveTimer&& parachutePos.x>posX )
+		if ( pLeaveTime< pLeaveTimer&& parachutePos.x>pPosX )
 		{
 			pLeaveTime++;
 			rot.z = pStartRotZ + ( pEndRotZ - pStartRotZ ) * Easing::easeOutSine(pLeaveTime / pLeaveTimer);

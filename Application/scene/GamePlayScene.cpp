@@ -547,26 +547,30 @@ void GamePlayScene::StartStaging() {
 	}
 	if ( startCount== start::Redy )
 	{
-		XMFLOAT2 readyPos=ready->GetPosition();
-		XMFLOAT2 stagePos=stage->GetPosition();
-		
-		if ( spriteEaseTime== spriteEaseTimer )
+		waitTime++;
+		if ( waitTime >= waitTimer )
 		{
-			spriteWaitTime++;
-		}
-		if ( spriteWaitTime>= spriteWaitTimer|| spriteWaitTime==0.0f )
-		{
-			spriteEaseTime++;
-			if ( spriteEaseTime == (spriteEaseTimer*2.0f) )
-			{
-				startCount++;
-			}
-		}
+			XMFLOAT2 readyPos = ready->GetPosition();
+			XMFLOAT2 stagePos = stage->GetPosition();
 
-		readyPos.y = rPosStartY + ( rPosEndY - rPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
-		stagePos.y = sPosStartY + ( sPosEndY - sPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
-		ready->SetPosition(readyPos);
-		stage->SetPosition(stagePos);
+			if ( spriteEaseTime == spriteEaseTimer )
+			{
+				spriteWaitTime++;
+			}
+			if ( spriteWaitTime >= spriteWaitTimer || spriteWaitTime == 0.0f )
+			{
+				spriteEaseTime++;
+				if ( spriteEaseTime == ( spriteEaseTimer * 2.0f ) )
+				{
+					startCount++;
+				}
+			}
+
+			readyPos.y = rPosStartY + ( rPosEndY - rPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+			stagePos.y = sPosStartY + ( sPosEndY - sPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+			ready->SetPosition(readyPos);
+			stage->SetPosition(stagePos);
+		}
 	}
 	stage->Update();
 	ready->Update();

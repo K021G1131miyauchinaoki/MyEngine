@@ -14,6 +14,7 @@ namespace Easing
 
 	float easeInCubic(float x);
 	float easeOutCubic(float x);
+	float easeInOutCubic(float x);
 
 	float easeInQuint(float x);
 	float easeOutQuint(float x);

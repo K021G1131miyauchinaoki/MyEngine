@@ -159,6 +159,6 @@ private://メンバ変数
 	float pEndScaleXZ;
 	float pLeaveTime;
 	const	float pLeaveTimer=60;
-
+	float pPosX;
 };
 
