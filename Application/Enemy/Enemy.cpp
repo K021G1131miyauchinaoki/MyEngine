@@ -35,7 +35,6 @@ void Enemy::Shot() {
 	Vector3 pos;
 
 	//弾の速度
-	const float kBulletSpeed = 1.5f;
 	velocity = { 0.0f,0.0f,0.0f };
 
 	pos = obj->GetPosition();
@@ -50,14 +49,13 @@ void Enemy::Shot() {
 	rot.x = 0.0f;
 	rot.z = 0.0f;
 	rot.y=MyMath::DegreeTransform(angle);
-	velocity *= kBulletSpeed;
 
 	//角度を格納
 	obj->SetRotation(rot);
 	//速度ベクトルを自機の向きに合わせて回転させる
 	//ImgM = Vec_rot(ImgM, worldTransform_.matWorld_);
 	//弾を生成
-	bulletManager->EnemyBulletCreate(obj->GetPosition(),velocity,obj->GetRotation());
+	bulletManager->EnemyBulletCreate(obj->GetPosition(),velocity,obj->GetRotation(),"normale");
 
 	BaseEnemy::Shot();
 }

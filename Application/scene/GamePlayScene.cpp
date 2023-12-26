@@ -153,9 +153,8 @@ void GamePlayScene::Initialize() {
 	parachute.reset(Model::LoadFromOBJ("parachute"));
 	wall.reset(Model::LoadFromOBJ("wall"));
 
-	//弾
+	//弾マネージャー
 	bulletManager=std::make_unique<BulletManager>();
-	bulletManager->Initialize(cube.get());
 	//敵
 	enemyManager = std::make_unique<EnemyManager>();
 	//プレイヤー
@@ -164,6 +163,9 @@ void GamePlayScene::Initialize() {
 	//壁
 	blockManager = std::make_unique<BlockManager>();
 	blockManager->Initialize(bulletManager.get());
+
+	//弾マネージャー初期化
+	bulletManager->Initialize(cube.get(),player.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson("1"));

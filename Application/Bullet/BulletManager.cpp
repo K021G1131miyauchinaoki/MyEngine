@@ -1,8 +1,10 @@
 #include "BulletManager.h"
+#include"Homing.h"
 
-void BulletManager::Initialize(Model* model_) {
+void BulletManager::Initialize(Model* model_,Player*player_) {
 	playerBulletModel.reset(model_);
 	enemyBulletModel.reset(model_);
+	player = player_;
 }
 
 void BulletManager::Update() {
@@ -47,10 +49,24 @@ void BulletManager::PlayerBulletCreate(const Vector3& pos_,const Vector3& vec_,c
 	playerBullets.push_back(std::move(newBullet));
 }
 
-void BulletManager::EnemyBulletCreate(const Vector3& pos_,const Vector3& vec_,const Vector3& rot_){
+void BulletManager::EnemyBulletCreate(const Vector3& pos_,const Vector3& vec_,const Vector3& rot_,const std::string type_){
 	// 弾生成
-	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-	newBullet->Initialize(enemyBulletModel.get(),pos_,vec_,rot_);
+	std::unique_ptr<EnemyBullet> newBullet;
+	if ( type_=="normale" )
+	{
+		newBullet = std::make_unique<EnemyBullet>();
+		newBullet->Initialize(enemyBulletModel.get(),pos_,vec_,rot_);
+	}
+	else if(type_=="homing" )
+	{
+		newBullet = std::make_unique<Homing>();
+		newBullet->Initialize(enemyBulletModel.get(),pos_,vec_,rot_,player);
+	}
+	else
+	{
+		newBullet = std::make_unique<EnemyBullet>();
+		newBullet->Initialize(enemyBulletModel.get(),pos_,vec_,rot_);
+	}
 	// 登録
 	enemyBullets.push_back(std::move(newBullet));
 }

@@ -14,12 +14,9 @@ void Fixedgun::Initialize(const Vector3& pos_,const Vector3& rot_,const Vector3&
 	isStaging = false;
 	stagingTime = 0;
 
-
-	const float kBulletSpeed = 1.5f;
 	float radian = -MyMath::RadianTransform(rot_.y);
 	velocity = { std::cos(radian),0.0f,std::sin(radian) };
 	velocity = MyMath::normaleizeVec3(velocity);
-	velocity *= kBulletSpeed;
 	waitTime = 0;
 	pos = GetPos();
 	pos.x = GetPos().x + std::cos(radian) * ( scale_.x + 2.0f );
@@ -52,7 +49,7 @@ void Fixedgun::SetIsUp(const bool& isUp_) {
 }
 
 void Fixedgun::Shot() {
-	bulletManager->EnemyBulletCreate(pos,velocity,GetRot());
+	bulletManager->EnemyBulletCreate(pos,velocity,GetRot(),"normale");
 }
 
 Vector3 Fixedgun::GetPos(){

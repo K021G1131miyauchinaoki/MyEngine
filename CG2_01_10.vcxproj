@@ -64,7 +64,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Bullet;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Bullet;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -110,13 +110,13 @@
   <ItemGroup>
     <ClCompile Include="Application\Enemy\BaseEnemy.cpp" />
     <ClCompile Include="Application\Enemy\EnemyManager.cpp" />
-    <ClCompile Include="Application\BulletManager.cpp" />
+    <ClCompile Include="Application\Bullet\BulletManager.cpp" />
     <ClCompile Include="Application\Block\BaseBlock.cpp" />
     <ClCompile Include="Application\Block\BlockManager.cpp" />
     <ClCompile Include="Engine\base\scene\AbstractSceneFactory.cpp" />
     <ClCompile Include="Application\Enemy\Enemy.cpp" />
-    <ClCompile Include="Application\Player\Bullet.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyBullet.cpp" />
+    <ClCompile Include="Application\Bullet\Bullet.cpp" />
+    <ClCompile Include="Application\Bullet\EnemyBullet.cpp" />
     <ClCompile Include="Engine\base\scene\BaseScene.cpp" />
     <ClCompile Include="Application\particle\BaseParticle.cpp" />
     <ClCompile Include="Engine\easing\Easing.cpp" />
@@ -160,6 +160,7 @@
     <ClCompile Include="Application\Enemy\ShotgunEnemy.cpp" />
     <ClCompile Include="Application\Block\Fixedgun.cpp" />
     <ClCompile Include="Application\Block\Wall.cpp" />
+    <ClCompile Include="Application\Bullet\Homing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -235,13 +236,13 @@
   <ItemGroup>
     <ClInclude Include="Application\Enemy\BaseEnemy.h" />
     <ClInclude Include="Application\Enemy\EnemyManager.h" />
-    <ClInclude Include="Application\BulletManager.h" />
+    <ClInclude Include="Application\Bullet\BulletManager.h" />
     <ClInclude Include="Application\Block\BaseBlock.h" />
     <ClInclude Include="Application\Block\BlockManager.h" />
     <ClInclude Include="Engine\base\scene\AbstractSceneFactory.h" />
     <ClInclude Include="Application\Enemy\Enemy.h" />
-    <ClInclude Include="Application\Player\Bullet.h" />
-    <ClInclude Include="Application\Enemy\EnemyBullet.h" />
+    <ClInclude Include="Application\Bullet\Bullet.h" />
+    <ClInclude Include="Application\Bullet\EnemyBullet.h" />
     <ClInclude Include="Engine\base\scene\BaseScene.h" />
     <ClInclude Include="Application\struct\BaseHp.h" />
     <ClInclude Include="Application\struct\BaseGrain.h" />
@@ -275,6 +276,7 @@
     <ClInclude Include="Application\particle\Explosion.h" />
     <ClInclude Include="Engine\3d\Light\Light.h" />
     <ClInclude Include="Application\Block\Fixedgun.h" />
+    <ClInclude Include="Application\Bullet\Homing.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Engine\audio\SoundManager.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />

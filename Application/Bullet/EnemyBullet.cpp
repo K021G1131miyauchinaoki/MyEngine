@@ -10,10 +10,14 @@
 bool EnemyBullet::IsDead() const { return isDead; }
 float EnemyBullet::GetRadius() {return r;}
 
-void EnemyBullet::Initialize(Model* model_,const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_) {
+void EnemyBullet::Initialize(Model* model_,const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_,Player* player_) {
 	//NULLポインタチェック
 	assert(model_);
-	velocity = veclocity_;
+	if (player_)
+	{
+		player = player_;
+	}
+	velocity = veclocity_ * kBulletSpeed;
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
@@ -23,6 +27,8 @@ void EnemyBullet::Initialize(Model* model_,const Vector3& position_,const Vector
 
 	obj->SetColor({ 0.0f,0.0f,0.0f,1.0f });
 	obj->Update();
+
+	deathTimer = lifeTime;
 }
 
 void EnemyBullet::Update() {
@@ -68,7 +74,6 @@ void EnemyBullet::Draw() {
 
 //コンストラクタ
 EnemyBullet::EnemyBullet() {
-	deathTimer = lifeTime;
 }
 //デストラクタ
 EnemyBullet::~EnemyBullet() {

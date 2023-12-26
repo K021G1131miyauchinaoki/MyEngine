@@ -8,6 +8,9 @@
 #include<Vector3.h>
 #include<memory>
 
+//前方宣言
+class Player;
+
 class EnemyBullet
 {
 public:
@@ -29,39 +32,39 @@ public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model*model_, const Vector3& position_, const Vector3& veclocity_, const Vector3& rotation_);
+	virtual void Initialize(Model*model_, const Vector3& position_, const Vector3& veclocity_, const Vector3& rotation_,Player*player_=nullptr);
 	
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	virtual void Update();
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	virtual void Draw();
 
 	/// <summary>
 	///デスフラグを取得 
 	/// </summary>
-	bool IsDead() const;
+	virtual bool IsDead() const;
 
 	/// <summary>
 	/// 衝突時のコールバック
 	/// </summary>
-	void OnCollision();
+	virtual void OnCollision();
 	//ワールド座標を取得
-	Vector3 GetPos();
+	virtual Vector3 GetPos();
 
 	/// <summary>
 	/// スケール取得
 	/// </summary>
-	Vector3 GetScale();
+	virtual Vector3 GetScale();
 
 	//半径を取得
-	float GetRadius();
+	virtual float GetRadius();
 
-private://メンバ変数
+protected://メンバ変数
 	//消滅
 	static const int32_t lifeTime = 60;
 	//デスタイマー
@@ -73,6 +76,8 @@ private://メンバ変数
 	const float r = 1.0f;
 	//デスフラグ
 	bool isDead = false;
+	const float kBulletSpeed = 1.5f;
 
+	Player* player = nullptr;
 };
 

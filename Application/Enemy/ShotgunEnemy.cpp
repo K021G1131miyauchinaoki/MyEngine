@@ -37,7 +37,6 @@ void ShotgunEnemy::Shot() {
 	Vector3 pos;
 
 	//弾の速度
-	const float kBulletSpeed = 1.5f;
 	velocity = { 0.0f,0.0f,0.0f };
 
 	pos = obj->GetPosition();
@@ -64,11 +63,10 @@ void ShotgunEnemy::Shot() {
 		float radian = -MyMath::RadianTransform(angle+shift*static_cast<float>(i));
 		velocity = { std::cos(radian),0.0f,std::sin(radian) };
 		velocity = MyMath::normaleizeVec3(velocity);
-		velocity *= kBulletSpeed;
-
+		
 		bulletRot.y = angle + shift * static_cast< float >( i );
 
-		bulletManager->EnemyBulletCreate(obj->GetPosition(),velocity,bulletRot);
+		bulletManager->EnemyBulletCreate(obj->GetPosition(),velocity,bulletRot,"normale");
 
 	}
 	

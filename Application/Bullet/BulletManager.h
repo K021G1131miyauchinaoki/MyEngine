@@ -9,13 +9,17 @@
 #include<Bullet.h>
 #include<EnemyBullet.h>
 #include<Model.h>
+
+//前方宣言
+class Player;
+
 class BulletManager
 {
 public:
 	/// <summary>
 	///　初期化
 	/// </summary>
-	void Initialize(Model*model_);
+	void Initialize(Model*model_,Player*player_);
 
 	/// <summary>
 	/// 弾の更新
@@ -41,7 +45,7 @@ public:
 	/// <param name="pos"></param>
 	/// <param name="vec_"></param>
 	/// <param name="rot_"></param>
-	void EnemyBulletCreate(const Vector3& pos,const Vector3& vec_,const Vector3& rot_);
+	void EnemyBulletCreate(const Vector3& pos,const Vector3& vec_,const Vector3& rot_,const std::string type_);
 
 	// 存命の弾を全部削除
 	void AllBulletDelete();
@@ -64,5 +68,8 @@ private:
 	// 敵の弾
 	std::list<std::unique_ptr<EnemyBullet>> enemyBullets;
 	std::unique_ptr<Model> enemyBulletModel = nullptr;
+
+	//プレイヤー
+	Player* player;
 };
 
