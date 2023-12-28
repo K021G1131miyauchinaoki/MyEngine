@@ -317,8 +317,13 @@ void Player::Shot() {
 	if (input->PushKey(DIK_SPACE)||input->PushClick(Botton::LEFT)) {
 		if (coolTime < 0)
 		{
-			//弾を生成し
-			bulletManager->PlayerBulletCreate(tankHad->GetPosition(),velocity,tankHad->GetRotation());
+			//弾の発射位置の調整
+			Vector3 pos=tankHad->GetPosition();
+			float radian = -MyMath::RadianTransform(tankHad->GetRotation().y);
+			pos.x = GetPos().x + std::cos(radian) * 5.0f;
+			pos.z = GetPos().z + std::sin(radian) * 5.0f;
+			//弾を生成
+			bulletManager->PlayerBulletCreate(pos,velocity,tankHad->GetRotation());
 			
 			//タイムリセット
 			coolTime = 30;

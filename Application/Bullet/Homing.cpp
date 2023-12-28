@@ -3,7 +3,7 @@
 #include<Model.h>
 #include<cmath>
 #include<assert.h>
-
+#include"MyMath.h"
 bool Homing::IsDead() const {
 	return isDead;
 }
@@ -31,7 +31,9 @@ void Homing::Update() {
 	move.z = std::sin(angle) * speed;
 	move.y = 0.0f;
 	pos += move;
+	angle = -MyMath::DegreeTransform(angle);
 	obj->SetPosition(pos);
+	obj->SetRotation({ 0.0f,angle,0.0f });
 
 	//時間経過で消滅
 	if ( --deathTimer <= 0 )

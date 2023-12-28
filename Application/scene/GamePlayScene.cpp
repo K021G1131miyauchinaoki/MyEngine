@@ -152,6 +152,7 @@ void GamePlayScene::Initialize() {
 	fixedgun.reset(Model::LoadFromOBJ("fixedgun"));
 	parachute.reset(Model::LoadFromOBJ("parachute"));
 	wall.reset(Model::LoadFromOBJ("wall"));
+	bullet.reset(Model::LoadFromOBJ("bullet"));
 
 	//弾マネージャー
 	bulletManager=std::make_unique<BulletManager>();
@@ -165,7 +166,7 @@ void GamePlayScene::Initialize() {
 	blockManager->Initialize(bulletManager.get());
 
 	//弾マネージャー初期化
-	bulletManager->Initialize(cube.get(),player.get());
+	bulletManager->Initialize(bullet.get(),player.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson("1"));
