@@ -153,9 +153,8 @@ void GamePlayScene::Initialize() {
 	parachute.reset(Model::LoadFromOBJ("parachute"));
 	wall.reset(Model::LoadFromOBJ("wall"));
 
-	//弾
+	//弾マネージャー
 	bulletManager=std::make_unique<BulletManager>();
-	bulletManager->Initialize(cube.get());
 	//敵
 	enemyManager = std::make_unique<EnemyManager>();
 	//プレイヤー
@@ -164,6 +163,9 @@ void GamePlayScene::Initialize() {
 	//壁
 	blockManager = std::make_unique<BlockManager>();
 	blockManager->Initialize(bulletManager.get());
+
+	//弾マネージャー初期化
+	bulletManager->Initialize(cube.get(),player.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson("1"));
@@ -186,7 +188,7 @@ void GamePlayScene::Initialize() {
 		//エネミー
 		if (objectData.fileName == "Shotgun" || objectData.fileName == "Normal" )
 		{
-			enemyManager->Add(objectData.fileName,model,player.get(),objectData.translation,objectData.rotation,bulletManager.get());
+			enemyManager->Add(objectData.fileName,model,parachute.get(),player.get(),objectData.translation,objectData.rotation,bulletManager.get());
 		}
 		//ブロック
 		if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
@@ -253,7 +255,10 @@ void GamePlayScene::Update(){
 		objSkydome->SetPosition(player->GetPos());
 		objSkydome->Update();
 		particle->Update();
-		CheckAllCollision();
+		if (!isStart)
+		{
+			CheckAllCollision();
+		}
 	}
 	//シーン遷移のフラグを立てる
 	else if ( !SceneTransition::GetInstance()->GetIsFadeOut() &&
@@ -378,8 +383,6 @@ void GamePlayScene::CheckAllCollision() {
 		for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys() )
 		{
 			#pragma region 自弾との当たり判定
-				
-			//敵キャラと自弾全ての当たり判定
 			for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
 			{
 				//判定対象AとBの座標
@@ -404,7 +407,6 @@ void GamePlayScene::CheckAllCollision() {
 					particle->Add("1",30,15,enemy->GetPos(),1.0f,0.0f);
 				}
 			}
-
 			#pragma endregion
 
 			#pragma region ブロックとの当たり判定
@@ -547,26 +549,30 @@ void GamePlayScene::StartStaging() {
 	}
 	if ( startCount== start::Redy )
 	{
-		XMFLOAT2 readyPos=ready->GetPosition();
-		XMFLOAT2 stagePos=stage->GetPosition();
-		
-		if ( spriteEaseTime== spriteEaseTimer )
+		waitTime++;
+		if ( waitTime >= waitTimer )
 		{
-			spriteWaitTime++;
-		}
-		if ( spriteWaitTime>= spriteWaitTimer|| spriteWaitTime==0.0f )
-		{
-			spriteEaseTime++;
-			if ( spriteEaseTime == (spriteEaseTimer*2.0f) )
-			{
-				startCount++;
-			}
-		}
+			XMFLOAT2 readyPos = ready->GetPosition();
+			XMFLOAT2 stagePos = stage->GetPosition();
 
-		readyPos.y = rPosStartY + ( rPosEndY - rPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
-		stagePos.y = sPosStartY + ( sPosEndY - sPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
-		ready->SetPosition(readyPos);
-		stage->SetPosition(stagePos);
+			if ( spriteEaseTime == spriteEaseTimer )
+			{
+				spriteWaitTime++;
+			}
+			if ( spriteWaitTime >= spriteWaitTimer || spriteWaitTime == 0.0f )
+			{
+				spriteEaseTime++;
+				if ( spriteEaseTime == ( spriteEaseTimer * 2.0f ) )
+				{
+					startCount++;
+				}
+			}
+
+			readyPos.y = rPosStartY + ( rPosEndY - rPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+			stagePos.y = sPosStartY + ( sPosEndY - sPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+			ready->SetPosition(readyPos);
+			stage->SetPosition(stagePos);
+		}
 	}
 	stage->Update();
 	ready->Update();

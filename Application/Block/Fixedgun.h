@@ -35,7 +35,6 @@ public:
 	void SetBulletManager(BulletManager* bulletManager_)override {bulletManager = bulletManager_;}
 private:
 	Vector3 velocity;
-	std::unique_ptr<Object3d> obj;
 	float frame;
 	float stagingTime;
 	bool isUp = false;

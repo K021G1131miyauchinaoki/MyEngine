@@ -17,6 +17,8 @@ public:
 	//パラメータのセット
 	virtual void SetParameter(const Vector3& pos_,const Vector3& rot_,const Vector3& scale_);
 
+	virtual void Staging();
+
 	//演出セッター
 	void SetIsStaging(const bool& isStaging_);
 	//演出ゲッター
@@ -41,7 +43,9 @@ public:
 protected://メンバ変数
 	std::unique_ptr<Object3d> obj;
 	BulletManager* bulletManager;
-	float frame;
+	Vector3 rotEnd,rotStart;
+	Vector3 scaleEnd,scaleStart;
+	const float stagingTimer = 40;
 	float stagingTime;
 	bool isStaging = false;
 };

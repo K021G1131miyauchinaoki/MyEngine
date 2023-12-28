@@ -146,8 +146,7 @@ private://メンバ変数
 	float easeTime;
 	const float titleEaseTimer = 80.0f;
 
-	float startPosY;
-	float endPosY;
+	float startPosY,endPosY;
 	float bound;
 	const float startEaseTimer=150;
 	float startEaseTime;
@@ -160,6 +159,6 @@ private://メンバ変数
 	float pEndScaleXZ;
 	float pLeaveTime;
 	const	float pLeaveTimer=60;
-
+	float pPosX;
 };
 

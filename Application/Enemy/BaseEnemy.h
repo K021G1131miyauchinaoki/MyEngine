@@ -27,7 +27,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialeze(Model* model_,Player* player_,const Vector3 &pos_,const Vector3& rot_,BulletManager* bulletManager_);
+	virtual void Initialeze(Model* model_,Model* parachuteModel_,Player* player_,const Vector3 &pos_,const Vector3& rot_,BulletManager* bulletManager_);
 
 	/// <summary>
 	/// 更新
@@ -58,6 +58,11 @@ public:
 	/// 回転
 	/// </summary>
 	virtual void Rotate();
+
+	/// <summary>
+	/// プレイ時のスタート演出
+	/// </summary>
+	void StartStaging();
 
 	/// <summary>
 	/// 位置
@@ -123,6 +128,7 @@ protected://メンバ変数
 
 protected://メンバ変数
 	std::unique_ptr<Object3d>obj = nullptr;
+	std::unique_ptr<Object3d>parachute = nullptr;
 	BulletManager* bulletManager = nullptr;
 	//移動フラグ
 	bool isMove = false;
@@ -161,13 +167,22 @@ protected://メンバ変数
 	int16_t invincibleTime;
 
 	//位置
-	Vector3 InitialezePos;
+	Vector3 stratPos,endPos;
 	Vector3 playerPos;
 	Vector3 oldPos;
+	Vector3 parachutePos;
 	//距離
 	Vector3 len;
 	//hp
 	BaseHp hp;
-
+	//
+	float startPosY,endPosY;
+	const float startEaseTimer = 70;
+	float startEaseTime;
+	float parachutePosY;
+	float pStartRotZ;
+	float pEndRotZ;
+	float pStartScaleXZ;
+	float pEndScaleXZ;
 };
 

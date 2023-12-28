@@ -25,7 +25,7 @@ public:
 	/// <summary>
 	/// 加算
 	/// </summary>
-	void Add(const std::string& name_,Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager*bulletManager_);
+	void Add(const std::string& name_,Model* model_,Model* parachuteModel_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager*bulletManager_);
 
 	//リストを取得
 	std::list<std::unique_ptr<BaseEnemy>>& GetEnemys() {

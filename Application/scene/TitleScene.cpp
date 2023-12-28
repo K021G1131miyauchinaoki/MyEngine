@@ -40,6 +40,7 @@ void TitleScene::Initialize() {
 	//ライト
 	light.reset(Light::Create());
 	light->SetLightColor({ 1.0f,1.0f,1.0f });
+	light->SetLightDir(lightDir);
 	Object3d::SetLight(light.get());
 
 	// モデル読み込み
@@ -74,6 +75,8 @@ void TitleScene::Initialize() {
 	isFadeOut = false;
 	isFadeIn = false;
 	transTime = 0.0f;
+	flashTime = 0;
+	isFlash = true;
 }
 
 void TitleScene::Update() {
@@ -94,8 +97,10 @@ void TitleScene::Update() {
 	ImGui::Begin("lo");
 	ImGui::SliderFloat4("lightDir",a, -100.0f,100.0f);
 	ImGui::End();*/
+
 	
-	light->SetLightDir(lightDir);
+
+	/*シェイク処理*/
 	//カメラ位置
 	//乱数シード生成器
 	std::random_device seed_gen;
@@ -145,6 +150,7 @@ void TitleScene::Update() {
 	camera->Update();
 	objSkydome->Update();
 	map->Update();
+	/*シーン遷移*/
 	//キーを押したら
 	if (input->TriggerReleaseKey(DIK_SPACE)
 		|| input->TriggerReleaseClick(Botton::LEFT)
@@ -164,6 +170,21 @@ void TitleScene::Update() {
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 	}
+	//点滅処理
+	if ( movieCount == Staging::Title)
+	{
+		flashTime++;
+		if ( flashTime>=flashTimer )
+		{
+			isFlash ^= 1;
+			flashTime = 0;
+		}		
+	}
+	else
+	{
+		flashTime = 0;
+		isFlash = true;
+	}
 }
 
 void TitleScene::SpriteDraw() {
@@ -171,7 +192,10 @@ void TitleScene::SpriteDraw() {
 	{
 		titleSprite->SetTexIndex(1);
 		titleSprite->Draw();
-		pushKey->Draw();
+		if ( isFlash )
+		{
+			pushKey->Draw();
+		}
 	}
 	blackOutSprite->SetTexIndex(5);
 	blackOutSprite->Draw();

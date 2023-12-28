@@ -1,4 +1,6 @@
 #include "BaseBlock.h"
+#include"Easing.h"
+#include"GamePlayScene.h"
 
 void BaseBlock::Initialize(const Vector3& pos_,const Vector3& rot_,const Vector3& scale_,Model* model_) {
 	obj = std::make_unique<Object3d>();
@@ -8,7 +10,6 @@ void BaseBlock::Initialize(const Vector3& pos_,const Vector3& rot_,const Vector3
 	obj->SetRotation(rot_);
 	obj->SetScale(scale_);
 	obj->Update();
-	frame = 0;
 }
 
 void BaseBlock::Updata() {
@@ -28,14 +29,15 @@ void BaseBlock::SetIsStaging(const bool& isStaging_) {
 	isStaging = isStaging_;
 }
 
-//Vector3 BaseBlock::GetPos() {
-//	return obj->GetPosition();
-//}
-//
-//Vector3 BaseBlock::GetRot() {
-//	return obj->GetRotation();
-//}
-//
-//Vector3 BaseBlock::GetScale() {
-//	return obj->GetScale();
-//}
+void BaseBlock::Staging() {
+	if ( stagingTime < stagingTimer && GamePlayScene::startCount >= GamePlayScene::Wait )
+	{
+		Vector3 rot = obj->GetRotation();
+		Vector3 scale = obj->GetScale();
+		rot = rotStart + ( rotEnd - rotStart ) * Easing::easeOutQuint(stagingTime / stagingTimer);
+		scale = scaleStart + ( scaleEnd - scaleStart ) * Easing::easeOutQuint(stagingTime / stagingTimer);
+		obj->SetRotation(rot);
+		obj->SetScale(scale);
+		stagingTime++;
+	}
+}

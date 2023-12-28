@@ -28,6 +28,14 @@ float Easing::easeInCubic(float x) {
 	return x * x * x;
 }
 
+float Easing::easeInOutCubic(float x) {
+	return x < 0.5f ? 4.0f * x * x * x : 1 - std::pow(-2.0f * x + 2.0f, 3.0f) / 2.0f;
+}
+
+float Easing::easeInQuint(float x) {
+	return x * x * x * x * x;
+}
+
 float Easing::easeOutQuint(float x) {
 	return 1 - (float)pow(1 - x, 5);
 }
@@ -66,4 +74,12 @@ float Easing::easeOutBounce(float x) {
 	{
 		return n1 * ( x -= 2.625f / d1 ) * x + 0.984375f;
 	}
+}
+
+float Easing::easeInQuad(float x) {
+	return x * x;
+}
+
+float Easing::easeOutQuad(float x) {
+	return 1.0f - ( 1.0f - x ) * ( 1.0f - x );
 }

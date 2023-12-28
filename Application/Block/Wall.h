@@ -17,10 +17,7 @@ public:
 	Vector3 GetScale()override {
 		return obj->GetScale();
 	}
-	void Staging();
 private:
-	Vector3 rotEnd,rotStart;
-	Vector3 scaleEnd,scaleStart;
-	const float stagingTimer =40;
+	
 };
 

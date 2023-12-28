@@ -10,21 +10,45 @@
 #include<Map.h>
 #include<MyMath.h>
 #include"GamePlayScene.h"
+#include"Easing.h"
 #include<cmath>
 
-void BaseEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
+void BaseEnemy::Initialeze(Model* model_,Model* parachuteModel_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
 	assert(model_);
 	assert(player_);
-	InitialezePos = pos_;
-	InitialezePos.y = radius;
+	//位置
+	startPosY = 60.0f;
+	endPosY = pos_.y;
+	parachutePosY = 6.0f;
+	parachutePos = pos_;
+	parachutePos.y += parachutePosY;
+	//サイズ
+	pStartScaleXZ = 6.0f;
+	pEndScaleXZ = 0.0f;
+	//角度
+	pStartRotZ = 0;
+	pEndRotZ = -90;
+	stratPos = pos_;
+	stratPos.y = startPosY;
+	endPos = pos_;
 
 	player=player_;
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(model_);
-	obj->SetPosition(InitialezePos);
+	obj->SetPosition(stratPos);
 	obj->SetRotation(rot_);
 	obj->SetScale({ radius,radius,radius });
+
+
+	parachute = std::make_unique<Object3d>();
+	parachute->Initialize();
+	parachute->SetModel(parachuteModel_);
+	parachute->SetPosition(parachutePos);
+	parachute->SetScale({ pStartScaleXZ,4.0f,pStartScaleXZ });
+	parachute->SetRotation({ 0.0f,0.0f,0.0f });
+	parachute->Update();
+
 	moveTime = moveTimer;
 	shotTimer = shotTime;
 	waitTime = 0.0f;
@@ -38,7 +62,11 @@ void BaseEnemy::Initialeze(Model* model_,Player* player_,const Vector3& pos_,con
 }
 
 void BaseEnemy::Update() {
-	if ( !GamePlayScene::isStart )
+	if ( GamePlayScene::isStart )
+	{
+		StartStaging();
+	}
+	else
 	{
 		switch ( phase )
 		{
@@ -54,6 +82,7 @@ void BaseEnemy::Update() {
 		}
 	}
 	obj->Update();
+	parachute->Update();
 	if ( isInvincible )
 	{
 		invincibleTime--;
@@ -66,10 +95,13 @@ void BaseEnemy::Update() {
 }
 
 void BaseEnemy::Draw() {
-
-	if ( invincibleTime % 2 == 1 )
+	if ( GamePlayScene::startCount >= GamePlayScene::Bound2 )
 	{
-		obj->Draw();
+		if ( invincibleTime % 2 == 1 )
+		{
+			obj->Draw();
+		}
+		parachute->Draw();
 	}
 }
 
@@ -207,6 +239,48 @@ void BaseEnemy::Wait() {
 	}
 }
 
+void BaseEnemy::StartStaging() {
+	Vector3 pos = obj->GetPosition();
+	Vector3 pRot = parachute->GetRotation();
+	float percent = 0.9f;
+
+	if ( startEaseTime < startEaseTimer
+		&& GamePlayScene::startCount >= GamePlayScene::Bound2 )
+	{
+		startEaseTime++;
+		if ( startEaseTime < (startEaseTimer*percent))
+		{
+			pos.y = startPosY + ( endPosY - startPosY ) * Easing::easeInSine(startEaseTime / (startEaseTimer*percent));
+		}
+		else
+		{
+			pos.y = startPosY + ( endPosY - startPosY ) * Easing::easeOutBounce(startEaseTime / startEaseTimer);
+		}
+		
+		
+	}
+	//パラシュート
+	//タイマーが50％以下なら
+	percent = 0.8f;
+	const float addX = 0.5f;
+	float subtractY = 0.6f;
+	if ( startEaseTime < startEaseTimer * percent )
+	{
+		parachutePos = pos;
+		parachutePos.y += parachutePosY;
+	}
+	else
+	{
+		
+		parachutePos.x += addX;
+		parachutePos.y += subtractY;
+		pRot.y++;
+		parachute->SetRotation(pRot);
+	}
+	obj->SetPosition(pos);
+	parachute->SetPosition(parachutePos);
+}
+
 //衝突したら
 void BaseEnemy::OnCollision()
 {
@@ -232,6 +306,7 @@ void BaseEnemy::OnCollisionPos(const std::string& hitDirection)
 	{
 		pos.z = oldPos.z;
 	}
+
 	obj->SetPosition(pos);
 	obj->Update();
 }

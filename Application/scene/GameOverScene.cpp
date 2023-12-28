@@ -75,6 +75,9 @@ void GameOverScene::Initialize() {
 
 	//ターゲットの設定
 	camera->SetTarget({ tankBody->GetPosition().x, tankBody->GetPosition().y, tankBody->GetPosition().z });
+
+	flashTime = 0;
+	isFlash = true;
 }
 
 void GameOverScene::Update() {
@@ -127,11 +130,21 @@ void GameOverScene::Update() {
 
 	particlePos.y -= 2.0f;
 	particle->Add("2",2,50,particlePos,2.0f,5.0f);
+
+	flashTime++;
+	if ( flashTime >= flashTimer )
+	{
+		isFlash ^= 1;
+		flashTime = 0;
+	}
 }
 
 void GameOverScene::SpriteDraw() {
 	overSprite->Draw();
-	pushKey->Draw();
+	if ( isFlash )
+	{
+		pushKey->Draw();
+	}
 }
 
 void GameOverScene::ObjDraw() {

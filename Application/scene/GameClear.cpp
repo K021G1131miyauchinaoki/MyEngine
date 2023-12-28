@@ -98,7 +98,8 @@ void GameClear::Initialize() {
 	map->Initialize(false);
 	map->LoadCSV("title");
 
-	//ターゲットの設定
+	flashTime = 0;
+	isFlash = true; 
 	
 }
 
@@ -182,11 +183,21 @@ void GameClear::Update() {
 			SceneTransition::GetInstance()->IsFadeOutTrue();
 		}
 	}
+
+	if ( clearTime >= clearTimer )
+	{
+		flashTime++;
+		if ( flashTime >= flashTimer )
+		{
+			isFlash ^= 1;
+			flashTime = 0;
+		}
+	}
 }
 
 void GameClear::SpriteDraw() {
 	clearSprite->Draw();
-	if ( clearTime >= clearTimer )
+	if ( clearTime >= clearTimer&& isFlash )
 	{
 		pushKey->Draw();
 	}
