@@ -66,8 +66,7 @@ void ShotgunEnemy::Shot() {
 		
 		bulletRot.y = angle + shift * static_cast< float >( i );
 
-		bulletManager->EnemyBulletCreate(obj->GetPosition(),velocity,bulletRot,"normale");
-
+		BaseEnemy::SetBulletParameter(bulletRot,velocity,"normale");
 	}
 	
 

@@ -13,6 +13,7 @@
 #include<BaseHp.h>
 #include<array>
 #include"BulletManager.h"
+#include<string>
 //自機クラスの前方前言
 class Player;
 
@@ -63,6 +64,8 @@ public:
 	/// プレイ時のスタート演出
 	/// </summary>
 	void StartStaging();
+
+	void SetBulletParameter(Vector3 rot_,Vector3 velocity_,std::string type_);
 
 	/// <summary>
 	/// 位置
@@ -158,7 +161,7 @@ protected://メンバ変数
 	MovePhase movePhase = MovePhase::approach;
 	//乱数値格納
 	Vector3 value;
-	//デスフラグ
+	//半径
 	float radius = 5.0f;
 
 	//仮

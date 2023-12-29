@@ -310,3 +310,17 @@ void BaseEnemy::OnCollisionPos(const std::string& hitDirection)
 	obj->SetPosition(pos);
 	obj->Update();
 }
+
+void BaseEnemy::SetBulletParameter(Vector3 rot_,Vector3 velocity_,std::string type_) {
+	Vector3 pos = obj->GetPosition();
+	//弾の発射位置の調整
+	float radian = -MyMath::RadianTransform(rot_.y);
+	//x半径
+	float r = obj->GetScale().x * 2.0f;
+	pos.x = obj->GetPosition().x + std::cos(radian) * r;
+	//z半径
+	r = obj->GetScale().z * 2.0f;
+	pos.z = obj->GetPosition().z + std::sin(radian) * r;
+	bulletManager->EnemyBulletCreate(pos,velocity_,rot_,type_);
+
+}

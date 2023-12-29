@@ -52,11 +52,8 @@ void Enemy::Shot() {
 
 	//角度を格納
 	obj->SetRotation(rot);
-	//速度ベクトルを自機の向きに合わせて回転させる
-	//ImgM = Vec_rot(ImgM, worldTransform_.matWorld_);
 	//弾を生成
-	bulletManager->EnemyBulletCreate(obj->GetPosition(),velocity,obj->GetRotation(),"homing");
-
+	BaseEnemy::SetBulletParameter(rot,velocity,"homing");
 	BaseEnemy::Shot();
 }
 
