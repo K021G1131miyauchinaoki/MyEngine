@@ -161,6 +161,7 @@
     <ClCompile Include="Application\Block\Fixedgun.cpp" />
     <ClCompile Include="Application\Block\Wall.cpp" />
     <ClCompile Include="Application\Bullet\Homing.cpp" />
+    <ClCompile Include="Application\particle\Orbit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -277,6 +278,7 @@
     <ClInclude Include="Engine\3d\Light\Light.h" />
     <ClInclude Include="Application\Block\Fixedgun.h" />
     <ClInclude Include="Application\Bullet\Homing.h" />
+    <ClInclude Include="Application\particle\Orbit.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Engine\audio\SoundManager.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />

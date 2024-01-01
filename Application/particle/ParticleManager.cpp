@@ -6,28 +6,32 @@
 #include "ParticleManager.h"
 #include"Explosion.h"
 #include"Smoke.h"
+#include "Orbit.h"
 
 void ParticleManager::Initialize(Model* model_) {
 	assert(model_);
 	model.reset(model_);
 }
-void ParticleManager::Add(const std::string& name_,int amount_,int32_t life_,Vector3 position_,float startScale_,float endScale_) {
+void ParticleManager::Add(const std::string& name_,int amount_,int32_t life_,Vector3 position_,float startScale_,float endScale_,Vector3 color_) {
 	for (size_t i = 0; i < amount_; i++)
 	{
 		std::unique_ptr <BaseParticle> p;
-		if (name_=="1")
+		if (name_=="explosion")
 		{
 			p = std::make_unique <Explosion>();
 		}
-		else {
+		else if( name_ == "smoke" ) {
 			p = std::make_unique <Smoke>();
 		}
-
-		p->oneGrain.pos = position_;
-		p->oneGrain.endFrame = life_;
-		p->oneGrain.stratScale = startScale_;
-		p->oneGrain.endScale = endScale_;
-		p->Initialize(model.get());
+		else if ( name_ == "orbit" )
+		{
+			p = std::make_unique <Orbit>();
+		}
+		else
+		{
+			p = std::make_unique <Explosion>();
+		}
+		p->Initialize(model.get(),life_,position_,startScale_,endScale_,color_);
 		particles.emplace_front(std::move(p));
 	}
 	
@@ -35,7 +39,7 @@ void ParticleManager::Add(const std::string& name_,int amount_,int32_t life_,Vec
 void ParticleManager::Update() {
 	//フラグが立ったら削除
 	particles.remove_if([](std::unique_ptr<BaseParticle>& p) {
-		return p->oneGrain.stratFrame >= p->oneGrain.endFrame;
+		return p->GetIsDead();
 		});
 
 	for (std::unique_ptr<BaseParticle>& p : particles) {

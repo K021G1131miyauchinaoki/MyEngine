@@ -154,6 +154,10 @@ void GamePlayScene::Initialize() {
 	wall.reset(Model::LoadFromOBJ("wall"));
 	bullet.reset(Model::LoadFromOBJ("bullet"));
 
+	//パーティクル
+	particle = std::make_unique <ParticleManager>();
+	particle->Initialize(cube.get());
+
 	//弾マネージャー
 	bulletManager=std::make_unique<BulletManager>();
 	//敵
@@ -166,7 +170,7 @@ void GamePlayScene::Initialize() {
 	blockManager->Initialize(bulletManager.get());
 
 	//弾マネージャー初期化
-	bulletManager->Initialize(bullet.get(),player.get());
+	bulletManager->Initialize(bullet.get(),player.get(),particle.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson("1"));
@@ -214,9 +218,6 @@ void GamePlayScene::Initialize() {
 	map->Initialize(true);
 	map->LoadCSV("1");
 
-	//パーティクル
-	particle = std::make_unique <ParticleManager>();
-	particle->Initialize(cube.get());
 
 	startCount = 0;
 	isStart = true;
@@ -332,7 +333,7 @@ void GamePlayScene::CheckAllCollision() {
 				player->OnCollision();
 				//敵弾のコールバックを呼び出し
 				e_bullet->OnCollision();
-				particle->Add("1",30,15,player->GetPos(),1.0f,0.0f);
+				particle->Add("explosion",30,15,player->GetPos(),1.0f,0.0f);
 			}
 			#pragma	endregion
 
@@ -354,8 +355,8 @@ void GamePlayScene::CheckAllCollision() {
 					p_bullet->OnCollision();
 					//敵弾のコールバックを呼び出し
 					e_bullet->OnCollision();
-					particle->Add("1",5,10,p_bullet->GetPos(),1.0f,0.0f);
-					particle->Add("1",5,10,e_bullet->GetPos(),1.0f,0.0f);
+					particle->Add("explosion",5,10,p_bullet->GetPos(),1.0f,0.0f);
+					particle->Add("explosion",5,10,e_bullet->GetPos(),1.0f,0.0f);
 				}
 			}
 			#pragma endregion
@@ -374,7 +375,7 @@ void GamePlayScene::CheckAllCollision() {
 					//自弾のコールバックを呼び出し
 					e_bullet->OnCollision();
 					//パーティクルの呼び出し
-					particle->Add("1",5,10,e_bullet->GetPos(),1.0f,0.0f);
+					particle->Add("explosion",5,10,e_bullet->GetPos(),1.0f,0.0f);
 				}
 			}
 			#pragma endregion
@@ -405,7 +406,7 @@ void GamePlayScene::CheckAllCollision() {
 					//自弾のコールバックを呼び出し
 					p_bullet->OnCollision();
 
-					particle->Add("1",30,15,enemy->GetPos(),1.0f,0.0f);
+					particle->Add("explosion",30,15,enemy->GetPos(),1.0f,0.0f);
 				}
 			}
 			#pragma endregion

@@ -1,10 +1,12 @@
 #include "BulletManager.h"
 #include"Homing.h"
+#include"ParticleManager.h"
 
-void BulletManager::Initialize(Model* model_,Player*player_) {
+void BulletManager::Initialize(Model* model_,Player*player_,ParticleManager* particleManager_) {
 	playerBulletModel.reset(model_);
 	enemyBulletModel.reset(model_);
 	player = player_;
+	particleManager = particleManager_;
 }
 
 void BulletManager::Update() {
@@ -21,11 +23,14 @@ void BulletManager::Update() {
 	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets )
 	{
 		playerBullet->Update();
+		//particleManager->Add("orbit",1,20,playerBullet->GetPos(),1.0f,0.0f,{ 0.0f,0.5f,0.0f });
 	}
 
 	for ( std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets )
 	{
 		enemyBullet->Update();
+		//particleManager->Add("orbit",1,20,enemyBullet->GetPos(),1.0f,0.0f,{ 0.0f,0.5f,0.0f });
+
 	}
 }
 

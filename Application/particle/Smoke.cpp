@@ -7,7 +7,8 @@
 #include<MyMath.h>
 #include<Easing.h>
 
-void Smoke::Initialize(Model* model_) {
+void Smoke::Initialize(Model* model_,int32_t life_,Vector3 position_,float startScale_,float endScale_,Vector3 color_) {
+	BaseParticle::Initialize(model_,life_,position_,startScale_,endScale_,color_);
 
 	colorStart = 0.1f;
 	colorEnd=0.8f;
@@ -30,49 +31,44 @@ void Smoke::Initialize(Model* model_) {
 	std::uniform_real_distribution<float> valueDistY(0.15f,0.2f);
 	std::uniform_real_distribution<float> rotValue(-180.0f,180.0f);
 	//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
-	Vector3 pos = { 0,0,0 };
-	pos= { posDist(engine),0.0f,posDist(engine) };
-	oneGrain.pos += pos;
+	pos+= { posDist(engine),0.0f,posDist(engine) };
 
 	//xyzをランダムに分布
 	Vector3 value = { 0,0,0 };
 	value = { valueDistXZ(engine),valueDistY(engine),valueDistXZ(engine) };
 
-	oneGrain.velocity = value;
+	velocity = value;
 
-	Vector3 rot = { 0,0,0 };
 	rot = { rotValue(engine),rotValue(engine),rotValue(engine) };
 	//rot.y = rotY(engine);
 
 	//乱数　（スケール）
-	//oneGrain.stratScale = 1.0f;
+	//stratScale = 1.0f;
 #pragma endregion
-	//oneGrain.endScale = 0.0f;
+	//endScale = 0.0f;
 
-	obj->SetPosition(oneGrain.pos);
-	obj->SetRotation(oneGrain.rot);
+	obj->SetPosition(pos);
+	obj->SetRotation(rot);
 
 }
 
 void Smoke::Update() {
-	oneGrain.stratFrame++;
-
 	//速度による移動
-	oneGrain.pos += oneGrain.velocity * speed;
+	pos += velocity * speed;
 	//進行度を0～1の範囲に換算
-	float f = ( float ) oneGrain.stratFrame / oneGrain.endFrame;
+	float f = ( float ) stratFrame / endFrame;
 	//スケールの線形補間
-	oneGrain.scale = ( oneGrain.endScale - oneGrain.stratScale ) * f;
+	scale = ( endScale - stratScale ) * f;
 	
 	//カラー
 	//float color;
 	float alpha;
 	//color = colorStart+( colorEnd - colorStart ) * Easing::easeOutCubic(f);
 	alpha = alphaStart+( alphaEnd - alphaStart ) * Easing::easeOutSine(f);
-	obj->SetPosition(oneGrain.pos);
-	obj->SetScale({ oneGrain.scale, oneGrain.scale, oneGrain.scale });
+	obj->SetPosition(pos);
+	obj->SetScale({ scale, scale, scale });
 	obj->SetColor({ colorStart,colorStart,colorStart,alpha });
-	obj->Update();
+	BaseParticle::Update();
 }
 
 void Smoke::Draw() {

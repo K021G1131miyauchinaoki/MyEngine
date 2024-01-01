@@ -28,9 +28,9 @@ public:
 	void Draw();
 
 	/// <summary>
-	/// 加算
+	/// 追加
 	/// </summary>
-	void Add(const std::string& name_, int amount_, int32_t life_, Vector3	position_,float startScale_, float endScale_);
+	void Add(const std::string& name_, int amount_, int32_t life_, Vector3	position_,float startScale_, float endScale_,Vector3 color_={1.0f,1.0f,1.0f});
 
 private:
 	std::forward_list<std::unique_ptr<BaseParticle>>particles;

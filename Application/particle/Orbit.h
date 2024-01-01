@@ -1,20 +1,17 @@
-/**
- * @file Explosion.h
- * @brief BaseParticleを継承した爆発パーティクル
- */
-
 #pragma once
-
-#include<BaseParticle.h>
-#include<memory>
-
-class Explosion:public BaseParticle
+#include "BaseParticle.h"
+#include"Object3d.h"
+class Orbit :   public BaseParticle
 {
 public:
 	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Orbit() = default;
+	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Explosion();
+	~Orbit() = default;
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -27,7 +24,8 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw()override;
-
 private:
+	float alphaStart;
+	float alphaEnd;
 };
 

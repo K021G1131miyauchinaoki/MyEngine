@@ -23,7 +23,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* model_)override;
+	void Initialize(Model* model_,int32_t life_,Vector3 position_,float startScale_,float endScale_,Vector3 color_)override;
 	/// <summary>
 	/// 更新
 	/// </summary>
@@ -34,11 +34,7 @@ public:
 	void Draw()override;
 
 private:
-	std::unique_ptr<Object3d>obj;
-	const float speed = 1.0f;
-	Vector3 acc;
-	//移動
-	Vector3 move;
+	
 	float colorStart;
 	float colorEnd;
 	float alphaStart;

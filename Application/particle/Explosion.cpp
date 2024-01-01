@@ -9,20 +9,18 @@
 
 Explosion::~Explosion() {}
 
-void Explosion::Initialize(Model* model_) {
+void Explosion::Initialize(Model* model_,int32_t life_,Vector3 position_,float startScale_,float endScale_,Vector3 color_) {
 
-	obj = std::make_unique<Object3d>();
-	obj->Initialize();
-	obj->SetModel(model_);
+	BaseParticle::Initialize(model_,life_,position_,startScale_,endScale_,color_);
 #pragma region 乱数
 	//xyzをランダムに分布
-	Vector3 pos = { 0,0,0 };
+	Vector3 position = { 0,0,0 };
 	const float rnd_pos = 2.0f;
-	pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-	pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-	pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+	position.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+	position.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+	position.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
 
-	oneGrain.pos += pos;
+	pos += position;
 
 	//xyzをランダムに分布
 	Vector3 value = { 0,0,0 };
@@ -31,31 +29,30 @@ void Explosion::Initialize(Model* model_) {
 	value.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 	value.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 
-	oneGrain.velocity = value;
+	velocity = value;
 
 	//乱数　（スケール）
-	//oneGrain.stratScale = 1.0f;
+	//stratScale = 1.0f;
 #pragma endregion
-	//oneGrain.endScale = 0.0f;
+	//endScale = 0.0f;
 
-	obj->SetPosition(oneGrain.pos);
+	obj->SetPosition(pos);
 
 }
 
 void Explosion::Update() {
-	oneGrain.stratFrame++;
-
+	
 	//速度による移動
-	oneGrain.pos += oneGrain.velocity * speed;
+	pos += velocity * speed;
 	//進行度を0～1の範囲に換算
-	float f = (float)oneGrain.stratFrame / oneGrain.endFrame;
+	float f = (float)stratFrame / endFrame;
 	//スケールの線形補間
-	oneGrain.scale = (oneGrain.endScale - oneGrain.stratScale) * f;
-	oneGrain.scale += oneGrain.stratScale;
+	scale = (endScale - stratScale) * f;
+	scale += stratScale;
 
-	obj->SetPosition(oneGrain.pos);
-	obj->SetScale({ oneGrain.scale, oneGrain.scale, oneGrain.scale });
-	obj->Update();
+	obj->SetPosition(pos);
+	obj->SetScale({ scale, scale, scale });
+	BaseParticle::Update();
 }
 
 void Explosion::Draw() {
