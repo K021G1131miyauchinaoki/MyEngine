@@ -6,7 +6,6 @@
 #include<Object3d.h>
 #include<Model.h>
 #include<Vector3.h>
-#include<BaseGrain.h>
 #include<BaseParticle.h>
 #include<memory>
 class Smoke :public BaseParticle

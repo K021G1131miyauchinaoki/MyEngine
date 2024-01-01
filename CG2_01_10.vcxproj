@@ -246,7 +246,6 @@
     <ClInclude Include="Application\Bullet\EnemyBullet.h" />
     <ClInclude Include="Engine\base\scene\BaseScene.h" />
     <ClInclude Include="Application\struct\BaseHp.h" />
-    <ClInclude Include="Application\struct\BaseGrain.h" />
     <ClInclude Include="Application\particle\BaseParticle.h" />
     <ClInclude Include="Engine\easing\Easing.h" />
     <ClInclude Include="Engine\3d\camera\Camera.h" />

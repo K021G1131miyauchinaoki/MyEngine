@@ -189,9 +189,6 @@
     <ClInclude Include="Application\Map\Map.h">
       <Filter>ヘッダーファイル\Application\Map</Filter>
     </ClInclude>
-    <ClInclude Include="Application\struct\BaseGrain.h">
-      <Filter>ヘッダーファイル\Application\struct</Filter>
-    </ClInclude>
     <ClInclude Include="Application\struct\BaseHp.h">
       <Filter>ヘッダーファイル\Application\struct</Filter>
     </ClInclude>
