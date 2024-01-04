@@ -56,3 +56,7 @@ void SceneManager::ChangeScene(const std::string& sceneName_)
 	// 次のシーンを生成
 	nextScene = sceneFactory->CreateScene(sceneName_);
 }
+
+void SceneManager::GeometryDraw() {
+
+}

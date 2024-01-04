@@ -29,7 +29,7 @@ void GameOverScene::Initialize() {
 	camera->Initialeze();
 	camera->SetEye({ 10.0f, 4.0f,-10.0f });
 	Object3d::SetCamera(camera.get());
-
+	Geometry::SetCamera(camera.get());
 	//ライト
 	light.reset(Light::Create());
 	light->SetLightColor({ 1.0f,1.0f,1.0f });
@@ -64,6 +64,8 @@ void GameOverScene::Initialize() {
 	tankHad->SetScale({ 5.0f,5.0f,5.0f });
 	tankHad->SetRotation({ -1.5f,40.0f,-22.0f });
 
+	geo.reset(Geometry::Create());
+
 	//マップ
 	map = std::make_unique<Map>();
 	map->Initialize(false);
@@ -89,6 +91,11 @@ void GameOverScene::Update() {
 	particle->Update();
 	tankBody->Update();
 	tankHad->Update();
+	XMFLOAT3 pos = { 0.0f,10.0f,0.0f };
+	XMFLOAT3 speed = { 0.0f,0.001f,0.0f };
+	XMFLOAT3 accel= { 0.0f,0.0001f,0.0f };
+	geo->Add(10,pos,speed,accel,10.0f,0.0f);
+	geo->Update();
 	//キーを押したら
 	if ( input->TriggerKey(DIK_RETURN)
 		|| input->TriggerReleaseKey(DIK_SPACE)
@@ -109,27 +116,12 @@ void GameOverScene::Update() {
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("TITLE");
 	}
-
-	float a[ 3 ] = { tankBody->GetPosition().x,tankBody->GetPosition().y, tankBody->GetPosition().z };
-	float a2[ 3 ] = { tankBody->GetRotation().x,tankBody->GetRotation().y, tankBody->GetRotation().z };
-	float b[ 3 ] = { tankHad->GetPosition().x,tankHad->GetPosition().y, tankHad->GetPosition().z };
-	float b2[ 3 ] = { tankHad->GetRotation().x,tankHad->GetRotation().y, tankHad->GetRotation().z };
-	//ImGui::Begin("lo");
-	/*ImGui::SliderFloat3("l",a,-100.0f,100.0f);
-	ImGui::SliderFloat3("i",a2, -100.0f,100.0f);
-	ImGui::SliderFloat3("g",b,-30.0f,30.0f);
-	ImGui::SliderFloat3("t",b2,-50.0f,50.0f);
-
-	ImGui::End();
-	tankBody->SetPosition({ a[ 0 ],a[ 1 ],a[ 2 ] });
-	tankBody->SetRotation({ a2[ 0 ],a2[ 1 ],a2[ 2 ] });
-	tankHad->SetPosition({ b[ 0 ],b[ 1 ],b[ 2 ] });
-	tankHad->SetRotation({ b2[ 0 ],b2[ 1 ],b2[ 2 ] });*/
+	
 	Vector3 particlePos= tankBody->GetPosition();
 	particlePos.x -= 2.0f;
 
 	particlePos.y -= 2.0f;
-	particle->Add("smoke",2,50,particlePos,2.0f,5.0f);
+	//particle->Add("smoke",2,50,particlePos,2.0f,5.0f);
 
 	flashTime++;
 	if ( flashTime >= flashTimer )
@@ -153,6 +145,11 @@ void GameOverScene::ObjDraw() {
 	particle->Draw();
 	tankBody->Draw();
 	tankHad->Draw();
+}
+
+void GameOverScene::GeometryDraw()
+{
+	geo->Draw();
 }
 
 void GameOverScene::Finalize() {}

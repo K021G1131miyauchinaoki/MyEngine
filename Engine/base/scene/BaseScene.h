@@ -23,6 +23,8 @@ public:
 	virtual	void ObjDraw();
 	//スプライト描画
 	virtual	void SpriteDraw();
+	//ジオメトリ描画
+	virtual void GeometryDraw();
 	//シーンマネージャーをセット
 	virtual void SetSceneManager(SceneManager* sceneManager_) { sceneManager = sceneManager_; }
 

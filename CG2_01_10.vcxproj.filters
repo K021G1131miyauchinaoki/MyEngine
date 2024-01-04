@@ -178,6 +178,7 @@
       <Filter>ソースファイル\Application\Block</Filter>
     </ClCompile>
     <ClCompile Include="Application\particle\Orbit.cpp" />
+    <ClCompile Include="Engine\3d\geometry\Geometry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\Enemy.h">
@@ -325,6 +326,7 @@
       <Filter>ソースファイル\Application\Block</Filter>
     </ClInclude>
     <ClInclude Include="Application\particle\Orbit.h" />
+    <ClInclude Include="Engine\3d\geometry\Geometry.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

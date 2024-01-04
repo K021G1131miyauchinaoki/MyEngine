@@ -12,4 +12,5 @@ void BaseScene::Finalize(){}
 void BaseScene::Update(){}
 
 void BaseScene::ObjDraw(){}
-void BaseScene::SpriteDraw(){}
+void BaseScene::SpriteDraw() {}
+void BaseScene::GeometryDraw(){}

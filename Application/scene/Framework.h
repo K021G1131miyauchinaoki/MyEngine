@@ -11,6 +11,7 @@
 #include<PostEffect.h>
 #include<Model.h>
 #include<Object3d.h>
+#include<Geometry.h>
 #include<FbxObject3d.h>
 #include<FbxLoader.h>
 #include<FbxModel.h>

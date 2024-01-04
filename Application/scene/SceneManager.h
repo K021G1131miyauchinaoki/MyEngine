@@ -17,6 +17,8 @@ public:
 	void ObjDraw();
 	//スプライト描画
 	void SpriteDraw();
+	//ジオメトリ描画
+	void GeometryDraw();
 	//次シーン予約
 	void SetNextScene(BaseScene* nextScene_) { nextScene = nextScene_; }
 	//シーンファクトリーのセッター

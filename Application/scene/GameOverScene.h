@@ -17,6 +17,7 @@
 #include<BaseScene.h>
 #include<Object3d.h>
 #include<ParticleManager.h>
+#include<Geometry.h>
 
 class GameOverScene :public BaseScene
 {
@@ -40,6 +41,9 @@ public://メンバ関数
 	/// スプライト描画
 	/// </summary>
 	void SpriteDraw()override;
+
+	//ジオメトリ描画
+	void GeometryDraw()override;
 
 	/// <summary>
 	/// 終了
@@ -73,6 +77,8 @@ private:
 	std::unique_ptr <Object3d> objSkydome = nullptr;
 	std::unique_ptr <Object3d> tankBody = nullptr;
 	std::unique_ptr <Object3d> tankHad = nullptr;
+	std::unique_ptr <Geometry> geo = nullptr;
+	
 
 	std::unique_ptr<Map>map;
 	//パーティクル

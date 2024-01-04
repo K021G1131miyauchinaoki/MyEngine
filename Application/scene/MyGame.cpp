@@ -17,7 +17,7 @@ void MyGame::Initialize() {
 	//シーンマネージャーに最初のシーンをセット
 	sceneFactory = new SceneFactory();
 	SceneManager::GetInstance()->SetSceneFactory(sceneFactory);
-	SceneManager::GetInstance()->ChangeScene("TITLE");
+	SceneManager::GetInstance()->ChangeScene("GAMEOVER");
 	SceneTransition::GetInstance()->Initialize();
 }
 
@@ -41,6 +41,11 @@ void MyGame::Draw(){
 	SceneManager::GetInstance()->ObjDraw();
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
+
+	//ジオメトリ
+	Geometry::PreDraw(dxCommon->GetCommandList());
+	SceneManager::GetInstance()->GeometryDraw();
+	Geometry::PostDraw();
 
 	//スプライト描画
 	SpriteCommon::GetInstance()->PreDraw();
