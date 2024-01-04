@@ -91,10 +91,31 @@ void GameOverScene::Update() {
 	particle->Update();
 	tankBody->Update();
 	tankHad->Update();
-	XMFLOAT3 pos = { 0.0f,10.0f,0.0f };
-	XMFLOAT3 speed = { 0.1f,0.01f,0.0f };
-	XMFLOAT3 accel= { 0.0f,0.0001f,0.0f };
-	geo->Add(10,pos,speed,accel,1.0f,0.0f);
+	
+	//パーティクル
+	for ( int i = 0; i < 10; i++ )
+	{
+		//XYZ全て[-5.0f,+5.0f]でランダムに分布
+		const	float	rnd_pos = 5.0f;
+		XMFLOAT3	pos{};
+		pos.x = ( float ) rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+		pos.y = ( float ) rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+		pos.z = ( float ) rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+
+		//XYZ全て[-0.05f,+0.05f]でランダムに分布
+		const	float	rnd_vel = 0.1f;
+		XMFLOAT3	vel{};
+		vel.x = ( float ) rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = ( float ) rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = ( float ) rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+		//重力に見立ててYのみ[-0.001f,0]でランダムに分布
+		const	float	rnd_acc = 0.001f;
+		XMFLOAT3	acc{};
+		acc.y = ( float ) rand() / RAND_MAX * rnd_acc;
+
+		geo->Add(100,pos,vel,acc,1.0f,0.0f);
+	}
 	geo->Update();
 	//キーを押したら
 	if ( input->TriggerKey(DIK_RETURN)

@@ -85,7 +85,7 @@ private: // 定数
 	static const int planeCount = division * 2 + division * 2;		// 面の数
 	//static const int vertexCount = planeCount * 3;		// 頂点数
 	//static const int vertexCount = 1;		// 頂点数
-	static const int vertexCount = 1;		// 頂点数
+	static const int vertexCount = 1024;		// 頂点数
 	//static const int	indexCount = 3 * 2;//インデックス数
 	static const int	indexCount = 1;//インデックス数
 
