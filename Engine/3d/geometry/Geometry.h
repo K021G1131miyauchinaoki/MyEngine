@@ -87,7 +87,7 @@ private: // 定数
 	//static const int vertexCount = 1;		// 頂点数
 	static const int vertexCount = 1;		// 頂点数
 	//static const int	indexCount = 3 * 2;//インデックス数
-	static const int	indexCount = 50;//インデックス数
+	static const int	indexCount = 1;//インデックス数
 
 public: // 静的メンバ関数
 	/// <summary>

@@ -92,9 +92,9 @@ void GameOverScene::Update() {
 	tankBody->Update();
 	tankHad->Update();
 	XMFLOAT3 pos = { 0.0f,10.0f,0.0f };
-	XMFLOAT3 speed = { 0.0f,0.001f,0.0f };
+	XMFLOAT3 speed = { 0.1f,0.01f,0.0f };
 	XMFLOAT3 accel= { 0.0f,0.0001f,0.0f };
-	geo->Add(10,pos,speed,accel,10.0f,0.0f);
+	geo->Add(10,pos,speed,accel,1.0f,0.0f);
 	geo->Update();
 	//キーを押したら
 	if ( input->TriggerKey(DIK_RETURN)

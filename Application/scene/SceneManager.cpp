@@ -58,5 +58,5 @@ void SceneManager::ChangeScene(const std::string& sceneName_)
 }
 
 void SceneManager::GeometryDraw() {
-
+	scene->GeometryDraw();
 }
