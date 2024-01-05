@@ -142,6 +142,9 @@ void GamePlayScene::Initialize() {
 	light->Updata();
 	Object3d::SetLight(light.get());
 
+	//ジオメトリ
+	geo.reset(Geometry::Create());
+	geo->SetCamera(camera.get());
 	// モデル読み込み
 	modelSkydome.reset(Model::LoadFromOBJ("skydome",true));
 	cube.reset(Model::LoadFromOBJ("cube"));
@@ -170,7 +173,7 @@ void GamePlayScene::Initialize() {
 	blockManager->Initialize(bulletManager.get());
 
 	//弾マネージャー初期化
-	bulletManager->Initialize(bullet.get(),player.get(),particle.get());
+	bulletManager->Initialize(bullet.get(),player.get(),geo.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson("1"));
@@ -257,6 +260,7 @@ void GamePlayScene::Update(){
 		objSkydome->SetPosition(player->GetPos());
 		objSkydome->Update();
 		particle->Update();
+		geo->Update();
 		if (!isStart)
 		{
 			CheckAllCollision();
@@ -301,6 +305,11 @@ void GamePlayScene::ObjDraw(){
 	player->ObjDraw();
 	map->Draw();
 	particle->Draw();
+}
+
+void GamePlayScene::GeometryDraw()
+{
+	geo->Draw();
 }
 
 void GamePlayScene::CheckAllCollision() {

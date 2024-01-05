@@ -1,15 +1,24 @@
 #include "BulletManager.h"
 #include"Homing.h"
 #include"ParticleManager.h"
+#include<Geometry.h>
 
-void BulletManager::Initialize(Model* model_,Player*player_,ParticleManager* particleManager_) {
+void BulletManager::Initialize(Model* model_,Player*player_,Geometry* geometry_) {
 	playerBulletModel.reset(model_);
 	enemyBulletModel.reset(model_);
 	player = player_;
-	particleManager = particleManager_;
+	geometry = geometry_;
 }
 
 void BulletManager::Update() {
+	XMFLOAT3 pos,vec,accel;
+	pos = { 0.0f,0.0f,0.0f };
+	vec = { 0.0f,0.0f,0.0f };
+	accel = { 0.0f,0.0f,0.0f };
+	float startScale,endScale;
+	int life = 20;
+	startScale = 2.5f;
+	endScale = 0.0f;
 	//要素の削除
 	enemyBullets.remove_if([ ] (std::unique_ptr<EnemyBullet>& enemyBullet)
 		{
@@ -23,14 +32,15 @@ void BulletManager::Update() {
 	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets )
 	{
 		playerBullet->Update();
-		//particleManager->Add("orbit",1,20,playerBullet->GetPos(),1.0f,0.0f,{ 0.0f,0.5f,0.0f });
+		pos = { playerBullet->GetPos().x,playerBullet->GetPos().y,playerBullet->GetPos().z };
+		geometry->Add(life,pos,vec,accel,startScale,endScale);
 	}
 
 	for ( std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets )
 	{
 		enemyBullet->Update();
-		//particleManager->Add("orbit",1,20,enemyBullet->GetPos(),1.0f,0.0f,{ 0.0f,0.5f,0.0f });
-
+		pos = { enemyBullet->GetPos().x,enemyBullet->GetPos().y,enemyBullet->GetPos().z };
+		geometry->Add(life,pos,vec,accel,startScale,endScale);
 	}
 }
 

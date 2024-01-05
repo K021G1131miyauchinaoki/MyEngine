@@ -22,6 +22,7 @@
 #include "EnemyManager.h"
 #include"BlockManager.h"
 #include"BulletManager.h"
+#include<Geometry.h>
 
 class GamePlayScene:public BaseScene
 {
@@ -46,6 +47,9 @@ public://メンバ関数
 	/// スプライト描画
 	/// </summary>
 	void SpriteDraw()override;
+
+	//ジオメトリ描画
+	void GeometryDraw()override;
 
 	/// <summary>
 	/// 終了
@@ -111,6 +115,8 @@ private:
 	std::unique_ptr <Model> fixedgun = nullptr;
 	std::unique_ptr <Model> wall = nullptr;
 	std::unique_ptr <Model> bullet = nullptr;
+	//ジオメトリ
+	std::unique_ptr <Geometry> geo = nullptr;
 	//天球
 	std::unique_ptr <Object3d> objSkydome = nullptr;
 	//プレイヤー

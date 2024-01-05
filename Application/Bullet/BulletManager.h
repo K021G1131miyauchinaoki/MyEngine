@@ -12,7 +12,7 @@
 
 //前方宣言
 class Player;
-class ParticleManager;
+class Geometry;
 
 class BulletManager
 {
@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	///　初期化
 	/// </summary>
-	void Initialize(Model*model_,Player*player_,ParticleManager* particleManager_);
+	void Initialize(Model*model_,Player*player_,Geometry* geometry_);
 
 	/// <summary>
 	/// 弾の更新
@@ -74,7 +74,7 @@ private:
 	Player* player;
 
 	//パーティクル
-	ParticleManager* particleManager;
+	Geometry* geometry;
 
 	/*float popTime;
 	float popTime;*/
