@@ -54,7 +54,8 @@ const	DirectX::XMFLOAT3	operator+(const	DirectX::XMFLOAT3& lhs,const DirectX::XM
 }
 
 
-void	Geometry::Add(int8_t life,XMFLOAT3	position,XMFLOAT3	velocity,XMFLOAT3	accel,float	start_scale,float	end_scale) {
+void	Geometry::Add(int8_t life,XMFLOAT3	position,XMFLOAT3	velocity,XMFLOAT3	accel,float	start_scale,float	end_scale,
+					  XMFLOAT4 startColor_ ,XMFLOAT4 endColor_) {
 	//リストに追加
 	particles.emplace_front();
 	//参照
@@ -66,6 +67,8 @@ void	Geometry::Add(int8_t life,XMFLOAT3	position,XMFLOAT3	velocity,XMFLOAT3	acce
 	p.endFrame = life;
 	p.startScale = start_scale;
 	p.endScale = end_scale;
+	p.startColor = startColor_;
+	p.endColor = endColor_;
 }
 
 void Geometry::StaticInitialize(ID3D12Device* device_)
@@ -239,18 +242,13 @@ void Geometry::InitializeGraphicsPipeline()
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		//{ // 法線ベクトル(1行で書いたほうが見やすい)
-		//	"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
-		//	D3D12_APPEND_ALIGNED_ELEMENT,
-		//	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-		//},
-		//{ // uv座標(1行で書いたほうが見やすい)
-		//	"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
-		//	D3D12_APPEND_ALIGNED_ELEMENT,
-		//	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-		//},
 		{//スケール
 			"TEXCOORD",0,DXGI_FORMAT_R32_FLOAT,0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+		},
+		{//色
+			"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
 		},
@@ -581,6 +579,11 @@ void Geometry::Update()
 		float	f = ( float ) it->frame / it->endFrame;
 		it->scale = ( it->endScale - it->startScale ) * f;
 		it->scale += it->startScale;
+		//色の線形補間
+		it->color.x = it->startColor.x + ( it->endColor.x - it->startColor.x ) * f;
+		it->color.y = it->startColor.y + ( it->endColor.y - it->startColor.y ) * f;
+		it->color.z = it->startColor.z + ( it->endColor.z - it->startColor.z ) * f;
+		it->color.w = it->startColor.w + ( it->endColor.w - it->startColor.w ) * f;
 	}
 
 	//頂点バッファへデータ転送
@@ -596,6 +599,8 @@ void Geometry::Update()
 			vertMap->pos = it->position;
 			//スケール
 			vertMap->scale = it->scale;
+			//色
+			vertMap->color = it->color;
 			//次の頂点
 			vertMap++;
 		}

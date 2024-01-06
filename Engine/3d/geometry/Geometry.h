@@ -35,22 +35,15 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public: // サブクラス
-	// 頂点データ構造体
-	//struct VertexPosNormalUv
-	//{
-	//	XMFLOAT3 pos; // xyz座標
-	//	XMFLOAT3 normal; // 法線ベクトル
-	//	XMFLOAT2 uv;  // uv座標
-	//};
 	struct VertexPos
 	{
 		XMFLOAT3 pos; // xyz座標
 		float	scale;//スケール
+		XMFLOAT4 color;	// 色 (RGBA)
 	};
 	// 定数バッファ用データ構造体
 	struct ConstBufferData
 	{
-		//XMFLOAT4 color;	// 色 (RGBA)
 		XMMATRIX mat;	// ３Ｄ変換行列
 		XMMATRIX	matBillboard;//ビルボード行列
 	};
@@ -66,6 +59,12 @@ public: // サブクラス
 		XMFLOAT3	velocity = {};
 		//加速度
 		XMFLOAT3	accel = {};
+		//色
+		XMFLOAT4 color = { 1,1,1,1 };
+		//色
+		XMFLOAT4 startColor = { 1,1,1,1 };
+		//終了色
+		XMFLOAT4 endColor = { 1,1,1,1 };
 		//現在フレーム
 		int8_t	frame = 0;
 		//終了フレーム
@@ -197,7 +196,7 @@ public: // メンバ関数
 	void Draw();
 
 	void	Add(int8_t life,XMFLOAT3	position,XMFLOAT3	velocity,XMFLOAT3	accel
-				,float	start_scale,float	end_scale);
+				,float	start_scale,float	end_scale,XMFLOAT4 startColor_ = { 1,1,1,1 },XMFLOAT4 endColor_ = { 1,1,1,1 });
 
 
 	/// <summary>

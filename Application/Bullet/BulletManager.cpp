@@ -11,6 +11,9 @@ void BulletManager::Initialize(Model* model_,Player*player_,Geometry* geometry_)
 }
 
 void BulletManager::Update() {
+	XMFLOAT4 startColor,endColor;
+	startColor = { 1,1,1,1 };
+	endColor = { 1,1,1,0 };
 	XMFLOAT3 pos,vec,accel;
 	pos = { 0.0f,0.0f,0.0f };
 	vec = { 0.0f,0.0f,0.0f };
@@ -32,15 +35,19 @@ void BulletManager::Update() {
 	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets )
 	{
 		playerBullet->Update();
+		startColor = { 0.0f,1.0f,0.0f,1.0f };
+		endColor = { 0.0f,1.0f,0.0f,1.0f };
 		pos = { playerBullet->GetPos().x,playerBullet->GetPos().y,playerBullet->GetPos().z };
-		geometry->Add(life,pos,vec,accel,startScale,endScale);
+		geometry->Add(life,pos,vec,accel,startScale,endScale,startColor,endColor);
 	}
 
 	for ( std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets )
 	{
 		enemyBullet->Update();
+		startColor = { 1.0f,0.0f,0.0f,1.0f };
+		endColor = { 1.0f,0.0f,0.0f,1.0f };
 		pos = { enemyBullet->GetPos().x,enemyBullet->GetPos().y,enemyBullet->GetPos().z };
-		geometry->Add(life,pos,vec,accel,startScale,endScale);
+		geometry->Add(life,pos,vec,accel,startScale,endScale,startColor,endColor);
 	}
 }
 
