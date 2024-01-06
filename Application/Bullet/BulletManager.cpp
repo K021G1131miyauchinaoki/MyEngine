@@ -16,7 +16,7 @@ void BulletManager::Update() {
 	vec = { 0.0f,0.0f,0.0f };
 	accel = { 0.0f,0.0f,0.0f };
 	float startScale,endScale;
-	int life = 20;
+	int8_t life = 20;
 	startScale = 2.5f;
 	endScale = 0.0f;
 	//要素の削除

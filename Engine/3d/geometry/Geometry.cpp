@@ -54,7 +54,7 @@ const	DirectX::XMFLOAT3	operator+(const	DirectX::XMFLOAT3& lhs,const DirectX::XM
 }
 
 
-void	Geometry::Add(int life,XMFLOAT3	position,XMFLOAT3	velocity,XMFLOAT3	accel,float	start_scale,float	end_scale) {
+void	Geometry::Add(int8_t life,XMFLOAT3	position,XMFLOAT3	velocity,XMFLOAT3	accel,float	start_scale,float	end_scale) {
 	//リストに追加
 	particles.emplace_front();
 	//参照

@@ -158,12 +158,8 @@ void Player::Update() {
 			//角度を算出
 			angle = atan2(mouseVec.y,mouseVec.x);
 
-			Shot();
-
-			//度数変換
-			angle = MyMath::DegreeTransform(angle);
-
 			Rotate();
+			Shot();
 			Move();
 			
 			//HPのスプライト
@@ -333,7 +329,7 @@ void Player::Shot() {
 }
 
 void Player::Rotate() {	
-	Vector3 rot = { 0,angle,0 };
+	Vector3 rot = { 0,MyMath::DegreeTransform(angle),0 };
 
 	tankHad->SetRotation(rot);
 }

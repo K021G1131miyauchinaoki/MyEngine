@@ -67,9 +67,9 @@ public: // サブクラス
 		//加速度
 		XMFLOAT3	accel = {};
 		//現在フレーム
-		int	frame = 0;
+		int8_t	frame = 0;
 		//終了フレーム
-		int	endFrame = 0;
+		int8_t	endFrame = 0;
 		//スケール
 		float	scale = 1.0f;
 		//初期値
@@ -196,7 +196,7 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	void	Add(int life,XMFLOAT3	position,XMFLOAT3	velocity,XMFLOAT3	accel
+	void	Add(int8_t life,XMFLOAT3	position,XMFLOAT3	velocity,XMFLOAT3	accel
 				,float	start_scale,float	end_scale);
 
 
