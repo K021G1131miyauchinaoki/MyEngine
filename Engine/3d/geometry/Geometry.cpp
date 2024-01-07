@@ -14,6 +14,7 @@
 #include<string>
 #include<vector>
 #include<cassert>
+#include<Easing.h>
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -281,10 +282,10 @@ void Geometry::InitializeGraphicsPipeline()
 
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_ONE;
-	blenddesc.DestBlend = D3D12_BLEND_ONE;
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
 
 	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_SRC_ALPHA;
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
 
 	// ブレンドステートの設定
@@ -580,10 +581,10 @@ void Geometry::Update()
 		it->scale = ( it->endScale - it->startScale ) * f;
 		it->scale += it->startScale;
 		//色の線形補間
-		it->color.x = it->startColor.x + ( it->endColor.x - it->startColor.x ) * f;
-		it->color.y = it->startColor.y + ( it->endColor.y - it->startColor.y ) * f;
-		it->color.z = it->startColor.z + ( it->endColor.z - it->startColor.z ) * f;
-		it->color.w = it->startColor.w + ( it->endColor.w - it->startColor.w ) * f;
+		it->color.x = it->startColor.x +( it->endColor.x - it->startColor.x ) * Easing::easeOutQuint( f);
+		it->color.y = it->startColor.y +( it->endColor.y - it->startColor.y ) * Easing::easeOutQuint( f);
+		it->color.z = it->startColor.z +( it->endColor.z - it->startColor.z ) * Easing::easeOutQuint( f);
+		it->color.w = it->startColor.w +( it->endColor.w - it->startColor.w ) * Easing::easeInQuint( f);
 	}
 
 	//頂点バッファへデータ転送

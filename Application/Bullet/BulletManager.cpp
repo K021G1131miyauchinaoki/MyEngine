@@ -21,7 +21,7 @@ void BulletManager::Update() {
 	float startScale,endScale;
 	int8_t life = 20;
 	startScale = 2.5f;
-	endScale = 0.0f;
+	endScale = 1.0f;
 	//要素の削除
 	enemyBullets.remove_if([ ] (std::unique_ptr<EnemyBullet>& enemyBullet)
 		{
@@ -35,8 +35,7 @@ void BulletManager::Update() {
 	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets )
 	{
 		playerBullet->Update();
-		startColor = { 0.0f,1.0f,0.0f,1.0f };
-		endColor = { 0.0f,1.0f,0.0f,1.0f };
+		endColor = { 0.0f,1.0f,0.0f,0.0f };
 		pos = { playerBullet->GetPos().x,playerBullet->GetPos().y,playerBullet->GetPos().z };
 		geometry->Add(life,pos,vec,accel,startScale,endScale,startColor,endColor);
 	}
@@ -44,8 +43,7 @@ void BulletManager::Update() {
 	for ( std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets )
 	{
 		enemyBullet->Update();
-		startColor = { 1.0f,0.0f,0.0f,1.0f };
-		endColor = { 1.0f,0.0f,0.0f,1.0f };
+		endColor = { 1.0f,0.0f,0.0f,0.0f };                  
 		pos = { enemyBullet->GetPos().x,enemyBullet->GetPos().y,enemyBullet->GetPos().z };
 		geometry->Add(life,pos,vec,accel,startScale,endScale,startColor,endColor);
 	}
