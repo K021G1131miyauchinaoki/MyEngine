@@ -77,7 +77,6 @@ private:
 	std::unique_ptr <Object3d> objSkydome = nullptr;
 	std::unique_ptr <Object3d> tankBody = nullptr;
 	std::unique_ptr <Object3d> tankHad = nullptr;
-	std::unique_ptr <Geometry> geo = nullptr;
 	
 
 	std::unique_ptr<Map>map;
