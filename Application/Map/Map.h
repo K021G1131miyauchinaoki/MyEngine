@@ -15,8 +15,7 @@ public:
 	/// <summary>
 	///コンストラクタ
 	/// </summary>
-	Map(float value) :constStartY(value) {};
-	Map() :constStartY(0.0f) {};
+	Map();
 	/// <summary>
 	///デストラクタ
 	/// <summary>
@@ -54,16 +53,24 @@ public://メンバ関数
 	void Preparation();
 	//演出
 	void Staging(size_t y_,size_t x_);
+
+	BaseBlock& GetBlocks(const int32_t&w,const int32_t& h) {
+		return blocks[h][w];
+	}
 	
 private://静的メンバ変数
 	static	std::unique_ptr < Model> model;
 public:
+	//移動の上限
 	static float moveLimitW;
 	static float moveLimitH;
+	//スケール
 	static float mapScaleW;
 	static float mapScaleH;
 	//演出やるかやらないか用フラグ
 	static bool isStaging;
+	static int16_t width;
+	static int16_t height;
 private://メンバ変数
 
 	/*イージング*/
@@ -79,9 +86,8 @@ private://メンバ変数
 	float rotStartZ;
 	//ブロック
 	std::vector<std::vector< BaseBlock>> blocks;
-	const float constStartY= -400;
-	int8_t width;
-	int8_t height;
+	const float constStartY = -400;
+	
 	int16_t lineNum;
 
 	const int16_t stagingTimer = 50;

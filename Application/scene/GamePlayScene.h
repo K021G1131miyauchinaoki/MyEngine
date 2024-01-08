@@ -137,8 +137,6 @@ private:
 	//パーティクルマネージャー
 	std::unique_ptr<ParticleManager> particle;
 
-	//マップクラスの初期座標
-	float mapStratY;
 	//スプライトイージング
 	float spriteEaseTime;
 	const float spriteEaseTimer = 30;

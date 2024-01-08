@@ -1,3 +1,4 @@
+
 /**
  * @file Map.cpp
  * @brief ステージ
@@ -14,6 +15,10 @@ float Map::moveLimitH;
 float Map::mapScaleW;
 float Map::mapScaleH;
 bool Map::isStaging;
+int16_t Map::width;
+int16_t Map::height;
+
+Map::Map() {}
 Map::~Map(){}
 
 void Map::StaticInitialize(Model* model_) {
@@ -60,7 +65,14 @@ void Map::Draw() {
 	{
 		for (size_t j = 0; j < width; j++)
 		{
-			blocks[i][j].Draw();
+			if ( blocks[i][j].GetDrawNum()>=1 )
+			{
+				blocks[ i ][ j ].Draw();
+			}
+			else
+			{
+				blocks[ i ][ j ].GetDrawNum();
+			}
 		}
 	}
 }
@@ -91,9 +103,9 @@ void Map::LoadCSV(const std::string& num_) {
 	
 
 	std::getline(line_stream, num, ',');
-	height = (int8_t)std::atof(num.c_str());
+	height = (int16_t)std::atof(num.c_str());
 	std::getline(line_stream, num, ',');
-	width = (int8_t)std::atof(num.c_str());
+	width = (int16_t)std::atof(num.c_str());
 	numW = (width / 2);
 	numH = (height / 2);
 	
@@ -105,11 +117,9 @@ void Map::LoadCSV(const std::string& num_) {
 		blocks[i].resize(width);
 	}
 
-	//0,1のマップチップを埋め込みつつ（未）初期化
+	//パラメータの組み込み
 	for (size_t i = 0; i < height; i++)
 	{
-		std::getline(mapLoad, line, '\n');
-
 		for (size_t j = 0; j < width; j++)
 		{
 			//フラグで挿入するパラメータを変化
@@ -141,6 +151,23 @@ void Map::LoadCSV(const std::string& num_) {
 
 		}
 	}
+	for ( int32_t i = height-1; i >= 0; i-- )
+	{
+		std::getline(mapLoad,line,'\n');
+		line_stream.clear();
+		line_stream.str(line);
+		for ( int32_t j = 0; j < width; j++ )
+		{
+			
+			std::getline(line_stream,num,',');
+			int32_t mapChip;
+			mapChip = static_cast< int32_t >( std::atof(num.c_str()) );
+
+			blocks[ i ][ j ].SetDrawNum(mapChip);
+		}
+	}
+
+
 
 	//移動制限の数値設定
 	moveLimitW = static_cast<float>(width) * scaleEnd.x;

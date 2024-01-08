@@ -39,7 +39,7 @@ private:
 	float stagingTime;
 	bool isUp = false;
 	float waitTime;
-	const float waitTimer=60;
+	const float waitTimer=90;
 	Vector3 pos;
 };
 

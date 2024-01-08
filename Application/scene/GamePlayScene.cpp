@@ -127,8 +127,6 @@ bool HitLine(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB)//aが直�
 
 void GamePlayScene::Initialize() {
 	input.reset(Input::GetInstance());
-	/*変数*/
-	mapStratY = -400;
 	
 	//カメラ
 	camera = std::make_unique<Camera>();
@@ -217,7 +215,7 @@ void GamePlayScene::Initialize() {
 
 
 	//マップ
-	map = std::make_unique<Map>(mapStratY);
+	map = std::make_unique<Map>();
 	map->Initialize(true);
 	map->LoadCSV("1");
 
@@ -393,6 +391,7 @@ void GamePlayScene::CheckAllCollision() {
 		//敵
 		for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys() )
 		{
+			Vector3 topLE,topRE,bottomRE,bottomLE;
 			#pragma region 自弾との当たり判定
 			for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
 			{
@@ -423,8 +422,6 @@ void GamePlayScene::CheckAllCollision() {
 			#pragma region ブロックとの当たり判定
 			for ( const std::unique_ptr<BaseBlock>& block : blockManager->GetBlocks() )
 			{
-				
-				Vector3 topLE,topRE,bottomRE,bottomLE;
 				Vector3 topLB,topRB,bottomRB,bottomLB;
 				/*プレイヤー*/
 				//左奥
@@ -469,6 +466,75 @@ void GamePlayScene::CheckAllCollision() {
 					|| HitLine(bottomRE,bottomLE,topLB,bottomLB,"-x") || HitLine(bottomRE,bottomLE,topRB,bottomRB,"x") )
 				{
 					enemy->OnCollisionPos("x");
+				}
+			}
+			#pragma endregion
+
+			#pragma region マップとの当たり判定
+			{
+				float diameterW = Map::mapScaleW * 2.0f;
+				float diameterH = Map::mapScaleH * 2.0f;
+				int16_t sizeW,sizeH;
+				sizeW = static_cast< int16_t >( ( enemy->GetPos().x + Map::moveLimitW ) / diameterW );
+				sizeH = static_cast< int16_t >( ( enemy->GetPos().z + Map::moveLimitH ) / diameterH );
+				Vector3 topLB,topRB,bottomRB,bottomLB;
+				/*プレイヤー*/
+				//左奥
+				topLE.x = enemy->GetPos().x - enemy->GetScale().x;
+				topLE.z = enemy->GetPos().z + enemy->GetScale().z;
+				//右奥
+				topRE.x = enemy->GetPos().x + enemy->GetScale().x;
+				topRE.z = enemy->GetPos().z + enemy->GetScale().z;
+
+				//左前
+				bottomLE.x = enemy->GetPos().x - enemy->GetScale().x;
+				bottomLE.z = enemy->GetPos().z - enemy->GetScale().z;
+				//右前
+				bottomRE.x = enemy->GetPos().x + enemy->GetScale().x;
+				bottomRE.z = enemy->GetPos().z - enemy->GetScale().z;
+
+				for ( int16_t h = -1; h <= 1; h++ )
+				{
+					for ( int16_t w = -1; w <= 1; w++ )
+					{
+						if ( sizeW + w < Map::width && sizeW + w >= 0
+							&& sizeH + h < Map::height && sizeH + h >= 0 )
+						{
+							BaseBlock& block = map->GetBlocks(sizeW + w,sizeH + h);
+							if ( block.GetDrawNum() == 0 )
+							{
+								/*ブロック*/
+								//左奥
+								topLB.x = block.GetPos().x - Map::mapScaleW;
+								topLB.z = block.GetPos().z + Map::mapScaleH;
+								//右奥
+								topRB.x = block.GetPos().x + Map::mapScaleW;
+								topRB.z = block.GetPos().z + Map::mapScaleH;
+
+								//左前
+								bottomLB.x = block.GetPos().x - Map::mapScaleW;
+								bottomLB.z = block.GetPos().z - Map::mapScaleH;
+								//右前
+								bottomRB.x = block.GetPos().x + Map::mapScaleW;
+								bottomRB.z = block.GetPos().z - Map::mapScaleH;
+								//左辺と（上辺、下辺）の判定
+								//右辺と（上辺、下辺）の判定
+								if ( HitLine(topLE,bottomLE,bottomLB,bottomRB,"-z") || HitLine(topLE,bottomLE,topLB,topRB,"z")
+									|| HitLine(topRE,bottomRE,bottomLB,bottomRB,"-z") || HitLine(topRE,bottomRE,topLB,topRB,"z") )
+								{
+									enemy->OnCollisionPos("z");
+
+								}
+								//上辺と（左辺、右辺）の判定
+								//下辺と（左辺、右辺）の判定
+								if ( HitLine(topLE,topRE,topLB,bottomLB,"-x") || HitLine(topLE,topRE,topRB,bottomRB,"x")
+									|| HitLine(bottomRE,bottomLE,topLB,bottomLB,"-x") || HitLine(bottomRE,bottomLE,topRB,bottomRB,"x") )
+								{
+									enemy->OnCollisionPos("x");
+								}
+							}
+						}
+					}
 				}
 			}
 			#pragma endregion
@@ -548,6 +614,75 @@ void GamePlayScene::CheckAllCollision() {
 			}
 			#pragma endregion
 			
+		}
+
+		//マップ
+		{
+			float diameterW = Map::mapScaleW * 2.0f;
+			float diameterH = Map::mapScaleH * 2.0f;
+			int16_t sizeW,sizeH;
+			sizeW = static_cast< int16_t >( ( player->GetPos().x + Map::moveLimitW ) / diameterW );
+			sizeH = static_cast< int16_t >( ( player->GetPos().z + Map::moveLimitH ) / diameterH );
+			Vector3 topLP,topRP,bottomRP,bottomLP;
+			Vector3 topLB,topRB,bottomRB,bottomLB;
+			/*プレイヤー*/
+			//左奥
+			topLP.x = player->GetPos().x - player->GetScale().x;
+			topLP.z = player->GetPos().z + player->GetScale().z;
+			//右奥
+			topRP.x = player->GetPos().x + player->GetScale().x;
+			topRP.z = player->GetPos().z + player->GetScale().z;
+
+			//左前
+			bottomLP.x = player->GetPos().x - player->GetScale().x;
+			bottomLP.z = player->GetPos().z - player->GetScale().z;
+			//右前
+			bottomRP.x = player->GetPos().x + player->GetScale().x;
+			bottomRP.z = player->GetPos().z - player->GetScale().z;
+
+			for ( int16_t h = -1; h <= 1; h++ )
+			{
+				for ( int16_t w = -1; w <= 1; w++ )
+				{
+					if ( sizeW + w < Map::width &&sizeW + w >= 0
+						&&sizeH + h < Map::height&&sizeH + h >= 0 )
+					{
+						BaseBlock& block = map->GetBlocks(sizeW + w,sizeH + h);
+						if ( block.GetDrawNum() == 0 )
+						{
+							/*ブロック*/
+							//左奥
+							topLB.x = block.GetPos().x - Map::mapScaleW;
+							topLB.z = block.GetPos().z + Map::mapScaleH;
+							//右奥
+							topRB.x = block.GetPos().x + Map::mapScaleW;
+							topRB.z = block.GetPos().z + Map::mapScaleH;
+
+							//左前
+							bottomLB.x = block.GetPos().x - Map::mapScaleW;
+							bottomLB.z = block.GetPos().z - Map::mapScaleH;
+							//右前
+							bottomRB.x = block.GetPos().x + Map::mapScaleW;
+							bottomRB.z = block.GetPos().z - Map::mapScaleH;
+							//左辺と（上辺、下辺）の判定
+							//右辺と（上辺、下辺）の判定
+							if ( HitLine(topLP,bottomLP,bottomLB,bottomRB,"-z") || HitLine(topLP,bottomLP,topLB,topRB,"z")
+								|| HitLine(topRP,bottomRP,bottomLB,bottomRB,"-z") || HitLine(topRP,bottomRP,topLB,topRB,"z") )
+							{
+								player->OnCollisionPos("z");
+
+							}
+							//上辺と（左辺、右辺）の判定
+							//下辺と（左辺、右辺）の判定
+							if ( HitLine(topLP,topRP,topLB,bottomLB,"-x") || HitLine(topLP,topRP,topRB,bottomRB,"x")
+								|| HitLine(bottomRP,bottomLP,topLB,bottomLB,"-x") || HitLine(bottomRP,bottomLP,topRB,bottomRB,"x") )
+							{
+								player->OnCollisionPos("x");
+							}
+						}
+					}
+				}
+			}
 		}
 }
 

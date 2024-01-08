@@ -37,9 +37,11 @@ public:
 	void SetTime(const float&time_) {stagingTime=time_;}
 	//弾マネージャーのセット
 	virtual void SetBulletManager(BulletManager* bulletManager_) {bulletManager = bulletManager_;}
-
+	//色
 	void SetColor(const XMFLOAT4 color_) {obj->SetColor(color_);}
-
+	/*マップチップ*/
+	void SetDrawNum(const int32_t& num) {drawNum = num;}
+	int32_t GetDrawNum() {return drawNum;}
 protected://メンバ変数
 	std::unique_ptr<Object3d> obj;
 	BulletManager* bulletManager;
@@ -48,5 +50,6 @@ protected://メンバ変数
 	const float stagingTimer = 40;
 	float stagingTime;
 	bool isStaging = false;
+	int32_t drawNum=1;
 };
 
