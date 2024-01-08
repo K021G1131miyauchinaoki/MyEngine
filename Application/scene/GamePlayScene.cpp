@@ -337,7 +337,7 @@ void GamePlayScene::CheckAllCollision() {
 			if ( dis <= radius )
 			{
 				//自キャラのコールバックを呼び出し
-				//player->OnCollision();
+				player->OnCollision();
 				//敵弾のコールバックを呼び出し
 				e_bullet->OnCollision();
 				particle->Add("explosion",30,15,player->GetPos(),1.0f,0.0f);
