@@ -115,7 +115,7 @@ void GameOverScene::Update() {
 	particlePos.x -= 2.0f;
 
 	particlePos.y -= 2.0f;
-	//particle->Add("smoke",2,50,particlePos,2.0f,5.0f);
+	particle->Add("smoke",2,50,particlePos,2.0f,5.0f);
 
 	flashTime++;
 	if ( flashTime >= flashTimer )
