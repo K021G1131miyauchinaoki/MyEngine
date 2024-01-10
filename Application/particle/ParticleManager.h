@@ -9,6 +9,8 @@
 #include<memory>
 #include<Vector3.h>
 #include<forward_list>
+using namespace MyEngin;
+
 class ParticleManager
 {
 public:

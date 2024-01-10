@@ -8,6 +8,7 @@
 #include"Model.h"
 #include<Vector3.h>
 #include<BaseBlock.h>
+using namespace MyEngin;
 
 class Map
 {

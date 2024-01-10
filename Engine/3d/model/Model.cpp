@@ -8,6 +8,8 @@
 #pragma warning( disable : 4828 )
 #include<DirectXTex.h>
 #pragma warning( pop)
+using namespace MyEngin;
+
 //静的メンバ変数の実体
 ComPtr < ID3D12Device> Model::device = nullptr;
 

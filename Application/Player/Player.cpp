@@ -16,6 +16,7 @@
 #include"BulletManager.h"
 
 void Player::ParameterCommonInitialeze() {
+	//位置
 	startPosY = 120.0f;
 	endPosY = radius;
 	//サイズ
@@ -25,6 +26,7 @@ void Player::ParameterCommonInitialeze() {
 }
 
 void Player::ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_) {
+	//タンクオブジェクトの初期化
 	tankHad = std::make_unique<Object3d>();
 	tankHad->Initialize();
 	tankHad->SetModel(tankHadModel_);
@@ -328,18 +330,21 @@ void Player::Shot() {
 	}
 }
 
-void Player::Rotate() {	
+void Player::Rotate() {
+	//頭の回転
 	Vector3 rot = { 0,MyMath::DegreeTransform(angle),0 };
 
 	tankHad->SetRotation(rot);
 }
 
 void Player::OnCollision() 
-{ 
+{
+	//点滅フラグ
 	if (!isInvincible)
 	{
 		isInvincible = true; 
 	}
+	//体力減少
 	hp.value--;
 	if (hp.value<=0)
 	{
@@ -349,6 +354,7 @@ void Player::OnCollision()
 
 void Player::OnCollisionPos(std::string hitDirection)
 {
+	//文字列で方向の押し戻し処理
 	Vector3 pos=tankBody->GetPosition();
 	if ( hitDirection == "x" )
 	{
@@ -367,6 +373,7 @@ void Player::OnCollisionPos(std::string hitDirection)
 void Player::TitleStaging() {
 	if ( SceneManager::sceneNum == SceneManager::title )
 	{
+		//最初のカメラワークの位置
 		if ( TitleScene::movieCount == TitleScene::CameraFirst )
 		{
 			if ( isTitleStaging )//カウントを加算する
@@ -385,6 +392,7 @@ void Player::TitleStaging() {
 				isTitleStaging = true;
 			}
 		}
+		//二回目
 		else if ( TitleScene::movieCount == TitleScene::CameraSecond )
 		{
 			if ( isTitleStaging )
@@ -404,6 +412,7 @@ void Player::TitleStaging() {
 				isTitleStaging = true;
 			}
 		}
+		//三回目
 		else if ( TitleScene::movieCount == TitleScene::CameraThird )
 		{
 			if ( isTitleStaging )
@@ -423,7 +432,7 @@ void Player::TitleStaging() {
 				isTitleStaging = true;
 			}
 		}
-		//移動
+		//二回目までの移動
 		if ( TitleScene::movieCount <= TitleScene::CameraSecond )
 		{
 			Vector3 move = tankHad->GetPosition();
@@ -432,6 +441,7 @@ void Player::TitleStaging() {
 			tankHad->SetPosition(move);
 			tankBody->SetPosition(move);
 		}
+		//三回目の移動
 		else if ( easeTime < titleEaseTimer && TitleScene::movieCount == TitleScene::CameraThird )
 		{
 			//イージング
@@ -451,7 +461,7 @@ void Player::StartStaging() {
 	Vector3 pos = tankHad->GetPosition();
 	Vector3 rot = parachute->GetRotation();
 	Vector3 scale = parachute->GetScale();
-	
+	//降下
 	if ( startEaseTime<startEaseTimer
 		&& GamePlayScene::startCount == GamePlayScene::Down)
 	{
@@ -463,6 +473,7 @@ void Player::StartStaging() {
 			bound = 1.5f;
 		}
 	}
+	//バウンド
 	else if ( GamePlayScene::startCount== GamePlayScene::Bound1 )
 	{
 		const float minus = -0.5f;
@@ -486,6 +497,7 @@ void Player::StartStaging() {
 			bound = 2.0f;
 		}
 	}
+	//待ち状態
 	else if ( GamePlayScene::startCount == GamePlayScene::Wait )
 	{
 		if ( pLeaveTime >= pLeaveTimer )
@@ -502,11 +514,13 @@ void Player::StartStaging() {
 	const float percent = 0.8f;
 	const float addX = 0.6f;
 	const float subtractY = 0.1f;
+	//自機と同じ動き
 	if ( startEaseTime < startEaseTimer* percent )
 	{
 		parachutePos = pos;
 		parachutePos.y += parachutePosY;
 	}
+	//自機から離れる
 	else
 	{
 		if ( pLeaveTime< pLeaveTimer&& parachutePos.x>pPosX )

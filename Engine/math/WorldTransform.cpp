@@ -4,6 +4,7 @@
  */
 
 #include "WorldTransform.h"
+using namespace MyEngin;
 
 void WorldTransform::Initialize() {
 

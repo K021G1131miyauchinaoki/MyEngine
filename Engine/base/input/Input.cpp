@@ -4,6 +4,7 @@
  */
 
 #include "Input.h"
+using namespace MyEngin;
 
 Input* Input::GetInstance() {
 	static Input instance;

@@ -7,6 +7,7 @@
 #include<BaseScene.h>
 #include<memory>
 #include<AbstractSceneFactory.h>
+using namespace MyEngin;
 
 class SceneManager
 {

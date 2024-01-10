@@ -10,6 +10,7 @@
 
 //前方宣言
 class Player;
+using namespace MyEngin;
 
 class EnemyBullet
 {

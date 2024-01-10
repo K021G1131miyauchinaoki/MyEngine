@@ -8,6 +8,7 @@
 #pragma warning( disable : 4514 )
 #include <imgui_impl_win32.h>
 #pragma warning( pop )
+using namespace MyEngin;
 
 ImguiManager* ImguiManager::GetInstance() {
 	static ImguiManager instance;

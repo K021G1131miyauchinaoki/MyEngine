@@ -8,6 +8,7 @@
 #pragma warning(pop)
 
 using namespace DirectX;
+using namespace MyEngin;
 
 //Matrix4構造体
 struct Matrix4

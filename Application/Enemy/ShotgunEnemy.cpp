@@ -22,7 +22,6 @@ void ShotgunEnemy::Initialeze(Model* model_,Model* parachuteModel_,Player* playe
 
 void ShotgunEnemy::Update() {
 	BaseEnemy::Update();
-
 }
 
 void ShotgunEnemy::Draw() {

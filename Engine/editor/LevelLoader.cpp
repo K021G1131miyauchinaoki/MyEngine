@@ -5,6 +5,7 @@
 
 #include "LevelLoader.h"
 #include<assert.h>
+using namespace MyEngin;
 
 LevelData* LevelLoader::LoadJson(const std::string& filename_) {
 	

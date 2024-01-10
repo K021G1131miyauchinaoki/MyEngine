@@ -25,79 +25,88 @@
 
 
 #pragma once
-class DirectXCommon
+namespace MyEngin
 {
-public://メンバ関数
-	//初期化
-	void Initialize(WinApp* winApp_);
-	//デバイスの初期化
-	void InitializeDevice();
-	//コマンドの初期化
-	void InitializeCommand();
-	//スワップチェーンの初期化
-	void InitializeSwapchain();
-	//レンダーターゲットビュー
-	void InitializeRenderTargetView();
-	//深度バッファの初期化
-	void InitializeDepthBuffer();
-	//フェンスの初期化
-	void InitializeFence();
+	class DirectXCommon
+	{
+	public://メンバ関数
+		//初期化
+		void Initialize(WinApp* winApp_);
+		//デバイスの初期化
+		void InitializeDevice();
+		//コマンドの初期化
+		void InitializeCommand();
+		//スワップチェーンの初期化
+		void InitializeSwapchain();
+		//レンダーターゲットビュー
+		void InitializeRenderTargetView();
+		//深度バッファの初期化
+		void InitializeDepthBuffer();
+		//フェンスの初期化
+		void InitializeFence();
 
-	//描画前処理
-	void PreDraw();
-	//描画後処理
-	void PostDraw();
-private://メンバ関数
-	//FPS固定初期化
-	void InitializeFixFPS();
-	//FPS固定更新
-	void UpdateFixFPS();
+		//描画前処理
+		void PreDraw();
+		//描画後処理
+		void PostDraw();
+	private://メンバ関数
+		//FPS固定初期化
+		void InitializeFixFPS();
+		//FPS固定更新
+		void UpdateFixFPS();
 
-public://ゲッター
-	//デバイス
-	ID3D12Device*GetDevice()const { return device.Get(); }
-	//コマンドリスト
-	ID3D12GraphicsCommandList* GetCommandList()const { return cmdList.Get(); }
-	//result
-	HRESULT GetResult()const;
-	//スワップチェーン
-	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const;
-	//バックバッファ数を取得
-	size_t GetBackBufferCount()const { return backBuffers.size(); }
+	public://ゲッター
+		//デバイス
+		ID3D12Device* GetDevice()const {
+			return device.Get();
+		}
+//コマンドリスト
+		ID3D12GraphicsCommandList* GetCommandList()const {
+			return cmdList.Get();
+		}
+//result
+		HRESULT GetResult()const;
+		//スワップチェーン
+		DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const;
+		//バックバッファ数を取得
+		size_t GetBackBufferCount()const {
+			return backBuffers.size();
+		}
 
-private://メンバ変数
-	//DirectX12デバイス
-	Microsoft::WRL::ComPtr<ID3D12Device>device;
-	//DXGIファクトリ
-	Microsoft::WRL::ComPtr<IDXGIFactory7>dxgiFactory;
-	//コマンドキューの設定
-	D3D12_COMMAND_QUEUE_DESC	commandQueueDesc{};
-	Microsoft::WRL::ComPtr <IDXGISwapChain1>swapChain1;
-	Microsoft::WRL::ComPtr<IDXGISwapChain4>swapChain = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12CommandAllocator>cmdAllocator = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>cmdList = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12CommandQueue>commandQueue = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>rtvHeap = nullptr;
-	//スワップチェーンの設定
-	DXGI_SWAP_CHAIN_DESC1	swapChainDesc{};
-	//バックバッファ
-	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>>backBuffers;
-	//デスクリプタヒープの設定
-	D3D12_DESCRIPTOR_HEAP_DESC	rtvHeapDesc{};
-	//深度ビュー用デスクリプタヒープ作成
-	D3D12_DESCRIPTOR_HEAP_DESC	dsvHeapDesc{};
-	//深度ビュー用デスクリプタヒープ作成
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>dsvHeap = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff;
-	//フェンスの生成
-	Microsoft::WRL::ComPtr<ID3D12Fence>fence = nullptr;
-	UINT64	fenceVal = 0;
-	//リソースバリア
-	D3D12_RESOURCE_BARRIER barrierDesc{};
-	//記録時間（FPS固定用）
-	std::chrono::steady_clock::time_point reference;
+	private://メンバ変数
+		//DirectX12デバイス
+		Microsoft::WRL::ComPtr<ID3D12Device>device;
+		//DXGIファクトリ
+		Microsoft::WRL::ComPtr<IDXGIFactory7>dxgiFactory;
+		//コマンドキューの設定
+		D3D12_COMMAND_QUEUE_DESC	commandQueueDesc{};
+		Microsoft::WRL::ComPtr <IDXGISwapChain1>swapChain1;
+		Microsoft::WRL::ComPtr<IDXGISwapChain4>swapChain = nullptr;
+		Microsoft::WRL::ComPtr<ID3D12CommandAllocator>cmdAllocator = nullptr;
+		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>cmdList = nullptr;
+		Microsoft::WRL::ComPtr<ID3D12CommandQueue>commandQueue = nullptr;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>rtvHeap = nullptr;
+		//スワップチェーンの設定
+		DXGI_SWAP_CHAIN_DESC1	swapChainDesc{};
+		//バックバッファ
+		std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>>backBuffers;
+		//デスクリプタヒープの設定
+		D3D12_DESCRIPTOR_HEAP_DESC	rtvHeapDesc{};
+		//深度ビュー用デスクリプタヒープ作成
+		D3D12_DESCRIPTOR_HEAP_DESC	dsvHeapDesc{};
+		//深度ビュー用デスクリプタヒープ作成
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>dsvHeap = nullptr;
+		Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff;
+		//フェンスの生成
+		Microsoft::WRL::ComPtr<ID3D12Fence>fence = nullptr;
+		UINT64	fenceVal = 0;
+		//リソースバリア
+		D3D12_RESOURCE_BARRIER barrierDesc{};
+		//記録時間（FPS固定用）
+		std::chrono::steady_clock::time_point reference;
 
-private:
-	WinApp* winApp = nullptr;
-	HRESULT	result;
-};
+	private:
+		WinApp* winApp = nullptr;
+		HRESULT	result;
+	};
+}

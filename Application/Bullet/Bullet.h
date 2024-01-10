@@ -6,6 +6,7 @@
 #pragma once
 #include<Object3d.h>
 #include<Vector3.h>
+using namespace MyEngin;
 
 class Bullet
 {

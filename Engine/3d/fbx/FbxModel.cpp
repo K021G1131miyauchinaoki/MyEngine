@@ -4,6 +4,7 @@
  */
 
 #include "FbxModel.h"
+using namespace MyEngin;
 
 void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList_) {
 	// nullptrチェック

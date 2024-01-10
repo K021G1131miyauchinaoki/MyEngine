@@ -17,6 +17,7 @@
 //自機クラスの前方前言
 class Player;
 
+using namespace MyEngin;
 
 
 class BaseEnemy

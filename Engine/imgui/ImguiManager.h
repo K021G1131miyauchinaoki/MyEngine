@@ -16,28 +16,29 @@
 #include <tchar.h>
 #include"WinApp.h"
 #include"DirectXCommon.h"
-
-class ImguiManager
+namespace MyEngin
 {
-public://メンバ関数
-	//初期化
-	void Initialize(WinApp* winApp_, DirectXCommon* dxCom_);
-	//終了
-	void Finalize();
-	//受付開始
-	void Begin();
-	//受付終了
-	void End();
-	//描画
-	void Draw();
-public://静的メンバ関数
-	//インスタンス生成
-	static ImguiManager* GetInstance();
-private://メンバ変数
-	//SRV用デスクリプタヒープ
-	HRESULT result = NULL;
-	WinApp* winApp = nullptr;
-	DirectXCommon* dxCom = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>srvHeap;
-};
-
+	class ImguiManager
+	{
+	public://メンバ関数
+		//初期化
+		void Initialize(WinApp* winApp_,DirectXCommon* dxCom_);
+		//終了
+		void Finalize();
+		//受付開始
+		void Begin();
+		//受付終了
+		void End();
+		//描画
+		void Draw();
+	public://静的メンバ関数
+		//インスタンス生成
+		static ImguiManager* GetInstance();
+	private://メンバ変数
+		//SRV用デスクリプタヒープ
+		HRESULT result = NULL;
+		WinApp* winApp = nullptr;
+		DirectXCommon* dxCom = nullptr;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>srvHeap;
+	};
+}

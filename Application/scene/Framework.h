@@ -19,6 +19,7 @@
 #include<SceneManager.h>
 #include<AbstractSceneFactory.h>
 #include<Light.h>
+using namespace MyEngin;
 
 class Framework
 {

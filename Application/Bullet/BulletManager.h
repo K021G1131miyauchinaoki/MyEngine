@@ -12,8 +12,12 @@
 
 //前方宣言
 class Player;
-class Geometry;
+namespace MyEngin
+{
+	class Geometry;
+}
 
+using namespace MyEngin;
 class BulletManager
 {
 public:

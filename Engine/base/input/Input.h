@@ -23,55 +23,59 @@ enum Botton {
 	RIGHT,
 	CENTER
 };
-
-class Input
+namespace MyEngin
 {
-public:
-template<class T>using	ComPtr= Microsoft::WRL::ComPtr<T>;
+	class Input
+	{
+	public:
+		template<class T>using	ComPtr = Microsoft::WRL::ComPtr<T>;
 
-public://メンバ関数
-	//初期化
-	void Initialize();
-	//更新
-	void Update();
-	/*キーボード*/
-	//押したとき
-	bool PushKey(BYTE	keyNumber);
-	//押した瞬間
-	bool TriggerKey(BYTE	keyNumber);
-	//離した瞬間
-	bool TriggerReleaseKey(BYTE keyNumber);
-	
-	/*マウス*/
-	//押したとき
-	bool PushClick(Botton botton);
-	//押した瞬間
-	bool TriggerClick(Botton botton);
-	//離した瞬間
-	bool TriggerReleaseClick(BYTE botton);
-	//2D座標の取得
-	const Vector2 GetMausePos() { return mPos; }
+	public://メンバ関数
+		//初期化
+		void Initialize();
+		//更新
+		void Update();
+		/*キーボード*/
+		//押したとき
+		bool PushKey(BYTE	keyNumber);
+		//押した瞬間
+		bool TriggerKey(BYTE	keyNumber);
+		//離した瞬間
+		bool TriggerReleaseKey(BYTE keyNumber);
 
-	//インスタンス生成
-	static Input* GetInstance();
+		/*マウス*/
+		//押したとき
+		bool PushClick(Botton botton);
+		//押した瞬間
+		bool TriggerClick(Botton botton);
+		//離した瞬間
+		bool TriggerReleaseClick(BYTE botton);
+		//2D座標の取得
+		const Vector2 GetMausePos() {
+			return mPos;
+		}
 
-private:
-	WinApp* winApp = nullptr;
+//インスタンス生成
+		static Input* GetInstance();
 
-	HRESULT	result = 0;
+	private:
+		WinApp* winApp = nullptr;
 
-	ComPtr<	IDirectInput8> directInput = nullptr;
+		HRESULT	result = 0;
 
-	ComPtr < IDirectInputDevice8> keyboard = nullptr;
-	ComPtr < IDirectInputDevice8> mouseDevice = nullptr;
-	//全キーの入力状態を取得する
-	BYTE	key[256] = {};
-	//前回の全キーの状態
-	BYTE	keyPre[256] = {};
+		ComPtr<	IDirectInput8> directInput = nullptr;
 
-	DIMOUSESTATE mouse;
-	DIMOUSESTATE oldMouse;
-	Vector2 mPos;
+		ComPtr < IDirectInputDevice8> keyboard = nullptr;
+		ComPtr < IDirectInputDevice8> mouseDevice = nullptr;
+		//全キーの入力状態を取得する
+		BYTE	key[ 256 ] = {};
+		//前回の全キーの状態
+		BYTE	keyPre[ 256 ] = {};
 
-};
+		DIMOUSESTATE mouse;
+		DIMOUSESTATE oldMouse;
+		Vector2 mPos;
 
+	};
+
+}

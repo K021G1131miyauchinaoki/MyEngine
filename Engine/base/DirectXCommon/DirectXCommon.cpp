@@ -11,6 +11,7 @@
 #pragma	comment(lib,"dxgi.lib")
 
 using	namespace Microsoft::WRL;
+using namespace MyEngin;
 
 HRESULT DirectXCommon::GetResult()const {
 	return result;

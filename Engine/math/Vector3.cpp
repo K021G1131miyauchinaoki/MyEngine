@@ -5,6 +5,7 @@
 
 #include"Vector3.h"
 #include<cmath>//sqrt
+using namespace MyEngin;
 
 Vector3::Vector3()
 	:x(0),y(0), z(0)
@@ -98,30 +99,34 @@ Vector3& Vector3::operator/=(float	s)
 }
 //Vector2 クラスに属さない関数群
 //二項演算子
-const	Vector3 operator+(const Vector3& v1, const Vector3& v2)
+const	Vector3 MyEngin::operator+(const Vector3& v1, const Vector3& v2)
 {
 	Vector3	temp(v1);
 	return	temp += v2;
 }
 
-const	Vector3 operator-(const Vector3& v1, const Vector3& v2)
+const	Vector3 MyEngin::operator-(const Vector3& v1, const Vector3& v2)
 {
 	Vector3 temp(v1);
 	return	temp -= v2;
 }
 
-const	Vector3 operator*(const Vector3& v, float	s)
+const	Vector3 MyEngin::operator*(const Vector3& v, float	s)
 {
 	Vector3 temp(v);
 	return	temp *= s;
 }
 
-const	Vector3 operator*(float	s,const Vector3& v )
+const	Vector3 MyEngin::operator*(float	s,const Vector3& v )
 {
-	return	v * s;
+	Vector3 v2;
+	v2.x = v.x * s;
+	v2.y = v.y * s;
+	v2.z = v.z * s;
+	return v2;
 }
 
-const	Vector3 operator/(const Vector3& v, float	s)
+const	Vector3 MyEngin::operator/(const Vector3& v, float	s)
 {
 	Vector3 temp(v);
 	return	temp /= s;

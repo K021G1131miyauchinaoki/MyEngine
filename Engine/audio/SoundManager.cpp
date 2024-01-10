@@ -7,6 +7,7 @@
 #include <windows.h>
 #include<cassert>
 #pragma comment(lib,"xaudio2.lib")
+using namespace MyEngin;
 
 std::string directoryPath = "Resources/";
 

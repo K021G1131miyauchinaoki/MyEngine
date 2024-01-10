@@ -4,6 +4,7 @@
  */
 
 #include "BaseScene.h"
+using namespace MyEngin;
 
 void BaseScene::Initialize(){}
 

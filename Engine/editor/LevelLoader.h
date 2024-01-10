@@ -12,6 +12,8 @@
 
 #pragma warning( disable : 4324 )
 
+namespace MyEngin
+{
 // レベルデータ
 struct LevelData {
 
@@ -32,15 +34,15 @@ struct LevelData {
 
 	std::vector < LevelData> *chidren;
 };
+	class LevelLoader
+	{
+	public:
+		//jsonの読み込み
+		static LevelData* LoadJson(const std::string& fileName_);
 
-class LevelLoader
-{
-public:
-	//jsonの読み込み
-	static LevelData* LoadJson(const std::string& fileName_);
+	private:
+		//値を取得
+		static LevelData* ImportValue(nlohmann::json& json_,LevelData* levelData_);
+	};
 
-private:
-	//値を取得
-	static LevelData* ImportValue(nlohmann::json& json_, LevelData* levelData_ );
-};
-
+}

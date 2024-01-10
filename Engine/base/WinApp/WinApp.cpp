@@ -6,6 +6,7 @@
 #include "WinApp.h"
 #include<imgui_impl_win32.h>
 #pragma comment(lib,"winmm.lib")
+using namespace MyEngin;
 
 int	WinApp::width = 1280; 
 int	WinApp::height = 720;

@@ -4,15 +4,18 @@
  */
 
 #pragma once
-class Vector4
+namespace MyEngin
 {
-public:
-	float	x, y, z, w;
+	class Vector4
+	{
+	public:
+		float	x,y,z,w;
 
-public:
-	//コンストラクタ
-	Vector4();
-	//デストラクタ
-	Vector4(float	x, float	y, float	z, float	w);
-};
+	public:
+		//コンストラクタ
+		Vector4();
+		//デストラクタ
+		Vector4(float	x,float	y,float	z,float	w);
+	};
 
+}

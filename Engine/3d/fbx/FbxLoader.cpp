@@ -10,6 +10,8 @@
 #include<DirectXMath.h>
 #pragma warning( pop)
 using namespace DirectX;
+using namespace MyEngin;
+
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>

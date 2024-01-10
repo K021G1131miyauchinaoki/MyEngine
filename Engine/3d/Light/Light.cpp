@@ -4,6 +4,7 @@
  */
 #include "Light.h"
 #include<cassert>
+using namespace MyEngin;
 
 //静的メンバ変数の実体
 ID3D12Device* Light::device = nullptr;

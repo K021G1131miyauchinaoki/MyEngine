@@ -62,10 +62,12 @@ void BaseEnemy::Initialeze(Model* model_,Model* parachuteModel_,Player* player_,
 }
 
 void BaseEnemy::Update() {
+	//スタート演出
 	if ( GamePlayScene::isStart )
 	{
 		StartStaging();
 	}
+	//プレイ中
 	else
 	{
 		switch ( phase )
@@ -83,6 +85,7 @@ void BaseEnemy::Update() {
 	}
 	obj->Update();
 	parachute->Update();
+	//点滅
 	if ( isInvincible )
 	{
 		invincibleTime--;

@@ -5,6 +5,8 @@
  * @file SceneTransition.h
  * @brief シーン遷移
  */
+using namespace MyEngin;
+
 class SceneTransition{
 public://静的メンバ関数
 	static SceneTransition* GetInstance();

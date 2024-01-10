@@ -20,6 +20,7 @@
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
+using namespace MyEngin;
 
 XMMATRIX	Geometry::matBillboard = XMMatrixIdentity();
 XMMATRIX	Geometry::matBillboardY = XMMatrixIdentity();
@@ -573,9 +574,13 @@ void Geometry::Update()
 		//フレームのカウント
 		it->frame++;
 		//速度に加速度を加算
-		it->velocity = it->velocity + it->accel;
+		it->velocity.x = it->velocity.x + it->accel.x;
+		it->velocity.y = it->velocity.y + it->accel.y;
+		it->velocity.z = it->velocity.z + it->accel.z;
 		//速度による移動
-		it->position = it->position + it->velocity;
+		it->position.x = it->position.x + it->velocity.x;
+		it->position.y = it->position.y + it->velocity.y;
+		it->position.z = it->position.z + it->velocity.z;
 		//スケールの線形補間
 		float	f = ( float ) it->frame / it->endFrame;
 		it->scale = ( it->endScale - it->startScale ) * f;

@@ -9,6 +9,7 @@
 #include<GameOverScene.h>
 #include<GameClear.h>
 #include<SceneManager.h>
+using namespace MyEngin;
 
 BaseScene* SceneFactory::CreateScene(const std::string& sceneName) {
 	//次のシーンを生成
