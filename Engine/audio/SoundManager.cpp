@@ -80,6 +80,14 @@ void SoundManager::LoadWave(const std::string& filename_)
 		//再読み込み
 		file.read((char*)&data, sizeof(data));
 	}
+	// LISTチャンクを検出した場合
+	if ( strncmp(data.id,"LIST",4) == 0 )
+	{
+		// 読み取り位置をLISTチャンクの終わりまで進める
+		file.seekg(data.size,std::ios_base::cur);
+		// 再読み込み
+		file.read(( char* ) &data,sizeof(data));
+	}
 	if (strncmp(data.id, "data", 4) != 0)
 	{
 		assert(0);

@@ -39,6 +39,7 @@ void Framework::Initialize(){
 	SpriteCommon::GetInstance()->Loadtexture(10, "pushkey.png");
 	//音
 	SoundManager::GetInstance()->Initialize();
+	SoundManager::GetInstance()->LoadWave("BGM/play.wav");
 	SoundManager::GetInstance()->LoadWave("0321.wav");
 }
 
