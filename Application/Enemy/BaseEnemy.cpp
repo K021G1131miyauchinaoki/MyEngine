@@ -12,6 +12,7 @@
 #include"GamePlayScene.h"
 #include"Easing.h"
 #include<cmath>
+#include<SoundManager.h>
 
 void BaseEnemy::Initialeze(Model* model_,Model* parachuteModel_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
 	assert(model_);
@@ -201,6 +202,8 @@ void BaseEnemy::Shot() {
 	//フェーズの切り替え
 	phase = Phase::wait;
 	shotTimer = shotTime;
+	//音
+	SoundManager::GetInstance()->PlayWave("SE/gun2.wav");
 }
 
 void BaseEnemy::Rotate() {

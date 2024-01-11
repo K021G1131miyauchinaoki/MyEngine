@@ -14,6 +14,7 @@
 #include"Easing.h"
 #include"Player.h"
 #include"BulletManager.h"
+#include<SoundManager.h>
 
 void Player::ParameterCommonInitialeze() {
 	//位置
@@ -326,8 +327,12 @@ void Player::Shot() {
 			//タイムリセット
 			coolTime = 30;
 
+			//音
+			SoundManager::GetInstance()->PlayWave("SE/gun.wav");
 		}
 	}
+
+	
 }
 
 void Player::Rotate() {
