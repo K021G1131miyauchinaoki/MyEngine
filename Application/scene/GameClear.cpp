@@ -191,6 +191,7 @@ void GameClear::Update() {
 			&& !SceneTransition::GetInstance()->GetIsFadeIn() )
 		{
 			SceneTransition::GetInstance()->IsFadeOutTrue();
+			BaseScene::DecisionSound();
 		}
 	}
 

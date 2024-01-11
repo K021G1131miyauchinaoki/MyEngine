@@ -160,6 +160,8 @@ void TitleScene::Update() {
 		&&!SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
 		SceneTransition::GetInstance()->IsFadeOutTrue();
+		BaseScene::DecisionSound();
+
 	}
 	if ( waitTime <= waitTimer )
 	{

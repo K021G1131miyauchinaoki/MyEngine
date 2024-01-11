@@ -31,6 +31,7 @@ namespace MyEngin
 			sceneManager = sceneManager_;
 		}
 
+		void DecisionSound();
 	protected:
 		SceneManager* sceneManager = nullptr;
 	};

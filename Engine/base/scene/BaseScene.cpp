@@ -4,6 +4,7 @@
  */
 
 #include "BaseScene.h"
+#include<SoundManager.h>
 using namespace MyEngin;
 
 void BaseScene::Initialize(){}
@@ -15,3 +16,6 @@ void BaseScene::Update(){}
 void BaseScene::ObjDraw(){}
 void BaseScene::SpriteDraw() {}
 void BaseScene::GeometryDraw(){}
+void BaseScene::DecisionSound() {
+	SoundManager::GetInstance()->PlayWave("SE/decision.wav");
+}

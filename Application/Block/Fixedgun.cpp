@@ -51,7 +51,7 @@ void Fixedgun::SetIsUp(const bool& isUp_) {
 void Fixedgun::Shot() {
 	bulletManager->EnemyBulletCreate(pos,velocity,GetRot(),"normale");
 	//音
-	SoundManager::GetInstance()->PlayWave("SE/gun.wav");
+	SoundManager::GetInstance()->PlayWave("SE/gun.wav",0.2f);
 }
 
 Vector3 Fixedgun::GetPos(){

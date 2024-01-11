@@ -328,7 +328,7 @@ void Player::Shot() {
 			coolTime = 30;
 
 			//音
-			SoundManager::GetInstance()->PlayWave("SE/gun.wav");
+			SoundManager::GetInstance()->PlayWave("SE/gun2.wav",0.2f);
 		}
 	}
 

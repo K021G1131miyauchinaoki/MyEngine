@@ -203,7 +203,7 @@ void BaseEnemy::Shot() {
 	phase = Phase::wait;
 	shotTimer = shotTime;
 	//音
-	SoundManager::GetInstance()->PlayWave("SE/gun2.wav");
+	SoundManager::GetInstance()->PlayWave("SE/gun.wav",0.2f);
 }
 
 void BaseEnemy::Rotate() {
