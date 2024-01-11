@@ -43,7 +43,9 @@ void Framework::Initialize(){
 	SoundManager::GetInstance()->LoadWave("BGM/play.wav");
 	SoundManager::GetInstance()->LoadWave("BGM/clear.wav");
 	SoundManager::GetInstance()->LoadWave("BGM/over.wav");
-	SoundManager::GetInstance()->LoadWave("0321.wav");
+	SoundManager::GetInstance()->LoadWave("SE/gun.wav");
+	SoundManager::GetInstance()->LoadWave("SE/gun2.wav");
+	SoundManager::GetInstance()->LoadWave("SE/dying.wav");
 }
 
 void Framework::Update(){
