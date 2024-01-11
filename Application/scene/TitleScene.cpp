@@ -78,6 +78,8 @@ void TitleScene::Initialize() {
 	transTime = 0.0f;
 	flashTime = 0;
 	isFlash = true;
+
+	SoundManager::GetInstance()->PlayWave("BGM/title.wav",0.3f,true);
 }
 
 void TitleScene::Update() {
@@ -99,14 +101,6 @@ void TitleScene::Update() {
 	ImGui::SliderFloat4("lightDir",a, -100.0f,100.0f);
 	ImGui::End();*/
 
-	if ( input->TriggerKey(DIK_K) )
-	{
-		
-	}
-	if ( input->TriggerKey(DIK_J) )
-	{
-		SoundManager::GetInstance()->PlayWave("0321.wav",0.2f,true);
-	}
 
 	/*シェイク処理*/
 	//カメラ位置
@@ -177,6 +171,8 @@ void TitleScene::Update() {
 	{
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
+		//音停止
+		SoundManager::GetInstance()->StopWave("BGM/title.wav");
 	}
 	//点滅処理
 	if ( movieCount == Staging::Title)

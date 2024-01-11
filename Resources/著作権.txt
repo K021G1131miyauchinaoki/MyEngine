@@ -1,1 +1,1 @@
-プレイBGM : MusMus
+プレイ,タイトルBGM   : MusMus

@@ -132,7 +132,7 @@ void SoundManager::UnLoad(SoundData* soundData_) {
 void SoundManager::PlayWave(const std::string& filename_,const float& volume_,const bool& isLoop_) {
 	HRESULT	result;
 	
-	std::map<std::string, SoundData>::iterator it=soundDatas.find(filename_);
+ 	std::map<std::string, SoundData>::iterator it=soundDatas.find(filename_);
 	//未読み込みの検出
 	assert(it != soundDatas.end());
 	//サウンドデータの参照を取得
