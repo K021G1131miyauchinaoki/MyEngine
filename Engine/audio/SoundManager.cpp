@@ -11,6 +11,12 @@ using namespace MyEngin;
 
 std::string directoryPath = "Resources/";
 
+SoundManager* SoundManager::GetInstance() {
+	static SoundManager audio;
+	return &audio;
+
+}
+
 void SoundManager::Initialize() {
 	HRESULT result;
 	IXAudio2MasteringVoice* masterVoice;

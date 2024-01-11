@@ -47,12 +47,14 @@ namespace MyEngin
 			uint32_t bufferSize;
 		};
 	public:
+		//インスタンス生成
+		static SoundManager* GetInstance();
 		//初期化
 		void Initialize();
 		//終了処理
 		void Finalize();
 		//サウンドデータの解放
-		void UnLoad(SoundData* sounData_);
+		void UnLoad(SoundData* SoundManagerata_);
 		// wav読み込み
 		void LoadWave(const std::string& filename_);
 		//再生
@@ -62,6 +64,12 @@ namespace MyEngin
 		Microsoft::WRL::ComPtr<IXAudio2>xAudio2;
 		//サウンドデータの連想配列
 		std::map<std::string,SoundData>soundDatas;
+	private:
+		SoundManager() = default;
+		~SoundManager() = default;
+
+		SoundManager(const SoundManager&) = default;
+		const SoundManager& operator=(const SoundManager&) = delete;
 	};
 
 }

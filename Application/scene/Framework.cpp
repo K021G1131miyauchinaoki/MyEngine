@@ -37,6 +37,9 @@ void Framework::Initialize(){
 	SpriteCommon::GetInstance()->Loadtexture(8,"stage/stage1.png");
 	SpriteCommon::GetInstance()->Loadtexture(9,"star.png");
 	SpriteCommon::GetInstance()->Loadtexture(10, "pushkey.png");
+	//音
+	SoundManager::GetInstance()->Initialize();
+	SoundManager::GetInstance()->LoadWave("0321.wav");
 }
 
 void Framework::Update(){
@@ -48,6 +51,7 @@ void Framework::Draw(){}
 
 void Framework::Finalize(){
 	winApp->Finalize();
+	SoundManager::GetInstance()->Finalize();
 	/*FbxLoader::GetInstance()->Finalize();
 	FbxObject3d::Finalize();
 	Model::Finalize();

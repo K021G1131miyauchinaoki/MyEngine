@@ -10,6 +10,7 @@
 #include"Easing.h"
 #include<SceneManager.h>
 #include<Vector3.h>
+#include<SoundManager.h>
 
 int8_t GamePlayScene::startCount = 0;
 bool GamePlayScene::isStart = true;

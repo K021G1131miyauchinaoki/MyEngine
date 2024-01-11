@@ -7,6 +7,7 @@
 #include<SceneManager.h>
 #include<Easing.h>
 #include<random>
+#include<SoundManager.h>
 
 int8_t TitleScene::movieCount = NULL;
 
@@ -98,7 +99,10 @@ void TitleScene::Update() {
 	ImGui::SliderFloat4("lightDir",a, -100.0f,100.0f);
 	ImGui::End();*/
 
-	
+	if ( input->TriggerKey(DIK_K) )
+	{
+		SoundManager::GetInstance()->PlayWave("0321.wav");
+	}
 
 	/*シェイク処理*/
 	//カメラ位置
