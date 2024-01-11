@@ -42,6 +42,7 @@ void Framework::Initialize(){
 	SoundManager::GetInstance()->LoadWave("BGM/title.wav");
 	SoundManager::GetInstance()->LoadWave("BGM/play.wav");
 	SoundManager::GetInstance()->LoadWave("BGM/clear.wav");
+	SoundManager::GetInstance()->LoadWave("BGM/over.wav");
 	SoundManager::GetInstance()->LoadWave("0321.wav");
 }
 

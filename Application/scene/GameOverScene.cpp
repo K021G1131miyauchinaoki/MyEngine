@@ -78,6 +78,10 @@ void GameOverScene::Initialize() {
 
 	flashTime = 0;
 	isFlash = true;
+
+	//音
+	SoundManager::GetInstance()->PlayWave("BGM/over.wav",1.0f,true);
+
 }
 
 void GameOverScene::Update() {
@@ -109,6 +113,8 @@ void GameOverScene::Update() {
 	{
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("TITLE");
+		//停止
+		SoundManager::GetInstance()->StopWave("BGM/over.wav");
 	}
 	
 	Vector3 particlePos= tankBody->GetPosition();
