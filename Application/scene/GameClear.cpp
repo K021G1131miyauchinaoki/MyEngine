@@ -157,6 +157,13 @@ void GameClear::Update() {
 		size.y = startClearSize.y + ( endClearSize.y - startClearSize.y ) * Easing::easeOutBounce(clearTime / clearTimer);
 		clearSprite->SetColor(clearColor);
 		clearSprite->SetSize(size);
+		//タイムが80％の時再生
+		float percent = 0.8f;
+		if ( clearTime == clearTimer*percent )
+		{
+			SoundManager::GetInstance()->PlayWave("BGM/clear.wav",0.5f,true);
+		}
+
 	}
 
 	if ( waitTime <= waitTimer )
@@ -169,6 +176,9 @@ void GameClear::Update() {
 	{
 		//シーンの切り替え
 		SceneManager::GetInstance()->ChangeScene("TITLE");
+		//停止
+		SoundManager::GetInstance()->StopWave("BGM/clear.wav");
+
 	}
 	//キーを押したら
 	if (input->TriggerKey(DIK_RETURN)

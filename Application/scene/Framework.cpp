@@ -40,6 +40,7 @@ void Framework::Initialize(){
 	//音
 	SoundManager::GetInstance()->Initialize();
 	SoundManager::GetInstance()->LoadWave("BGM/play.wav");
+	SoundManager::GetInstance()->LoadWave("BGM/clear.wav");
 	SoundManager::GetInstance()->LoadWave("0321.wav");
 }
 
