@@ -105,7 +105,7 @@ void TitleScene::Update() {
 	}
 	if ( input->TriggerKey(DIK_J) )
 	{
-		SoundManager::GetInstance()->PlayWave("0321.wav");
+		SoundManager::GetInstance()->PlayWave("0321.wav",0.2f,true);
 	}
 
 	/*シェイク処理*/

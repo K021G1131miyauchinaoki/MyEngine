@@ -129,7 +129,7 @@ void SoundManager::UnLoad(SoundData* soundData_) {
 	soundData_->wfex = {};
 }
 
-void SoundManager::PlayWave(const std::string& filename_) {
+void SoundManager::PlayWave(const std::string& filename_,const float& volume_,const bool& isLoop_) {
 	HRESULT	result;
 	
 	std::map<std::string, SoundData>::iterator it=soundDatas.find(filename_);
@@ -147,8 +147,13 @@ void SoundManager::PlayWave(const std::string& filename_) {
 	buf.pAudioData = soundData.pBuffer;
 	buf.AudioBytes = soundData.bufferSize;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
+	if ( isLoop_ )
+	{
+		buf.LoopCount = XAUDIO2_LOOP_INFINITE;
+	}
 
 	//波形データの再生
+	pSourceVoice->SetVolume(volume_);
 	result = pSourceVoice->SubmitSourceBuffer(&buf);
 	result = pSourceVoice->Start();
 

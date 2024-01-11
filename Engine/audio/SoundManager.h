@@ -58,7 +58,7 @@ namespace MyEngin
 		// wav読み込み
 		void LoadWave(const std::string& filename_);
 		//再生
-		void PlayWave(const std::string& filename_);
+		void PlayWave(const std::string& filename_,const float& volume_=1.0f,const bool& isLoop_=false);
 	private:
 		//xAudio2のインスタンス
 		Microsoft::WRL::ComPtr<IXAudio2>xAudio2;
