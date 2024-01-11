@@ -101,7 +101,7 @@ void TitleScene::Update() {
 
 	if ( input->TriggerKey(DIK_K) )
 	{
-		SoundManager::GetInstance()->PlayWave("BGM/play.wav");
+		
 	}
 	if ( input->TriggerKey(DIK_J) )
 	{

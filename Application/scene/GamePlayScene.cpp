@@ -242,6 +242,8 @@ void GamePlayScene::Initialize() {
 	stage->SetAnchorPoint({ 0.5f,0.5f });
 	stage->SetPosition({ 640.0f,sPosStartY });
 
+	//音
+	SoundManager::GetInstance()->PlayWave("BGM/play.wav",0.2f,true);
 }
 
 void GamePlayScene::Update(){
@@ -272,10 +274,14 @@ void GamePlayScene::Update(){
 		SceneTransition::GetInstance()->IsFadeOutTrue();
 	}
 	//画面真っ暗になったら
-	if (!SceneTransition::GetInstance()->GetIsFadeOut()&&
+	else if (!SceneTransition::GetInstance()->GetIsFadeOut()&&
 		SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
+		//弾全削除
 		bulletManager->AllBulletDelete();
+		//音を止める
+		SoundManager::GetInstance()->StopWave("BGM/play.wav");
+
 		//シーンの切り替え
 		if (player->IsDead())
 		{

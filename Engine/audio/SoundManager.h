@@ -12,6 +12,9 @@
 #include<map>
 #include<xaudio2.h>
 #include<cstdint>
+#include <windows.h>
+#pragma comment(lib,"xaudio2.lib")
+
 namespace MyEngin
 {
 	class SoundManager
@@ -45,6 +48,8 @@ namespace MyEngin
 			BYTE* pBuffer;
 			//バッファのサイズ
 			uint32_t bufferSize;
+
+			IXAudio2SourceVoice* pSourceVoice;
 		};
 	public:
 		//インスタンス生成
@@ -58,7 +63,9 @@ namespace MyEngin
 		// wav読み込み
 		void LoadWave(const std::string& filename_);
 		//再生
-		void PlayWave(const std::string& filename_,const float& volume_=1.0f,const bool& isLoop_=false);
+		void PlayWave(const std::string& filename_,const float& volume_ = 1.0f,const bool& isLoop_ = false);
+		//停止
+		void StopWave(const std::string& filename_);
 	private:
 		//xAudio2のインスタンス
 		Microsoft::WRL::ComPtr<IXAudio2>xAudio2;
