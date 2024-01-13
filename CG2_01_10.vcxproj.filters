@@ -51,14 +51,11 @@
     <ClCompile Include="Engine\2d\SpriteCommon.cpp">
       <Filter>ソースファイル\Engine\2D</Filter>
     </ClCompile>
-    <ClCompile Include="Application\scene\Framework.cpp">
+    <ClCompile Include="Engine\base\scene\Framework.cpp">
       <Filter>ソースファイル\Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\scene\MyGame.cpp">
+    <ClCompile Include="Engine\base\scene\MyGame.cpp">
       <Filter>ソースファイル\Application\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\main.cpp">
-      <Filter>ソースファイル\Application</Filter>
     </ClCompile>
     <ClCompile Include="Engine\imgui\ImguiManager.cpp">
       <Filter>ソースファイル\Engine\Imgui</Filter>
@@ -105,33 +102,6 @@
     <ClCompile Include="Engine\math\MyMath.cpp">
       <Filter>ソースファイル\Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\Player.cpp">
-      <Filter>ソースファイル\Application\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\Enemy.cpp">
-      <Filter>ソースファイル\Application\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Bullet\Bullet.cpp">
-      <Filter>ソースファイル\Application\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Bullet\EnemyBullet.cpp">
-      <Filter>ソースファイル\Application\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Map\Map.cpp">
-      <Filter>ソースファイル\Application\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\particle\ParticleManager.cpp">
-      <Filter>ソースファイル\Application\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\scene\GameClear.cpp">
-      <Filter>ソースファイル\Application\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\scene\GameOverScene.cpp">
-      <Filter>ソースファイル\Application\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\scene\GamePlayScene.cpp">
-      <Filter>ソースファイル\Application\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\easing\Easing.cpp">
       <Filter>ソースファイル\Engine\Easing</Filter>
     </ClCompile>
@@ -141,93 +111,27 @@
     <ClCompile Include="Engine\base\scene\BaseScene.cpp">
       <Filter>ソースファイル\Engine\Base\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\scene\TitleScene.cpp">
-      <Filter>ソースファイル\Application\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\particle\BaseParticle.cpp">
-      <Filter>ソースファイル\Application\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\2d\PostEffect.cpp">
       <Filter>ソースファイル\Engine\2D</Filter>
     </ClCompile>
     <ClCompile Include="Engine\base\scene\SceneFactory.cpp">
       <Filter>ソースファイル\Engine\Base\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\scene\SceneManager.cpp">
+    <ClCompile Include="Engine\base\scene\SceneManager.cpp">
       <Filter>ソースファイル\Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\particle\Explosion.cpp">
-      <Filter>ソースファイル\Application\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\3d\Light\Light.cpp" />
-    <ClCompile Include="Application\scene\SceneTransition.cpp" />
-    <ClCompile Include="Application\particle\Smoke.cpp" />
-    <ClCompile Include="Application\Enemy\BaseEnemy.cpp" />
-    <ClCompile Include="Application\Enemy\ShotgunEnemy.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyManager.cpp" />
-    <ClCompile Include="Application\Bullet\BulletManager.cpp" />
-    <ClCompile Include="Application\Block\BlockManager.cpp" />
-    <ClCompile Include="Application\Bullet\Homing.cpp" />
-    <ClCompile Include="Application\Block\BaseBlock.cpp">
-      <Filter>ソースファイル\Application\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Block\Fixedgun.cpp">
-      <Filter>ソースファイル\Application\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Block\Wall.cpp">
-      <Filter>ソースファイル\Application\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\particle\Orbit.cpp" />
     <ClCompile Include="Engine\3d\geometry\Geometry.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application\Enemy\Enemy.h">
-      <Filter>ヘッダーファイル\Application\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Bullet\EnemyBullet.h">
-      <Filter>ヘッダーファイル\Application\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Map\Map.h">
-      <Filter>ヘッダーファイル\Application\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\struct\BaseHp.h">
-      <Filter>ヘッダーファイル\Application\struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\scene\Framework.h">
+    <ClInclude Include="Engine\base\scene\Framework.h">
       <Filter>ヘッダーファイル\Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Application\scene\GameClear.h">
+    <ClInclude Include="Engine\base\scene\MyGame.h">
       <Filter>ヘッダーファイル\Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Application\scene\GameOverScene.h">
+    <ClInclude Include="Engine\base\scene\SceneManager.h">
       <Filter>ヘッダーファイル\Application\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\scene\GamePlayScene.h">
-      <Filter>ヘッダーファイル\Application\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\scene\MyGame.h">
-      <Filter>ヘッダーファイル\Application\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\scene\SceneManager.h">
-      <Filter>ヘッダーファイル\Application\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\scene\TitleScene.h">
-      <Filter>ヘッダーファイル\Application\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Bullet\Bullet.h">
-      <Filter>ヘッダーファイル\Application\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player\Player.h">
-      <Filter>ヘッダーファイル\Application\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\particle\BaseParticle.h">
-      <Filter>ヘッダーファイル\Application\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\particle\Explosion.h">
-      <Filter>ヘッダーファイル\Application\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\particle\ParticleManager.h">
-      <Filter>ヘッダーファイル\Application\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\2d\PostEffect.h">
       <Filter>ヘッダーファイル\Engine\2D</Filter>
@@ -308,24 +212,6 @@
       <Filter>ヘッダーファイル\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\Light\Light.h" />
-    <ClInclude Include="Application\scene\SceneTransition.h" />
-    <ClInclude Include="Application\particle\Smoke.h" />
-    <ClInclude Include="Application\Enemy\BaseEnemy.h" />
-    <ClInclude Include="Application\Enemy\ShotgunEnemy.h" />
-    <ClInclude Include="Application\Enemy\EnemyManager.h" />
-    <ClInclude Include="Application\Bullet\BulletManager.h" />
-    <ClInclude Include="Application\Block\BlockManager.h" />
-    <ClInclude Include="Application\Bullet\Homing.h" />
-    <ClInclude Include="Application\Block\BaseBlock.h">
-      <Filter>ソースファイル\Application\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Block\Fixedgun.h">
-      <Filter>ソースファイル\Application\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Block\Wall.h">
-      <Filter>ソースファイル\Application\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\particle\Orbit.h" />
     <ClInclude Include="Engine\3d\geometry\Geometry.h" />
   </ItemGroup>
   <ItemGroup>

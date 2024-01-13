@@ -108,17 +108,8 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Application\Enemy\BaseEnemy.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyManager.cpp" />
-    <ClCompile Include="Application\Bullet\BulletManager.cpp" />
-    <ClCompile Include="Application\Block\BaseBlock.cpp" />
-    <ClCompile Include="Application\Block\BlockManager.cpp" />
     <ClCompile Include="Engine\base\scene\AbstractSceneFactory.cpp" />
-    <ClCompile Include="Application\Enemy\Enemy.cpp" />
-    <ClCompile Include="Application\Bullet\Bullet.cpp" />
-    <ClCompile Include="Application\Bullet\EnemyBullet.cpp" />
     <ClCompile Include="Engine\base\scene\BaseScene.cpp" />
-    <ClCompile Include="Application\particle\BaseParticle.cpp" />
     <ClCompile Include="Engine\easing\Easing.cpp" />
     <ClCompile Include="Engine\3d\camera\Camera.cpp" />
     <ClCompile Include="Engine\3d\model\Object3d.cpp" />
@@ -126,19 +117,16 @@
     <ClCompile Include="Engine\3d\fbx\FbxLoader.cpp" />
     <ClCompile Include="Engine\3d\fbx\FbxModel.cpp" />
     <ClCompile Include="Engine\3d\fbx\FbxObject3d.cpp" />
-    <ClCompile Include="Application\scene\Framework.cpp" />
-    <ClCompile Include="Application\scene\MyGame.cpp" />
+    <ClCompile Include="Engine\base\scene\Framework.cpp" />
+    <ClCompile Include="Engine\base\scene\MyGame.cpp" />
     <ClCompile Include="Engine\imgui\ImguiManager.cpp" />
     <ClCompile Include="Engine\base\input\Input.cpp" />
     <ClCompile Include="Engine\editor\LevelLoader.cpp" />
-    <ClCompile Include="Application\main.cpp" />
-    <ClCompile Include="Application\particle\ParticleManager.cpp" />
     <ClCompile Include="Engine\audio\SoundManager.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
     <ClCompile Include="Engine\2d\SpriteCommon.cpp" />
     <ClCompile Include="Engine\base\WinApp\WinApp.cpp" />
     <ClCompile Include="Engine\3d\model\Model.cpp" />
-    <ClCompile Include="Application\Player\Player.cpp" />
     <ClCompile Include="Engine\2d\PostEffect.cpp" />
     <ClCompile Include="Engine\math\Matrix4.cpp" />
     <ClCompile Include="Engine\math\Vector2.cpp" />
@@ -146,22 +134,9 @@
     <ClCompile Include="Engine\math\Vector4.cpp" />
     <ClCompile Include="Engine\math\WorldTransform.cpp" />
     <ClCompile Include="Engine\math\MyMath.cpp" />
-    <ClCompile Include="Application\Map\Map.cpp" />
-    <ClCompile Include="Application\scene\GamePlayScene.cpp" />
-    <ClCompile Include="Application\scene\TitleScene.cpp" />
-    <ClCompile Include="Application\scene\SceneManager.cpp" />
+    <ClCompile Include="Engine\base\scene\SceneManager.cpp" />
     <ClCompile Include="Engine\base\scene\SceneFactory.cpp" />
-    <ClCompile Include="Application\scene\GameClear.cpp" />
-    <ClCompile Include="Application\scene\GameOverScene.cpp" />
-    <ClCompile Include="Application\particle\Explosion.cpp" />
     <ClCompile Include="Engine\3d\Light\Light.cpp" />
-    <ClCompile Include="Application\scene\SceneTransition.cpp" />
-    <ClCompile Include="Application\particle\Smoke.cpp" />
-    <ClCompile Include="Application\Enemy\ShotgunEnemy.cpp" />
-    <ClCompile Include="Application\Block\Fixedgun.cpp" />
-    <ClCompile Include="Application\Block\Wall.cpp" />
-    <ClCompile Include="Application\Bullet\Homing.cpp" />
-    <ClCompile Include="Application\particle\Orbit.cpp" />
     <ClCompile Include="Engine\3d\geometry\Geometry.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -236,18 +211,8 @@
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application\Enemy\BaseEnemy.h" />
-    <ClInclude Include="Application\Enemy\EnemyManager.h" />
-    <ClInclude Include="Application\Bullet\BulletManager.h" />
-    <ClInclude Include="Application\Block\BaseBlock.h" />
-    <ClInclude Include="Application\Block\BlockManager.h" />
     <ClInclude Include="Engine\base\scene\AbstractSceneFactory.h" />
-    <ClInclude Include="Application\Enemy\Enemy.h" />
-    <ClInclude Include="Application\Bullet\Bullet.h" />
-    <ClInclude Include="Application\Bullet\EnemyBullet.h" />
     <ClInclude Include="Engine\base\scene\BaseScene.h" />
-    <ClInclude Include="Application\struct\BaseHp.h" />
-    <ClInclude Include="Application\particle\BaseParticle.h" />
     <ClInclude Include="Engine\easing\Easing.h" />
     <ClInclude Include="Engine\3d\camera\Camera.h" />
     <ClInclude Include="Engine\3d\model\Object3d.h" />
@@ -255,14 +220,12 @@
     <ClInclude Include="Engine\3d\fbx\FbxLoader.h" />
     <ClInclude Include="Engine\3d\fbx\FbxModel.h" />
     <ClInclude Include="Engine\3d\fbx\FbxObject3d.h" />
-    <ClInclude Include="Application\scene\Framework.h" />
-    <ClInclude Include="Application\scene\MyGame.h" />
+    <ClInclude Include="Engine\base\scene\Framework.h" />
+    <ClInclude Include="Engine\base\scene\MyGame.h" />
     <ClInclude Include="Engine\imgui\ImguiManager.h" />
     <ClInclude Include="Engine\base\input\Input.h" />
     <ClInclude Include="Engine\editor\LevelLoader.h" />
-    <ClInclude Include="Application\particle\ParticleManager.h" />
     <ClInclude Include="Engine\3d\model\Model.h" />
-    <ClInclude Include="Application\Player\Player.h" />
     <ClInclude Include="Engine\2d\PostEffect.h" />
     <ClInclude Include="Engine\math\Matrix4.h" />
     <ClInclude Include="Engine\math\Vector2.h" />
@@ -270,28 +233,15 @@
     <ClInclude Include="Engine\math\Vector4.h" />
     <ClInclude Include="Engine\math\WorldTransform.h" />
     <ClInclude Include="Engine\math\MyMath.h" />
-    <ClInclude Include="Application\Map\Map.h" />
-    <ClInclude Include="Application\scene\GamePlayScene.h" />
-    <ClInclude Include="Application\scene\GameClear.h" />
-    <ClInclude Include="Application\scene\GameOverScene.h" />
-    <ClInclude Include="Application\particle\Explosion.h" />
     <ClInclude Include="Engine\3d\Light\Light.h" />
-    <ClInclude Include="Application\Block\Fixedgun.h" />
-    <ClInclude Include="Application\Bullet\Homing.h" />
-    <ClInclude Include="Application\particle\Orbit.h" />
     <ClInclude Include="Engine\3d\geometry\Geometry.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Engine\audio\SoundManager.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
     <ClInclude Include="Engine\2d\SpriteCommon.h" />
     <ClInclude Include="Engine\base\WinApp\WinApp.h" />
-    <ClInclude Include="Application\scene\TitleScene.h" />
-    <ClInclude Include="Application\scene\SceneManager.h" />
+    <ClInclude Include="Engine\base\scene\SceneManager.h" />
     <ClInclude Include="Engine\base\scene\SceneFactory.h" />
-    <ClInclude Include="Application\scene\SceneTransition.h" />
-    <ClInclude Include="Application\particle\Smoke.h" />
-    <ClInclude Include="Application\Enemy\ShotgunEnemy.h" />
-    <ClInclude Include="Application\Block\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CG2.rc" />
