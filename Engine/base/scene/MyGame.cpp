@@ -4,9 +4,6 @@
  */
 #include "MyGame.h"
 #include<MyMath.h>
-#include<EnemyBullet.h>
-#include<Bullet.h>
-#include<Map.h>
 #include<SceneFactory.h>
 #define safe_delete(p)  {delete p; p = nullptr;}
 
@@ -14,20 +11,16 @@ void MyGame::Initialize() {
 	Framework::Initialize();
 	ImguiManager::GetInstance()->Initialize(winApp.get(), dxCommon.get());
 	
-	//シーンマネージャーに最初のシーンをセット
-	sceneFactory = new SceneFactory();
-	SceneManager::GetInstance()->SetSceneFactory(sceneFactory);
-	SceneManager::GetInstance()->ChangeScene("TITLE");
-	SceneTransition::GetInstance()->Initialize();
+	gpu = std::make_unique<Gpup>();
+	gpu->Initialize(1000,dxCommon.get());
 }
 
 void MyGame::Update(){
 	//imgui関連
 	ImguiManager::GetInstance()->Begin();
-	SceneTransition::GetInstance()->Updata();
+	
 	Framework::Update();
 	//------------------------------
-	SceneManager::GetInstance()->Update();
 }	
 
 void MyGame::Draw(){
@@ -38,19 +31,15 @@ void MyGame::Draw(){
 	dxCommon->PreDraw();
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(dxCommon->GetCommandList());
-	SceneManager::GetInstance()->ObjDraw();
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 
 	//ジオメトリ
 	Geometry::PreDraw(dxCommon->GetCommandList());
-	SceneManager::GetInstance()->GeometryDraw();
 	Geometry::PostDraw();
 
 	//スプライト描画
 	SpriteCommon::GetInstance()->PreDraw();
-	SceneManager::GetInstance()->SpriteDraw();
-	SceneTransition::GetInstance()->Draw();
 	SpriteCommon::GetInstance()->PostDraw();
 
 	//imgui
@@ -62,7 +51,7 @@ void MyGame::Draw(){
 }
 
 void MyGame::Finalize(){
-	Map::Finalize();
+	
 	Framework::Finalize();
 }
 

@@ -138,8 +138,23 @@
     <ClCompile Include="Engine\base\scene\SceneFactory.cpp" />
     <ClCompile Include="Engine\3d\Light\Light.cpp" />
     <ClCompile Include="Engine\3d\geometry\Geometry.cpp" />
+    <ClCompile Include="Engine\3d\geometry\Gpup.cpp" />
+    <ClCompile Include="Engine\base\scene\scene.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Resources\shaders\EmitCS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleCS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
@@ -205,6 +220,7 @@
     <None Include=".editorconfig" />
     <None Include="ReadMe.md" />
     <None Include="Resources\shaders\FBX.hlsli" />
+    <None Include="Resources\shaders\Math.hlsli" />
     <None Include="Resources\shaders\Obj.hlsli" />
     <None Include="Resources\shaders\Particle.hlsli" />
     <None Include="Resources\shaders\PostEffect.hlsli" />
@@ -235,6 +251,7 @@
     <ClInclude Include="Engine\math\MyMath.h" />
     <ClInclude Include="Engine\3d\Light\Light.h" />
     <ClInclude Include="Engine\3d\geometry\Geometry.h" />
+    <ClInclude Include="Engine\3d\geometry\Gpup.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Engine\audio\SoundManager.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
@@ -242,6 +259,7 @@
     <ClInclude Include="Engine\base\WinApp\WinApp.h" />
     <ClInclude Include="Engine\base\scene\SceneManager.h" />
     <ClInclude Include="Engine\base\scene\SceneFactory.h" />
+    <ClInclude Include="Engine\base\scene\scene.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CG2.rc" />

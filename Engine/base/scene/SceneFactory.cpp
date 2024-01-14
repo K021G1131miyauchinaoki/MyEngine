@@ -4,10 +4,7 @@
  */
 
 #include "SceneFactory.h"
-#include<TitleScene.h>
-#include<GamePlayScene.h>
-#include<GameOverScene.h>
-#include<GameClear.h>
+#include"scene.h"
 #include<SceneManager.h>
 using namespace MyEngin;
 
@@ -17,22 +14,12 @@ BaseScene* SceneFactory::CreateScene(const std::string& sceneName) {
 	if (sceneName=="TITLE")
 	{
 		SceneManager::sceneNum = SceneManager::title;
-		newScene = new TitleScene();
+		newScene = new scene();
 	}
-	else if (sceneName == "GAMEPLAY")
+	else
 	{
-		SceneManager::sceneNum = SceneManager::play;
-		newScene = new GamePlayScene();
-	}
-	else if (sceneName == "GAMEOVER")
-	{
-		SceneManager::sceneNum = SceneManager::over;
-		newScene = new GameOverScene();
-	}
-	else if (sceneName == "GAMECLEAR")
-	{
-		SceneManager::sceneNum = SceneManager::clear;
-		newScene = new GameClear();
+		SceneManager::sceneNum = SceneManager::title;
+		newScene = new scene();
 	}
 	return newScene;
 }

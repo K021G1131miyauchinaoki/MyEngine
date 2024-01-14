@@ -10,7 +10,8 @@
 #include"ImguiManager.h"
 #include"SoundManager.h" 
 #include<BaseScene.h>
-#include<SceneTransition.h>
+#include<Gpup.h>
+#include<memory>
 
 class MyGame:public Framework
 {
@@ -23,5 +24,8 @@ public://メンバ関数
 	void Update()override;
 	//描画
 	void Draw()override;
+
+private:
+	std::unique_ptr<Gpup>gpu;
 };
 

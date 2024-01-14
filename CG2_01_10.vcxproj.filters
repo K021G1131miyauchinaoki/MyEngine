@@ -34,6 +34,10 @@
     <FxCompile Include="Resources\shaders\PostEffectVS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleCS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\EmitCS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\base\input\Input.cpp">
@@ -122,6 +126,9 @@
     </ClCompile>
     <ClCompile Include="Engine\3d\Light\Light.cpp" />
     <ClCompile Include="Engine\3d\geometry\Geometry.cpp" />
+    <ClCompile Include="Engine\base\scene\scene.cpp" />
+    <ClCompile Include="Engine\3d\geometry\Gpup.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\base\scene\Framework.h">
@@ -213,6 +220,8 @@
     </ClInclude>
     <ClInclude Include="Engine\3d\Light\Light.h" />
     <ClInclude Include="Engine\3d\geometry\Geometry.h" />
+    <ClInclude Include="Engine\base\scene\scene.h" />
+    <ClInclude Include="Engine\3d\geometry\Gpup.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
@@ -232,6 +241,7 @@
       <Filter>shader</Filter>
     </None>
     <None Include=".editorconfig" />
+    <None Include="Resources\shaders\Math.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shader">
