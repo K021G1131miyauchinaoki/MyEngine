@@ -242,6 +242,10 @@ void GamePlayScene::Initialize() {
 	stage->SetAnchorPoint({ 0.5f,0.5f });
 	stage->SetPosition({ 640.0f,sPosStartY });
 
+	sight = std::make_unique<Sprite>();
+	sight->Initialize(SpriteCommon::GetInstance(),6);
+	sight->SetAnchorPoint({ 0.5f,0.5f });
+
 	//音
 	SoundManager::GetInstance()->PlayWave("BGM/play.wav",0.2f,true);
 }
@@ -250,6 +254,8 @@ void GamePlayScene::Update(){
 	const XMFLOAT3 cameraPos = { player->GetPos().x, 100, player->GetPos().z - 30.0f };
 	if ( !player->IsDead() && enemyManager->GetSize()!=0 )
 	{
+		sight->SetPosition({ input->GetMausePos().x,input->GetMausePos().y });
+		sight->Update();
 		camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
 		camera->SetEye(cameraPos);
 		camera->Update();
@@ -262,6 +268,7 @@ void GamePlayScene::Update(){
 		objSkydome->Update();
 		particle->Update();
 		geo->Update();
+
 		if (!isStart)
 		{
 			CheckAllCollision();
@@ -300,6 +307,8 @@ void GamePlayScene::SpriteDraw() {
 	player->SpriteDraw();
 	stage->Draw();
 	ready->Draw();
+	sight->Draw();
+
 }
 
 void GamePlayScene::ObjDraw(){

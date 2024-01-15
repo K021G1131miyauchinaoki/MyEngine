@@ -66,6 +66,7 @@ void	Input::Update() {
 	oldMouse = mouse;
 	//最新のマウス情報の取得
 	hr = mouseDevice->GetDeviceState(sizeof(DIMOUSESTATE), &mouse);
+	ShowCursor(-1);
 	if (FAILED(hr))return;
 	POINT p;
 	GetCursorPos(&p);
