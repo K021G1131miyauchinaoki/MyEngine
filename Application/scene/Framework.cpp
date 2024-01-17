@@ -37,6 +37,7 @@ void Framework::Initialize(){
 	SpriteCommon::GetInstance()->Loadtexture(8,"stage/stage1.png");
 	SpriteCommon::GetInstance()->Loadtexture(9,"star.png");
 	SpriteCommon::GetInstance()->Loadtexture(10,"pushkey.png");
+	SpriteCommon::GetInstance()->Loadtexture(11,"memo.png");
 	//音
 	SoundManager::GetInstance()->Initialize();
 	SoundManager::GetInstance()->LoadWave("BGM/title.wav");

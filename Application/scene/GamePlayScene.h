@@ -105,6 +105,7 @@ private:
 	std::unique_ptr <Sprite>stage = nullptr;
 	std::unique_ptr <Sprite>ready = nullptr;
 	std::unique_ptr <Sprite>sight = nullptr;
+	std::unique_ptr <Sprite>memo = nullptr;
 	//objモデル
 	std::unique_ptr <Model> modelSkydome = nullptr;
 	std::unique_ptr <Model> cube = nullptr;

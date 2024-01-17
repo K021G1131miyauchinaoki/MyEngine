@@ -246,6 +246,13 @@ void GamePlayScene::Initialize() {
 	sight->Initialize(SpriteCommon::GetInstance(),6);
 	sight->SetAnchorPoint({ 0.5f,0.5f });
 
+	memo = std::make_unique<Sprite>();
+	memo->Initialize(SpriteCommon::GetInstance(),11);
+	memo->SetAnchorPoint({ 0.0f,1.0f });
+	//memo->SetSize({ 400.0f,600.0f });
+	memo->SetPosition({0.0f,( float ) WinApp::height });
+	memo->Update();
+
 	//音
 	SoundManager::GetInstance()->PlayWave("BGM/play.wav",0.2f,true);
 }
@@ -307,8 +314,8 @@ void GamePlayScene::SpriteDraw() {
 	player->SpriteDraw();
 	stage->Draw();
 	ready->Draw();
+	memo->Draw();
 	sight->Draw();
-
 }
 
 void GamePlayScene::ObjDraw(){
