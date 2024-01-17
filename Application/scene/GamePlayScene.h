@@ -67,6 +67,11 @@ public://メンバ関数
 	void StartStaging();
 
 	/// <summary>
+	/// 操作UIの表示
+	/// </summary>
+	void MemoDisplay();
+
+	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	GamePlayScene();
@@ -148,7 +153,12 @@ private:
 	const float waitTimer = 100;
 	float rPosStartY;
 	float sPosStartY;
+	float mPosStartX;
 	float rPosEndY;
 	float sPosEndY;
+	float mPosEndX;
+	//操作UIフラグ
+	bool isDisplay = false;
+	bool isSlide = false;
 };
 

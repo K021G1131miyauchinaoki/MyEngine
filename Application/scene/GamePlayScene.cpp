@@ -127,6 +127,17 @@ bool HitLine(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB)//aが直�
 }
 
 void GamePlayScene::Initialize() {
+	//変数
+	startCount = 0;
+	isStart = true;
+	spriteEaseTime = 0.0f;
+	spriteWaitTime = 0.0f;
+	rPosStartY=WinApp::height+150.0f;
+	sPosStartY=-100.0f;
+	mPosEndX = 0.0f;
+	mPosStartX = -200.0f;
+
+	//キー
 	input.reset(Input::GetInstance());
 	
 	//カメラ
@@ -221,37 +232,33 @@ void GamePlayScene::Initialize() {
 	map->LoadCSV("1");
 
 
-	startCount = 0;
-	isStart = true;
 
 	//スプライト
-	spriteEaseTime = 0.0f;
-	spriteWaitTime = 0.0f;
-	rPosStartY=WinApp::height+150.0f;
-	sPosStartY=-100.0f;
 	rPosEndY = (static_cast<float>( WinApp::height) / 2.0f ) + 50.0f;
 	sPosEndY= ( static_cast< float >( WinApp::height ) / 2.0f ) - 50.0f;
 
+	//準備
 	ready = std::make_unique<Sprite>();
 	ready->Initialize(SpriteCommon::GetInstance(),7);
 	ready->SetAnchorPoint({ 0.5f,0.5f });
 	ready->SetPosition({ WinApp::width / 2.0f,rPosStartY });
 
+	//ステージ
 	stage = std::make_unique<Sprite>();
 	stage->Initialize(SpriteCommon::GetInstance(),8);
 	stage->SetAnchorPoint({ 0.5f,0.5f });
 	stage->SetPosition({ 640.0f,sPosStartY });
 
+	//照準
 	sight = std::make_unique<Sprite>();
 	sight->Initialize(SpriteCommon::GetInstance(),6);
 	sight->SetAnchorPoint({ 0.5f,0.5f });
 
+	//操作UI
 	memo = std::make_unique<Sprite>();
 	memo->Initialize(SpriteCommon::GetInstance(),11);
 	memo->SetAnchorPoint({ 0.0f,1.0f });
-	//memo->SetSize({ 400.0f,600.0f });
-	memo->SetPosition({0.0f,( float ) WinApp::height });
-	memo->Update();
+	memo->SetPosition({ mPosStartX,( float ) WinApp::height });
 
 	//音
 	SoundManager::GetInstance()->PlayWave("BGM/play.wav",0.2f,true);
@@ -263,6 +270,7 @@ void GamePlayScene::Update(){
 	{
 		sight->SetPosition({ input->GetMausePos().x,input->GetMausePos().y });
 		sight->Update();
+		
 		camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
 		camera->SetEye(cameraPos);
 		camera->Update();
@@ -308,6 +316,7 @@ void GamePlayScene::Update(){
 		}
 	}
 	StartStaging();
+	MemoDisplay();
 }
 
 void GamePlayScene::SpriteDraw() {
@@ -713,8 +722,6 @@ void GamePlayScene::StartStaging() {
 	if ( startCount >= start::Go)
 	{
 		isStart = false;
-		spriteWaitTime = 0;
-		spriteEaseTime = 0;
 	}
 	if ( startCount== start::Redy )
 	{
@@ -723,28 +730,73 @@ void GamePlayScene::StartStaging() {
 		{
 			XMFLOAT2 readyPos = ready->GetPosition();
 			XMFLOAT2 stagePos = stage->GetPosition();
+			XMFLOAT2 memoPos = memo->GetPosition();
 
+			//イージングを一時的に止める
 			if ( spriteEaseTime == spriteEaseTimer )
 			{
 				spriteWaitTime++;
 			}
+			//イージング
 			if ( spriteWaitTime >= spriteWaitTimer || spriteWaitTime == 0.0f )
 			{
 				spriteEaseTime++;
+				readyPos.y = rPosStartY + ( rPosEndY - rPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+				stagePos.y = sPosStartY + ( sPosEndY - sPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+				if ( spriteEaseTime <= spriteEaseTimer )
+				{
+					memoPos.x = mPosStartX + ( mPosEndX - mPosStartX ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+				}
+				//スプライトが画面外にいく時間になったら
 				if ( spriteEaseTime == ( spriteEaseTimer * 2.0f ) )
 				{
 					startCount++;
+					spriteWaitTime = 0;
+					spriteEaseTime = spriteEaseTimer;
+					isDisplay = true;
 				}
-			}
-
-			readyPos.y = rPosStartY + ( rPosEndY - rPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
-			stagePos.y = sPosStartY + ( sPosEndY - sPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+			}			
 			ready->SetPosition(readyPos);
 			stage->SetPosition(stagePos);
+			memo->SetPosition(memoPos);
 		}
 	}
 	stage->Update();
 	ready->Update();
+	memo->Update();
+}
+
+void GamePlayScene::MemoDisplay()
+{
+	if ( !isStart )
+	{
+		XMFLOAT2 memoPos = memo->GetPosition();
+		//押したら
+		if ( input->TriggerKey(DIK_TAB) && !isSlide )
+		{
+			isDisplay ^= 1;
+			isSlide = true;
+		}
+
+		if ( isSlide )
+		{
+			if ( isDisplay )
+			{
+				spriteEaseTime++;
+			}
+			else
+			{
+				spriteEaseTime--;
+			}
+			memoPos.x = mPosStartX + ( mPosEndX - mPosStartX ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+			if ( spriteEaseTime> spriteEaseTimer||spriteEaseTime<0.0f)
+			{
+				isSlide = false;
+			}
+			memo->SetPosition(memoPos);
+			memo->Update();
+		}
+	}
 }
 
 void GamePlayScene::Finalize(){}
