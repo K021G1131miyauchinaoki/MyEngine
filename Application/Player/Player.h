@@ -137,7 +137,7 @@ private://メンバ変数
 	//半径
 	float radius = 5.0f;
 
-	const int16_t invincibleTime=11;
+	const int16_t invincibleTime=60;
 	int16_t invincibleTimer;
 
 	BaseHp hp;

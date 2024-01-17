@@ -136,7 +136,6 @@ void Player::Reset() {
 
 void Player::Update() {
 	const float half = 2.0f;
-	const int16_t zero = 0;
 	//タイトル演出
 	TitleStaging();
 	//ゲームプレイ
@@ -175,7 +174,7 @@ void Player::Update() {
 			{
 				invincibleTimer--;
 			}
-			if ( invincibleTimer < zero )
+			if ( invincibleTimer < 0 )
 			{
 				invincibleTimer = invincibleTime;
 				isInvincible = false;
@@ -200,7 +199,7 @@ void Player::ObjDraw() {
 	}
 
 	//プレイヤー
-	if (invincibleTimer%2==1)
+	if (invincibleTimer%3==0)
 	{
 		tankHad->Draw();
 		tankBody->Draw();
@@ -344,16 +343,19 @@ void Player::Rotate() {
 
 void Player::OnCollision() 
 {
+	//体力減少
+	if ( !isInvincible )
+	{
+		hp.value--;
+	}
+	if (hp.value<=0)
+	{
+		hp.isDead = true;
+	}
 	//点滅フラグ
 	if (!isInvincible)
 	{
 		isInvincible = true; 
-	}
-	//体力減少
-	hp.value--;
-	if (hp.value<=0)
-	{
-		hp.isDead = true;
 	}
 }
 
