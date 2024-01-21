@@ -42,7 +42,8 @@ public:
 	};
 
 	static int8_t playerHP;
-	
+	static int8_t stageNum;
+
 private:
 	//現在のシーン
 	BaseScene* scene = nullptr;

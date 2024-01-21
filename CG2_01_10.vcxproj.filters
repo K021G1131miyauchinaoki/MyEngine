@@ -179,6 +179,7 @@
     </ClCompile>
     <ClCompile Include="Application\particle\Orbit.cpp" />
     <ClCompile Include="Engine\3d\geometry\Geometry.cpp" />
+    <ClCompile Include="Application\scene\StageSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\Enemy.h">
@@ -327,6 +328,7 @@
     </ClInclude>
     <ClInclude Include="Application\particle\Orbit.h" />
     <ClInclude Include="Engine\3d\geometry\Geometry.h" />
+    <ClInclude Include="Application\scene\StageSelect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

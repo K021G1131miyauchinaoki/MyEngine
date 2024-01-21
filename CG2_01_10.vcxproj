@@ -163,6 +163,7 @@
     <ClCompile Include="Application\Bullet\Homing.cpp" />
     <ClCompile Include="Application\particle\Orbit.cpp" />
     <ClCompile Include="Engine\3d\geometry\Geometry.cpp" />
+    <ClCompile Include="Application\scene\StageSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -292,6 +293,7 @@
     <ClInclude Include="Application\particle\Smoke.h" />
     <ClInclude Include="Application\Enemy\ShotgunEnemy.h" />
     <ClInclude Include="Application\Block\Wall.h" />
+    <ClInclude Include="Application\scene\StageSelect.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CG2.rc" />

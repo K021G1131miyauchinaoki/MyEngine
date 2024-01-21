@@ -9,6 +9,7 @@
 
 int8_t SceneManager::sceneNum = SceneManager::title;
 int8_t SceneManager::playerHP = 3;
+int8_t SceneManager::stageNum = 0;
 
 SceneManager* SceneManager::GetInstance() {
 	static SceneManager instance;
