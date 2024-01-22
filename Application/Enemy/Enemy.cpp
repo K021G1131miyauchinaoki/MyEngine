@@ -53,7 +53,7 @@ void Enemy::Shot() {
 	//角度を格納
 	obj->SetRotation(rot);
 	//弾を生成
-	BaseEnemy::SetBulletParameter(rot,velocity,"homing");
+	BaseEnemy::SetBulletParameter(rot,velocity,"normal");
 	BaseEnemy::Shot();
 }
 

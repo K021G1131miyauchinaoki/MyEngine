@@ -55,6 +55,11 @@ public://メンバ関数
 	void Finalize()override;
 
 	/// <summary>
+	/// 当たり判定
+	/// </summary>
+	void CheckAllCollision();
+
+	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	StageSelect();

@@ -72,7 +72,7 @@ void BulletManager::PlayerBulletCreate(const Vector3& pos_,const Vector3& vec_,c
 void BulletManager::EnemyBulletCreate(const Vector3& pos_,const Vector3& vec_,const Vector3& rot_,const std::string type_){
 	// 弾生成
 	std::unique_ptr<EnemyBullet> newBullet;
-	if ( type_=="normale" )
+	if ( type_=="normal" )
 	{
 		newBullet = std::make_unique<EnemyBullet>();
 		newBullet->Initialize(enemyBulletModel.get(),pos_,vec_,rot_);

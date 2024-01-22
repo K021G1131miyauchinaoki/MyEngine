@@ -805,3 +805,16 @@ GamePlayScene::GamePlayScene() {}
 GamePlayScene::~GamePlayScene() {
 	Finalize();
 }
+
+void GamePlayScene::StageString()
+{
+	if ( SceneManager::stage==0 )
+	{
+		stageStr = "1";
+	}
+	else if ( SceneManager::stage == 1 )
+	{
+		stageStr = "1";
+	}
+
+}

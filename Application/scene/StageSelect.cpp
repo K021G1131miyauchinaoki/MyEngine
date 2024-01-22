@@ -8,6 +8,27 @@
 #include<Vector3.h>
 #include "StageSelect.h"
 
+//矩形（アンカーポイントが｛0.5,0.5｝の場合	
+bool CheckHit(XMFLOAT2 pos,XMFLOAT2 size,Vector2 mouse) {
+	float cl1 = pos.x - size.x;
+	float cr1 = pos.x + size.x;
+	float cl2 = mouse.x;
+
+	float cu1 = pos.y - size.y;
+	float cd1 = pos.y + size.y;
+	float cu2 = mouse.y;
+
+	if ( cl1<=cl2&& cr1>=cl2)
+	{
+		if ( cu1 <= cu2 && cd1 >= cu2 )
+		{
+			return true;
+		}
+	}
+
+	return	false;
+}
+
 void StageSelect::Initialize() {
 	waitTime = 0;
 	//スプライト
@@ -22,7 +43,7 @@ void StageSelect::Initialize() {
 		slide[i] = std::make_unique<Sprite>();
 		slide[i]->Initialize(SpriteCommon::GetInstance(),12);
 		slide[i]->SetAnchorPoint({ 0.5f,0.5f });
-		pos.x = ( slide[ i ]->GetTexSize().x / 2.0f ) + static_cast< float >( WinApp::width*i ) - ( slide[ i ]->GetTexSize().x * i );
+		pos.x = ( slide[ i ]->GetTexSize().x ) + static_cast< float >( WinApp::width*i ) - ( slide[ i ]->GetTexSize().x*2.0f * i );
 		pos.y = static_cast< float >( WinApp::height / 2 );
 		slide[i]->SetPosition(pos);
 		if ( i==1 )
@@ -74,6 +95,7 @@ void StageSelect::Initialize() {
 }
 
 void StageSelect::Update() {
+	CheckAllCollision();
 	selectSprite->Update();
 	camera->Update();
 	objSkydome->Update();
@@ -85,17 +107,6 @@ void StageSelect::Update() {
 	for ( int8_t i = 0; i < stageNum; i++ )
 	{
 		stage[ i ]->Update();
-	}
-	//キーを押したら
-	if ( input->TriggerKey(DIK_RETURN)
-		|| input->TriggerReleaseKey(DIK_SPACE)
-		|| input->TriggerReleaseClick(Botton::LEFT)
-		&& !SceneTransition::GetInstance()->GetIsFadeOut()
-		&& !SceneTransition::GetInstance()->GetIsFadeIn() )
-	{
-		SceneTransition::GetInstance()->IsFadeOutTrue();
-		BaseScene::DecisionSound();
-
 	}
 	if ( waitTime <= waitTimer )
 	{
@@ -120,10 +131,7 @@ void StageSelect::SpriteDraw() {
 		slide[ i ]->Draw();
 	}
 
-	for ( int8_t i = 0; i < stageNum; i++ )
-	{
-		stage[ i ]->Draw();
-	}
+	stage[ SceneManager::stage ]->Draw();
 }
 
 void StageSelect::ObjDraw() {
@@ -136,6 +144,62 @@ void StageSelect::GeometryDraw()
 }
 
 void StageSelect::Finalize() {}
+
+void StageSelect::CheckAllCollision()
+{
+	for ( int8_t i = 0; i < slideNum; i++ )
+	{
+		if ( CheckHit(slide[ i ]->GetPosition(),slide[ i ]->GetTexSize(),input->GetMausePos()))
+		{
+			XMFLOAT2 size = slide[ i ]->GetTexSize();
+			size.x *= scale;
+			size.y *= scale;
+			slide[ i ]->SetSize(size);
+			if ( input->TriggerReleaseClick(Botton::LEFT) )
+			{
+				//右矢印
+				if ( i == slideNum-1 && SceneManager::stage < stageNum - 1 )
+				{
+					SceneManager::stage++;
+					BaseScene::DecisionSound();
+				}
+				//左矢印
+				else if ( i ==0&& SceneManager::stage > 0 )
+				{
+					SceneManager::stage--;
+					BaseScene::DecisionSound();
+				}
+			}
+		}
+		else
+		{
+			slide[ i ]->SetSize(slide[i]->GetTexSize());
+		}
+	}
+	XMFLOAT2 pos,size;
+	pos.x = static_cast< float >( WinApp::width / 2 );
+	pos.y = static_cast< float >( WinApp::height / 2 );
+	size.x = 300.0f;
+	size.y = 200.0f;
+	if ( CheckHit(pos,	size,input->GetMausePos()) )
+	{
+		size = stage[ SceneManager::stage ]->GetTexSize();
+		size.x *= scale;
+		size.y *= scale;
+		stage[ SceneManager::stage ]->SetSize(size);
+		if ( input->TriggerReleaseClick(Botton::LEFT)
+		&& !SceneTransition::GetInstance()->GetIsFadeOut()
+		&& !SceneTransition::GetInstance()->GetIsFadeIn() )
+		{
+			SceneTransition::GetInstance()->IsFadeOutTrue();
+			BaseScene::DecisionSound();
+		}
+	}
+	else
+	{
+		stage[ SceneManager::stage ]->SetSize(stage[ SceneManager::stage ]->GetTexSize());
+	}
+}
 
 StageSelect::StageSelect() {}
 StageSelect::~StageSelect() {

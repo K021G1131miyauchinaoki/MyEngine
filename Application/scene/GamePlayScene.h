@@ -23,6 +23,7 @@
 #include"BlockManager.h"
 #include"BulletManager.h"
 #include<Geometry.h>
+#include<string>
 
 class GamePlayScene:public BaseScene
 {
@@ -92,6 +93,9 @@ public://メンバ関数
 		Go,
 	};
 
+	//ステージの文字列を取得
+	void StageString();
+	
 public:
 	//スタート演出のカウント
 	static int8_t startCount;
@@ -160,5 +164,7 @@ private:
 	//操作UIフラグ
 	bool isDisplay = false;
 	bool isSlide = false;
+	//ステージの文字列
+	std::string stageStr;
 };
 

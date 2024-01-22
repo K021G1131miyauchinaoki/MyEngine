@@ -42,7 +42,7 @@ public:
 	};
 
 	static int8_t playerHP;
-	static int8_t stageNum;
+	static int8_t stage;
 
 private:
 	//現在のシーン

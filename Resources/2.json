@@ -58,18 +58,18 @@
                     0.0
                 ],
                 "scaling": [
-                    100.0,
-                    100.0,
+                    110.0,
+                    110.0,
                     1.0
                 ]
             }
         },
         {
             "type": "MESH",
-            "name": "enemy",
+            "name": "enemy.001",
             "transform": {
                 "translation": [
-                    0.13582611083984375,
+                    -45.0,
                     45.0,
                     5.0
                 ],
@@ -77,6 +77,72 @@
                     0.0,
                     0.0,
                     -90.00000762939453
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "Shotgun"
+        },
+        {
+            "type": "MESH",
+            "name": "enemy",
+            "transform": {
+                "translation": [
+                    45.0,
+                    45.0,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    -90.00000762939453
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "Shotgun"
+        },
+        {
+            "type": "MESH",
+            "name": "enemy.002",
+            "transform": {
+                "translation": [
+                    -45.0,
+                    -45.0,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "Normal"
+        },
+        {
+            "type": "MESH",
+            "name": "enemy.003",
+            "transform": {
+                "translation": [
+                    45.0,
+                    -45.0,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
                 ],
                 "scaling": [
                     5.0,
@@ -239,6 +305,94 @@
                 ]
             },
             "file_name": "block"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube",
+            "transform": {
+                "translation": [
+                    50.0,
+                    20.0,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    -90.00000762939453
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "fixedgun"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.001",
+            "transform": {
+                "translation": [
+                    -50.0,
+                    20.0,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    -90.00000762939453
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "fixedgun"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.002",
+            "transform": {
+                "translation": [
+                    40.0,
+                    20.0,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "fixedgun"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.003",
+            "transform": {
+                "translation": [
+                    -40.0,
+                    20.0,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "fixedgun"
         }
     ]
 }
