@@ -127,6 +127,9 @@ bool HitLine(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB)//aが直�
 }
 
 void GamePlayScene::Initialize() {
+	//ステージ番号
+	StageString();
+
 	//変数
 	startCount = 0;
 	isStart = true;
@@ -134,7 +137,7 @@ void GamePlayScene::Initialize() {
 	spriteWaitTime = 0.0f;
 	rPosStartY=WinApp::height+150.0f;
 	sPosStartY=-100.0f;
-	mPosEndX = 0.0f;
+	mPosEndX = 50.0f;
 	mPosStartX = -200.0f;
 
 	//キー
@@ -186,7 +189,7 @@ void GamePlayScene::Initialize() {
 	bulletManager->Initialize(bullet.get(),player.get(),geo.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
-	jsonLoader.reset(LevelLoader::LoadJson("1"));
+	jsonLoader.reset(LevelLoader::LoadJson(stageStr));
 	models.insert(std::make_pair("Normal",tank.get()));
 	models.insert(std::make_pair("Shotgun",tank.get()));
 	models.insert(std::make_pair("block",wall.get()));
@@ -229,7 +232,7 @@ void GamePlayScene::Initialize() {
 	//マップ
 	map = std::make_unique<Map>();
 	map->Initialize(true);
-	map->LoadCSV("1");
+	map->LoadCSV(stageStr);
 
 
 
@@ -258,7 +261,7 @@ void GamePlayScene::Initialize() {
 	memo = std::make_unique<Sprite>();
 	memo->Initialize(SpriteCommon::GetInstance(),11);
 	memo->SetAnchorPoint({ 0.0f,1.0f });
-	memo->SetPosition({ mPosStartX,( float ) WinApp::height });
+	memo->SetPosition({ mPosStartX,( float ) WinApp::height-50.0f });
 
 	//音
 	SoundManager::GetInstance()->PlayWave("BGM/play.wav",0.2f,true);
@@ -808,13 +811,16 @@ GamePlayScene::~GamePlayScene() {
 
 void GamePlayScene::StageString()
 {
-	if ( SceneManager::stage==0 )
+	if ( SceneManager::stage == 0 )
 	{
 		stageStr = "1";
 	}
 	else if ( SceneManager::stage == 1 )
 	{
+		stageStr = "2";
+	}
+	else
+	{
 		stageStr = "1";
 	}
-
 }
