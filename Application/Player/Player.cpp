@@ -92,6 +92,7 @@ void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* pa
 	//角度
 	pStartRotZ = 0;
 	pEndRotZ = -90;
+	bodyRot = { 0.0f,-90.0f,0.0f };
 	//モデル
 	ModelCommonInitialeze(tankHadModel_,tankBodyModel_);
 
@@ -238,42 +239,17 @@ void Player::Move() {
 	//キーが押されたら
 	if (input->PushKey(DIK_W)) {
 		move.z += speed;
-		bodyRot = { 0.0f,-90.0f,0.0f };
 	}
 	if (input->PushKey(DIK_S)){
 		move.z += -speed;
-		bodyRot = { 0.0f,90.0f,0.0f };
 	}
 	if (input->PushKey(DIK_A)) {
 		move.x += -speed;
-		bodyRot = { 0.0f,180.0f,0.0f };
 	}
 	if (input->PushKey(DIK_D) ){
 		move.x += speed;
-		bodyRot = { 0.0f,0.0f,0.0f };
 	}
-	//斜め入力の場合のオブジェクトの角度
-	if ( input->PushKey(DIK_W) )
-	{
-		if ( input->PushKey(DIK_A) )
-		{
-			bodyRot = { 0.0f,-135.0f,0.0f };
-		}
-		else if ( input->PushKey(DIK_D) )
-		{
-			bodyRot = { 0.0f,-45.0f,0.0f };
-		}
-	}if ( input->PushKey(DIK_S) )
-	{
-		if ( input->PushKey(DIK_A) )
-		{
-			bodyRot = { 0.0f,135.0f,0.0f };
-		}
-		else if ( input->PushKey(DIK_D) )
-		{
-			bodyRot = { 0.0f,45.0f,0.0f };
-		}
-	}
+	
 	oldPos = tankHad->GetPosition();
 
 	
@@ -295,7 +271,6 @@ void Player::Move() {
 
 	tankHad->SetPosition(move);
 	tankBody->SetPosition(move);
-	tankBody->SetRotation(bodyRot);
 }
 
 void Player::Shot() {
@@ -335,10 +310,71 @@ void Player::Shot() {
 }
 
 void Player::Rotate() {
-	//頭の回転
+	//頭
 	Vector3 rot = { 0,MyMath::DegreeTransform(angle),0 };
 
 	tankHad->SetRotation(rot);
+	//胴
+	rot = { 0.0f,0.0f,0.0f };
+	if ( rotTime<rotTimer )
+	{
+		rotTime++;
+	}
+	//何かしらのキーが押された瞬間
+	if ( input->TriggerKey(DIK_W)||
+		 input->TriggerKey(DIK_A)||
+		 input->TriggerKey(DIK_S)||
+		 input->TriggerKey(DIK_D)||
+		 input->TriggerReleaseKey(DIK_W) ||
+		 input->TriggerReleaseKey(DIK_A) ||
+		 input->TriggerReleaseKey(DIK_S) ||
+		 input->TriggerReleaseKey(DIK_D) )
+	{
+		rotTime=0;
+	}
+	//キーが押されたら
+	if ( input->PushKey(DIK_W) )
+	{
+		bodyRot = { 0.0f,-90.0f,0.0f };
+	}
+	if ( input->PushKey(DIK_S) )
+	{
+		bodyRot = { 0.0f,90.0f,0.0f };
+	}
+	if ( input->PushKey(DIK_A) )
+	{
+		bodyRot = { 0.0f,180.0f,0.0f };
+	}
+	if ( input->PushKey(DIK_D) )
+	{
+		bodyRot = { 0.0f,0.0f,0.0f };
+	}
+	//斜め入力の場合のオブジェクトの角度
+	if ( input->PushKey(DIK_W) )
+	{
+		if ( input->PushKey(DIK_A) )
+		{
+			bodyRot = { 0.0f,-135.0f,0.0f };
+		}
+		else if ( input->PushKey(DIK_D) )
+		{
+			bodyRot = { 0.0f,-45.0f,0.0f };
+		}
+	}if ( input->PushKey(DIK_S) )
+	{
+		if ( input->PushKey(DIK_A) )
+		{
+			bodyRot = { 0.0f,135.0f,0.0f };
+		}
+		else if ( input->PushKey(DIK_D) )
+		{
+			bodyRot = { 0.0f,45.0f,0.0f };
+		}
+	}
+	rot = tankBody->GetRotation();
+	float t = rotTime / rotTimer;
+	rot.y = MyMath::LerpShortAngle(rot.y,bodyRot.y,t);
+	tankBody->SetRotation(rot);
 }
 
 void Player::OnCollision() 
@@ -545,8 +581,8 @@ void Player::StartStaging() {
 		parachutePos.y -= subtractY;
 	}
 	tankHad->SetPosition(pos);
-	tankHad->SetRotation({ 0.0f,-90.0f,0.0f });
+	tankHad->SetRotation(bodyRot);
 	tankBody->SetPosition(pos);
-	tankBody->SetRotation({ 0.0f,-90.0f,0.0f });
+	tankBody->SetRotation(bodyRot);
 	parachute->SetPosition(parachutePos);
 }

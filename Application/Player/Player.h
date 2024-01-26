@@ -130,6 +130,7 @@ private://メンバ変数
 	Vector3 tankPos;
 	Vector3 tankScale;
 	Vector3 bodyRot;
+	Vector3 oldBodyRot;
 	Vector3 parachutePos;
 	Vector3 velocity;
 	Vector2	mouseVec ;
@@ -160,5 +161,7 @@ private://メンバ変数
 	float pLeaveTime;
 	const	float pLeaveTimer=60;
 	float pPosX;
+	const float rotTimer = 10;
+	float rotTime;
 };
 
