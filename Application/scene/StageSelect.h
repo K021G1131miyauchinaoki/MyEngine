@@ -106,4 +106,5 @@ private:
 	int8_t flashTime;
 	const int8_t flashTimer = 45;
 	bool isFlash;
+
 };
