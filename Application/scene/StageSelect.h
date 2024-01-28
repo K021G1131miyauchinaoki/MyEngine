@@ -87,7 +87,7 @@ private:
 	std::unique_ptr<Sprite> selectSprite;
 	std::array< std::unique_ptr<Sprite>,slideNum> slide;
 	std::array< std::unique_ptr<Sprite>,stageNum> stage;
-
+	std::unique_ptr<Sprite> pushKey;
 	//次シーンまでのタイマー
 	int waitTime;
 	const int waitTimer = 20;
@@ -102,4 +102,8 @@ private:
 	//スプライトのサイズ
 	XMFLOAT2 slideSize;
 	XMFLOAT2 stageSize;
+	//点滅
+	int8_t flashTime;
+	const int8_t flashTimer = 45;
+	bool isFlash;
 };
