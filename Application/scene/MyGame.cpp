@@ -24,7 +24,7 @@ void MyGame::Initialize() {
 void MyGame::Update(){
 	//imgui関連
 	ImguiManager::GetInstance()->Begin();
-	SceneTransition::GetInstance()->Updata();
+	SceneTransition::GetInstance()->Update();
 	Framework::Update();
 	//------------------------------
 	SceneManager::GetInstance()->Update();

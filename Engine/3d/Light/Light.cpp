@@ -81,7 +81,7 @@ void Light::SetLightColor(const DirectX::XMFLOAT3& lightcolor_) {
 	dirty = true;
 }
 
-void Light::Updata(){
+void Light::Update(){
 	if ( dirty )
 	{
 		TransferConstBuffer();

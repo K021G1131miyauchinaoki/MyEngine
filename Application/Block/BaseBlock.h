@@ -11,7 +11,7 @@ public:
 	//初期化
 	virtual void Initialize(const Vector3& pos_,const Vector3& rot_,const Vector3& scale_,Model* model_);
 	//更新
-	virtual void Updata();
+	virtual void Update();
 	//描画
 	virtual void Draw();
 	//パラメータのセット

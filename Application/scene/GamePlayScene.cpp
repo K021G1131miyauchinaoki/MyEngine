@@ -152,7 +152,7 @@ void GamePlayScene::Initialize() {
 	light.reset(Light::Create());
 	light->SetLightColor({ 1.0f,1.0f,1.0f });
 	light->SetLightDir(lightDir);
-	light->Updata();
+	light->Update();
 	Object3d::SetLight(light.get());
 
 	//ジオメトリ

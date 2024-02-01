@@ -12,7 +12,7 @@ void BaseBlock::Initialize(const Vector3& pos_,const Vector3& rot_,const Vector3
 	obj->Update();
 }
 
-void BaseBlock::Updata() {
+void BaseBlock::Update() {
 	obj->Update();
 }
 

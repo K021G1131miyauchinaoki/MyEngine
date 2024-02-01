@@ -40,7 +40,7 @@ void Map::Initialize(bool isStaging_) {
 	posEndY =  -(scaleEnd.y );
 	//回転
 	rotEndZ = 0;
-	rotStartZ=360*2;
+	rotStartZ=720;
 	isStaging = isStaging_;
 	provisionTime = provisionTimer;
 	change = false;
@@ -55,7 +55,7 @@ void Map::Update() {
 		for (size_t j = 0; j < width; j++)
 		{
 			Staging(i, j);
-			blocks[i][j].Updata();
+			blocks[i][j].Update();
 		}
 	}
 }

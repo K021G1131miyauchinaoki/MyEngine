@@ -55,7 +55,7 @@ namespace MyEngin
 		/// <summary>
 		/// 更新
 		/// </summary>
-		void Updata();
+		void Update();
 
 		/// <summary>
 		/// 描画

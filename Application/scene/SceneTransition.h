@@ -19,7 +19,7 @@ public://メンバ関数
 	/// <param name="isScaling_">拡縮フラグ</param>
 	//void Reset(bool isScaling_);
 	//更新
-	void Updata();
+	void Update();
 	//描画
 	void Draw();
 	//演出をtrueにする

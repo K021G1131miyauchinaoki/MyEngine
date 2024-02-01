@@ -10,7 +10,7 @@ void BlockManager::Update()
 {
 	for (std::unique_ptr<BaseBlock>&block:blocks)
 	{
-		block->Updata();
+		block->Update();
 	}
 }
 

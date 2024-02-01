@@ -120,6 +120,10 @@ void BaseEnemy::Move() {
 		len = playerPos - pos;
 		//長さを算出
 		float lenght = MyMath::Length(len);
+		//判定用長さ
+		float lenPoint = 40.0f;
+
+		//向きに対してプラスする角度
 		float shift = 60.0f;
 		rot = { 0.0f,0.0f,0.0f };
 		#pragma region 乱数
@@ -131,12 +135,7 @@ void BaseEnemy::Move() {
 		//値を正規化
 		len = MyMath::normaleizeVec3(len);
 		float criteriaRot = MyMath::DegreeTransform(( atan2(len.z,len.x) ));
-		if ( lenght > 100.0f )
-		{
-			criteriaRot = 0.0f;
-			shift = 0.0f;
-		}
-		else if ( lenght < 20.0f )
+		if ( lenght < lenPoint )
 		{
 			criteriaRot = -MyMath::DegreeTransform(( atan2(len.z,len.x) ));
 		}
@@ -321,11 +320,13 @@ void BaseEnemy::SetBulletParameter(Vector3 rot_,Vector3 velocity_,std::string ty
 	Vector3 pos = obj->GetPosition();
 	//弾の発射位置の調整
 	float radian = -MyMath::RadianTransform(rot_.y);
+	//調整
+	float adjustment = 2.0f;
 	//x半径
-	float r = obj->GetScale().x * 2.0f;
+	float r = obj->GetScale().x * adjustment;
 	pos.x = obj->GetPosition().x + std::cos(radian) * r;
 	//z半径
-	r = obj->GetScale().z * 2.0f;
+	r = obj->GetScale().z * adjustment;
 	pos.z = obj->GetPosition().z + std::sin(radian) * r;
 	bulletManager->EnemyBulletCreate(pos,velocity_,rot_,type_);
 

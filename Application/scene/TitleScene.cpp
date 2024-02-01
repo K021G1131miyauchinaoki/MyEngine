@@ -144,7 +144,7 @@ void TitleScene::Update() {
 	//暗転
 	
 	BlackOutStaging();
-	light->Updata();
+	light->Update();
 	titleSprite->Update();
 	blackOutSprite->Update();
 	pushKey->Update();

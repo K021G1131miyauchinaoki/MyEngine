@@ -21,7 +21,7 @@ void SceneTransition::Initialize(){
 	transSprite->SetAnchorPoint(XMFLOAT2{ 0.0f,0.0f });
 }
 
-void SceneTransition::Updata() {
+void SceneTransition::Update() {
 	const float min = 0.0f;
 	const float max = 1.0f;
 	if ( isFadeOut )

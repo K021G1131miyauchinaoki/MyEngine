@@ -23,9 +23,9 @@ void Fixedgun::Initialize(const Vector3& pos_,const Vector3& rot_,const Vector3&
 	pos.z = GetPos().z + std::sin(radian) * ( scale_.z + 2.0f );
 }
 
-void Fixedgun::Updata() {
+void Fixedgun::Update() {
 	BaseBlock::Staging();
-	BaseBlock::Updata();
+	BaseBlock::Update();
 	if ( !GamePlayScene::isStart )
 	{
 		waitTime++;
