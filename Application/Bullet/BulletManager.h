@@ -80,7 +80,9 @@ private:
 	//パーティクル
 	Geometry* geometry;
 
-	/*float popTime;
-	float popTime;*/
+	XMFLOAT4 startColor,endColor;
+	XMFLOAT3 pos,vec,accel;
+	int8_t life = 20;
+	float startScale,endScale;
 };
 

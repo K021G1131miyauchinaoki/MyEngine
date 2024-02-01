@@ -8,20 +8,16 @@ void BulletManager::Initialize(Model* model_,Player*player_,Geometry* geometry_)
 	enemyBulletModel.reset(model_);
 	player = player_;
 	geometry = geometry_;
-}
-
-void BulletManager::Update() {
-	XMFLOAT4 startColor,endColor;
 	startColor = { 1,1,1,1 };
 	endColor = { 1,1,1,0 };
-	XMFLOAT3 pos,vec,accel;
 	pos = { 0.0f,0.0f,0.0f };
 	vec = { 0.0f,0.0f,0.0f };
 	accel = { 0.0f,0.0f,0.0f };
-	float startScale,endScale;
-	int8_t life = 20;
 	startScale = 2.5f;
 	endScale = 1.0f;
+}
+
+void BulletManager::Update() {
 	//要素の削除
 	enemyBullets.remove_if([ ] (std::unique_ptr<EnemyBullet>& enemyBullet)
 		{

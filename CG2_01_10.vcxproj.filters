@@ -162,11 +162,9 @@
     <ClCompile Include="Engine\3d\Light\Light.cpp" />
     <ClCompile Include="Application\scene\SceneTransition.cpp" />
     <ClCompile Include="Application\particle\Smoke.cpp" />
-    <ClCompile Include="Application\Enemy\BaseEnemy.cpp" />
     <ClCompile Include="Application\Enemy\ShotgunEnemy.cpp" />
     <ClCompile Include="Application\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Application\Bullet\BulletManager.cpp" />
-    <ClCompile Include="Application\Block\BlockManager.cpp" />
     <ClCompile Include="Application\Bullet\Homing.cpp" />
     <ClCompile Include="Application\Block\BaseBlock.cpp">
       <Filter>ソースファイル\Application\Block</Filter>
@@ -180,6 +178,12 @@
     <ClCompile Include="Application\particle\Orbit.cpp" />
     <ClCompile Include="Engine\3d\geometry\Geometry.cpp" />
     <ClCompile Include="Application\scene\StageSelect.cpp" />
+    <ClCompile Include="Application\Enemy\BaseEnemy.cpp">
+      <Filter>ソースファイル\Application\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Block\BlockManager.cpp">
+      <Filter>ソースファイル\Application\Block</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\Enemy.h">
@@ -311,24 +315,28 @@
     <ClInclude Include="Engine\3d\Light\Light.h" />
     <ClInclude Include="Application\scene\SceneTransition.h" />
     <ClInclude Include="Application\particle\Smoke.h" />
-    <ClInclude Include="Application\Enemy\BaseEnemy.h" />
     <ClInclude Include="Application\Enemy\ShotgunEnemy.h" />
     <ClInclude Include="Application\Enemy\EnemyManager.h" />
     <ClInclude Include="Application\Bullet\BulletManager.h" />
-    <ClInclude Include="Application\Block\BlockManager.h" />
     <ClInclude Include="Application\Bullet\Homing.h" />
-    <ClInclude Include="Application\Block\BaseBlock.h">
-      <Filter>ソースファイル\Application\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Block\Fixedgun.h">
-      <Filter>ソースファイル\Application\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Block\Wall.h">
-      <Filter>ソースファイル\Application\Block</Filter>
-    </ClInclude>
     <ClInclude Include="Application\particle\Orbit.h" />
     <ClInclude Include="Engine\3d\geometry\Geometry.h" />
     <ClInclude Include="Application\scene\StageSelect.h" />
+    <ClInclude Include="Application\Enemy\BaseEnemy.h">
+      <Filter>ヘッダーファイル\Application\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Block\BaseBlock.h">
+      <Filter>ヘッダーファイル\Application\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Block\BlockManager.h">
+      <Filter>ヘッダーファイル\Application\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Block\Fixedgun.h">
+      <Filter>ヘッダーファイル\Application\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Block\Wall.h">
+      <Filter>ヘッダーファイル\Application\Block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
@@ -499,6 +507,9 @@
     </Filter>
     <Filter Include="ソースファイル\Application\Block">
       <UniqueIdentifier>{41edeabf-1903-471e-925b-8f6b79c903c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Application\Block">
+      <UniqueIdentifier>{3c5cbbf2-5bcf-42c6-b301-090ea93ab86c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
