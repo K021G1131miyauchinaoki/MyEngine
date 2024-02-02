@@ -14,7 +14,7 @@
 class Player;
 namespace MyEngin
 {
-	class Geometry;
+	class BillboardParticle;
 }
 
 using namespace MyEngin;
@@ -24,7 +24,7 @@ public:
 	/// <summary>
 	///　初期化
 	/// </summary>
-	void Initialize(Model*model_,Player*player_,Geometry* geometry_);
+	void Initialize(Model*model_,Player*player_,BillboardParticle* geometry_);
 
 	/// <summary>
 	/// 弾の更新
@@ -78,7 +78,7 @@ private:
 	Player* player;
 
 	//パーティクル
-	Geometry* geometry;
+	BillboardParticle* billParticle;
 
 	XMFLOAT4 startColor,endColor;
 	XMFLOAT3 pos,vec,accel;

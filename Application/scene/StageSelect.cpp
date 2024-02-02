@@ -71,7 +71,7 @@ void StageSelect::Initialize() {
 	camera->Initialeze();
 	camera->SetEye({ 0.0f, 0.0f,-10.0f });
 	Object3d::SetCamera(camera.get());
-	Geometry::SetCamera(camera.get());
+	BillboardParticle::SetCamera(camera.get());
 	//ライト
 	light.reset(Light::Create());
 	light->SetLightColor({ 1.0f,1.0f,1.0f });

@@ -3,10 +3,10 @@
  * @brief 継承用パーティクルの基盤
  */
 
-#include "BaseParticle.h"
+#include "BaseModelParticle.h"
 #include<cassert>
 
-void BaseParticle::Initialize(Model* model_,int32_t life_,Vector3 position_,float startScale_,float endScale_,Vector3 color_) {
+void BaseModelParticle::Initialize(Model* model_,int32_t life_,Vector3 position_,float startScale_,float endScale_,Vector3 color_) {
 	assert(model_);
 	pos = position_;
 	rot = {0.0f,0.0f,0.0f};
@@ -23,7 +23,7 @@ void BaseParticle::Initialize(Model* model_,int32_t life_,Vector3 position_,floa
 	obj->SetColor({ color.x,color.y, color.z, 1.0f });
 }
 
-void BaseParticle::Update(){
+void BaseModelParticle::Update(){
 	if ( stratFrame >= endFrame )
 	{
 		isDead = true;
@@ -32,4 +32,4 @@ void BaseParticle::Update(){
 	obj->Update();
 }
 
-void BaseParticle::Draw(){}
+void BaseModelParticle::Draw(){}

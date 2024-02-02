@@ -11,7 +11,7 @@ Explosion::~Explosion() {}
 
 void Explosion::Initialize(Model* model_,int32_t life_,Vector3 position_,float startScale_,float endScale_,Vector3 color_) {
 
-	BaseParticle::Initialize(model_,life_,position_,startScale_,endScale_,color_);
+	BaseModelParticle::Initialize(model_,life_,position_,startScale_,endScale_,color_);
 #pragma region 乱数
 	//xyzをランダムに分布
 	Vector3 position = { 0,0,0 };
@@ -52,7 +52,7 @@ void Explosion::Update() {
 
 	obj->SetPosition(pos);
 	obj->SetScale({ scale, scale, scale });
-	BaseParticle::Update();
+	BaseModelParticle::Update();
 }
 
 void Explosion::Draw() {

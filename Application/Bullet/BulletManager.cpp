@@ -1,13 +1,12 @@
 #include "BulletManager.h"
 #include"Homing.h"
-#include"ParticleManager.h"
-#include<Geometry.h>
+#include<BillboardParticle.h>
 
-void BulletManager::Initialize(Model* model_,Player*player_,Geometry* geometry_) {
+void BulletManager::Initialize(Model* model_,Player*player_,BillboardParticle* geometry_) {
 	playerBulletModel.reset(model_);
 	enemyBulletModel.reset(model_);
 	player = player_;
-	geometry = geometry_;
+	billParticle = geometry_;
 	startColor = { 1,1,1,1 };
 	endColor = { 1,1,1,0 };
 	pos = { 0.0f,0.0f,0.0f };
@@ -33,7 +32,7 @@ void BulletManager::Update() {
 		playerBullet->Update();
 		endColor = { 0.0f,1.0f,0.0f,0.0f };
 		pos = { playerBullet->GetPos().x,playerBullet->GetPos().y,playerBullet->GetPos().z };
-		geometry->Add(life,pos,vec,accel,startScale,endScale,startColor,endColor);
+		billParticle->Add(life,pos,vec,accel,startScale,endScale,startColor,endColor);
 	}
 
 	for ( std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets )
@@ -41,7 +40,7 @@ void BulletManager::Update() {
 		enemyBullet->Update();
 		endColor = { 1.0f,0.0f,0.0f,0.0f };                  
 		pos = { enemyBullet->GetPos().x,enemyBullet->GetPos().y,enemyBullet->GetPos().z };
-		geometry->Add(life,pos,vec,accel,startScale,endScale,startColor,endColor);
+		billParticle->Add(life,pos,vec,accel,startScale,endScale,startColor,endColor);
 	}
 }
 

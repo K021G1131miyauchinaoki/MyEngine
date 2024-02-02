@@ -16,13 +16,13 @@
 #include<Enemy.h>
 #include<Map.h>
 #include<BaseScene.h>
-#include<ParticleManager.h>
+#include<ModelParticleManager.h>
 #include<LevelLoader.h>
 #include<list>
 #include "EnemyManager.h"
 #include"BlockManager.h"
 #include"BulletManager.h"
-#include<Geometry.h>
+#include<BillboardParticle.h>
 #include<string>
 
 class GamePlayScene:public BaseScene
@@ -127,7 +127,7 @@ private:
 	std::unique_ptr <Model> wall = nullptr;
 	std::unique_ptr <Model> bullet = nullptr;
 	//ジオメトリ
-	std::unique_ptr <Geometry> geo = nullptr;
+	std::unique_ptr <BillboardParticle> geo = nullptr;
 	//天球
 	std::unique_ptr <Object3d> objSkydome = nullptr;
 	//プレイヤー
@@ -146,7 +146,7 @@ private:
 
 	std::unique_ptr<ImguiManager> ImgM;
 	//パーティクルマネージャー
-	std::unique_ptr<ParticleManager> particle;
+	std::unique_ptr<ModelParticleManager> particle;
 
 	//スプライトイージング
 	float spriteEaseTime;

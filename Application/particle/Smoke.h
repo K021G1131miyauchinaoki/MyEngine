@@ -6,9 +6,9 @@
 #include<Object3d.h>
 #include<Model.h>
 #include<Vector3.h>
-#include<BaseParticle.h>
+#include<BaseModelParticle.h>
 #include<memory>
-class Smoke :public BaseParticle
+class Smoke :public BaseModelParticle
 {
 public:
 	/// <summary>

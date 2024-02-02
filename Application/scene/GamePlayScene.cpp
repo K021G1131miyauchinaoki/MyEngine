@@ -156,7 +156,7 @@ void GamePlayScene::Initialize() {
 	Object3d::SetLight(light.get());
 
 	//ジオメトリ
-	geo.reset(Geometry::Create());
+	geo.reset(BillboardParticle::Create());
 	geo->SetCamera(camera.get());
 	// モデル読み込み
 	modelSkydome.reset(Model::LoadFromOBJ("skydome",true));
@@ -171,7 +171,7 @@ void GamePlayScene::Initialize() {
 	bullet.reset(Model::LoadFromOBJ("bullet"));
 
 	//パーティクル
-	particle = std::make_unique <ParticleManager>();
+	particle = std::make_unique <ModelParticleManager>();
 	particle->Initialize(cube.get());
 
 	//弾マネージャー

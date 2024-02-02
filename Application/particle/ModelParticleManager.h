@@ -1,17 +1,17 @@
 /**
- * @file ParticleManager.h
+ * @file ModelParticleManager.h
  * @brief パーティクルのマネージャー
  */
 
 #pragma once
-#include"BaseParticle.h"
+#include"BaseModelParticle.h"
 #include<list>
 #include<memory>
 #include<Vector3.h>
 #include<forward_list>
 using namespace MyEngin;
 
-class ParticleManager
+class ModelParticleManager
 {
 public:
 	/// <summary>
@@ -35,7 +35,7 @@ public:
 	void Add(const std::string& name_, int amount_, int32_t life_, Vector3	position_,float startScale_, float endScale_,Vector3 color_={1.0f,1.0f,1.0f});
 
 private:
-	std::forward_list<std::unique_ptr<BaseParticle>>particles;
+	std::forward_list<std::unique_ptr<BaseModelParticle>>particles;
 	std::unique_ptr <Model>model;
 };
 

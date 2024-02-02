@@ -43,9 +43,9 @@ void MyGame::Draw(){
 	Object3d::PostDraw();
 
 	//ジオメトリ
-	Geometry::PreDraw(dxCommon->GetCommandList());
+	BillboardParticle::PreDraw(dxCommon->GetCommandList());
 	SceneManager::GetInstance()->GeometryDraw();
-	Geometry::PostDraw();
+	BillboardParticle::PostDraw();
 
 	//スプライト描画
 	SpriteCommon::GetInstance()->PreDraw();

@@ -22,7 +22,7 @@ void Framework::Initialize(){
 	//デバイスをセット
 	Object3d::StaticInitialize(dxCommon->GetDevice());
 	Light::StaticInitialize(dxCommon->GetDevice());
-	Geometry::StaticInitialize(dxCommon->GetDevice());
+	BillboardParticle::StaticInitialize(dxCommon->GetDevice());
 	//ポストエフェクト
 	PostEffect::StaticInitialize(dxCommon.get());
 	//スプライトコモン

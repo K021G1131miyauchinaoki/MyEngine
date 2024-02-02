@@ -16,8 +16,8 @@
 #include<Map.h>
 #include<BaseScene.h>
 #include<Object3d.h>
-#include<ParticleManager.h>
-#include<Geometry.h>
+#include<ModelParticleManager.h>
+#include<BillboardParticle.h>
 #include<Vector2.h>
 #include<array>
 

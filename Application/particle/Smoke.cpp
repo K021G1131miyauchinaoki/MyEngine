@@ -8,7 +8,7 @@
 #include<Easing.h>
 
 void Smoke::Initialize(Model* model_,int32_t life_,Vector3 position_,float startScale_,float endScale_,Vector3 color_) {
-	BaseParticle::Initialize(model_,life_,position_,startScale_,endScale_,color_);
+	BaseModelParticle::Initialize(model_,life_,position_,startScale_,endScale_,color_);
 
 	colorStart = 0.1f;
 	colorEnd=0.8f;
@@ -68,7 +68,7 @@ void Smoke::Update() {
 	obj->SetPosition(pos);
 	obj->SetScale({ scale, scale, scale });
 	obj->SetColor({ colorStart,colorStart,colorStart,alpha });
-	BaseParticle::Update();
+	BaseModelParticle::Update();
 }
 
 void Smoke::Draw() {

@@ -46,12 +46,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)External\imgui;$(ProjectDir)External\DirectXTex\inc;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)External\nlohmann-json\single_include;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\2D;$(ProjectDir)\Engine\3D\Camera;$(ProjectDir)\Engine\3D\Fbx;$(ProjectDir)\Engine\3D\Model;$(ProjectDir)\Engine\Audio;$(ProjectDir)\Engine\Base\DirectXCommon;$(ProjectDir)\Engine\Base\Input;$(ProjectDir)\Engine\Base\WinApp;$(ProjectDir)\Engine\Editor;$(ProjectDir)\Engine\Imgui;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\Easing;$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Particle;$(ProjectDir)\Engine\Base\Scene;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\Player;$(ProjectDir)\Engine\3D\Light;$(ProjectDir)\Engine\3d\geometry</IncludePath>
+    <IncludePath>$(SolutionDir)External\imgui;$(ProjectDir)External\DirectXTex\inc;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)External\nlohmann-json\single_include;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\2D;$(ProjectDir)\Engine\3D\Camera;$(ProjectDir)\Engine\3D\Fbx;$(ProjectDir)\Engine\3D\Model;$(ProjectDir)\Engine\Audio;$(ProjectDir)\Engine\Base\DirectXCommon;$(ProjectDir)\Engine\Base\Input;$(ProjectDir)\Engine\Base\WinApp;$(ProjectDir)\Engine\Editor;$(ProjectDir)\Engine\Imgui;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\Easing;$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Particle;$(ProjectDir)\Engine\Base\Scene;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\Player;$(ProjectDir)\Engine\3D\Light;$(ProjectDir)\Engine\3d\Billboard</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)External\imgui;$(ProjectDir)External\DirectXTex\inc;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)External\nlohmann-json\single_include;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\2D;$(ProjectDir)\Engine\3D\Camera;$(ProjectDir)\Engine\3D\Fbx;$(ProjectDir)\Engine\3D\Model;$(ProjectDir)\Engine\Audio;$(ProjectDir)\Engine\Base\DirectXCommon;$(ProjectDir)\Engine\Base\Input;$(ProjectDir)\Engine\Base\WinApp;$(ProjectDir)\Engine\Editor;$(ProjectDir)\Engine\Imgui;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\Easing;$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Particle;$(ProjectDir)\Engine\Base\Scene;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\Player;$(ProjectDir)\Engine\3D\Light;$(ProjectDir)\Engine\3d\geometry</IncludePath>
+    <IncludePath>$(SolutionDir)External\imgui;$(ProjectDir)External\DirectXTex\inc;$(WindowsSDK_IncludePath);$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)External\nlohmann-json\single_include;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\2D;$(ProjectDir)\Engine\3D\Camera;$(ProjectDir)\Engine\3D\Fbx;$(ProjectDir)\Engine\3D\Model;$(ProjectDir)\Engine\Audio;$(ProjectDir)\Engine\Base\DirectXCommon;$(ProjectDir)\Engine\Base\Input;$(ProjectDir)\Engine\Base\WinApp;$(ProjectDir)\Engine\Editor;$(ProjectDir)\Engine\Imgui;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\Easing;$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Particle;$(ProjectDir)\Engine\Base\Scene;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\Player;$(ProjectDir)\Engine\3D\Light;$(ProjectDir)\Engine\3d\Billboard</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -118,7 +118,7 @@
     <ClCompile Include="Application\Bullet\Bullet.cpp" />
     <ClCompile Include="Application\Bullet\EnemyBullet.cpp" />
     <ClCompile Include="Engine\base\scene\BaseScene.cpp" />
-    <ClCompile Include="Application\particle\BaseParticle.cpp" />
+    <ClCompile Include="Application\particle\BaseModelParticle.cpp" />
     <ClCompile Include="Engine\easing\Easing.cpp" />
     <ClCompile Include="Engine\3d\camera\Camera.cpp" />
     <ClCompile Include="Engine\3d\model\Object3d.cpp" />
@@ -132,7 +132,7 @@
     <ClCompile Include="Engine\base\input\Input.cpp" />
     <ClCompile Include="Engine\editor\LevelLoader.cpp" />
     <ClCompile Include="Application\main.cpp" />
-    <ClCompile Include="Application\particle\ParticleManager.cpp" />
+    <ClCompile Include="Application\particle\ModelParticleManager.cpp" />
     <ClCompile Include="Engine\audio\SoundManager.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
     <ClCompile Include="Engine\2d\SpriteCommon.cpp" />
@@ -161,8 +161,7 @@
     <ClCompile Include="Application\Block\Fixedgun.cpp" />
     <ClCompile Include="Application\Block\Wall.cpp" />
     <ClCompile Include="Application\Bullet\Homing.cpp" />
-    <ClCompile Include="Application\particle\Orbit.cpp" />
-    <ClCompile Include="Engine\3d\geometry\Geometry.cpp" />
+    <ClCompile Include="Engine\3d\Billboard\BillboardParticle.cpp" />
     <ClCompile Include="Application\scene\StageSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -248,7 +247,7 @@
     <ClInclude Include="Application\Bullet\EnemyBullet.h" />
     <ClInclude Include="Engine\base\scene\BaseScene.h" />
     <ClInclude Include="Application\struct\BaseHp.h" />
-    <ClInclude Include="Application\particle\BaseParticle.h" />
+    <ClInclude Include="Application\particle\BaseModelParticle.h" />
     <ClInclude Include="Engine\easing\Easing.h" />
     <ClInclude Include="Engine\3d\camera\Camera.h" />
     <ClInclude Include="Engine\3d\model\Object3d.h" />
@@ -261,7 +260,7 @@
     <ClInclude Include="Engine\imgui\ImguiManager.h" />
     <ClInclude Include="Engine\base\input\Input.h" />
     <ClInclude Include="Engine\editor\LevelLoader.h" />
-    <ClInclude Include="Application\particle\ParticleManager.h" />
+    <ClInclude Include="Application\particle\ModelParticleManager.h" />
     <ClInclude Include="Engine\3d\model\Model.h" />
     <ClInclude Include="Application\Player\Player.h" />
     <ClInclude Include="Engine\2d\PostEffect.h" />
@@ -279,8 +278,7 @@
     <ClInclude Include="Engine\3d\Light\Light.h" />
     <ClInclude Include="Application\Block\Fixedgun.h" />
     <ClInclude Include="Application\Bullet\Homing.h" />
-    <ClInclude Include="Application\particle\Orbit.h" />
-    <ClInclude Include="Engine\3d\geometry\Geometry.h" />
+    <ClInclude Include="Engine\3d\Billboard\BillboardParticle.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Engine\audio\SoundManager.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />

@@ -120,7 +120,7 @@
     <ClCompile Include="Application\Map\Map.cpp">
       <Filter>ソースファイル\Application\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Application\particle\ParticleManager.cpp">
+    <ClCompile Include="Application\particle\ModelParticleManager.cpp">
       <Filter>ソースファイル\Application\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Application\scene\GameClear.cpp">
@@ -144,7 +144,7 @@
     <ClCompile Include="Application\scene\TitleScene.cpp">
       <Filter>ソースファイル\Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\particle\BaseParticle.cpp">
+    <ClCompile Include="Application\particle\BaseModelParticle.cpp">
       <Filter>ソースファイル\Application\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Engine\2d\PostEffect.cpp">
@@ -175,8 +175,7 @@
     <ClCompile Include="Application\Block\Wall.cpp">
       <Filter>ソースファイル\Application\Block</Filter>
     </ClCompile>
-    <ClCompile Include="Application\particle\Orbit.cpp" />
-    <ClCompile Include="Engine\3d\geometry\Geometry.cpp" />
+    <ClCompile Include="Engine\3d\Billboard\BillboardParticle.cpp" />
     <ClCompile Include="Application\scene\StageSelect.cpp" />
     <ClCompile Include="Application\Enemy\BaseEnemy.cpp">
       <Filter>ソースファイル\Application\Enemy</Filter>
@@ -225,13 +224,13 @@
     <ClInclude Include="Application\Player\Player.h">
       <Filter>ヘッダーファイル\Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Application\particle\BaseParticle.h">
+    <ClInclude Include="Application\particle\BaseModelParticle.h">
       <Filter>ヘッダーファイル\Application\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Application\particle\Explosion.h">
       <Filter>ヘッダーファイル\Application\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Application\particle\ParticleManager.h">
+    <ClInclude Include="Application\particle\ModelParticleManager.h">
       <Filter>ヘッダーファイル\Application\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\2d\PostEffect.h">
@@ -319,8 +318,7 @@
     <ClInclude Include="Application\Enemy\EnemyManager.h" />
     <ClInclude Include="Application\Bullet\BulletManager.h" />
     <ClInclude Include="Application\Bullet\Homing.h" />
-    <ClInclude Include="Application\particle\Orbit.h" />
-    <ClInclude Include="Engine\3d\geometry\Geometry.h" />
+    <ClInclude Include="Engine\3d\Billboard\BillboardParticle.h" />
     <ClInclude Include="Application\scene\StageSelect.h" />
     <ClInclude Include="Application\Enemy\BaseEnemy.h">
       <Filter>ヘッダーファイル\Application\Enemy</Filter>

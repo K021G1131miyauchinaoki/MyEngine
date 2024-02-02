@@ -9,7 +9,7 @@
 #include<Vector3.h>
 using namespace MyEngin;
 
-class BaseParticle
+class BaseModelParticle
 {
 public:
 	/// <summary>

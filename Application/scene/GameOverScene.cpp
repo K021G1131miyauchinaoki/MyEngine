@@ -29,7 +29,7 @@ void GameOverScene::Initialize() {
 	camera->Initialeze();
 	camera->SetEye({ 10.0f, 4.0f,-10.0f });
 	Object3d::SetCamera(camera.get());
-	Geometry::SetCamera(camera.get());
+	BillboardParticle::SetCamera(camera.get());
 	//ライト
 	light.reset(Light::Create());
 	light->SetLightColor({ 1.0f,1.0f,1.0f });
@@ -70,7 +70,7 @@ void GameOverScene::Initialize() {
 	map->LoadCSV("title");
 
 	//パーティクルマネージャー
-	particle = std::make_unique<ParticleManager>();
+	particle = std::make_unique<ModelParticleManager>();
 	particle->Initialize(cube.get());
 
 	//ターゲットの設定

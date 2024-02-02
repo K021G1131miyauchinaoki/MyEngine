@@ -1,5 +1,5 @@
 /**
- * @file Geometry.h
+ * @file BillboardParticle.h
  * @brief　モデル操作
  */
 #pragma once
@@ -24,7 +24,7 @@ namespace MyEngin
 /// <summary>
 /// ジオメトリ
 /// </summary>
-	class Geometry
+	class BillboardParticle
 	{
 	private: // エイリアス
 		// Microsoft::WRL::を省略
@@ -113,7 +113,7 @@ namespace MyEngin
 		/// 3Dオブジェクト生成
 		/// </summary>
 		/// <returns></returns>
-		static Geometry* Create();
+		static BillboardParticle* Create();
 
 		//カメラ
 		static void SetCamera(Camera* camera_) {

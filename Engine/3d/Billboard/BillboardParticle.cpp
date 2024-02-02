@@ -1,9 +1,9 @@
 /**
- * @file Geometry.cpp
+ * @file BillboardParticle.cpp
  * @brief　モデル操作
  */
 
-#include "Geometry.h"
+#include "BillboardParticle.h"
 #include <d3dcompiler.h>
 #pragma warning( push )
 #pragma warning( disable : 4828 )
@@ -22,28 +22,28 @@ using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace MyEngin;
 
-XMMATRIX	Geometry::matBillboard = XMMatrixIdentity();
-XMMATRIX	Geometry::matBillboardY = XMMatrixIdentity();
+XMMATRIX	BillboardParticle::matBillboard = XMMatrixIdentity();
+XMMATRIX	BillboardParticle::matBillboardY = XMMatrixIdentity();
 
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-const float Geometry::radius = 5.0f;				// 底面の半径
-const float Geometry::prizmHeight = 8.0f;			// 柱の高さ
-ID3D12Device* Geometry::device = nullptr;
-UINT Geometry::descriptorHandleIncrementSize = 0;
-ID3D12GraphicsCommandList* Geometry::cmdList = nullptr;
-ComPtr<ID3D12RootSignature> Geometry::rootsignature;
-ComPtr<ID3D12PipelineState> Geometry::pipelinestate;
-ComPtr<ID3D12DescriptorHeap> Geometry::descHeap;
-ComPtr<ID3D12Resource> Geometry::vertBuff;
-ComPtr<ID3D12Resource> Geometry::texbuff;
-CD3DX12_CPU_DESCRIPTOR_HANDLE Geometry::cpuDescHandleSRV;
-CD3DX12_GPU_DESCRIPTOR_HANDLE Geometry::gpuDescHandleSRV;
-D3D12_VERTEX_BUFFER_VIEW Geometry::vbView{};
-Geometry::VertexPos Geometry::vertices[ vertexCount ];
-XMMATRIX Geometry::matView;
-Camera* Geometry::camera = nullptr;
+const float BillboardParticle::radius = 5.0f;				// 底面の半径
+const float BillboardParticle::prizmHeight = 8.0f;			// 柱の高さ
+ID3D12Device* BillboardParticle::device = nullptr;
+UINT BillboardParticle::descriptorHandleIncrementSize = 0;
+ID3D12GraphicsCommandList* BillboardParticle::cmdList = nullptr;
+ComPtr<ID3D12RootSignature> BillboardParticle::rootsignature;
+ComPtr<ID3D12PipelineState> BillboardParticle::pipelinestate;
+ComPtr<ID3D12DescriptorHeap> BillboardParticle::descHeap;
+ComPtr<ID3D12Resource> BillboardParticle::vertBuff;
+ComPtr<ID3D12Resource> BillboardParticle::texbuff;
+CD3DX12_CPU_DESCRIPTOR_HANDLE BillboardParticle::cpuDescHandleSRV;
+CD3DX12_GPU_DESCRIPTOR_HANDLE BillboardParticle::gpuDescHandleSRV;
+D3D12_VERTEX_BUFFER_VIEW BillboardParticle::vbView{};
+BillboardParticle::VertexPos BillboardParticle::vertices[ vertexCount ];
+XMMATRIX BillboardParticle::matView;
+Camera* BillboardParticle::camera = nullptr;
 
 //XMFLOAT3同士の加算処理
 const	DirectX::XMFLOAT3	operator+(const	DirectX::XMFLOAT3& lhs,const DirectX::XMFLOAT3& rhs) {
@@ -56,7 +56,7 @@ const	DirectX::XMFLOAT3	operator+(const	DirectX::XMFLOAT3& lhs,const DirectX::XM
 }
 
 
-void	Geometry::Add(int8_t life,XMFLOAT3	position,XMFLOAT3	velocity,XMFLOAT3	accel,float	start_scale,float	end_scale,
+void	BillboardParticle::Add(int8_t life,XMFLOAT3	position,XMFLOAT3	velocity,XMFLOAT3	accel,float	start_scale,float	end_scale,
 					  XMFLOAT4 startColor_ ,XMFLOAT4 endColor_) {
 	//リストに追加
 	particles.emplace_front();
@@ -73,12 +73,12 @@ void	Geometry::Add(int8_t life,XMFLOAT3	position,XMFLOAT3	velocity,XMFLOAT3	acce
 	p.endColor = endColor_;
 }
 
-void Geometry::StaticInitialize(ID3D12Device* device_)
+void BillboardParticle::StaticInitialize(ID3D12Device* device_)
 {
 	// nullptrチェック
 	assert(device_);
 
-	Geometry::device = device_;
+	BillboardParticle::device = device_;
 
 	// デスクリプタヒープの初期化
 	InitializeDescriptorHeap();
@@ -94,13 +94,13 @@ void Geometry::StaticInitialize(ID3D12Device* device_)
 
 }
 
-void Geometry::PreDraw(ID3D12GraphicsCommandList* cmdList_)
+void BillboardParticle::PreDraw(ID3D12GraphicsCommandList* cmdList_)
 {
 	// PreDrawとPostDrawがペアで呼ばれていなければエラー
-	assert(Geometry::cmdList == nullptr);
+	assert(BillboardParticle::cmdList == nullptr);
 
 	// コマンドリストをセット
-	Geometry::cmdList = cmdList_;
+	BillboardParticle::cmdList = cmdList_;
 
 	// パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());
@@ -111,33 +111,33 @@ void Geometry::PreDraw(ID3D12GraphicsCommandList* cmdList_)
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
 }
 
-void Geometry::PostDraw()
+void BillboardParticle::PostDraw()
 {
 	// コマンドリストを解除
-	Geometry::cmdList = nullptr;
+	BillboardParticle::cmdList = nullptr;
 }
 
-Geometry* Geometry::Create()
+BillboardParticle* BillboardParticle::Create()
 {
 	// 3Dオブジェクトのインスタンスを生成
-	Geometry* geometry = new Geometry();
-	if ( geometry == nullptr )
+	BillboardParticle* billParticle = new BillboardParticle();
+	if ( billParticle == nullptr )
 	{
 		return nullptr;
 	}
 
 	// 初期化
-	if ( !geometry->Initialize() )
+	if ( !billParticle->Initialize() )
 	{
-		delete geometry;
+		delete billParticle;
 		assert(0);
 		return nullptr;
 	}
 
-	return geometry;
+	return billParticle;
 }
 
-void Geometry::InitializeDescriptorHeap()
+void BillboardParticle::InitializeDescriptorHeap()
 {
 	HRESULT result = S_FALSE;
 
@@ -157,7 +157,7 @@ void Geometry::InitializeDescriptorHeap()
 
 }
 
-void Geometry::InitializeGraphicsPipeline()
+void BillboardParticle::InitializeGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -338,7 +338,7 @@ void Geometry::InitializeGraphicsPipeline()
 
 }
 
-void Geometry::LoadTexture()
+void BillboardParticle::LoadTexture()
 {
 	HRESULT result = S_FALSE;
 
@@ -412,7 +412,7 @@ void Geometry::LoadTexture()
 
 }
 
-void Geometry::CreateModel()
+void BillboardParticle::CreateModel()
 {
 	HRESULT result = S_FALSE;
 
@@ -445,7 +445,7 @@ void Geometry::CreateModel()
 	vbView.StrideInBytes = sizeof(vertices[ 0 ]);
 }
 
-void Geometry::UpdateViewMatrix()
+void BillboardParticle::UpdateViewMatrix()
 {
 	//視点座標
 	XMVECTOR	eyePosition = XMLoadFloat3(&camera->GetEye());
@@ -533,7 +533,7 @@ void Geometry::UpdateViewMatrix()
 #pragma	endregion
 }
 
-bool Geometry::Initialize()
+bool BillboardParticle::Initialize()
 {
 	// nullptrチェック
 	assert(device);
@@ -556,7 +556,7 @@ bool Geometry::Initialize()
 	return true;
 }
 
-void Geometry::Update()
+void BillboardParticle::Update()
 {
 	HRESULT result;
 	//XMMATRIX matScale,matRot,matTrans;
@@ -624,11 +624,11 @@ void Geometry::Update()
 	constBuff->Unmap(0,nullptr);
 }
 
-void Geometry::Draw()
+void BillboardParticle::Draw()
 {
 	// nullptrチェック
 	assert(device);
-	assert(Geometry::cmdList);
+	assert(BillboardParticle::cmdList);
 
 	// 頂点バッファの設定
 	cmdList->IASetVertexBuffers(0,1,&vbView);

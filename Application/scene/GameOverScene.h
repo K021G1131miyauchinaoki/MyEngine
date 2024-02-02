@@ -16,8 +16,8 @@
 #include<Map.h>
 #include<BaseScene.h>
 #include<Object3d.h>
-#include<ParticleManager.h>
-#include<Geometry.h>
+#include<ModelParticleManager.h>
+#include<BillboardParticle.h>
 
 class GameOverScene :public BaseScene
 {
@@ -81,7 +81,7 @@ private:
 
 	std::unique_ptr<Map>map;
 	//パーティクル
-	std::unique_ptr < ParticleManager> particle;
+	std::unique_ptr < ModelParticleManager> particle;
 	//int8_t 
 
 	//スプライト

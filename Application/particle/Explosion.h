@@ -5,10 +5,10 @@
 
 #pragma once
 
-#include<BaseParticle.h>
+#include<BaseModelParticle.h>
 #include<memory>
 
-class Explosion:public BaseParticle
+class Explosion:public BaseModelParticle
 {
 public:
 	/// <summary>
