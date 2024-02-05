@@ -12,7 +12,6 @@
 #include"Camera.h"
 #include"LevelLoader.h"
 #include<ImguiManager.h>
-#include<Enemy.h>
 #include<Map.h>
 #include<BaseScene.h>
 #include<Object3d.h>

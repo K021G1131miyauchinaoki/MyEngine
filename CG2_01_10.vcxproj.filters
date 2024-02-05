@@ -108,7 +108,7 @@
     <ClCompile Include="Application\Player\Player.cpp">
       <Filter>ソースファイル\Application\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Enemy.cpp">
+    <ClCompile Include="Application\Enemy\NormalEnemy.cpp">
       <Filter>ソースファイル\Application\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Application\Bullet\Bullet.cpp">
@@ -185,7 +185,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application\Enemy\Enemy.h">
+    <ClInclude Include="Application\Enemy\NormalEnemy.h">
       <Filter>ヘッダーファイル\Application\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Application\Bullet\EnemyBullet.h">

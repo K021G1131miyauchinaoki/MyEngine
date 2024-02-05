@@ -13,7 +13,6 @@
 #include"LevelLoader.h"
 #include<Player.h>
 #include<ImguiManager.h>
-#include<Enemy.h>
 #include<Map.h>
 #include<BaseScene.h>
 

@@ -1,5 +1,5 @@
 #include "EnemyManager.h"
-#include"Enemy.h"
+#include"NormalEnemy.h"
 #include"ShotgunEnemy.h"
 
 void EnemyManager::Add(const std::string& name_,Model* model_,Model* parachuteModel_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
@@ -7,7 +7,7 @@ void EnemyManager::Add(const std::string& name_,Model* model_,Model* parachuteMo
 	std::unique_ptr <BaseEnemy> e;
 	if ( name_ == "Normal" )
 	{
-		e = std::make_unique <Enemy>();
+		e = std::make_unique <NormalEnemy>();
 	}
 	else if(name_=="Shotgun" )
 	{
@@ -15,7 +15,7 @@ void EnemyManager::Add(const std::string& name_,Model* model_,Model* parachuteMo
 	}
 	else
 	{
-		e = std::make_unique <Enemy>();
+		e = std::make_unique <NormalEnemy>();
 	}
 	e->Initialeze(model_,parachuteModel_,player_,pos_,rot_,bulletManager_);
 

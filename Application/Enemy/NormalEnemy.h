@@ -1,12 +1,12 @@
 /**
- * @file Enemy.h
+ * @file NormalEnemy.h
  * @brief エネミークラス
  */
 
 #pragma once
 #include"BaseEnemy.h"
 
-class Enemy :public BaseEnemy
+class NormalEnemy :public BaseEnemy
 {
 public://メンバ関数
 	/// <summary>
@@ -79,9 +79,9 @@ public://メンバ関数
 	bool IsDead()const override { return hp.isDead; }
 
 	//コンストラクタ
-	Enemy();
+	NormalEnemy();
 
-	~Enemy()override;
+	~NormalEnemy()override;
 private://メンバ変数
 
 };

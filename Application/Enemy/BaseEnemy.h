@@ -1,5 +1,5 @@
 /**
- * @file Enemy.h
+ * @file NormalEnemy.h
  * @brief エネミークラス
  */
 

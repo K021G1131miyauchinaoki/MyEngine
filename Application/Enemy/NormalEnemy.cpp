@@ -1,9 +1,9 @@
 /**
- * @file Enemy.cpp
+ * @file NormalEnemy.cpp
  * @brief エネミークラス
  */
 
-#include "Enemy.h"
+#include "NormalEnemy.h"
 #include<cassert>
 #include<random>
 #include<SceneManager.h>
@@ -13,25 +13,25 @@
 #include<cmath>
 #include"BulletManager.h"
 
-void Enemy::Initialeze(Model* model_,Model* parachuteModel_,Player*player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
+void NormalEnemy::Initialeze(Model* model_,Model* parachuteModel_,Player*player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
 	BaseEnemy::Initialeze(model_,parachuteModel_,player_,pos_,rot_,bulletManager_);
 	obj->SetColor({ 0.0f,0.2f,0.1f,1.0f });
 	obj->Update();
 }
 
-void Enemy::Update() {
+void NormalEnemy::Update() {
 	BaseEnemy::Update();
 }
 
-void Enemy::Draw() {
+void NormalEnemy::Draw() {
 	BaseEnemy::Draw();
 }
 
-void Enemy::Move() {
+void NormalEnemy::Move() {
 	BaseEnemy::Move();
 }
 
-void Enemy::Shot() {
+void NormalEnemy::Shot() {
 	Vector3 pos;
 
 	//弾の速度
@@ -57,23 +57,23 @@ void Enemy::Shot() {
 	BaseEnemy::Shot();
 }
 
-void Enemy::Rotate() {
+void NormalEnemy::Rotate() {
 	
 }
 
-void Enemy::Wait() {
+void NormalEnemy::Wait() {
 	BaseEnemy::Wait();
 }
 
 //衝突したら
-void Enemy::OnCollision()
+void NormalEnemy::OnCollision()
 {
 	BaseEnemy::OnCollision();
 }
 
-void Enemy::OnCollisionPos(const std::string &hitDirection)
+void NormalEnemy::OnCollisionPos(const std::string &hitDirection)
 {
 	BaseEnemy::OnCollisionPos(hitDirection);
 }
-Enemy::Enemy() {}
-Enemy::~Enemy() {}
+NormalEnemy::NormalEnemy() {}
+NormalEnemy::~NormalEnemy() {}

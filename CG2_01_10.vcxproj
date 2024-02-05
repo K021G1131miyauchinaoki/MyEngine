@@ -114,7 +114,7 @@
     <ClCompile Include="Application\Block\BaseBlock.cpp" />
     <ClCompile Include="Application\Block\BlockManager.cpp" />
     <ClCompile Include="Engine\base\scene\AbstractSceneFactory.cpp" />
-    <ClCompile Include="Application\Enemy\Enemy.cpp" />
+    <ClCompile Include="Application\Enemy\NormalEnemy.cpp" />
     <ClCompile Include="Application\Bullet\Bullet.cpp" />
     <ClCompile Include="Application\Bullet\EnemyBullet.cpp" />
     <ClCompile Include="Engine\base\scene\BaseScene.cpp" />
@@ -242,7 +242,7 @@
     <ClInclude Include="Application\Block\BaseBlock.h" />
     <ClInclude Include="Application\Block\BlockManager.h" />
     <ClInclude Include="Engine\base\scene\AbstractSceneFactory.h" />
-    <ClInclude Include="Application\Enemy\Enemy.h" />
+    <ClInclude Include="Application\Enemy\NormalEnemy.h" />
     <ClInclude Include="Application\Bullet\Bullet.h" />
     <ClInclude Include="Application\Bullet\EnemyBullet.h" />
     <ClInclude Include="Engine\base\scene\BaseScene.h" />
