@@ -64,7 +64,7 @@ void StageSelect::Initialize() {
 		stage[ i ]->SetPosition(pos);
 	}
 	//操作
-	input.reset(Input::GetInstance());
+	input=Input::GetInstance();
 	//input.reset(Input::GetInstance());
 	//カメラ
 	camera = std::make_unique<Camera>();

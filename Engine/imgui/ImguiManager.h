@@ -40,5 +40,10 @@ namespace MyEngin
 		WinApp* winApp = nullptr;
 		DirectXCommon* dxCom = nullptr;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>srvHeap;
+	private:
+		ImguiManager();
+		~ImguiManager();
+		ImguiManager(const ImguiManager& obj) = delete;
+		ImguiManager& operator=(const ImguiManager& obj) = delete;
 	};
 }

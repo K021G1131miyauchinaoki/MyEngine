@@ -41,8 +41,8 @@ public://メンバ関数
 	//終了チェック
 	virtual	bool IsEndRequst();
 protected:
-	std::unique_ptr<Input>input;
-	std::unique_ptr<WinApp>winApp;
+	Input* input = nullptr;
+	WinApp*winApp;
 	std::unique_ptr<DirectXCommon>dxCommon;
 	std::unique_ptr<PostEffect>postEffect;
 	AbstractSceneFactory* sceneFactory;

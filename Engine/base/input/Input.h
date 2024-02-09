@@ -55,7 +55,7 @@ namespace MyEngin
 			return mPos;
 		}
 
-//インスタンス生成
+		//インスタンス生成
 		static Input* GetInstance();
 
 	private:
@@ -75,7 +75,15 @@ namespace MyEngin
 		DIMOUSESTATE mouse;
 		DIMOUSESTATE oldMouse;
 		Vector2 mPos;
-
+	private:
+		//コンストラクタ、デストラクタをprivate
+		Input();
+		~Input();
+	public:
+		//コピーコンストラクタの禁止
+		Input(const Input& obj) = delete;
+		//代入演算子を無効
+		Input& operator=(const Input& obj) = delete;
 	};
 
 }

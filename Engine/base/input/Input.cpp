@@ -131,3 +131,6 @@ bool Input::TriggerReleaseClick(BYTE botton) {
 	}
 	return false;
 }
+
+Input::Input() {}
+Input::~Input(){}

@@ -103,7 +103,7 @@ public:
 
 private:
 	//インプット
-	std::unique_ptr<Input>input;
+	Input* input = nullptr;
 	//カメラ
 	std::unique_ptr<Camera>camera;
 	//ライト
@@ -143,7 +143,6 @@ private:
 	std::unique_ptr< LevelData>jsonLoader;
 	std::map<std::string, Model*> models;
 
-	std::unique_ptr<ImguiManager> ImgM;
 	//パーティクルマネージャー
 	std::unique_ptr<ModelParticleManager> particle;
 

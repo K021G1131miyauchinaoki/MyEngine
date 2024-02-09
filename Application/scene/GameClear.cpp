@@ -50,7 +50,7 @@ void GameClear::Initialize() {
 
 	}
 	//操作
-	input.reset(Input::GetInstance());
+	input=Input::GetInstance();
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();

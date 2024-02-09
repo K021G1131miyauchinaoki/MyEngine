@@ -63,7 +63,7 @@ private:
 	
 	std::unique_ptr <Light>light;
 	//操作
-	std::unique_ptr <Input>input;
+	Input* input = nullptr;
 	//カメラ初期化
 	std::unique_ptr<Camera>camera;
 	//objモデル

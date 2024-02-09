@@ -83,7 +83,7 @@ private:
 	std::unique_ptr <Light>light;
 	XMVECTOR lightDir = { 0.73f,-30.0f,-0.21f,0.0f };
 	//操作
-	std::unique_ptr <Input>input;
+	Input* input = nullptr;;
 	//カメラ初期化
 	std::unique_ptr<Camera>camera;
 	//objモデル

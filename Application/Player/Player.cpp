@@ -48,7 +48,7 @@ void Player::TitleInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Input* i
 	assert(tankBodyModel_);
 	assert(input_);
 
-	input.reset(input_);
+	input=input_;
 	//共通のパラメータ初期化
 	ParameterCommonInitialeze();
 
@@ -76,7 +76,8 @@ void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* pa
 	assert(parachuteModel_);
 	assert(input_);
 	
-	input.reset(input_);
+	input = input_;
+
 	//共通のパラメータ初期化
 	ParameterCommonInitialeze();
 	//位置

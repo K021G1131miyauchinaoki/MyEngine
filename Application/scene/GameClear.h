@@ -67,7 +67,7 @@ private:
 	std::vector<Score>score;
 	
 	//操作
-	std::unique_ptr <Input>input;
+	Input* input = nullptr;
 	//ライト
 	std::unique_ptr <Light>light;
 	XMVECTOR lightDir = { -250.0f,-350.0f,20.0f,0.0f };

@@ -117,7 +117,7 @@ public://メンバ関数
 	int8_t GetHp() {return hp.value;}
 
 private://メンバ変数
-	std::unique_ptr<Input>input = nullptr;
+	Input*input = nullptr;
 	std::unique_ptr<Object3d>tankHad = nullptr;
 	std::unique_ptr<Object3d>tankBody = nullptr;
 	std::unique_ptr<Object3d>parachute = nullptr;

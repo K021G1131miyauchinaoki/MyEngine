@@ -31,7 +31,7 @@ void TitleScene::Initialize() {
 	pushKey->SetPosition({ 640.0f,600.0f });
 
 	//操作
-	input.reset(Input::GetInstance());
+	input=Input::GetInstance();
 	//カメラ
 	camera = std::make_unique<Camera>();
 	camera->Initialeze();
@@ -63,7 +63,7 @@ void TitleScene::Initialize() {
 
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->TitleInitialeze(had.get(),body.get(),input.get());
+	player->TitleInitialeze(had.get(),body.get(),input);
 	
 	//マップ
 	map = std::make_unique<Map>();

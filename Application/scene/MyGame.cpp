@@ -38,7 +38,7 @@ void MyGame::Initialize() {
 	SoundManager::GetInstance()->LoadWave("SE/gun2.wav");
 	SoundManager::GetInstance()->LoadWave("SE/dying.wav");
 	SoundManager::GetInstance()->LoadWave("SE/decision.wav");
-	ImguiManager::GetInstance()->Initialize(winApp.get(), dxCommon.get());
+	ImguiManager::GetInstance()->Initialize(winApp, dxCommon.get());
 	
 	//シーンマネージャーに最初のシーンをセット
 	sceneFactory = new SceneFactory();

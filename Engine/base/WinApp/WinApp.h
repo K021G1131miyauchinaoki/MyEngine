@@ -37,6 +37,14 @@ namespace MyEngin
 		WNDCLASSEX	w{};
 		//ウィンドウサイズ
 		HWND	hwnd = nullptr;
+	private:
+		//コンストラクタとデストラクタをprivate
+		WinApp();
+		~WinApp();
+		//コピーコンストラクタの禁止
+		WinApp(const WinApp& obj) = delete;
+		//代入演算子を無効
+		WinApp& operator=(const WinApp& obj) = delete;
 	};
 
 }

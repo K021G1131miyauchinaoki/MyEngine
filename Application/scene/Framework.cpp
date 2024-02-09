@@ -6,14 +6,14 @@
 #include "Framework.h"
 
 void Framework::Initialize(){
-	winApp.reset(WinApp::GetInstance());
+	winApp=WinApp::GetInstance();
 	winApp->Initialize();
 
 	dxCommon = std::make_unique<DirectXCommon>();
-	dxCommon->Initialize(winApp.get());
+	dxCommon->Initialize(winApp);
 
 	Input::GetInstance()->Initialize();
-	input .reset(Input::GetInstance());
+	input=Input::GetInstance();
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 	//デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());

@@ -141,7 +141,7 @@ void GamePlayScene::Initialize() {
 	mPosStartX = -200.0f;
 
 	//キー
-	input.reset(Input::GetInstance());
+	input=Input::GetInstance();
 	
 	//カメラ
 	camera = std::make_unique<Camera>();
@@ -180,7 +180,7 @@ void GamePlayScene::Initialize() {
 	enemyManager = std::make_unique<EnemyManager>();
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->PlayInitialeze(had.get(),body.get(),parachute.get(),input.get(),bulletManager.get());
+	player->PlayInitialeze(had.get(),body.get(),parachute.get(),input,bulletManager.get());
 	//壁
 	blockManager = std::make_unique<BlockManager>();
 	blockManager->Initialize(bulletManager.get());

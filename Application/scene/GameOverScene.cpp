@@ -22,7 +22,7 @@ void GameOverScene::Initialize() {
 	pushKey->SetAnchorPoint({ 0.5f,0.5f });
 	pushKey->SetPosition({ 640.0f,600.0f });
 	//操作
-	input.reset(Input::GetInstance());
+	input=Input::GetInstance();
 	//input.reset(Input::GetInstance());
 	//カメラ
 	camera = std::make_unique<Camera>();
