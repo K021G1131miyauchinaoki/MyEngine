@@ -29,7 +29,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialeze(Model* model_,Model* parachuteModel_,Player* player_,const Vector3 &pos_,const Vector3& rot_,BulletManager* bulletManager_);
+	virtual void Initialize(Model* model_,Model* parachuteModel_,Player* player_,const Vector3 &pos_,const Vector3& rot_,BulletManager* bulletManager_);
 
 	/// <summary>
 	/// 更新

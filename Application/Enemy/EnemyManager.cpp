@@ -17,7 +17,7 @@ void EnemyManager::Add(const std::string& name_,Model* model_,Model* parachuteMo
 	{
 		e = std::make_unique <NormalEnemy>();
 	}
-	e->Initialeze(model_,parachuteModel_,player_,pos_,rot_,bulletManager_);
+	e->Initialize(model_,parachuteModel_,player_,pos_,rot_,bulletManager_);
 
 	enemys.emplace_front(std::move(e));
 }

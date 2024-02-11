@@ -34,7 +34,7 @@ void TitleScene::Initialize() {
 	input=Input::GetInstance();
 	//カメラ
 	camera = std::make_unique<Camera>();
-	camera->Initialeze();
+	camera->Initialize();
 	Object3d::SetCamera(camera.get());
 	camera->SetTarget({ 0.0f, 2.0f,0.0f });
 

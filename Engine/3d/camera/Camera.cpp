@@ -7,7 +7,7 @@
 #include"WinApp.h"
 namespace MyEngin
 {
-	void	Camera::Initialeze() {
+	void	Camera::Initialize() {
 		eye = { 10, 10, 10 };
 		target = { 0, 0, 0 };
 		up = { 0, 1, 0 };

@@ -12,7 +12,7 @@ public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialeze(Model* model_,Model* parachuteModel_,Player*player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_)override;
+	void Initialize(Model* model_,Model* parachuteModel_,Player*player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_)override;
 
 	/// <summary>
 	/// 更新

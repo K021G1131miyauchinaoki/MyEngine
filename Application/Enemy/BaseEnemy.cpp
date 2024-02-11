@@ -14,7 +14,7 @@
 #include<cmath>
 #include<SoundManager.h>
 
-void BaseEnemy::Initialeze(Model* model_,Model* parachuteModel_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
+void BaseEnemy::Initialize(Model* model_,Model* parachuteModel_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
 	assert(model_);
 	assert(player_);
 	//位置

@@ -53,7 +53,7 @@ void GameClear::Initialize() {
 	input=Input::GetInstance();
 	//カメラ
 	camera = std::make_unique<Camera>();
-	camera->Initialeze();
+	camera->Initialize();
 	camera->SetEye({ 10.0f, 5.0f,10.0f });
 	camera->SetFovAngle(startFovAngle);
 	camera->SetTarget({ 0.0f,7.0f,0.0f });

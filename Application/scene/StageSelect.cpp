@@ -68,7 +68,7 @@ void StageSelect::Initialize() {
 	//input.reset(Input::GetInstance());
 	//カメラ
 	camera = std::make_unique<Camera>();
-	camera->Initialeze();
+	camera->Initialize();
 	camera->SetEye({ 0.0f, 0.0f,-10.0f });
 	Object3d::SetCamera(camera.get());
 	BillboardParticle::SetCamera(camera.get());

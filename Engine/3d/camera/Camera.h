@@ -12,7 +12,7 @@ namespace MyEngin
 	{
 	public:
 		//初期化
-		void Initialeze();
+		void Initialize();
 		//更新
 		void Update();
 		//ビュー行列更新

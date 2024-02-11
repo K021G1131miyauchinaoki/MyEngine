@@ -145,7 +145,7 @@ void GamePlayScene::Initialize() {
 	
 	//カメラ
 	camera = std::make_unique<Camera>();
-	camera->Initialeze();
+	camera->Initialize();
 	Object3d::SetCamera(camera.get());
 
 	//ライト
