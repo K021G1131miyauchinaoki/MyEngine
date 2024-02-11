@@ -37,5 +37,5 @@ void BlockManager::Add(const std::string name_,Model* model_,const Vector3& pos_
 		b = std::make_unique<BaseBlock>();
 	}
 	b->Initialize(pos_,rot_,scale_,model_);
-	blocks.emplace_front(std::move(b));
+	blocks.push_back(std::move(b));
 }

@@ -19,7 +19,7 @@ void EnemyManager::Add(const std::string& name_,Model* model_,Model* parachuteMo
 	}
 	e->Initialize(model_,parachuteModel_,player_,pos_,rot_,bulletManager_);
 
-	enemys.emplace_front(std::move(e));
+	enemys.push_back(std::move(e));
 }
 void EnemyManager::Update() {
 	//フラグが立ったら削除
