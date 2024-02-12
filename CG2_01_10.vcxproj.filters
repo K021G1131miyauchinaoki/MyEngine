@@ -153,7 +153,7 @@
     <ClCompile Include="Engine\base\scene\SceneFactory.cpp">
       <Filter>ソースファイル\Engine\Base\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\scene\SceneManager.cpp">
+    <ClCompile Include="Engine\base\scene\SceneManager.cpp">
       <Filter>ソースファイル\Application\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Application\particle\Explosion.cpp">
@@ -212,7 +212,7 @@
     <ClInclude Include="Application\scene\MyGame.h">
       <Filter>ヘッダーファイル\Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Application\scene\SceneManager.h">
+    <ClInclude Include="Engine\base\scene\SceneManager.h">
       <Filter>ヘッダーファイル\Application\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Application\scene\TitleScene.h">

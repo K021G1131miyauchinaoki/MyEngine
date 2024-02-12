@@ -149,7 +149,7 @@
     <ClCompile Include="Application\Map\Map.cpp" />
     <ClCompile Include="Application\scene\GamePlayScene.cpp" />
     <ClCompile Include="Application\scene\TitleScene.cpp" />
-    <ClCompile Include="Application\scene\SceneManager.cpp" />
+    <ClCompile Include="Engine\base\scene\SceneManager.cpp" />
     <ClCompile Include="Engine\base\scene\SceneFactory.cpp" />
     <ClCompile Include="Application\scene\GameClear.cpp" />
     <ClCompile Include="Application\scene\GameOverScene.cpp" />
@@ -285,7 +285,7 @@
     <ClInclude Include="Engine\2d\SpriteCommon.h" />
     <ClInclude Include="Engine\base\WinApp\WinApp.h" />
     <ClInclude Include="Application\scene\TitleScene.h" />
-    <ClInclude Include="Application\scene\SceneManager.h" />
+    <ClInclude Include="Engine\base\scene\SceneManager.h" />
     <ClInclude Include="Engine\base\scene\SceneFactory.h" />
     <ClInclude Include="Application\scene\SceneTransition.h" />
     <ClInclude Include="Application\particle\Smoke.h" />
