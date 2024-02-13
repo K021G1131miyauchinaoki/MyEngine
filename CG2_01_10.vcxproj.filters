@@ -111,12 +111,6 @@
     <ClCompile Include="Application\Enemy\NormalEnemy.cpp">
       <Filter>ソースファイル\Application\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Bullet\Bullet.cpp">
-      <Filter>ソースファイル\Application\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Bullet\EnemyBullet.cpp">
-      <Filter>ソースファイル\Application\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Map\Map.cpp">
       <Filter>ソースファイル\Application\Map</Filter>
     </ClCompile>
@@ -153,19 +147,9 @@
     <ClCompile Include="Engine\base\scene\SceneFactory.cpp">
       <Filter>ソースファイル\Engine\Base\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\base\scene\SceneManager.cpp">
-      <Filter>ソースファイル\Application\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Application\particle\Explosion.cpp">
       <Filter>ソースファイル\Application\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3d\Light\Light.cpp" />
-    <ClCompile Include="Application\scene\SceneTransition.cpp" />
-    <ClCompile Include="Application\particle\Smoke.cpp" />
-    <ClCompile Include="Application\Enemy\ShotgunEnemy.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyManager.cpp" />
-    <ClCompile Include="Application\Bullet\BulletManager.cpp" />
-    <ClCompile Include="Application\Bullet\Homing.cpp" />
     <ClCompile Include="Application\Block\BaseBlock.cpp">
       <Filter>ソースファイル\Application\Block</Filter>
     </ClCompile>
@@ -175,20 +159,51 @@
     <ClCompile Include="Application\Block\Wall.cpp">
       <Filter>ソースファイル\Application\Block</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3d\Billboard\BillboardParticle.cpp" />
-    <ClCompile Include="Application\scene\StageSelect.cpp" />
     <ClCompile Include="Application\Enemy\BaseEnemy.cpp">
       <Filter>ソースファイル\Application\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Application\Block\BlockManager.cpp">
       <Filter>ソースファイル\Application\Block</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Bullet\BulletManager.cpp">
+      <Filter>ソースファイル\Application\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Bullet\Homing.cpp">
+      <Filter>ソースファイル\Application\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\scene\StageSelect.cpp">
+      <Filter>ソースファイル\Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\scene\SceneManager.cpp">
+      <Filter>ソースファイル\Engine\Base\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Billboard\BillboardParticle.cpp">
+      <Filter>ソースファイル\Engine\3D\Billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Bullet\EnemyBullet.cpp">
+      <Filter>ソースファイル\Application\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Bullet\Bullet.cpp">
+      <Filter>ソースファイル\Application\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyManager.cpp">
+      <Filter>ソースファイル\Application\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Light\Light.cpp">
+      <Filter>ソースファイル\Engine\3D\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\scene\SceneTransition.cpp">
+      <Filter>ソースファイル\Application\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\ShotgunEnemy.cpp">
+      <Filter>ソースファイル\Application\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\particle\Smoke.cpp">
+      <Filter>ソースファイル\Application\Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\NormalEnemy.h">
-      <Filter>ヘッダーファイル\Application\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Bullet\EnemyBullet.h">
       <Filter>ヘッダーファイル\Application\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Application\Map\Map.h">
@@ -217,9 +232,6 @@
     </ClInclude>
     <ClInclude Include="Application\scene\TitleScene.h">
       <Filter>ヘッダーファイル\Application\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Bullet\Bullet.h">
-      <Filter>ヘッダーファイル\Application\Player</Filter>
     </ClInclude>
     <ClInclude Include="Application\Player\Player.h">
       <Filter>ヘッダーファイル\Application\Player</Filter>
@@ -311,15 +323,6 @@
     <ClInclude Include="resource.h">
       <Filter>ヘッダーファイル\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3d\Light\Light.h" />
-    <ClInclude Include="Application\scene\SceneTransition.h" />
-    <ClInclude Include="Application\particle\Smoke.h" />
-    <ClInclude Include="Application\Enemy\ShotgunEnemy.h" />
-    <ClInclude Include="Application\Enemy\EnemyManager.h" />
-    <ClInclude Include="Application\Bullet\BulletManager.h" />
-    <ClInclude Include="Application\Bullet\Homing.h" />
-    <ClInclude Include="Engine\3d\Billboard\BillboardParticle.h" />
-    <ClInclude Include="Application\scene\StageSelect.h" />
     <ClInclude Include="Application\Enemy\BaseEnemy.h">
       <Filter>ヘッダーファイル\Application\Enemy</Filter>
     </ClInclude>
@@ -334,6 +337,39 @@
     </ClInclude>
     <ClInclude Include="Application\Block\Wall.h">
       <Filter>ヘッダーファイル\Application\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Bullet\BulletManager.h">
+      <Filter>ヘッダーファイル\Application\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Bullet\Homing.h">
+      <Filter>ヘッダーファイル\Application\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\scene\StageSelect.h">
+      <Filter>ヘッダーファイル\Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyManager.h">
+      <Filter>ヘッダーファイル\Application\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\ShotgunEnemy.h">
+      <Filter>ヘッダーファイル\Application\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Bullet\EnemyBullet.h">
+      <Filter>ヘッダーファイル\Application\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Bullet\Bullet.h">
+      <Filter>ヘッダーファイル\Application\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Light\Light.h">
+      <Filter>ヘッダーファイル\Engine\3D\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Billboard\BillboardParticle.h">
+      <Filter>ヘッダーファイル\Engine\3D\Billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\scene\SceneTransition.h">
+      <Filter>ヘッダーファイル\Application\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\particle\Smoke.h">
+      <Filter>ヘッダーファイル\Application\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -508,6 +544,24 @@
     </Filter>
     <Filter Include="ヘッダーファイル\Application\Block">
       <UniqueIdentifier>{3c5cbbf2-5bcf-42c6-b301-090ea93ab86c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Application\Bullet">
+      <UniqueIdentifier>{ee67a5e0-9654-462b-b207-a229922c1494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Application\Bullet">
+      <UniqueIdentifier>{6c4268e9-20fd-4863-ba4d-ca5d52b7d17f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Engine\3D\Billboard">
+      <UniqueIdentifier>{7e9e1f53-e8cf-497e-8a52-96642fc45421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Engine\3D\Light">
+      <UniqueIdentifier>{88a17ad4-067d-4b62-84cc-236286c11f8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Engine\3D\Light">
+      <UniqueIdentifier>{8166bdde-0c01-4e8a-98a7-9d0c8d63c33c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Engine\3D\Billboard">
+      <UniqueIdentifier>{d03437ff-c177-402e-ab08-93dadbbcbe48}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
