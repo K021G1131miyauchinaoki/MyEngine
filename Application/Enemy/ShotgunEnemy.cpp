@@ -46,10 +46,10 @@ void ShotgunEnemy::Shot() {
 	// 正規化
 	rot = MyMath::normaleizeVec3(len);
 	//角度を算出
-	angle = MyMath::DegreeTransform(-atan2(rot.z,rot.x));
+	waitAngle = MyMath::DegreeTransform(-atan2(rot.z,rot.x));
 	rot.x = 0.0f;
 	rot.z = 0.0f;
-	rot.y = angle;
+	rot.y = waitAngle;
 
 	//角度を格納
 	obj->SetRotation(rot);
@@ -59,11 +59,11 @@ void ShotgunEnemy::Shot() {
 	{
 		Vector3 bulletRot = { 0,0,0 };
 		const float shift = 30.0f;
-		float radian = -MyMath::RadianTransform(angle+shift*static_cast<float>(i));
+		float radian = -MyMath::RadianTransform(waitAngle+shift*static_cast<float>(i));
 		velocity = { std::cos(radian),0.0f,std::sin(radian) };
 		velocity = MyMath::normaleizeVec3(velocity);
 		
-		bulletRot.y = angle + shift * static_cast< float >( i );
+		bulletRot.y = waitAngle + shift * static_cast< float >( i );
 
 		BaseEnemy::SetBulletParameter(bulletRot,velocity,"normale");
 	}

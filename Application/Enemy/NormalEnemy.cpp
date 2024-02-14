@@ -45,10 +45,10 @@ void NormalEnemy::Shot() {
 	// 正規化
 	rot = MyMath::normaleizeVec3(len);
 	//角度を算出
-	angle = -atan2(rot.z, rot.x);
+	waitAngle = -atan2(rot.z, rot.x);
 	rot.x = 0.0f;
 	rot.z = 0.0f;
-	rot.y=MyMath::DegreeTransform(angle);
+	rot.y=MyMath::DegreeTransform(waitAngle);
 
 	//角度を格納
 	obj->SetRotation(rot);

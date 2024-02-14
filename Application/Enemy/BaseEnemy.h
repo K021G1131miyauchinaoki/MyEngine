@@ -152,7 +152,8 @@ protected://メンバ変数
 	Player* player = nullptr;
 	//角度
 	Vector3 rot;
-	float angle;
+	float waitAngle;
+	float moveAngle;
 	//速度
 	Vector3 velocity;
 	//移動
@@ -175,6 +176,7 @@ protected://メンバ変数
 	Vector3 playerPos;
 	Vector3 oldPos;
 	Vector3 parachutePos;
+	Vector3 centerPos;
 	//距離
 	Vector3 len;
 	//hp
@@ -188,5 +190,7 @@ protected://メンバ変数
 	float pEndRotZ;
 	float pStartScaleXZ;
 	float pEndScaleXZ;
+	float lenght;
+
 };
 

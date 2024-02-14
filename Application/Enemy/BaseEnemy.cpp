@@ -14,6 +14,13 @@
 #include<cmath>
 #include<SoundManager.h>
 
+
+float hosei(float len) {
+	float len_ = len / 10.0f;
+	
+	return 2.0f / len_;
+}
+
 void BaseEnemy::Initialize(Model* model_,Model* parachuteModel_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
 	assert(model_);
 	assert(player_);
@@ -54,12 +61,15 @@ void BaseEnemy::Initialize(Model* model_,Model* parachuteModel_,Player* player_,
 	shotTimer = shotTime;
 	waitTime = 0.0f;
 	invincibleTime = invincibleTimer;
-	angle = 0.0f;
-	angle = 0.0f;
+	waitAngle = 0.0f;
+	moveAngle = 0.0f;
 	//体力
 	hp.value = 3;
 	hp.isDead = false;
 	bulletManager = bulletManager_;
+
+
+	centerPos = { 0.0f,0.0f,endPos.z+30.0f };
 }
 
 void BaseEnemy::Update() {
@@ -111,20 +121,21 @@ void BaseEnemy::Draw() {
 
 void BaseEnemy::Move() {
 	Vector3 pos;
-
+	float r;
+	//敵の速度
+	const float speed = 1.0f;
+	//float radius;
 	if ( !isMove )
 	{
 		pos = obj->GetPosition();
 		playerPos = player->GetPos();
 
-		len = playerPos - pos;
+		len = pos-centerPos;
 		//長さを算出
-		float lenght = MyMath::Length(len);
-		//判定用長さ
-		float lenPoint = 40.0f;
-
+		lenght = MyMath::Length(len);
 		//向きに対してプラスする角度
-		float shift = 60.0f;
+		float shift = 180.0f;
+		float radiusShift = 5.0f;
 		rot = { 0.0f,0.0f,0.0f };
 		#pragma region 乱数
 		//乱数シード生成器
@@ -134,31 +145,13 @@ void BaseEnemy::Move() {
 		//乱数　（回転）
 		//値を正規化
 		len = MyMath::normaleizeVec3(len);
-		float criteriaRot = MyMath::DegreeTransform(( atan2(len.z,len.x) ));
-		if ( lenght < lenPoint )
-		{
-			criteriaRot = -MyMath::DegreeTransform(( atan2(len.z,len.x) ));
-		}
+		
 		std::uniform_real_distribution<float> rotDist(-shift,shift);
+		std::uniform_real_distribution<float> radiusDist(0.1f,radiusShift);
 
-		angle = rotDist(engine) + criteriaRot;
-		angle = MyMath::RadianTransform(angle);
-		//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
-		value = { std::cos(angle),0.0f,std::sin(angle) };
-		//値を正規化
-		value = MyMath::normaleizeVec3(value);
+		moveAngle =MyMath::DegreeTransform(std::atan2(len.z,len.x));
 
-		angle = -MyMath::DegreeTransform(angle);//角度の算出
-		angle = MyMath::AngleCorrection(angle);//角度の補正
-		rot.y = angle;
-
-		obj->SetRotation(rot);
-
-		//敵の速度
-		const float speed = 0.2f;
-		move += value * speed;
-
-#pragma endregion
+		#pragma endregion
 		isMove = true;
 	}
 	else if ( moveTime < 0 )
@@ -168,33 +161,40 @@ void BaseEnemy::Move() {
 		isMove = false;
 		moveTime = moveTimer;
 	}
-	else
-	{
-		moveTime--;
-		oldPos = obj->GetPosition();
-		pos = obj->GetPosition();
-		pos += move;
-		//移動範囲の制限
-		if ( pos.x > Map::moveLimitW - radius )
-		{
-			pos.x = Map::moveLimitW - radius;
-		}
-		else if ( pos.x < -Map::moveLimitW + radius )
-		{
-			pos.x = -Map::moveLimitW + radius;
-		}
 
-		if ( pos.z > Map::moveLimitH - radius )
-		{
-			pos.z = Map::moveLimitH - radius;
-		}
-		else if ( pos.z < -Map::moveLimitH + radius )
-		{
-			pos.z = -Map::moveLimitH + radius;
-		}
-		obj->SetPosition(pos);
+	moveTime--;
+	oldPos = obj->GetPosition();
+	pos = obj->GetPosition();
+	//弧度法に変換
+	moveAngle = MyMath::AngleCorrection(moveAngle);//角度の補正
+	r = MyMath::RadianTransform(moveAngle);
+	//rot.y = waitAngle;
+	//obj->SetRotation(rot);
+
+	value = { std::cos(r) * speed,0.0f,std::sin(r) * speed };
+	pos += value;
+	//float p = hosei(lenght);
+	moveAngle += 5.0f;
+	lenght += 0.1f;
+	//移動範囲の制限
+	if ( pos.x > Map::moveLimitW - radius )
+	{
+		pos.x = Map::moveLimitW - radius;
+	}
+	else if ( pos.x < -Map::moveLimitW + radius )
+	{
+		pos.x = -Map::moveLimitW + radius;
 	}
 
+	if ( pos.z > Map::moveLimitH - radius )
+	{
+		pos.z = Map::moveLimitH - radius;
+	}
+	else if ( pos.z < -Map::moveLimitH + radius )
+	{
+		pos.z = -Map::moveLimitH + radius;
+	}
+	obj->SetPosition(pos);
 }
 
 void BaseEnemy::Shot() {
@@ -220,13 +220,14 @@ void BaseEnemy::Wait() {
 	// 正規化
 	rot = MyMath::normaleizeVec3(len);
 	//角度を算出
-	angle = MyMath::DegreeTransform(-atan2(rot.z,rot.x));
+	waitAngle = MyMath::DegreeTransform(-atan2(rot.z,rot.x));
 
+	//回転
 	if ( !isWait )
 	{
 		rot = obj->GetRotation();
 		float t = waitTime / waitTimer[ before ];
-		rot.y = MyMath::LerpShortAngle(rot.y,angle,t);
+		rot.y = MyMath::LerpShortAngle(rot.y,waitAngle,t);
 		obj->SetRotation(rot);
 	}
 
