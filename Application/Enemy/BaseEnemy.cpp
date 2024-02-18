@@ -120,7 +120,8 @@ void BaseEnemy::Draw() {
 }
 
 void BaseEnemy::Move() {
-	Vector3 pos;
+	Vector3 pos={0.0f,0.0f,0.0f};
+	rot={0.0f,0.0f,0.0f};
 	float r;
 	//敵の速度
 	const float speed = 1.0f;
@@ -149,7 +150,7 @@ void BaseEnemy::Move() {
 		std::uniform_real_distribution<float> rotDist(-shift,shift);
 		std::uniform_real_distribution<float> radiusDist(0.1f,radiusShift);
 
-		moveAngle =MyMath::DegreeTransform(std::atan2(len.z,len.x));
+		moveAngle= 0.0f;
 
 		#pragma endregion
 		isMove = true;
@@ -168,12 +169,12 @@ void BaseEnemy::Move() {
 	//弧度法に変換
 	moveAngle = MyMath::AngleCorrection(moveAngle);//角度の補正
 	r = MyMath::RadianTransform(moveAngle);
-	//rot.y = waitAngle;
-	//obj->SetRotation(rot);
 
 	value = { std::cos(r) * speed,0.0f,std::sin(r) * speed };
 	pos += value;
 	//float p = hosei(lenght);
+	rot.y -= moveAngle + 0.0f;
+	obj->SetRotation(rot);
 	moveAngle += 5.0f;
 	lenght += 0.1f;
 	//移動範囲の制限
