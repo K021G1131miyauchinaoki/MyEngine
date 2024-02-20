@@ -124,7 +124,8 @@ void BaseEnemy::Move() {
 	rot={0.0f,0.0f,0.0f};
 	float r;
 	//敵の速度
-	const float speed = 1.0f;
+	const float speed = 0.5f;
+	const float addAngle = 1.0f;
 	//float radius;
 	if ( !isMove )
 	{
@@ -150,7 +151,7 @@ void BaseEnemy::Move() {
 		std::uniform_real_distribution<float> rotDist(-shift,shift);
 		std::uniform_real_distribution<float> radiusDist(0.1f,radiusShift);
 
-		moveAngle= 0.0f;
+		
 
 		#pragma endregion
 		isMove = true;
@@ -175,7 +176,10 @@ void BaseEnemy::Move() {
 	//float p = hosei(lenght);
 	rot.y -= moveAngle + 0.0f;
 	obj->SetRotation(rot);
-	moveAngle += 5.0f;
+	if ( moveTime>moveTimer/2 )
+	{
+		moveAngle += addAngle;
+	}
 	lenght += 0.1f;
 	//移動範囲の制限
 	if ( pos.x > Map::moveLimitW - radius )
