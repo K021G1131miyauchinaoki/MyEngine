@@ -119,16 +119,13 @@ void BaseEnemy::Move() {
 	float r;
 	//敵の速度
 	const float speed = 0.5f;
+	//加算用角度
 	const float addAngle = 1.0f;
-	//float radius;
+	//判定用長さ
+	const float decisionLen = 50.0f;
 	if ( !isMove )
 	{
-		pos = obj->GetPosition();
-		playerPos = player->GetPos();
 
-		len = pos-centerPos;
-		//長さを算出
-		lenght = MyMath::Length(len);
 		//向きに対してプラスする角度
 		float shift = 180.0f;
 		float radiusShift = 5.0f;
@@ -138,9 +135,7 @@ void BaseEnemy::Move() {
 		std::random_device seed_gen;
 		//メルセンヌ・ツイスターの乱数エンジン
 		std::mt19937_64 engine(seed_gen());
-		//乱数　（回転）
-		//値を正規化
-		len = MyMath::normaleizeVec3(len);
+		
 		
 		std::uniform_real_distribution<float> rotDist(-shift,shift);
 		std::uniform_real_distribution<float> radiusDist(0.1f,radiusShift);
@@ -153,10 +148,19 @@ void BaseEnemy::Move() {
 	}
 	else if ( moveTime < 0 )
 	{
-		move = { 0.0f,0.0f, 0.0f };
-		phase = Phase::wait;
-		isMove = false;
 		moveTime = moveTimer;
+		
+		//長さを算出
+		pos = obj->GetPosition();
+		playerPos = player->GetPos();
+		len = pos - playerPos;
+		lenght = MyMath::Length(len);
+		//長さが規定値以下なら
+		if ( lenght<= decisionLen)
+		{
+			phase = Phase::wait;
+		}
+		isMove = false;
 	}
 
 	moveTime--;
@@ -170,7 +174,7 @@ void BaseEnemy::Move() {
 	pos += value;
 	rot.y -= moveAngle;
 	obj->SetRotation(rot);
-	if ( moveTime>moveTimer/2 )
+	if ( moveTime>moveTimer/4 )
 	{
 		//時計回り
 		if ( isClockwise )

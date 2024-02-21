@@ -156,8 +156,6 @@ protected://メンバ変数
 	float moveAngle;
 	//速度
 	Vector3 velocity;
-	//移動
-	Vector3 move;
 	//フェーズ
 	Phase phase = Phase::move;
 	MovePhase movePhase = MovePhase::approach;

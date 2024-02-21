@@ -268,7 +268,7 @@ void GamePlayScene::Initialize() {
 }
 
 void GamePlayScene::Update(){
-	const XMFLOAT3 cameraPos = { player->GetPos().x, 100, player->GetPos().z - 30.0f };
+	const XMFLOAT3 cameraPos = { player->GetPos().x, cameraY, player->GetPos().z - 30.0f };
 	if ( !player->IsDead() && enemyManager->GetSize()!=0 )
 	{
 		sight->SetPosition({ input->GetMausePos().x,input->GetMausePos().y });

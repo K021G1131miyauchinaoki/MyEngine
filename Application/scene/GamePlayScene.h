@@ -159,6 +159,9 @@ private:
 	float rPosEndY;
 	float sPosEndY;
 	float mPosEndX;
+	//カメラのy座標
+	const float cameraY=100.0f;
+
 	//操作UIフラグ
 	bool isDisplay = false;
 	bool isSlide = false;
