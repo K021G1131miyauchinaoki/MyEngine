@@ -22,7 +22,7 @@ VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOOR
     float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 	
 	//output.normal = normal;
-    output.color.rbg = (ambient + diffuse + specular) * lightcolor;
+    output.color.rgb = (ambient + diffuse + specular) * lightcolor;
     output.color.a = color.a*m_alpha;
 	output.uv = uv;
 	return output;
