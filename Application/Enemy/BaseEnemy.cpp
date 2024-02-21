@@ -122,10 +122,9 @@ void BaseEnemy::Move() {
 	//加算用角度
 	const float addAngle = 1.0f;
 	//判定用長さ
-	const float decisionLen = 50.0f;
+	const float decisionLen = 70.0f;
 	if ( !isMove )
 	{
-
 		//向きに対してプラスする角度
 		float shift = 180.0f;
 		float radiusShift = 5.0f;
