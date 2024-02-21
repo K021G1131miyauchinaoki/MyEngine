@@ -191,6 +191,6 @@ protected://メンバ変数
 	float pStartScaleXZ;
 	float pEndScaleXZ;
 	float lenght;
-
+	bool isClockwise;
 };
 

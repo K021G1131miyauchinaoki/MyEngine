@@ -3,23 +3,17 @@
  * @brief エネミークラス
  */
 
-#include "BaseEnemy.h"
 #include<cassert>
+#include<cmath>
 #include<random>
+#include "BaseEnemy.h"
 #include<SceneManager.h>
 #include<Map.h>
 #include<MyMath.h>
 #include"GamePlayScene.h"
 #include"Easing.h"
-#include<cmath>
 #include<SoundManager.h>
 
-
-float hosei(float len) {
-	float len_ = len / 10.0f;
-	
-	return 2.0f / len_;
-}
 
 void BaseEnemy::Initialize(Model* model_,Model* parachuteModel_,Player* player_,const Vector3& pos_,const Vector3& rot_,BulletManager* bulletManager_) {
 	assert(model_);
@@ -150,8 +144,9 @@ void BaseEnemy::Move() {
 		
 		std::uniform_real_distribution<float> rotDist(-shift,shift);
 		std::uniform_real_distribution<float> radiusDist(0.1f,radiusShift);
+		std::uniform_int_distribution<int> Dist(false,true);
 
-		
+		isClockwise = Dist(engine);
 
 		#pragma endregion
 		isMove = true;
@@ -173,14 +168,21 @@ void BaseEnemy::Move() {
 
 	value = { std::cos(r) * speed,0.0f,std::sin(r) * speed };
 	pos += value;
-	//float p = hosei(lenght);
-	rot.y -= moveAngle + 0.0f;
+	rot.y -= moveAngle;
 	obj->SetRotation(rot);
 	if ( moveTime>moveTimer/2 )
 	{
-		moveAngle += addAngle;
+		//時計回り
+		if ( isClockwise )
+		{
+			moveAngle += addAngle;
+		}
+		//反時計回り
+		else
+		{
+			moveAngle -= addAngle;
+		}
 	}
-	lenght += 0.1f;
 	//移動範囲の制限
 	if ( pos.x > Map::moveLimitW - radius )
 	{
