@@ -41,6 +41,15 @@ private:
 	float alpha;
 	bool isFadeOut;
 	bool isFadeIn;
-
+private:
+	//コンストラクタ
+	SceneTransition();
+	//デストラクタ
+	~SceneTransition();
+public:
+	//コピーコンストラクタを無効
+	SceneTransition(const SceneTransition& obj) = delete;
+	//代入演算子を無効
+	SceneTransition& operator=(const SceneTransition& obj) = delete;
 };
 

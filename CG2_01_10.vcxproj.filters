@@ -201,7 +201,9 @@
     <ClCompile Include="Application\particle\Smoke.cpp">
       <Filter>ソースファイル\Application\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="ModelManager.cpp" />
+    <ClCompile Include="Engine\3d\model\ModelManager.cpp">
+      <Filter>ソースファイル\Engine\3D\obj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\NormalEnemy.h">
@@ -372,7 +374,9 @@
     <ClInclude Include="Application\particle\Smoke.h">
       <Filter>ヘッダーファイル\Application\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="ModelManager.h" />
+    <ClInclude Include="Engine\3d\model\ModelManager.h">
+      <Filter>ヘッダーファイル\Engine\3D\obj</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

@@ -58,3 +58,6 @@ void SceneTransition::Draw() {
 void SceneTransition::IsFadeOutTrue() {
 	isFadeOut = true;
 }
+
+SceneTransition::SceneTransition() {}
+SceneTransition::~SceneTransition(){}
