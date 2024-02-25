@@ -201,6 +201,7 @@
     <ClCompile Include="Application\particle\Smoke.cpp">
       <Filter>ソースファイル\Application\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="ModelManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\NormalEnemy.h">
@@ -371,6 +372,7 @@
     <ClInclude Include="Application\particle\Smoke.h">
       <Filter>ヘッダーファイル\Application\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="ModelManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

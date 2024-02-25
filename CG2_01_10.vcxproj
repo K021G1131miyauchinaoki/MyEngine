@@ -163,6 +163,7 @@
     <ClCompile Include="Application\Bullet\Homing.cpp" />
     <ClCompile Include="Engine\3d\Billboard\BillboardParticle.cpp" />
     <ClCompile Include="Application\scene\StageSelect.cpp" />
+    <ClCompile Include="ModelManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
@@ -279,6 +280,7 @@
     <ClInclude Include="Application\Block\Fixedgun.h" />
     <ClInclude Include="Application\Bullet\Homing.h" />
     <ClInclude Include="Engine\3d\Billboard\BillboardParticle.h" />
+    <ClInclude Include="ModelManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Engine\audio\SoundManager.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
