@@ -51,7 +51,7 @@ void BaseEnemy::Initialize(Model* model_,Model* parachuteModel_,Player* player_,
 	parachute->SetRotation({ 0.0f,0.0f,0.0f });
 	parachute->Update();
 
-	moveTime = moveTimer;
+	moveTimer = moveTime;
 	shotTimer = shotTime;
 	waitTime = 0.0f;
 	invincibleTime = invincibleTimer;
@@ -123,7 +123,9 @@ void BaseEnemy::Move() {
 	const float addAngle = 1.0f;
 	//判定用長さ
 	const float decisionLen = 70.0f;
-	if ( !isMove )
+	//パーセント
+	float percent = 0.1f;
+	if ( !isMove&&!isShiftChange)
 	{
 		//向きに対してプラスする角度
 		float shift = 180.0f;
@@ -145,9 +147,18 @@ void BaseEnemy::Move() {
 		#pragma endregion
 		isMove = true;
 	}
-	else if ( moveTime < 0 )
+	if ( moveTimer < 0 || shiftChangeTimer<0.0f )
 	{
-		moveTime = moveTimer;
+		if ( moveTimer < 0 )
+		{
+			moveTimer = moveTime;
+			isMove = false;
+		}
+		if ( shiftChangeTimer < 0.0f )
+		{
+			shiftChangeTimer = shiftChangeTime;
+			isShiftChange = false;
+		}
 		
 		//長さを算出
 		pos = obj->GetPosition();
@@ -159,10 +170,15 @@ void BaseEnemy::Move() {
 		{
 			phase = Phase::wait;
 		}
-		isMove = false;
 	}
-
-	moveTime--;
+	if ( !isShiftChange )
+	{
+		moveTimer--;
+	}
+	else
+	{
+		shiftChangeTimer--;
+	}
 	oldPos = obj->GetPosition();
 	pos = obj->GetPosition();
 	//弧度法に変換
@@ -173,8 +189,9 @@ void BaseEnemy::Move() {
 	pos += value;
 	rot.y -= moveAngle;
 	obj->SetRotation(rot);
-	if ( moveTime>moveTimer/4 )
+	if ( moveTimer>moveTime/4 || (shiftChangeTimer > shiftChangeTime /percent&&isShiftChange))
 	{
+		
 		//時計回り
 		if ( isClockwise )
 		{
@@ -185,6 +202,14 @@ void BaseEnemy::Move() {
 		{
 			moveAngle -= addAngle;
 		}
+	}
+	//方向転換のフラグ
+	if (  pos.x >= Map::moveLimitW - radius   //xがw-rより大きい
+		||pos.x <= -Map::moveLimitW + radius  //xが-w+rより小さい
+		||pos.z >= Map::moveLimitH - radius	 //zがh-rより大きい
+		||pos.z <= -Map::moveLimitH + radius )//zが-h+rより小さい
+	{
+		isShiftChange = true;
 	}
 	//移動範囲の制限
 	if ( pos.x > Map::moveLimitW - radius )
@@ -204,6 +229,8 @@ void BaseEnemy::Move() {
 	{
 		pos.z = -Map::moveLimitH + radius;
 	}
+
+
 	obj->SetPosition(pos);
 }
 

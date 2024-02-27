@@ -134,41 +134,12 @@ protected://メンバ変数
 	std::unique_ptr<Object3d>obj = nullptr;
 	std::unique_ptr<Object3d>parachute = nullptr;
 	BulletManager* bulletManager = nullptr;
-	//移動フラグ
-	bool isMove = false;
-	//移動時間
-	int16_t moveTime;
-	const int16_t  moveTimer = 120;
-	//発射するまでの時間
-	int16_t shotTimer;
-	const int16_t  shotTime = 10;
-	//待機フラグ
-	bool isWait = false;
-	//待機時間
-	float waitTime;
-	//std::array<float>
-	float waitTimer[ 2 ] = { 5,60 };
 	//自キャラ
 	Player* player = nullptr;
 	//角度
 	Vector3 rot;
-	float waitAngle;
-	float moveAngle;
 	//速度
 	Vector3 velocity;
-	//フェーズ
-	Phase phase = Phase::move;
-	MovePhase movePhase = MovePhase::approach;
-	//乱数値格納
-	Vector3 value;
-	//半径
-	float radius = 5.0f;
-
-	//仮
-	bool isInvincible = false;
-	const int16_t invincibleTimer = 11;
-	int16_t invincibleTime;
-
 	//位置
 	Vector3 stratPos,endPos;
 	Vector3 playerPos;
@@ -177,18 +148,57 @@ protected://メンバ変数
 	Vector3 centerPos;
 	//距離
 	Vector3 len;
+	//乱数値格納
+	Vector3 value;
+	//フェーズ
+	Phase phase = Phase::move;
+	MovePhase movePhase = MovePhase::approach;
+	//半径
+	float radius = 5.0f;
+
+	//点滅時間
+	const int16_t invincibleTimer = 11;
+	int16_t invincibleTime;
+	//移動時間
+	int16_t moveTimer;
+	const int16_t  moveTime = 120;
+	//オブジェクトに当たった時の方向転換の時間
+	float shiftChangeTimer;
+	const float  shiftChangeTime = 50;
+	//発射するまでの時間
+	int16_t shotTimer;
+	const int16_t  shotTime = 10;
+	//待機時間
+	float waitTime;
+	//std::array<float>
+	float waitTimer[ 2 ] = { 5,60 };
+
 	//hp
 	BaseHp hp;
-	//
 	float startPosY,endPosY;
+	//イージング変数
 	const float startEaseTimer = 70;
 	float startEaseTime;
+	//パラシュート用変数
 	float parachutePosY;
 	float pStartRotZ;
 	float pEndRotZ;
 	float pStartScaleXZ;
 	float pEndScaleXZ;
+	//長さ
 	float lenght;
+	//角度
+	float waitAngle;
+	float moveAngle;
+	//移動フラグ
+	bool isMove = false;
+	//待機フラグ
+	bool isWait = false;
+	//点滅
+	bool isInvincible = false;
+	//時計回り
 	bool isClockwise;
+	//方向転換フラグ
+	bool isShiftChange;
 };
 
