@@ -125,10 +125,13 @@ private:
 	std::unique_ptr <Model> fixedgun = nullptr;
 	std::unique_ptr <Model> wall = nullptr;
 	std::unique_ptr <Model> bullet = nullptr;
+	std::unique_ptr <Model> under = nullptr;
+
 	//ジオメトリ
 	std::unique_ptr <BillboardParticle> geo = nullptr;
 	//天球
 	std::unique_ptr <Object3d> objSkydome = nullptr;
+	std::unique_ptr <Object3d> obj = nullptr;
 	//プレイヤー
 	std::unique_ptr<Player> player;
 	//敵

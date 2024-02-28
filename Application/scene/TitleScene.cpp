@@ -80,28 +80,28 @@ void TitleScene::Initialize() {
 	isFlash = true;
 
 	SoundManager::GetInstance()->PlayWave("BGM/title.wav",0.3f,true);
+	color.x = 1.0f;
+	color.y = 1.0f;
+	color.z = 1.0f;
+	color.w = 1.0f;
 }
 
 void TitleScene::Update() {
 
-	
-	/*if ( input->PushKey(DIK_W) )lightDir.m128_f32[ 1 ] += 1.0f;
-	if ( input->PushKey(DIK_S) )lightDir.m128_f32[ 1 ] -= 1.0f;
-	if ( input->PushKey(DIK_D) )lightDir.m128_f32[ 0 ] += 1.0f;
-	if ( input->PushKey(DIK_A) )lightDir.m128_f32[ 0 ]-= 1.0f;
-	if ( input->PushKey(DIK_Q) )lightDir.m128_f32[ 2 ] += 1.0f;
-	if ( input->PushKey(DIK_E) )lightDir.m128_f32[ 2 ] -= 1.0f;
 
 	float a[4];
-	a[ 0 ] = lightDir.m128_f32[ 0 ];
-	a[ 1 ] = lightDir.m128_f32[ 1 ];
-	a[ 2 ] = lightDir.m128_f32[ 2 ];
-	a[ 3 ] = lightDir.m128_f32[ 3 ];
+	a[ 0 ] = color.x;
+	a[ 1 ] = color.y;
+	a[ 2 ] = color.z;
+	a[ 3 ] = color.w;
 	ImGui::Begin("lo");
-	ImGui::SliderFloat4("lightDir",a, -100.0f,100.0f);
-	ImGui::End();*/
-
-
+	ImGui::ColorEdit4("lightDir",a,ImGuiColorEditFlags_Float);
+	ImGui::End();
+	color.x= a[ 0 ];
+	color.y = a[ 1 ];
+	color.z = a[ 2 ];
+	color.w = a[ 3 ];
+	objSkydome->SetColor(color);
 	/*シェイク処理*/
 	//カメラ位置
 	//乱数シード生成器
@@ -155,7 +155,7 @@ void TitleScene::Update() {
 	/*シーン遷移*/
 	//キーを押したら
 	if (input->TriggerReleaseKey(DIK_SPACE)
-		|| input->TriggerReleaseClick(Botton::LEFT)
+		//|| input->TriggerReleaseClick(Botton::LEFT)
 		&&!SceneTransition::GetInstance()->GetIsFadeOut()
 		&&!SceneTransition::GetInstance()->GetIsFadeIn() )
 	{

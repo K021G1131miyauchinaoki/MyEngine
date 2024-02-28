@@ -164,7 +164,7 @@ protected://メンバ変数
 	const int16_t  moveTime = 120;
 	//オブジェクトに当たった時の方向転換の時間
 	float shiftChangeTimer;
-	const float  shiftChangeTime = 50;
+	const float  shiftChangeTime = 90;
 	//発射するまでの時間
 	int16_t shotTimer;
 	const int16_t  shotTime = 10;

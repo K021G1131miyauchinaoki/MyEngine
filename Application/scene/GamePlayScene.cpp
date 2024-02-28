@@ -169,7 +169,7 @@ void GamePlayScene::Initialize() {
 	parachute.reset(Model::LoadFromOBJ("parachute"));
 	wall.reset(Model::LoadFromOBJ("wall"));
 	bullet.reset(Model::LoadFromOBJ("bullet"));
-
+	under.reset(Model::LoadFromOBJ("Undermap"));
 	//パーティクル
 	particle = std::make_unique <ModelParticleManager>();
 	particle->Initialize(cube.get());
@@ -225,9 +225,14 @@ void GamePlayScene::Initialize() {
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
 	objSkydome->SetModel(modelSkydome.get());	
-	objSkydome->SetScale({ 200.0f,200.0f,200.0f });
+	objSkydome->SetScale({ 250.0f,200.0f,250.0f });
+	objSkydome->SetColor({ 0.1f,0.6f,0.9f,1.0f });
 
-
+	obj = std::make_unique<Object3d>();
+	obj->Initialize();
+	obj->SetModel(under.get());
+	obj->SetScale({ 300.0f,100.0f,300.0f });
+	obj->SetPosition({ 0.0f,-50.0f,0.0f });
 
 	//マップ
 	map = std::make_unique<Map>();
@@ -268,6 +273,8 @@ void GamePlayScene::Initialize() {
 }
 
 void GamePlayScene::Update(){
+	obj->SetPosition({ player->GetPos().x/2,-50.0f,player->GetPos().z/2 });
+	obj->Update();
 	const XMFLOAT3 cameraPos = { player->GetPos().x, cameraY, player->GetPos().z - 30.0f };
 	if ( !player->IsDead() && enemyManager->GetSize()!=0 )
 	{
@@ -338,6 +345,7 @@ void GamePlayScene::ObjDraw(){
 	player->ObjDraw();
 	map->Draw();
 	particle->Draw();
+	obj->Draw();
 }
 
 void GamePlayScene::GeometryDraw()
