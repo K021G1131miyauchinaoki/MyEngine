@@ -53,6 +53,7 @@ void BaseEnemy::Initialize(Model* model_,Model* parachuteModel_,Player* player_,
 
 	moveTimer = moveTime;
 	shotTimer = shotTime;
+	shiftChangeTimer = shiftChangeTime;
 	waitTime = 0.0f;
 	invincibleTime = invincibleTimer;
 	waitAngle = 0.0f;
@@ -189,7 +190,7 @@ void BaseEnemy::Move() {
 	pos += value;
 	rot.y -= moveAngle;
 	obj->SetRotation(rot);
-	if ( moveTimer>moveTime/4 || (shiftChangeTimer > shiftChangeTime /percent&&isShiftChange))
+	if ( moveTimer>moveTime/4 || (shiftChangeTimer > shiftChangeTime *percent&&isShiftChange))
 	{
 		
 		//時計回り
@@ -209,7 +210,11 @@ void BaseEnemy::Move() {
 		||pos.z >= Map::moveLimitH - radius	 //zがh-rより大きい
 		||pos.z <= -Map::moveLimitH + radius )//zが-h+rより小さい
 	{
-		isShiftChange = true;
+		if ( !isShiftChange )
+		{
+			isShiftChange = true;
+
+		}
 	}
 	//移動範囲の制限
 	if ( pos.x > Map::moveLimitW - radius )
@@ -352,6 +357,8 @@ void BaseEnemy::OnCollisionPos(const std::string& hitDirection)
 
 	obj->SetPosition(pos);
 	obj->Update();
+
+	isShiftChange = true;
 }
 
 void BaseEnemy::SetBulletParameter(Vector3 rot_,Vector3 velocity_,std::string type_) {
