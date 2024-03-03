@@ -59,7 +59,7 @@ bool CheckBoxXZ( Vector3 pos1,Vector3 scale1,Vector3 pos2,Vector3 scale2)
 /// <param name="startB">線分のスタート</param>
 /// <param name="endB">線分のエンド</param>
 /// <returns></returns>
-bool HitLine(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB,std::string direction)//aが直線、bが線分,_sはstartの略,_lはlastの略
+bool HitObj(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB,std::string direction)//aが直線、bが線分,_sはstartの略,_lはlastの略
 {
 	if ( direction == "x" )
 	{
@@ -106,9 +106,9 @@ bool HitLine(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB,std::string
 /// <param name="endB">線分のエンド</param>
 /// <param name="direction">方向</param>
 /// <returns></returns>
-bool HitLine(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB)//aが直線、bが線分,_sはstartの略,_lはlastの略
+bool HitLine(Vector3 blockPos,Vector3 blockScale,Vector3 startB,Vector3 endB)//aが直線、bが線分,_sはstartの略,_lはlastの略
 {
-	
+	Vector3 startA,
 	float s,t;
 	s = ( startA.x - endA.x ) * ( endB.z - startA.z ) - ( startA.z - endA.z ) * ( endB.x - startA.x );
 	t = ( startA.x - endA.x ) * ( startB.z - startA.z ) - ( startA.z - endA.z ) * ( startB.x - startA.x );
@@ -497,16 +497,16 @@ void GamePlayScene::CheckAllCollision() {
 				bottomRB.z = block->GetPos().z - block->GetScale().z;
 				//左辺と（上辺、下辺）の判定
 				//右辺と（上辺、下辺）の判定
-				if ( HitLine(topLE,bottomLE,bottomLB,bottomRB,"-z") || HitLine(topLE,bottomLE,topLB,topRB,"z")
-					|| HitLine(topRE,bottomRE,bottomLB,bottomRB,"-z") || HitLine(topRE,bottomRE,topLB,topRB,"z") )
+				if ( HitObj(topLE,bottomLE,bottomLB,bottomRB,"-z") || HitObj(topLE,bottomLE,topLB,topRB,"z")
+					|| HitObj(topRE,bottomRE,bottomLB,bottomRB,"-z") || HitObj(topRE,bottomRE,topLB,topRB,"z") )
 				{
 					enemy->OnCollisionPos("z");
 
 				}
 				//上辺と（左辺、右辺）の判定
 				//下辺と（左辺、右辺）の判定
-				if ( HitLine(topLE,topRE,topLB,bottomLB,"-x") || HitLine(topLE,topRE,topRB,bottomRB,"x")
-					|| HitLine(bottomRE,bottomLE,topLB,bottomLB,"-x") || HitLine(bottomRE,bottomLE,topRB,bottomRB,"x") )
+				if ( HitObj(topLE,topRE,topLB,bottomLB,"-x") || HitObj(topLE,topRE,topRB,bottomRB,"x")
+					|| HitObj(bottomRE,bottomLE,topLB,bottomLB,"-x") || HitObj(bottomRE,bottomLE,topRB,bottomRB,"x") )
 				{
 					enemy->OnCollisionPos("x");
 				}
@@ -562,16 +562,16 @@ void GamePlayScene::CheckAllCollision() {
 								bottomRB.z = block.GetPos().z - Map::mapScaleH;
 								//左辺と（上辺、下辺）の判定
 								//右辺と（上辺、下辺）の判定
-								if ( HitLine(topLE,bottomLE,bottomLB,bottomRB,"-z") || HitLine(topLE,bottomLE,topLB,topRB,"z")
-									|| HitLine(topRE,bottomRE,bottomLB,bottomRB,"-z") || HitLine(topRE,bottomRE,topLB,topRB,"z") )
+								if ( HitObj(topLE,bottomLE,bottomLB,bottomRB,"-z") || HitObj(topLE,bottomLE,topLB,topRB,"z")
+									|| HitObj(topRE,bottomRE,bottomLB,bottomRB,"-z") || HitObj(topRE,bottomRE,topLB,topRB,"z") )
 								{
 									enemy->OnCollisionPos("z");
 
 								}
 								//上辺と（左辺、右辺）の判定
 								//下辺と（左辺、右辺）の判定
-								if ( HitLine(topLE,topRE,topLB,bottomLB,"-x") || HitLine(topLE,topRE,topRB,bottomRB,"x")
-									|| HitLine(bottomRE,bottomLE,topLB,bottomLB,"-x") || HitLine(bottomRE,bottomLE,topRB,bottomRB,"x") )
+								if ( HitObj(topLE,topRE,topLB,bottomLB,"-x") || HitObj(topLE,topRE,topRB,bottomRB,"x")
+									|| HitObj(bottomRE,bottomLE,topLB,bottomLB,"-x") || HitObj(bottomRE,bottomLE,topRB,bottomRB,"x") )
 								{
 									enemy->OnCollisionPos("x");
 								}
@@ -642,16 +642,16 @@ void GamePlayScene::CheckAllCollision() {
 			bottomRB.z = block->GetPos().z - block->GetScale().z;
 			//左辺と（上辺、下辺）の判定
 			//右辺と（上辺、下辺）の判定
-			if ( HitLine(topLP,bottomLP,bottomLB,bottomRB,"-z") || HitLine(topLP,bottomLP,topLB,topRB,"z")
-				||HitLine(topRP,bottomRP,bottomLB,bottomRB,"-z") || HitLine(topRP,bottomRP,topLB,topRB,"z") )
+			if ( HitObj(topLP,bottomLP,bottomLB,bottomRB,"-z") || HitObj(topLP,bottomLP,topLB,topRB,"z")
+				||HitObj(topRP,bottomRP,bottomLB,bottomRB,"-z") || HitObj(topRP,bottomRP,topLB,topRB,"z") )
 			{
 				player->OnCollisionPos("z");
 				
 			}
 			//上辺と（左辺、右辺）の判定
 			//下辺と（左辺、右辺）の判定
-			if ( HitLine(topLP,topRP,topLB,bottomLB,"-x") || HitLine(topLP,topRP,topRB,bottomRB,"x")
-				|| HitLine(bottomRP,bottomLP,topLB,bottomLB,"-x") || HitLine(bottomRP,bottomLP,topRB,bottomRB,"x") )
+			if ( HitObj(topLP,topRP,topLB,bottomLB,"-x") || HitObj(topLP,topRP,topRB,bottomRB,"x")
+				|| HitObj(bottomRP,bottomLP,topLB,bottomLB,"-x") || HitObj(bottomRP,bottomLP,topRB,bottomRB,"x") )
 			{
 				player->OnCollisionPos("x");
 			}
@@ -709,16 +709,16 @@ void GamePlayScene::CheckAllCollision() {
 							bottomRB.z = block.GetPos().z - Map::mapScaleH;
 							//左辺と（上辺、下辺）の判定
 							//右辺と（上辺、下辺）の判定
-							if ( HitLine(topLP,bottomLP,bottomLB,bottomRB,"-z") || HitLine(topLP,bottomLP,topLB,topRB,"z")
-								|| HitLine(topRP,bottomRP,bottomLB,bottomRB,"-z") || HitLine(topRP,bottomRP,topLB,topRB,"z") )
+							if ( HitObj(topLP,bottomLP,bottomLB,bottomRB,"-z") || HitObj(topLP,bottomLP,topLB,topRB,"z")
+								|| HitObj(topRP,bottomRP,bottomLB,bottomRB,"-z") || HitObj(topRP,bottomRP,topLB,topRB,"z") )
 							{
 								player->OnCollisionPos("z");
 
 							}
 							//上辺と（左辺、右辺）の判定
 							//下辺と（左辺、右辺）の判定
-							if ( HitLine(topLP,topRP,topLB,bottomLB,"-x") || HitLine(topLP,topRP,topRB,bottomRB,"x")
-								|| HitLine(bottomRP,bottomLP,topLB,bottomLB,"-x") || HitLine(bottomRP,bottomLP,topRB,bottomRB,"x") )
+							if ( HitObj(topLP,topRP,topLB,bottomLB,"-x") || HitObj(topLP,topRP,topRB,bottomRB,"x")
+								|| HitObj(bottomRP,bottomLP,topLB,bottomLB,"-x") || HitObj(bottomRP,bottomLP,topRB,bottomRB,"x") )
 							{
 								player->OnCollisionPos("x");
 							}
