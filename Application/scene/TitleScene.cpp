@@ -89,7 +89,7 @@ void TitleScene::Initialize() {
 void TitleScene::Update() {
 
 
-	float a[4];
+	/*float a[4];
 	a[ 0 ] = color.x;
 	a[ 1 ] = color.y;
 	a[ 2 ] = color.z;
@@ -101,7 +101,7 @@ void TitleScene::Update() {
 	color.y = a[ 1 ];
 	color.z = a[ 2 ];
 	color.w = a[ 3 ];
-	objSkydome->SetColor(color);
+	objSkydome->SetColor(color);*/
 	/*シェイク処理*/
 	//カメラ位置
 	//乱数シード生成器
@@ -155,7 +155,7 @@ void TitleScene::Update() {
 	/*シーン遷移*/
 	//キーを押したら
 	if (input->TriggerReleaseKey(DIK_SPACE)
-		//|| input->TriggerReleaseClick(Botton::LEFT)
+		|| input->TriggerReleaseClick(Botton::LEFT)
 		&&!SceneTransition::GetInstance()->GetIsFadeOut()
 		&&!SceneTransition::GetInstance()->GetIsFadeIn() )
 	{

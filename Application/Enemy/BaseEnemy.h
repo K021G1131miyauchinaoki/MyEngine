@@ -103,6 +103,11 @@ public:
 	virtual void OnCollisionPos(const std::string &hitDirection);
 
 	/// <summary>
+	/// オブジェクト非衝突時のコールバック
+	/// </summary>
+	virtual void OffCollisionShot();
+
+	/// <summary>
 	/// デスフラグが立ったら
 	/// </summary>
 	/// <returns></returns>
@@ -200,5 +205,7 @@ protected://メンバ変数
 	bool isClockwise;
 	//方向転換フラグ
 	bool isShiftChange;
+	//
+
 };
 

@@ -361,6 +361,11 @@ void BaseEnemy::OnCollisionPos(const std::string& hitDirection)
 	isShiftChange = true;
 }
 
+void BaseEnemy::OffCollisionShot()
+{
+
+}
+
 void BaseEnemy::SetBulletParameter(Vector3 rot_,Vector3 velocity_,std::string type_) {
 	Vector3 pos = obj->GetPosition();
 	//弾の発射位置の調整

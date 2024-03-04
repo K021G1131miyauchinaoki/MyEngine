@@ -108,7 +108,11 @@ bool HitObj(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB,std::string 
 /// <returns></returns>
 bool HitLine(Vector3 blockPos,Vector3 blockScale,Vector3 startB,Vector3 endB)//aが直線、bが線分,_sはstartの略,_lはlastの略
 {
-	Vector3 startA,
+	Vector3 startA = blockPos;
+	Vector3 endA = blockPos;
+	//x
+	startA.x -= blockScale.x;
+	endA.x += blockScale.x;
 	float s,t;
 	s = ( startA.x - endA.x ) * ( endB.z - startA.z ) - ( startA.z - endA.z ) * ( endB.x - startA.x );
 	t = ( startA.x - endA.x ) * ( startB.z - startA.z ) - ( startA.z - endA.z ) * ( startB.x - startA.x );
@@ -123,6 +127,27 @@ bool HitLine(Vector3 blockPos,Vector3 blockScale,Vector3 startB,Vector3 endB)//a
 	{
 		return false;
 	}
+
+	startA = blockPos;
+	endA = blockPos;
+	//z
+	startA.z -= blockScale.z;
+	endA.z += blockScale.z;
+	
+	s = ( startA.x - endA.x ) * ( endB.z - startA.z ) - ( startA.z - endA.z ) * ( endB.x - startA.x );
+	t = ( startA.x - endA.x ) * ( startB.z - startA.z ) - ( startA.z - endA.z ) * ( startB.x - startA.x );
+	if ( s * t > 0 )
+	{
+		return false;
+	}
+
+	s = ( endB.x - startB.x ) * ( startA.z - endB.z ) - ( endB.z - startB.z ) * ( startA.x - endB.x );
+	t = ( endB.x - startB.x ) * ( endA.z - endB.z ) - ( endB.z - startB.z ) * ( endA.x - endB.x );
+	if ( s * t > 0 )
+	{
+		return false;
+	}
+
 	return	true;
 }
 
@@ -226,13 +251,13 @@ void GamePlayScene::Initialize() {
 	objSkydome->Initialize();
 	objSkydome->SetModel(modelSkydome.get());	
 	objSkydome->SetScale({ 250.0f,200.0f,250.0f });
-	objSkydome->SetColor({ 0.1f,0.6f,0.9f,1.0f });
+	/*objSkydome->SetColor({ 0.1f,0.6f,0.9f,1.0f });
 
 	obj = std::make_unique<Object3d>();
 	obj->Initialize();
 	obj->SetModel(under.get());
 	obj->SetScale({ 300.0f,100.0f,300.0f });
-	obj->SetPosition({ 0.0f,-50.0f,0.0f });
+	obj->SetPosition({ 0.0f,-50.0f,0.0f });*/
 
 	//マップ
 	map = std::make_unique<Map>();
@@ -273,8 +298,8 @@ void GamePlayScene::Initialize() {
 }
 
 void GamePlayScene::Update(){
-	obj->SetPosition({ player->GetPos().x/2,-50.0f,player->GetPos().z/2 });
-	obj->Update();
+	/*obj->SetPosition({ player->GetPos().x/2,-50.0f,player->GetPos().z/2 });
+	obj->Update();*/
 	const XMFLOAT3 cameraPos = { player->GetPos().x, cameraY, player->GetPos().z - 30.0f };
 	if ( !player->IsDead() && enemyManager->GetSize()!=0 )
 	{
@@ -345,7 +370,7 @@ void GamePlayScene::ObjDraw(){
 	player->ObjDraw();
 	map->Draw();
 	particle->Draw();
-	obj->Draw();
+	//obj->Draw();
 }
 
 void GamePlayScene::GeometryDraw()

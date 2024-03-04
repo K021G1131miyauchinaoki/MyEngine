@@ -131,7 +131,7 @@ private:
 	std::unique_ptr <BillboardParticle> geo = nullptr;
 	//天球
 	std::unique_ptr <Object3d> objSkydome = nullptr;
-	std::unique_ptr <Object3d> obj = nullptr;
+	//std::unique_ptr <Object3d> obj = nullptr;
 	//プレイヤー
 	std::unique_ptr<Player> player;
 	//敵
