@@ -1,3 +1,4 @@
+
 /**
  * @file NormalEnemy.h
  * @brief エネミークラス
@@ -150,7 +151,6 @@ protected://メンバ変数
 	Vector3 playerPos;
 	Vector3 oldPos;
 	Vector3 parachutePos;
-	Vector3 centerPos;
 	//距離
 	Vector3 len;
 	//乱数値格納
@@ -205,7 +205,7 @@ protected://メンバ変数
 	bool isClockwise;
 	//方向転換フラグ
 	bool isShiftChange;
-	//
-
+	//発射フラグ
+	bool isShot;
 };
 

@@ -63,8 +63,18 @@ void BaseEnemy::Initialize(Model* model_,Model* parachuteModel_,Player* player_,
 	hp.isDead = false;
 	bulletManager = bulletManager_;
 
-
-	centerPos = { 0.0f,0.0f,endPos.z+30.0f };
+	//移動フラグ
+	isMove = false;
+	//待機フラグ
+	isWait = false;
+	//点滅
+	isInvincible = false;
+	//時計回り
+	isClockwise = false;
+	//方向転換フラグ
+	isShiftChange = false;
+	//発射フラグ
+	isShot = false;
 }
 
 void BaseEnemy::Update() {
@@ -363,7 +373,7 @@ void BaseEnemy::OnCollisionPos(const std::string& hitDirection)
 
 void BaseEnemy::OffCollisionShot()
 {
-
+	isShot = true;
 }
 
 void BaseEnemy::SetBulletParameter(Vector3 rot_,Vector3 velocity_,std::string type_) {
