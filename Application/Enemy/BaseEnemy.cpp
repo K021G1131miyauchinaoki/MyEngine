@@ -132,8 +132,6 @@ void BaseEnemy::Move() {
 	const float speed = 0.5f;
 	//加算用角度
 	const float addAngle = 1.0f;
-	//判定用長さ
-	const float decisionLen = 70.0f;
 	//パーセント
 	float percent = 0.1f;
 	if ( !isMove&&!isShiftChange)
@@ -158,34 +156,34 @@ void BaseEnemy::Move() {
 		#pragma endregion
 		isMove = true;
 	}
-	if ( moveTimer < 0 || shiftChangeTimer<0.0f )
+	if ( isShot )
 	{
-		if ( moveTimer < 0 )
-		{
-			moveTimer = moveTime;
-			isMove = false;
-		}
-		if ( shiftChangeTimer < 0.0f )
-		{
-			shiftChangeTimer = shiftChangeTime;
-			isShiftChange = false;
-		}
-		
-		//長さを算出
-		pos = obj->GetPosition();
-		playerPos = player->GetPos();
-		len = pos - playerPos;
-		lenght = MyMath::Length(len);
-		//長さが規定値以下なら
-		if ( lenght<= decisionLen&&isShot)
+		shotTimer--;
+		if ( shotTimer<0 )
 		{
 			phase = Phase::wait;
+			shotTimer = shotTime;
+			isShot = false;
 		}
 	}
+
+	//動作用タイマーとフラグのリセット
+	if ( moveTimer < 0 )
+	{
+		moveTimer = moveTime;
+		isMove = false;
+	}
+	if ( shiftChangeTimer < 0.0f )
+	{
+		shiftChangeTimer = shiftChangeTime;
+		isShiftChange = false;
+	}
+	//蛇行
 	if ( !isShiftChange )
 	{
 		moveTimer--;
 	}
+	//旋回
 	else
 	{
 		shiftChangeTimer--;
@@ -252,7 +250,6 @@ void BaseEnemy::Move() {
 void BaseEnemy::Shot() {
 	//フェーズの切り替え
 	phase = Phase::wait;
-	shotTimer = shotTime;
 	//音
 	SoundManager::GetInstance()->PlayWave("SE/gun.wav",0.2f);
 }

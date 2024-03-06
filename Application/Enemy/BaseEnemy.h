@@ -172,7 +172,7 @@ protected://メンバ変数
 	const float  shiftChangeTime = 90;
 	//発射するまでの時間
 	int16_t shotTimer;
-	const int16_t  shotTime = 10;
+	const int16_t  shotTime = 50;
 	//待機時間
 	float waitTime;
 	//std::array<float>
@@ -190,8 +190,6 @@ protected://メンバ変数
 	float pEndRotZ;
 	float pStartScaleXZ;
 	float pEndScaleXZ;
-	//長さ
-	float lenght;
 	//角度
 	float waitAngle;
 	float moveAngle;
