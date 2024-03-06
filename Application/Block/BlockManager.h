@@ -33,6 +33,13 @@ public:
 	std::list<std::unique_ptr<BaseBlock>>& GetBlocks() {
 		return blocks;
 	}
+
+	//個数の取得
+	size_t GetSize() {
+		return blocks.size();
+	}
+
+
 private:
 	// ブロック
 	std::list<std::unique_ptr<BaseBlock>> blocks;

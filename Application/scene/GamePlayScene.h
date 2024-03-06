@@ -170,5 +170,7 @@ private:
 	bool isSlide = false;
 	//ステージの文字列
 	std::string stageStr;
+
+	size_t count;
 };
 

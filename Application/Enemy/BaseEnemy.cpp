@@ -177,7 +177,7 @@ void BaseEnemy::Move() {
 		len = pos - playerPos;
 		lenght = MyMath::Length(len);
 		//長さが規定値以下なら
-		if ( lenght<= decisionLen)
+		if ( lenght<= decisionLen&&isShot)
 		{
 			phase = Phase::wait;
 		}

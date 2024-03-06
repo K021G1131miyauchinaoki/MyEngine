@@ -106,34 +106,9 @@ bool HitObj(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB,std::string 
 /// <param name="endB">線分のエンド</param>
 /// <param name="direction">方向</param>
 /// <returns></returns>
-bool HitLine(Vector3 blockPos,Vector3 blockScale,Vector3 startB,Vector3 endB)//aが直線、bが線分,_sはstartの略,_lはlastの略
+bool HitLine(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB)//aが直線、bが線分,_sはstartの略,_lはlastの略
 {
-	Vector3 startA = blockPos;
-	Vector3 endA = blockPos;
-	//x
-	startA.x -= blockScale.x;
-	endA.x += blockScale.x;
 	float s,t;
-	s = ( startA.x - endA.x ) * ( endB.z - startA.z ) - ( startA.z - endA.z ) * ( endB.x - startA.x );
-	t = ( startA.x - endA.x ) * ( startB.z - startA.z ) - ( startA.z - endA.z ) * ( startB.x - startA.x );
-	if ( s * t > 0 )
-	{
-		return false;
-	}
-
-	s = ( endB.x - startB.x ) * ( startA.z - endB.z ) - ( endB.z - startB.z ) * ( startA.x - endB.x );
-	t = ( endB.x - startB.x ) * ( endA.z - endB.z ) - ( endB.z - startB.z ) * ( endA.x - endB.x );
-	if ( s * t > 0 )
-	{
-		return false;
-	}
-
-	startA = blockPos;
-	endA = blockPos;
-	//z
-	startA.z -= blockScale.z;
-	endA.z += blockScale.z;
-	
 	s = ( startA.x - endA.x ) * ( endB.z - startA.z ) - ( startA.z - endA.z ) * ( endB.x - startA.x );
 	t = ( startA.x - endA.x ) * ( startB.z - startA.z ) - ( startA.z - endA.z ) * ( startB.x - startA.x );
 	if ( s * t > 0 )
@@ -295,6 +270,8 @@ void GamePlayScene::Initialize() {
 
 	//音
 	SoundManager::GetInstance()->PlayWave("BGM/play.wav",0.2f,true);
+
+	count = 0;
 }
 
 void GamePlayScene::Update(){
@@ -486,10 +463,10 @@ void GamePlayScene::CheckAllCollision() {
 				}
 			}
 			#pragma endregion
-
-			#pragma region ブロックとの当たり判定
+			count = 0;
 			for ( const std::unique_ptr<BaseBlock>& block : blockManager->GetBlocks() )
 			{
+				#pragma region ブロックとの当たり判定
 				Vector3 topLB,topRB,bottomRB,bottomLB;
 				/*プレイヤー*/
 				//左奥
@@ -535,6 +512,34 @@ void GamePlayScene::CheckAllCollision() {
 				{
 					enemy->OnCollisionPos("x");
 				}
+				#pragma endregion
+
+				#pragma region 敵と自機の間にブロックがあるかの判定
+				Vector3 len;
+				float lenght;
+				float decisionLen = 70.0f;
+				//長さを算出
+				len = enemy->GetPos() - player->GetPos();
+				lenght = MyMath::Length(len);
+				//長さが規定値以下なら
+				if ( lenght <= decisionLen )
+				{
+					Vector3 startX,endX,startZ,endZ=block->GetPos();
+					startX.x-= block->GetPos().x;
+					endX.x+= block->GetPos().x;
+					startZ.z-= block->GetPos().z;
+					endZ.z+=block->GetPos().z;
+					if ( !HitLine(startX,endX,player->GetPos(),enemy->GetPos())
+						&& !HitLine(startZ,endZ,player->GetPos(),enemy->GetPos()) )
+					{
+						count++;
+					}
+				}
+				
+			}
+			if ( count== blockManager->GetSize() )
+			{
+				enemy->OffCollisionShot();
 			}
 			#pragma endregion
 
