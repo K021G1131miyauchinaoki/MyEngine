@@ -88,7 +88,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <Optimization>MinSpace</Optimization>
+      <Optimization>Full</Optimization>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Bullet;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

@@ -463,7 +463,7 @@ void GamePlayScene::CheckAllCollision() {
 				}
 			}
 			#pragma endregion
-			count = 0;
+			
 			for ( const std::unique_ptr<BaseBlock>& block : blockManager->GetBlocks() )
 			{
 				#pragma region ブロックとの当たり判定
@@ -524,11 +524,12 @@ void GamePlayScene::CheckAllCollision() {
 				//長さが規定値以下なら
 				if ( lenght <= decisionLen )
 				{
+					float plus = 0.2f;
 					Vector3 startX,endX,startZ,endZ=block->GetPos();
-					startX.x-= block->GetPos().x;
-					endX.x+= block->GetPos().x;
-					startZ.z-= block->GetPos().z;
-					endZ.z+=block->GetPos().z;
+					startX.x-= block->GetPos().x+plus;
+					endX.x+= block->GetPos().x + plus;
+					startZ.z-= block->GetPos().z + plus;
+					endZ.z+=block->GetPos().z + plus;
 					if ( !HitLine(startX,endX,player->GetPos(),enemy->GetPos())
 						&& !HitLine(startZ,endZ,player->GetPos(),enemy->GetPos()) )
 					{
@@ -541,6 +542,7 @@ void GamePlayScene::CheckAllCollision() {
 			{
 				enemy->OffCollisionShot();
 			}
+			count = 0;
 			#pragma endregion
 
 			#pragma region マップとの当たり判定
