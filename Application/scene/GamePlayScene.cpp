@@ -11,6 +11,7 @@
 #include<SceneManager.h>
 #include<Vector3.h>
 #include<SoundManager.h>
+#include<random>
 
 int8_t GamePlayScene::startCount = 0;
 bool GamePlayScene::isStart = true;
@@ -274,10 +275,28 @@ void GamePlayScene::Initialize() {
 	count = 0;
 }
 
-void GamePlayScene::Update(){
+void GamePlayScene::Update() {
 	/*obj->SetPosition({ player->GetPos().x/2,-50.0f,player->GetPos().z/2 });
 	obj->Update();*/
-	const XMFLOAT3 cameraPos = { player->GetPos().x, cameraY, player->GetPos().z - 30.0f };
+	shake = { 0.0f,0.0f,0.0f };
+	if(player->IsShake() )
+	{
+		float num = 0.3f;
+		/*シェイク処理*/
+		//カメラ位置
+		//乱数シード生成器
+		std::random_device seed_gen;
+		//メルセンヌ・ツイスターの乱数エンジン
+		std::mt19937_64 engine(seed_gen());
+		//乱数　（回転）
+		std::uniform_real_distribution<float> posDist(-num,num);
+		//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
+		shake = { posDist(engine),0.0f,posDist(engine) };
+	}
+	const XMFLOAT3 cameraPos =
+	  { player->GetPos().x+ shake.x,
+		cameraY,
+		player->GetPos().z - 30.0f+ shake.z };
 	if ( !player->IsDead() && enemyManager->GetSize()!=0 )
 	{
 		sight->SetPosition({ input->GetMausePos().x,input->GetMausePos().y });

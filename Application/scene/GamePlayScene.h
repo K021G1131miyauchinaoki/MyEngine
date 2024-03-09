@@ -149,6 +149,9 @@ private:
 	//パーティクルマネージャー
 	std::unique_ptr<ModelParticleManager> particle;
 
+	//シェイク
+	Vector3 shake;
+
 	//スプライトイージング
 	float spriteEaseTime;
 	const float spriteEaseTimer = 30;

@@ -110,6 +110,8 @@ void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* pa
 	pLeaveTime = 0;
 	coolTime = 0;
 	invincibleTimer = invincibleTime;
+	shakeTimer = shakeTime;
+
 	//体力
 	hp.value = 3;
 	hp.isDead = false;
@@ -175,11 +177,21 @@ void Player::Update() {
 			if ( isInvincible )
 			{
 				invincibleTimer--;
+				if ( invincibleTimer < 0 )
+				{
+					invincibleTimer = invincibleTime;
+					isInvincible = false;
+				}
 			}
-			if ( invincibleTimer < 0 )
+			//シェイク
+			if ( isShake )
 			{
-				invincibleTimer = invincibleTime;
-				isInvincible = false;
+				shakeTimer--;
+				if ( shakeTimer < 0 )
+				{
+					shakeTimer = shakeTime;
+					isShake = false;
+				}
 			}
 		}
 	}
@@ -383,7 +395,7 @@ void Player::OnCollision()
 	//体力減少
 	if ( !isInvincible )
 	{
-		hp.value--;
+		//hp.value--;
 	}
 	if (hp.value<=0)
 	{
@@ -393,6 +405,10 @@ void Player::OnCollision()
 	if (!isInvincible)
 	{
 		isInvincible = true; 
+	}
+	if ( !isShake )
+	{
+		isShake = true;
 	}
 }
 

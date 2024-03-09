@@ -116,6 +116,12 @@ public://メンバ関数
 	//HPの取得
 	int8_t GetHp() {return hp.value;}
 
+	//シェイクフラグを取得
+	bool IsShake()const {
+		return isShake;
+	}
+
+
 private://メンバ変数
 	Input*input = nullptr;
 	std::unique_ptr<Object3d>tankHad = nullptr;
@@ -125,7 +131,6 @@ private://メンバ変数
 	//クールタイム
 	int32_t coolTime;
 
-	float angle = 0.0f;
 	Vector3 oldPos;
 	Vector3 tankPos;
 	Vector3 tankScale;
@@ -135,8 +140,6 @@ private://メンバ変数
 	Vector3 velocity;
 	Vector2	mouseVec ;
 	Vector2	 mausePos;
-	//半径
-	float radius = 5.0f;
 
 	const int16_t invincibleTime=60;
 	int16_t invincibleTimer;
@@ -147,12 +150,13 @@ private://メンバ変数
 	float easeTime;
 	const float titleEaseTimer = 80.0f;
 
+	//半径
+	float radius = 5.0f;
+	float angle = 0.0f;
 	float startPosY,endPosY;
 	float bound;
 	const float startEaseTimer=150;
 	float startEaseTime;
-	bool isTitleStaging;
-	bool isInvincible;
 	float parachutePosY;
 	float pStartRotZ;
 	float pEndRotZ;
@@ -163,5 +167,11 @@ private://メンバ変数
 	float pPosX;
 	const float rotTimer = 10;
 	float rotTime;
+	int8_t shakeTimer;
+	const int8_t shakeTime = 20;
+
+	bool isTitleStaging;
+	bool isInvincible;
+	bool isShake;
 };
 
