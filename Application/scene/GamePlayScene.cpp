@@ -281,7 +281,7 @@ void GamePlayScene::Update() {
 	shake = { 0.0f,0.0f,0.0f };
 	if(player->IsShake() )
 	{
-		float num = 0.3f;
+		float num = 0.4f;
 		/*シェイク処理*/
 		//カメラ位置
 		//乱数シード生成器
@@ -544,11 +544,17 @@ void GamePlayScene::CheckAllCollision() {
 				if ( lenght <= decisionLen )
 				{
 					float plus = 0.2f;
-					Vector3 startX,endX,startZ,endZ=block->GetPos();
-					startX.x-= block->GetPos().x+plus;
-					endX.x+= block->GetPos().x + plus;
-					startZ.z-= block->GetPos().z + plus;
-					endZ.z+=block->GetPos().z + plus;
+					//ブロックの位置を代入
+					Vector3 startX,endX,startZ,endZ;
+					startX = block->GetPos();
+					endX = block->GetPos();
+					startZ = block->GetPos();
+					endZ=block->GetPos();
+					//補正
+					startX.x-= block->GetScale().x+plus;
+					endX.x+= block->GetScale().x + plus;
+					startZ.z-= block->GetScale().z + plus;
+					endZ.z+=block->GetScale().z + plus;
 					if ( !HitLine(startX,endX,player->GetPos(),enemy->GetPos())
 						&& !HitLine(startZ,endZ,player->GetPos(),enemy->GetPos()) )
 					{

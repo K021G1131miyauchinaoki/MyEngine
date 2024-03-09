@@ -395,7 +395,7 @@ void Player::OnCollision()
 	//体力減少
 	if ( !isInvincible )
 	{
-		//hp.value--;
+		hp.value--;
 	}
 	if (hp.value<=0)
 	{
