@@ -18,7 +18,8 @@ void ModelManager::LoadModel()
 	models.emplace(fixedgun,Model::LoadFromOBJ("fixedgun"));
 	models.emplace(wall,Model::LoadFromOBJ("wall"));
 	models.emplace(bullet,Model::LoadFromOBJ("bullet"));
-
+	models.emplace(bom,Model::LoadFromOBJ("bom"));
+	models.emplace(smoke,Model::LoadFromOBJ("smoke"));
 }
 
 Model* ModelManager::GetModel(const ModelData& key_)

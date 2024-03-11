@@ -19,6 +19,7 @@
 #include<BillboardParticle.h>
 #include<Vector2.h>
 #include<array>
+#include<ModelManager.h>
 
 using namespace MyEngin;
 
@@ -77,11 +78,10 @@ private:
 	Input* input = nullptr;
 	//カメラ初期化
 	std::unique_ptr<Camera>camera;
-	//objモデル
-	std::unique_ptr <Model> modelSkydome = nullptr;
-
+	//obj
 	std::unique_ptr <Object3d> objSkydome = nullptr;
-
+	//モデルマネージャー
+	ModelManager* modelM;
 	//スプライト
 	std::unique_ptr<Sprite> selectSprite;
 	std::array< std::unique_ptr<Sprite>,slideNum> slide;

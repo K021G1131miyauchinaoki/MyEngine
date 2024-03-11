@@ -17,6 +17,7 @@
 #include<Object3d.h>
 #include<ModelParticleManager.h>
 #include<BillboardParticle.h>
+#include<ModelManager.h>
 
 class GameOverScene :public BaseScene
 {
@@ -66,18 +67,13 @@ private:
 	Input* input = nullptr;
 	//カメラ初期化
 	std::unique_ptr<Camera>camera;
-	//objモデル
-	std::unique_ptr <Model> modelSkydome = nullptr;
-	std::unique_ptr <Model> cube = nullptr;
-	std::unique_ptr <Model> body = nullptr;
-	std::unique_ptr <Model> had = nullptr;
-	std::unique_ptr <Model> modelMap = nullptr;
-
+	//obj
 	std::unique_ptr <Object3d> objSkydome = nullptr;
 	std::unique_ptr <Object3d> tankBody = nullptr;
 	std::unique_ptr <Object3d> tankHad = nullptr;
-	
-
+	//モデルマネージャー
+	ModelManager* modelM;
+	//マップ
 	std::unique_ptr<Map>map;
 	//パーティクル
 	std::unique_ptr < ModelParticleManager> particle;

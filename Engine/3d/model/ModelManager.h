@@ -16,6 +16,8 @@ enum ModelData
 	fixedgun,
 	wall,
 	bullet,
+	bom,
+	smoke,
 	Max,
 };
 class ModelManager

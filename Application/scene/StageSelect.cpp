@@ -30,6 +30,8 @@ bool CheckHit(XMFLOAT2 pos,XMFLOAT2 size,Vector2 mouse) {
 }
 
 void StageSelect::Initialize() {
+	modelM = ModelManager::GetInstance();
+
 	waitTime = 0;
 	//スプライト
 	selectSprite = std::make_unique<Sprite>();
@@ -79,12 +81,10 @@ void StageSelect::Initialize() {
 	light->Update();
 	Object3d::SetLight(light.get());
 
-	// モデル読み込み
-	modelSkydome.reset(Model::LoadFromOBJ("skydome",true));
 	//スカイドーム
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
-	objSkydome->SetModel(modelSkydome.get());
+	objSkydome->SetModel(modelM->GetModel(ModelData::skydome));
 	objSkydome->SetScale({ 150.0f,150.0f,150.0f });
 
 	//ターゲットの設定

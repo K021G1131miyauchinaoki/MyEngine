@@ -12,6 +12,8 @@
 int8_t TitleScene::movieCount = NULL;
 
 void TitleScene::Initialize() {
+	modelM = ModelManager::GetInstance();
+
 	//スプライト
 	titleSprite = std::make_unique<Sprite>();
 	titleSprite->Initialize(SpriteCommon::GetInstance(), 1);
@@ -44,30 +46,19 @@ void TitleScene::Initialize() {
 	light->SetLightDir(lightDir);
 	Object3d::SetLight(light.get());
 
-	// モデル読み込み
-	modelSkydome.reset(Model::LoadFromOBJ("skydome",true));
-	cube.reset(Model::LoadFromOBJ("cube"));
-	had.reset(Model::LoadFromOBJ("TankHad"));
-	body.reset(Model::LoadFromOBJ("TankBody"));
-	modelMap.reset(Model::LoadFromOBJ("map"));
-
-	//モデルのセット
-	Map::StaticInitialize(modelMap.get());
-
-
 	//スカイドーム
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
-	objSkydome->SetModel(modelSkydome.get());
+	objSkydome->SetModel(modelM->GetModel(ModelData::skydome));
 	objSkydome->SetScale({ 150.0f,150.0f,150.0f });
 
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->TitleInitialeze(had.get(),body.get(),input);
+	player->TitleInitialeze(modelM->GetModel(ModelData::had),modelM->GetModel(ModelData::body),input);
 	
 	//マップ
 	map = std::make_unique<Map>();
-	map->Initialize(false);
+	map->Initialize(false,modelM->GetModel(ModelData::map));
 	map->LoadCSV("title");
 
 	isMovie = true;

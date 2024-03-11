@@ -128,6 +128,8 @@ bool HitLine(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB)//aが直�
 }
 
 void GamePlayScene::Initialize() {
+	modelM = ModelManager::GetInstance();
+
 	//ステージ番号
 	StageString();
 
@@ -159,21 +161,10 @@ void GamePlayScene::Initialize() {
 	//ジオメトリ
 	geo.reset(BillboardParticle::Create());
 	geo->SetCamera(camera.get());
-	// モデル読み込み
-	modelSkydome.reset(Model::LoadFromOBJ("skydome",true));
-	cube.reset(Model::LoadFromOBJ("cube"));
-	tank.reset(Model::LoadFromOBJ("tank"));
-	had.reset(Model::LoadFromOBJ("TankHad"));
-	body.reset(Model::LoadFromOBJ("TankBody"));
-	modelMap.reset(Model::LoadFromOBJ("map"));
-	fixedgun.reset(Model::LoadFromOBJ("fixedgun"));
-	parachute.reset(Model::LoadFromOBJ("parachute"));
-	wall.reset(Model::LoadFromOBJ("wall"));
-	bullet.reset(Model::LoadFromOBJ("bullet"));
-	under.reset(Model::LoadFromOBJ("Undermap"));
+
 	//パーティクル
 	particle = std::make_unique <ModelParticleManager>();
-	particle->Initialize(cube.get());
+	particle->Initialize(modelM->GetModel(ModelData::cube));
 
 	//弾マネージャー
 	bulletManager=std::make_unique<BulletManager>();
@@ -181,20 +172,22 @@ void GamePlayScene::Initialize() {
 	enemyManager = std::make_unique<EnemyManager>();
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->PlayInitialeze(had.get(),body.get(),parachute.get(),input,bulletManager.get());
+	player->PlayInitialeze(modelM->GetModel(ModelData::had),
+						   modelM->GetModel(ModelData::body),
+						   modelM->GetModel(ModelData::parachute),input,bulletManager.get());
 	//壁
 	blockManager = std::make_unique<BlockManager>();
 	blockManager->Initialize(bulletManager.get());
 
 	//弾マネージャー初期化
-	bulletManager->Initialize(bullet.get(),player.get(),geo.get());
+	bulletManager->Initialize(modelM->GetModel(ModelData::bullet),player.get(),geo.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson(stageStr));
-	models.insert(std::make_pair("Normal",tank.get()));
-	models.insert(std::make_pair("Shotgun",tank.get()));
-	models.insert(std::make_pair("block",wall.get()));
-	models.insert(std::make_pair("fixedgun",fixedgun.get()));
+	models.insert(std::make_pair("Normal",modelM->GetModel(ModelData::enemy)));
+	models.insert(std::make_pair("Shotgun",modelM->GetModel(ModelData::enemy)));
+	models.insert(std::make_pair("block",modelM->GetModel(ModelData::wall)));
+	models.insert(std::make_pair("fixedgun",modelM->GetModel(ModelData::fixedgun)));
 
 	// レベルデータからオブジェクトを生成、配置
 	for ( auto& objectData : jsonLoader->objects )
@@ -210,7 +203,7 @@ void GamePlayScene::Initialize() {
 		//エネミー
 		if (objectData.fileName == "Shotgun" || objectData.fileName == "Normal" )
 		{
-			enemyManager->Add(objectData.fileName,model,parachute.get(),player.get(),objectData.translation,objectData.rotation,bulletManager.get());
+			enemyManager->Add(objectData.fileName,model,modelM->GetModel(ModelData::parachute),player.get(),objectData.translation,objectData.rotation,bulletManager.get());
 		}
 		//ブロック
 		if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
@@ -218,14 +211,11 @@ void GamePlayScene::Initialize() {
 			blockManager->Add(objectData.fileName,model,objectData.translation,objectData.rotation,objectData.scaling);
 		}
 	}
-	//モデルのセット
-	Map::StaticInitialize(modelMap.get());
-
 
 	//スカイドーム
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
-	objSkydome->SetModel(modelSkydome.get());	
+	objSkydome->SetModel(modelM->GetModel(ModelData::skydome));
 	objSkydome->SetScale({ 250.0f,200.0f,250.0f });
 	/*objSkydome->SetColor({ 0.1f,0.6f,0.9f,1.0f });
 
@@ -237,7 +227,7 @@ void GamePlayScene::Initialize() {
 
 	//マップ
 	map = std::make_unique<Map>();
-	map->Initialize(true);
+	map->Initialize(true,modelM->GetModel(ModelData::map));
 	map->LoadCSV(stageStr);
 
 

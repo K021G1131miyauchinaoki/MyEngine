@@ -9,7 +9,6 @@
 #include<Easing.h>
 #include<sstream>
 
-std::unique_ptr < Model> Map::model;
 float Map::moveLimitW;
 float Map::moveLimitH;
 float Map::mapScaleW;
@@ -21,14 +20,8 @@ int16_t Map::height;
 Map::Map() {}
 Map::~Map(){}
 
-void Map::StaticInitialize(Model* model_) {
-	if (model == nullptr)
-	{
-		model.reset(model_);
-	}
-}
-
-void Map::Initialize(bool isStaging_) {
+void Map::Initialize(bool isStaging_,Model* model_) {
+	model = model_;
 	//変数の初期化
 	nowMax = 0;
 	//スケール
@@ -142,7 +135,7 @@ void Map::LoadCSV(const std::string& num_) {
 
 			rot = { 0.0f,0.0f,rotZ };
 			//オブジェクトにパラメータをセット
-			blocks[ i ][ j ].Initialize(pos,rot,scale,model.get());
+			blocks[ i ][ j ].Initialize(pos,rot,scale,model);
 			if ( change )
 			{
 				blocks[ i ][ j ].SetColor({0.7f,0.7f, 0.7f, 1.0f});
@@ -252,9 +245,4 @@ void Map::Staging(size_t y_, size_t x_) {
 	}
 	
 
-}
-
-//終了
-void Map::Finalize() {
-	model.release();
 }

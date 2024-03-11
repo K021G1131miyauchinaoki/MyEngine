@@ -21,21 +21,12 @@ public:
 	///デストラクタ
 	/// <summary>
 	~Map();
-public://静的メンバ関数
-	/// <summary>
-	/// 静的初期化
-	/// </summary>
-	static void StaticInitialize(Model* model_);
-	/// <summary>
-	/// 終了
-	/// </summary>
-	static void Finalize();
 
 public://メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(bool isStaging_);
+	void Initialize(bool isStaging_,Model*model_);
 
 	/// <summary>
 	/// 更新
@@ -59,8 +50,6 @@ public://メンバ関数
 		return blocks[h][w];
 	}
 	
-private://静的メンバ変数
-	static	std::unique_ptr < Model> model;
 public:
 	//移動の上限
 	static float moveLimitW;
@@ -73,7 +62,8 @@ public:
 	static int16_t width;
 	static int16_t height;
 private://メンバ変数
-
+	//モデル
+	Model* model;
 	/*イージング*/
 	//スケール
 	Vector3 scaleEnd;

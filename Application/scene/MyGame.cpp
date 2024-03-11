@@ -7,6 +7,7 @@
 #include<EnemyBullet.h>
 #include<Bullet.h>
 #include<Map.h>
+#include<ModelManager.h>
 #include<SceneFactory.h>
 #define safe_delete(p)  {delete p; p = nullptr;}
 
@@ -39,6 +40,8 @@ void MyGame::Initialize() {
 	SoundManager::GetInstance()->LoadWave("SE/dying.wav");
 	SoundManager::GetInstance()->LoadWave("SE/decision.wav");
 	ImguiManager::GetInstance()->Initialize(winApp, dxCommon.get());
+	//モデル
+	ModelManager::GetInstance()->LoadModel();
 	
 	//シーンマネージャーに最初のシーンをセット
 	sceneFactory = new SceneFactory();
@@ -88,7 +91,6 @@ void MyGame::Draw(){
 }
 
 void MyGame::Finalize(){
-	Map::Finalize();
 	Framework::Finalize();
 }
 

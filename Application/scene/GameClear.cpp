@@ -9,6 +9,8 @@
 #include<Easing.h>
 
 void GameClear::Initialize() {
+	modelM = ModelManager::GetInstance();
+
 	//変数
 	clearTime = 0.0f;
 	startFovAngle=10.0f;
@@ -66,36 +68,27 @@ void GameClear::Initialize() {
 	light->Update();
 	Object3d::SetLight(light.get());
 
-	// モデル読み込み
-	modelSkydome.reset(Model::LoadFromOBJ("skydome",true));
-	had.reset(Model::LoadFromOBJ("TankHad"));
-	body.reset(Model::LoadFromOBJ("TankBody"));
-	modelMap.reset(Model::LoadFromOBJ("map"));
-
-	//モデルのセット
-	Map::StaticInitialize(modelMap.get());
-
 
 	//スカイドーム
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
-	objSkydome->SetModel(modelSkydome.get());
+	objSkydome->SetModel(modelM->GetModel(ModelData::skydome));
 	objSkydome->SetScale({ 150.0f,150.0f,150.0f });
 
 	tankBody = std::make_unique<Object3d>();
 	tankBody->Initialize();
-	tankBody->SetModel(body.get());
+	tankBody->SetModel(modelM->GetModel(ModelData::body));
 	tankBody->SetPosition({ 0.0f,5.0f,0.0f });
 	tankBody->SetScale({ 5.0f,5.0f,5.0f });
 	tankHad = std::make_unique<Object3d>();
 	tankHad->Initialize();
-	tankHad->SetModel(had.get());
+	tankHad->SetModel(modelM->GetModel(ModelData::had));
 	tankHad->SetPosition({ 0.0f,5.0f,0.0f });
 	tankHad->SetScale({ 5.0f,5.0f,5.0f });
 
 	//マップ
 	map = std::make_unique<Map>();
-	map->Initialize(false);
+	map->Initialize(false,modelM->GetModel(ModelData::map));
 	map->LoadCSV("title");
 
 	flashTime = 0;

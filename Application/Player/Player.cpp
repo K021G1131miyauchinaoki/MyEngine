@@ -404,11 +404,11 @@ void Player::OnCollision()
 	//点滅フラグ
 	if (!isInvincible)
 	{
-		isInvincible = true; 
-	}
-	if ( !isShake )
-	{
-		isShake = true;
+		isInvincible = true;
+		if ( !isShake )
+		{
+			isShake = true;
+		}
 	}
 }
 

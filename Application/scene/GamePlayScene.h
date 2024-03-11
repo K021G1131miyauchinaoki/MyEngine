@@ -22,6 +22,7 @@
 #include"BlockManager.h"
 #include"BulletManager.h"
 #include<BillboardParticle.h>
+#include<ModelManager.h>
 #include<string>
 
 class GamePlayScene:public BaseScene
@@ -114,19 +115,9 @@ private:
 	std::unique_ptr <Sprite>ready = nullptr;
 	std::unique_ptr <Sprite>sight = nullptr;
 	std::unique_ptr <Sprite>memo = nullptr;
-	//objモデル
-	std::unique_ptr <Model> modelSkydome = nullptr;
-	std::unique_ptr <Model> cube = nullptr;
-	std::unique_ptr <Model> body = nullptr;
-	std::unique_ptr <Model> had = nullptr;
-	std::unique_ptr <Model> tank = nullptr;
-	std::unique_ptr <Model> parachute = nullptr;
-	std::unique_ptr <Model> modelMap = nullptr;
-	std::unique_ptr <Model> fixedgun = nullptr;
-	std::unique_ptr <Model> wall = nullptr;
-	std::unique_ptr <Model> bullet = nullptr;
-	std::unique_ptr <Model> under = nullptr;
 
+	//モデルマネージャー
+	ModelManager* modelM;
 	//ジオメトリ
 	std::unique_ptr <BillboardParticle> geo = nullptr;
 	//天球

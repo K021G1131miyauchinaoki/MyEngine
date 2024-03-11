@@ -9,6 +9,8 @@
 #include<Vector3.h>
 
 void GameOverScene::Initialize() {
+	modelM = ModelManager::GetInstance();
+
 	waitTime = 0;
 
 	//スプライト
@@ -35,43 +37,32 @@ void GameOverScene::Initialize() {
 	light->SetLightColor({ 1.0f,1.0f,1.0f });
 	Object3d::SetLight(light.get());
 
-	// モデル読み込み
-	modelSkydome.reset(Model::LoadFromOBJ("skydome",true));
-	cube.reset(Model::LoadFromOBJ("smoke"));
-	had.reset(Model::LoadFromOBJ("TankHad"));
-	body.reset(Model::LoadFromOBJ("TankBody"));
-	modelMap.reset(Model::LoadFromOBJ("map"));
-
-	//モデルのセット
-	Map::StaticInitialize(modelMap.get());
-
-
 	//スカイドーム
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
-	objSkydome->SetModel(modelSkydome.get());
+	objSkydome->SetModel(modelM->GetModel(ModelData::skydome));
 	objSkydome->SetScale({ 150.0f,150.0f,150.0f });
 	//タンク
 	tankBody = std::make_unique<Object3d>();
 	tankBody->Initialize();
-	tankBody->SetModel(body.get());
+	tankBody->SetModel(modelM->GetModel(ModelData::body));
 	tankBody->SetPosition({ -5.0f,5.0f,8.0f });
 	tankBody->SetScale({ 5.0f,5.0f,5.0f });
 	tankHad = std::make_unique<Object3d>();
 	tankHad->Initialize();
-	tankHad->SetModel(had.get());
+	tankHad->SetModel(modelM->GetModel(ModelData::had));
 	tankHad->SetPosition({ -1.9f,3.5f,2.0f });
 	tankHad->SetScale({ 5.0f,5.0f,5.0f });
 	tankHad->SetRotation({ -1.5f,40.0f,-22.0f });
 
 	//マップ
 	map = std::make_unique<Map>();
-	map->Initialize(false);
+	map->Initialize(false,modelM->GetModel(ModelData::map));
 	map->LoadCSV("title");
 
 	//パーティクルマネージャー
 	particle = std::make_unique<ModelParticleManager>();
-	particle->Initialize(cube.get());
+	particle->Initialize(modelM->GetModel(ModelData::smoke));
 
 	//ターゲットの設定
 	camera->SetTarget({ tankBody->GetPosition().x, tankBody->GetPosition().y, tankBody->GetPosition().z });

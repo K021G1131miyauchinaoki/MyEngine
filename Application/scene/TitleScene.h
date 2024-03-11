@@ -17,6 +17,7 @@
 #include<array>
 #include"Vector3.h"
 #include"Light.h"
+#include<ModelManager.h>
 
 class TitleScene:public BaseScene
 {
@@ -86,14 +87,10 @@ private:
 	Input* input = nullptr;;
 	//カメラ初期化
 	std::unique_ptr<Camera>camera;
-	//objモデル
-	std::unique_ptr <Model> modelSkydome = nullptr;
-	std::unique_ptr <Model> cube = nullptr;
-	std::unique_ptr <Model> body = nullptr;
-	std::unique_ptr <Model> had = nullptr;
-	std::unique_ptr <Model> modelMap = nullptr;
-
+	//obj
 	std::unique_ptr <Object3d> objSkydome = nullptr;
+	//モデルマネージャー
+	ModelManager* modelM;
 
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Map>map;

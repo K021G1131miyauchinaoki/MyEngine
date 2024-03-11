@@ -15,6 +15,7 @@
 #include<ImguiManager.h>
 #include<Map.h>
 #include<BaseScene.h>
+#include<ModelManager.h>
 
 class GameClear :public BaseScene
 {
@@ -73,12 +74,9 @@ private:
 	XMVECTOR lightDir = { -250.0f,-350.0f,20.0f,0.0f };
 	//カメラ初期化
 	std::unique_ptr<Camera>camera;
-	//objモデル
-	std::unique_ptr <Model> modelSkydome = nullptr;
-	std::unique_ptr <Model> body = nullptr;
-	std::unique_ptr <Model> had = nullptr;
-	std::unique_ptr <Model> modelMap = nullptr;
-
+	//モデルマネージャー
+	ModelManager* modelM;
+	//obj
 	std::unique_ptr <Object3d> objSkydome = nullptr;
 	std::unique_ptr <Object3d> tankBody = nullptr;
 	std::unique_ptr <Object3d> tankHad = nullptr;
