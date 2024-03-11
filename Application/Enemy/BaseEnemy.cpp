@@ -52,7 +52,7 @@ void BaseEnemy::Initialize(Model* model_,Model* parachuteModel_,Player* player_,
 	parachute->Update();
 
 	moveTimer = moveTime;
-	shotTimer = 0;
+	shotTimer = 20;
 	shiftChangeTimer = shiftChangeTime;
 	waitTime = 0.0f;
 	invincibleTime = invincibleTimer;

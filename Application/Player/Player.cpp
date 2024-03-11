@@ -405,6 +405,7 @@ void Player::OnCollision()
 	if (!isInvincible)
 	{
 		isInvincible = true;
+		//一度だけシェイクする
 		if ( !isShake )
 		{
 			isShake = true;

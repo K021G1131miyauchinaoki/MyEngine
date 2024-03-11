@@ -204,6 +204,7 @@
     <ClCompile Include="Engine\3d\model\ModelManager.cpp">
       <Filter>ソースファイル\Engine\3D\obj</Filter>
     </ClCompile>
+    <ClCompile Include="RapidEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\NormalEnemy.h">
@@ -377,6 +378,7 @@
     <ClInclude Include="Engine\3d\model\ModelManager.h">
       <Filter>ヘッダーファイル\Engine\3D\obj</Filter>
     </ClInclude>
+    <ClInclude Include="RapidEnemy.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

@@ -113,6 +113,14 @@ void Map::LoadCSV(const std::string& num_) {
 	//パラメータの組み込み
 	for (size_t i = 0; i < height; i++)
 	{
+		if ( i%2==0 )
+		{
+			change = false;
+		}
+		else
+		{
+			change = true;
+		}
 		for (size_t j = 0; j < width; j++)
 		{
 			//フラグで挿入するパラメータを変化
