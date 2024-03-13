@@ -8,6 +8,7 @@
 #include<MyMath.h>	
 #include<Easing.h>
 #include<sstream>
+#include<random>
 
 float Map::moveLimitW;
 float Map::moveLimitH;
@@ -169,6 +170,74 @@ void Map::LoadCSV(const std::string& num_) {
 	}
 
 
+
+	//移動制限の数値設定
+	moveLimitW = static_cast<float>(width) * scaleEnd.x;
+	moveLimitH = static_cast<float>(height) * scaleEnd.z;
+	mapScaleW = scaleEnd.x;
+	mapScaleH = scaleEnd.z;
+}
+
+void Map::RandomCreate()
+{
+	//乱数シード生成器
+	std::random_device seed_gen;
+	//メルセンヌ・ツイスターの乱数エンジン
+	std::mt19937_64 engine(seed_gen());
+
+
+	//std::uniform_real_distribution<float> rotDist(-shift, shift);
+	std::uniform_int_distribution<int16_t> Dist(9, 15);
+	//ブロックのサイズを設定
+
+	height =Dist(engine) ;
+	width = Dist(engine);
+	numW = (width / 2);
+	numH = (height / 2);
+
+	// 二次元配列のサイズを初期化
+	blocks.resize(height);
+	for (int i = 0; i < height; ++i) {
+		blocks[i].resize(width);
+	}
+
+	//パラメータの組み込み
+	for (size_t i = 0; i < height; i++)
+	{
+		if (i % 2 == 0)
+		{
+			change = false;
+		}
+		else
+		{
+			change = true;
+		}
+		for (size_t j = 0; j < width; j++)
+		{
+			//パラメータをセット
+			float rotZ;
+			Vector3	scale, pos, rot;
+			if (isStaging)
+
+			rotZ = rotStartZ;
+			scale = scaleStart;
+			pos.y = posStartY;
+			
+			pos.z = (i * scaleEnd.z) * 2.0f - (scaleEnd.z * (height - 1));
+			pos.x = (j * scaleEnd.x) * 2.0f - (scaleEnd.x * (width - 1));
+
+			rot = { 0.0f,0.0f,rotZ };
+			//オブジェクトにパラメータをセット
+			blocks[i][j].Initialize(pos, rot, scale, model);
+			if (change)
+			{
+				blocks[i][j].SetColor({ 0.7f,0.7f, 0.7f, 1.0f });
+			}
+			change ^= 1;
+			//最初なので全部1
+			blocks[i][j].SetDrawNum(1);
+		}
+	}
 
 	//移動制限の数値設定
 	moveLimitW = static_cast<float>(width) * scaleEnd.x;

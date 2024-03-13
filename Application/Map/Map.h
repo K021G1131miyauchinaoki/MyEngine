@@ -41,6 +41,9 @@ public://メンバ関数
 	// 読み込み
 	void LoadCSV(const std::string& num_);
 
+	//ランダム発生
+	void RandomCreate();
+
 	//準備
 	void Preparation();
 	//演出
