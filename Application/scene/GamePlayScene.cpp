@@ -228,7 +228,8 @@ void GamePlayScene::Initialize() {
 	//マップ
 	map = std::make_unique<Map>();
 	map->Initialize(true,modelM->GetModel(ModelData::map));
-	map->LoadCSV(stageStr);
+	//map->LoadCSV(stageStr);
+	map->RandomCreate();
 
 
 

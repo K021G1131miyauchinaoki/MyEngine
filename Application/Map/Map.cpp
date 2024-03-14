@@ -63,10 +63,6 @@ void Map::Draw() {
 			{
 				blocks[ i ][ j ].Draw();
 			}
-			else
-			{
-				blocks[ i ][ j ].GetDrawNum();
-			}
 		}
 	}
 }
@@ -187,10 +183,10 @@ void Map::RandomCreate()
 
 
 	//std::uniform_real_distribution<float> rotDist(-shift, shift);
-	std::uniform_int_distribution<int16_t> Dist(9, 15);
+	std::uniform_int_distribution<int16_t> Dist(7, 17);
 	//ブロックのサイズを設定
 
-	height =Dist(engine) ;
+	height = Dist(engine);
 	width = Dist(engine);
 	numW = (width / 2);
 	numH = (height / 2);
@@ -215,18 +211,16 @@ void Map::RandomCreate()
 		for (size_t j = 0; j < width; j++)
 		{
 			//パラメータをセット
-			float rotZ;
 			Vector3	scale, pos, rot;
 			if (isStaging)
 
-			rotZ = rotStartZ;
 			scale = scaleStart;
 			pos.y = posStartY;
 			
 			pos.z = (i * scaleEnd.z) * 2.0f - (scaleEnd.z * (height - 1));
 			pos.x = (j * scaleEnd.x) * 2.0f - (scaleEnd.x * (width - 1));
 
-			rot = { 0.0f,0.0f,rotZ };
+			rot = { 0.0f,0.0f,rotStartZ };
 			//オブジェクトにパラメータをセット
 			blocks[i][j].Initialize(pos, rot, scale, model);
 			if (change)
