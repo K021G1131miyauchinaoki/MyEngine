@@ -397,17 +397,14 @@ void Player::OnCollision()
 	{
 		//体力減少
 		hp.value--;
-
+		//0以下ならtrue
+		hp.isDead = hp.value <= 0;
 		isInvincible = true;
 		//一度だけシェイクする
 		if ( !isShake )
 		{
 			isShake = true;
 		}
-	}
-	if (hp.value<=0)
-	{
-		hp.isDead = true;
 	}
 }
 

@@ -344,10 +344,7 @@ void BaseEnemy::OnCollision()
 		isInvincible = true;
 	}
 	hp.value--;
-	if ( hp.value <= 0 )
-	{
-		hp.isDead = true;
-	}
+	hp.isDead = hp.value <= 0;
 }
 
 void BaseEnemy::OnCollisionPos(const std::string& hitDirection)

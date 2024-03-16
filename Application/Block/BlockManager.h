@@ -35,6 +35,11 @@ public:
 	/// </summary>
 	void RandomCreate();
 
+	/// <summary>
+	/// ライン生成
+	/// </summary>
+	void LineCreate(const Vector3&pos_,const Vector3 &scale_);
+
 	// リストを取得
 	std::list<std::unique_ptr<BaseBlock>>& GetBlocks() {
 		return blocks;
@@ -53,5 +58,11 @@ private:
 	BulletManager* bulletManager;
 	//マップ
 	Map* map;
+	//境界値
+	int16_t border;
+	//境界フラグ
+	bool isBorder;
+	//位置、回転、サイズ
+	Vector3 pos,rot,scale;
 };
 
