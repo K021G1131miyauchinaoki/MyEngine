@@ -392,24 +392,22 @@ void Player::Rotate() {
 
 void Player::OnCollision() 
 {
-	//体力減少
-	if ( !isInvincible )
-	{
-		hp.value--;
-	}
-	if (hp.value<=0)
-	{
-		hp.isDead = true;
-	}
 	//点滅フラグ
 	if (!isInvincible)
 	{
+		//体力減少
+		hp.value--;
+
 		isInvincible = true;
 		//一度だけシェイクする
 		if ( !isShake )
 		{
 			isShake = true;
 		}
+	}
+	if (hp.value<=0)
+	{
+		hp.isDead = true;
 	}
 }
 

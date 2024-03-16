@@ -145,6 +145,7 @@ private:
 
 	//スプライトイージング
 	float spriteEaseTime;
+
 	const float spriteEaseTimer = 30;
 	float spriteWaitTime;
 	const float spriteWaitTimer = 60;

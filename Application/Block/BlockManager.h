@@ -1,6 +1,7 @@
 #pragma once
 #include<BaseBlock.h>
 #include<BulletManager.h>
+#include"Map.h"
 
 class BlockManager
 {
@@ -8,7 +9,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(BulletManager* bulletManager_);
+	void Initialize(BulletManager* bulletManager_,Map*map_);
 	/// <summary>
 	/// 更新
 	/// </summary>
@@ -20,7 +21,7 @@ public:
 	void Draw();
 
 	/// <summary>
-	/// プレイヤーの弾発射
+	/// ブロックの追加
 	/// </summary>
 	/// <param name="name"></param>
 	/// <param name="model"></param>
@@ -28,6 +29,11 @@ public:
 	/// <param name="rot_"></param>
 	/// <param name="scale_"></param>
 	void Add(const std::string name_, Model*model_,const Vector3& pos_,const Vector3& rot_,const Vector3& scale_);
+
+	/// <summary>
+	/// ランダム生成
+	/// </summary>
+	void RandomCreate();
 
 	// リストを取得
 	std::list<std::unique_ptr<BaseBlock>>& GetBlocks() {
@@ -45,5 +51,7 @@ private:
 	std::list<std::unique_ptr<BaseBlock>> blocks;
 	//弾マネージャー
 	BulletManager* bulletManager;
+	//マップ
+	Map* map;
 };
 

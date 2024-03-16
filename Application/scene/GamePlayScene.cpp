@@ -62,25 +62,26 @@ bool CheckBoxXZ( Vector3 pos1,Vector3 scale1,Vector3 pos2,Vector3 scale2)
 /// <returns></returns>
 bool HitObj(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB,std::string direction)//aが直線、bが線分,_sはstartの略,_lはlastの略
 {
+	float plus = 0.5f;
 	if ( direction == "x" )
 	{
-		startB.x += 0.5f;
-		endB.x += 0.5f;
+		startB.x += plus;
+		endB.x += plus;
 	}
 	else if ( direction == "-x" )
 	{
-		startB.x -= 0.5f;
-		endB.x -= 0.5f;
+		startB.x -= plus;
+		endB.x -= plus;
 	}
 	else if ( direction == "z" )
 	{
-		startB.z += 0.5f;
-		endB.z += 0.5f;
+		startB.z += plus;
+		endB.z += plus;
 	}
 	else if ( direction == "-z" )
 	{
-		startB.z -= 0.5f;
-		endB.z -= 0.5f;
+		startB.z -= plus;
+		endB.z -= plus;
 	}
 	float s,t;
 	s = ( startA.x - endA.x ) * ( endB.z - startA.z ) - ( startA.z - endA.z ) * ( endB.x - startA.x );
@@ -168,16 +169,24 @@ void GamePlayScene::Initialize() {
 
 	//弾マネージャー
 	bulletManager=std::make_unique<BulletManager>();
+	//マップ
+	map = std::make_unique<Map>();
+	map->Initialize(true,modelM->GetModel(ModelData::map));
+	//map->LoadCSV(stageStr);
+	map->RandomCreate();
+
 	//敵
 	enemyManager = std::make_unique<EnemyManager>();
 	//プレイヤー
 	player = std::make_unique<Player>();
 	player->PlayInitialeze(modelM->GetModel(ModelData::had),
 						   modelM->GetModel(ModelData::body),
-						   modelM->GetModel(ModelData::parachute),input,bulletManager.get());
+						   modelM->GetModel(ModelData::parachute),
+						   input,bulletManager.get());
 	//壁
 	blockManager = std::make_unique<BlockManager>();
-	blockManager->Initialize(bulletManager.get());
+	blockManager->Initialize(bulletManager.get(),map.get());
+	blockManager->RandomCreate();
 
 	//弾マネージャー初期化
 	bulletManager->Initialize(modelM->GetModel(ModelData::bullet),player.get(),geo.get());
@@ -206,10 +215,10 @@ void GamePlayScene::Initialize() {
 			enemyManager->Add(objectData.fileName,model,modelM->GetModel(ModelData::parachute),player.get(),objectData.translation,objectData.rotation,bulletManager.get());
 		}
 		//ブロック
-		if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
+		/*if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
 		{
 			blockManager->Add(objectData.fileName,model,objectData.translation,objectData.rotation,objectData.scaling);
-		}
+		}*/
 	}
 
 	//スカイドーム
@@ -225,11 +234,6 @@ void GamePlayScene::Initialize() {
 	obj->SetScale({ 300.0f,100.0f,300.0f });
 	obj->SetPosition({ 0.0f,-50.0f,0.0f });*/
 
-	//マップ
-	map = std::make_unique<Map>();
-	map->Initialize(true,modelM->GetModel(ModelData::map));
-	//map->LoadCSV(stageStr);
-	map->RandomCreate();
 
 
 
