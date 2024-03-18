@@ -12,6 +12,9 @@
 int8_t TitleScene::movieCount = NULL;
 
 void TitleScene::Initialize() {
+	tankScale = { 5.0f,5.0f,5.0f };
+	isStaging = false;
+
 	modelM = ModelManager::GetInstance();
 
 	//スプライト
@@ -46,16 +49,20 @@ void TitleScene::Initialize() {
 	light->SetLightDir(lightDir);
 	Object3d::SetLight(light.get());
 
-	//スカイドーム
-	objSkydome = std::make_unique<Object3d>();
-	objSkydome->Initialize();
-	objSkydome->SetModel(modelM->GetModel(ModelData::skydome));
-	objSkydome->SetScale({ 150.0f,150.0f,150.0f });
+	//オブジェクト
+	for ( size_t i = 0; i < OBJ::max; i++ )
+	{
+		obj[ i ].reset(Object3d::Create());
+	}
+	obj[OBJ::skydome]->SetModel(modelM->GetModel(ModelData::skydome));
+	obj[OBJ::skydome]->SetScale({ 150.0f,150.0f,150.0f });
 
-	//プレイヤー
-	player = std::make_unique<Player>();
-	player->TitleInitialeze(modelM->GetModel(ModelData::had),modelM->GetModel(ModelData::body),input);
-	
+	obj[ OBJ::had ]->SetModel(modelM->GetModel(ModelData::had));
+	obj[ OBJ::had ]->SetScale(tankScale);
+
+	obj[ OBJ::body ]->SetModel(modelM->GetModel(ModelData::body));
+	obj[ OBJ::body ]->SetScale(tankScale);
+
 	//マップ
 	map = std::make_unique<Map>();
 	map->Initialize(false,modelM->GetModel(ModelData::map));
@@ -78,7 +85,7 @@ void TitleScene::Initialize() {
 }
 
 void TitleScene::Update() {
-
+	Staging();
 
 	/*float a[4];
 	a[ 0 ] = color.x;
@@ -116,7 +123,7 @@ void TitleScene::Update() {
 	}
 	else if ( movieCount == Staging::CameraThird )
 	{
-		camera->SetTarget({ 0.0f, player->GetPos().y, player->GetPos().z });
+		camera->SetTarget({ 0.0f, obj[ OBJ::body ]->GetPosition().y, obj[ OBJ::body ]->GetPosition().z });
 		DirectX::XMFLOAT3 eye = { 15.0f + shake.x,8.0f + shake.y,-15.0f };
 		camera->SetEye(eye);
 	}
@@ -139,10 +146,12 @@ void TitleScene::Update() {
 	titleSprite->Update();
 	blackOutSprite->Update();
 	pushKey->Update();
-	player->Update();
 	camera->Update();
-	objSkydome->Update();
 	map->Update();
+	for ( size_t i = 0; i < OBJ::max; i++ )
+	{
+		obj[ i ]->Update();
+	}
 	/*シーン遷移*/
 	//キーを押したら
 	if (input->TriggerReleaseKey(DIK_SPACE)
@@ -199,9 +208,11 @@ void TitleScene::SpriteDraw() {
 }
 
 void TitleScene::ObjDraw() {
-	objSkydome->Draw();
-	player->ObjDraw();
 	map->Draw();
+	for ( size_t i = 0; i < OBJ::max; i++ )
+	{
+		obj[ i ]->Draw();
+	}
 }
 
 void TitleScene::Finalize() {}
@@ -216,7 +227,7 @@ void TitleScene::AddMovieCount() {
 }
 
 void TitleScene::BlackOutStaging() {
-	if ( movieCount < 2 && player->GetPos().x>-1.0f )
+	if ( movieCount < 2 && obj[OBJ::body]->GetPosition().x>-1.0f )
 	{
 		isFadeOut = true;
 	}
@@ -246,5 +257,89 @@ void TitleScene::BlackOutStaging() {
 			transTime = 0.0f;
 			isFadeIn = false;
 		}
+	}
+}
+
+void TitleScene::Staging()
+{
+	//最初のカメラワークの位置
+	if ( TitleScene::movieCount == TitleScene::CameraFirst )
+	{
+		if ( isStaging )//カウントを加算する
+		{
+			if ( obj[OBJ::body]->GetPosition().x > 0.0f )
+			{
+				isStaging = false;
+				TitleScene::AddMovieCount();
+			}
+		}
+		else//初期位置
+		{
+			const Vector3 pos = { -30.0f,5.0f,0.0f };
+			obj[ OBJ::body]->SetPosition(pos);
+			obj[ OBJ::had]->SetPosition(pos);
+			isStaging = true;
+		}
+	}
+	//二回目
+	else if ( TitleScene::movieCount == TitleScene::CameraSecond )
+	{
+		if ( isStaging )
+		{
+			if ( obj[OBJ::had]->GetPosition().x > 0.0f )
+			{
+				isStaging = false;
+				TitleScene::AddMovieCount();
+			}
+		}
+		else
+		{
+			const Vector3 pos = { -45.0f,5.0f,0.0f };
+			obj[ OBJ::body ]->SetPosition(pos);
+			obj[ OBJ::had ]->SetPosition(pos);
+			isStaging = true;
+		}
+	}
+	//三回目
+	else if ( TitleScene::movieCount == TitleScene::CameraThird )
+	{
+		if ( isStaging )
+		{
+			if ( easeTime > easeTimer )
+			{
+				isStaging = false;
+				TitleScene::AddMovieCount();
+			}
+		}
+		else
+		{
+			easeTime = 0.0f;
+			const Vector3 pos = { -45.0f,5.0f,0.0f };
+			obj[ OBJ::body ]->SetPosition(pos);
+			obj[ OBJ::had ]->SetPosition(pos);
+			isStaging = true;
+		}
+	}
+	//二回目までの移動
+	if ( TitleScene::movieCount <= TitleScene::CameraSecond )
+	{
+		Vector3 move = obj[OBJ::had]->GetPosition();
+		const float speed = 0.25f;
+		move.x += speed;
+		obj[OBJ::had]->SetPosition(move);
+		obj[OBJ::body]->SetPosition(move);
+	}
+	//三回目の移動
+	else if ( easeTime < easeTimer && TitleScene::movieCount == TitleScene::CameraThird )
+	{
+		//イージング
+		Vector3 start = { -45.0f,5.0f,0.0f };
+		Vector3 end = { 0.0f,5.0f,0.0f };
+		Vector3 move = obj[OBJ::had]->GetPosition();
+		move.x = start.x + ( end.x - start.x ) * Easing::easeOutSine(easeTime / easeTimer);
+		obj[OBJ::had]->SetPosition(move);
+		obj[OBJ::body]->SetPosition(move);
+
+		easeTime += 0.3f;
 	}
 }

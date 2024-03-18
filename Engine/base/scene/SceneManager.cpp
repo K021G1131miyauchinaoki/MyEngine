@@ -7,7 +7,6 @@
 #include"SceneTransition.h"
 #include<cassert>
 
-int8_t SceneManager::sceneNum = SceneManager::title;
 int8_t SceneManager::playerHP = 3;
 int8_t SceneManager::stage = 0;
 

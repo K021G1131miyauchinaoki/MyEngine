@@ -53,7 +53,7 @@ void Player::TitleInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Input* i
 	ParameterCommonInitialeze();
 
 	//位置
-	tankPos = { 0.0f,endPosY,0.0f };
+	tankPos = { 0.0f,0.0f,0.0f };
 	
 	//モデル
 	ModelCommonInitialeze(tankHadModel_,tankBodyModel_);
@@ -140,61 +140,58 @@ void Player::Reset() {
 
 void Player::Update() {
 	const float half = 2.0f;
-	//タイトル演出
-	TitleStaging();
 	//ゲームプレイ
-	if ( SceneManager::sceneNum == SceneManager::play )
+	
+	//スタート演出
+	if ( GamePlayScene::isStart )
 	{
-		//スタート演出
-		if ( GamePlayScene::isStart )
-		{
-			StartStaging();
-		}
-		//プレイ
-		else
-		{
-			//マウスカーソルの位置取得
-			mausePos = input->GetMausePos();
-			mouseVec = { 0.0f,0.0f };
-			//ウィンドウの中心点とマウスの現在点のベクトルをとる
-			mouseVec.x = mausePos.x - static_cast<float>(WinApp::width) / half;
-			mouseVec.y = mausePos.y - static_cast< float >( WinApp::height ) / half;
-			//正規化
-			mouseVec = MyMath::normaleizeVec2(mouseVec);
-			//角度を算出
-			angle = atan2(mouseVec.y,mouseVec.x);
+		StartStaging();
+	}
+	//プレイ
+	else
+	{
+		//マウスカーソルの位置取得
+		mausePos = input->GetMausePos();
+		mouseVec = { 0.0f,0.0f };
+		//ウィンドウの中心点とマウスの現在点のベクトルをとる
+		mouseVec.x = mausePos.x - static_cast<float>(WinApp::width) / half;
+		mouseVec.y = mausePos.y - static_cast< float >( WinApp::height ) / half;
+		//正規化
+		mouseVec = MyMath::normaleizeVec2(mouseVec);
+		//角度を算出
+		angle = atan2(mouseVec.y,mouseVec.x);
 
-			Rotate();
-			Shot();
-			Move();
-			
-			//HPのスプライト
-			for ( size_t i = 0; i < hp.value; i++ )
+		Rotate();
+		Shot();
+		Move();
+		
+		//HPのスプライト
+		for ( size_t i = 0; i < hp.value; i++ )
+		{
+			drawHp[ i ].sprite->Update();
+		}
+		//点滅表現
+		if ( isInvincible )
+		{
+			invincibleTimer--;
+			if ( invincibleTimer < 0 )
 			{
-				drawHp[ i ].sprite->Update();
+				invincibleTimer = invincibleTime;
+				isInvincible = false;
 			}
-			//点滅表現
-			if ( isInvincible )
+		}
+		//シェイク
+		if ( isShake )
+		{
+			shakeTimer--;
+			if ( shakeTimer < 0 )
 			{
-				invincibleTimer--;
-				if ( invincibleTimer < 0 )
-				{
-					invincibleTimer = invincibleTime;
-					isInvincible = false;
-				}
-			}
-			//シェイク
-			if ( isShake )
-			{
-				shakeTimer--;
-				if ( shakeTimer < 0 )
-				{
-					shakeTimer = shakeTime;
-					isShake = false;
-				}
+				shakeTimer = shakeTime;
+				isShake = false;
 			}
 		}
 	}
+	
 	//オブジェクト
 	tankBody->Update();
 	tankHad->Update();
@@ -221,8 +218,7 @@ void Player::ObjDraw() {
 }
 
 void Player::SpriteDraw() {
-	if (SceneManager::sceneNum == SceneManager::play
-		&&!GamePlayScene::isStart)
+	if (!GamePlayScene::isStart)
 	{
 		//スプライト
 		for (size_t i = 0; i < hp.value; i++)
@@ -424,93 +420,6 @@ void Player::OnCollisionPos(std::string hitDirection)
 	tankBody->SetPosition(pos);
 	tankHad->Update();
 	tankBody->Update();
-}
-
-void Player::TitleStaging() {
-	if ( SceneManager::sceneNum == SceneManager::title )
-	{
-		//最初のカメラワークの位置
-		if ( TitleScene::movieCount == TitleScene::CameraFirst )
-		{
-			if ( isTitleStaging )//カウントを加算する
-			{
-				if ( tankHad->GetPosition().x>0.0f )
-				{
-					isTitleStaging = false;
-					TitleScene::AddMovieCount();
-				}
-			}
-			else//初期位置
-			{
-				const Vector3 pos = { -30.0f,5.0f,0.0f };
-				tankHad->SetPosition(pos);
-				tankBody->SetPosition(pos);
-				isTitleStaging = true;
-			}
-		}
-		//二回目
-		else if ( TitleScene::movieCount == TitleScene::CameraSecond )
-		{
-			if ( isTitleStaging )
-			{
-				if ( tankHad->GetPosition().x > 0.0f )
-				{
-					isTitleStaging = false;
-					TitleScene::AddMovieCount();
-				}
-			}
-			else
-			{
-				const Vector3 pos = { -45.0f,5.0f,0.0f };
-
-				tankHad->SetPosition(pos);
-				tankBody->SetPosition(pos);
-				isTitleStaging = true;
-			}
-		}
-		//三回目
-		else if ( TitleScene::movieCount == TitleScene::CameraThird )
-		{
-			if ( isTitleStaging )
-			{
-				if ( easeTime > titleEaseTimer )
-				{
-					isTitleStaging = false;
-					TitleScene::AddMovieCount();
-				}
-			}
-			else
-			{
-				easeTime=0.0f;
-				const Vector3 pos = { -45.0f,5.0f,0.0f };
-				tankHad->SetPosition(pos);
-				tankBody->SetPosition(pos);
-				isTitleStaging = true;
-			}
-		}
-		//二回目までの移動
-		if ( TitleScene::movieCount <= TitleScene::CameraSecond )
-		{
-			Vector3 move = tankHad->GetPosition();
-			const float speed = 0.25f;
-			move.x += speed;
-			tankHad->SetPosition(move);
-			tankBody->SetPosition(move);
-		}
-		//三回目の移動
-		else if ( easeTime < titleEaseTimer && TitleScene::movieCount == TitleScene::CameraThird )
-		{
-			//イージング
-			Vector3 start = { -45.0f,5.0f,0.0f };
-			Vector3 end = { 0.0f,5.0f,0.0f };
-			Vector3 move = tankHad->GetPosition();
-			move.x = start.x + ( end.x - start.x ) * Easing::easeOutSine(easeTime / titleEaseTimer);
-			tankHad->SetPosition(move);
-			tankBody->SetPosition(move);
-
-			easeTime+=0.3f;
-		}
-	}
 }
 
 void Player::StartStaging() {

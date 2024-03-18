@@ -17,27 +17,22 @@ BaseScene* SceneFactory::CreateScene(const std::string& sceneName) {
 	BaseScene* newScene = nullptr;
 	if (sceneName=="TITLE")
 	{
-		SceneManager::sceneNum = SceneManager::title;
 		newScene = new TitleScene();
 	}
 	else if ( sceneName == "Select" )
 	{
-		SceneManager::sceneNum = SceneManager::select;
 		newScene = new StageSelect();
 	}
 	else if (sceneName == "GAMEPLAY")
 	{
-		SceneManager::sceneNum = SceneManager::play;
 		newScene = new GamePlayScene();
 	}
 	else if (sceneName == "GAMEOVER")
 	{
-		SceneManager::sceneNum = SceneManager::over;
 		newScene = new GameOverScene();
 	}
 	else if (sceneName == "GAMECLEAR")
 	{
-		SceneManager::sceneNum = SceneManager::clear;
 		newScene = new GameClear();
 	}
 	return newScene;

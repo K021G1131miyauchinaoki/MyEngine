@@ -81,11 +81,6 @@ public://メンバ関数
 	Vector3 GetScale() {return tankBody->GetScale();};
 
 	/// <summary>
-	/// タイトル演出
-	/// </summary>
-	void TitleStaging();
-
-	/// <summary>
 	/// プレイ時のスタート演出
 	/// </summary>
 	void StartStaging();
@@ -146,9 +141,6 @@ private://メンバ変数
 
 	BaseHp hp;
 	std::vector<DrawHp> drawHp;
-
-	float easeTime;
-	const float titleEaseTimer = 80.0f;
 
 	//半径
 	float radius = 5.0f;

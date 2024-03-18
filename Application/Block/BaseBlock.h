@@ -47,7 +47,7 @@ protected://メンバ変数
 	BulletManager* bulletManager;
 	Vector3 rotEnd,rotStart;
 	Vector3 scaleEnd,scaleStart;
-	const float stagingTimer = 40;
+	 const float stagingTimer = 40;
 	float stagingTime;
 	bool isStaging = false;
 	int32_t drawNum=1;

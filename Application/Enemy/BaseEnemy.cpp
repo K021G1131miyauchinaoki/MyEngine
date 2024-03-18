@@ -136,19 +136,11 @@ void BaseEnemy::Move() {
 	float percent = 0.1f;
 	if ( !isMove&&!isShiftChange)
 	{
-		//向きに対してプラスする角度
-		float shift = 180.0f;
-		float radiusShift = 5.0f;
-		rot = { 0.0f,0.0f,0.0f };
 		#pragma region 乱数
 		//乱数シード生成器
 		std::random_device seed_gen;
 		//メルセンヌ・ツイスターの乱数エンジン
 		std::mt19937_64 engine(seed_gen());
-		
-		
-		std::uniform_real_distribution<float> rotDist(-shift,shift);
-		std::uniform_real_distribution<float> radiusDist(0.1f,radiusShift);
 		std::uniform_int_distribution<int> Dist(false,true);
 
 		isClockwise = Dist(engine);
@@ -194,8 +186,8 @@ void BaseEnemy::Move() {
 	moveAngle = MyMath::AngleCorrection(moveAngle);//角度の補正
 	r = MyMath::RadianTransform(moveAngle);
 
-	value = { std::cos(r) * speed,0.0f,std::sin(r) * speed };
-	pos += value;
+	addPos = { std::cos(r) * speed,0.0f,std::sin(r) * speed };
+	pos += addPos;
 	rot.y -= moveAngle;
 	obj->SetRotation(rot);
 	if ( moveTimer>moveTime/4 || (shiftChangeTimer > shiftChangeTime *percent&&isShiftChange))

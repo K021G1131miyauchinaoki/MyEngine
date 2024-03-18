@@ -54,6 +54,11 @@ public://メンバ関数
 	void BlackOutStaging();
 
 	/// <summary>
+	/// ムービー
+	/// </summary>
+	void Staging();
+
+	/// <summary>
 	/// movieCountの加算
 	/// </summary>
 	static void AddMovieCount();
@@ -69,6 +74,7 @@ public://メンバ関数
 	/// </summary>
 	~TitleScene()override;
 
+private:
 	//カメラワーク
 	enum Staging
 	{
@@ -76,7 +82,13 @@ public://メンバ関数
 		CameraSecond,
 		CameraThird,
 		Title,
-
+	};
+	enum OBJ
+	{
+		skydome,
+		had,
+		body,
+		max,
 	};
 
 private:
@@ -88,11 +100,10 @@ private:
 	//カメラ初期化
 	std::unique_ptr<Camera>camera;
 	//obj
-	std::unique_ptr <Object3d> objSkydome = nullptr;
+	std::array<std::unique_ptr<Object3d>,OBJ::max>obj;
 	//モデルマネージャー
 	ModelManager* modelM;
-
-	std::unique_ptr<Player> player;
+	//マップ
 	std::unique_ptr<Map>map;
 
 	//スプライト
@@ -100,6 +111,8 @@ private:
 	std::unique_ptr<Sprite> blackOutSprite;
 	std::unique_ptr<Sprite> pushKey;
 
+	//サイズ
+	Vector3 tankScale;
 	//シェイク
 	Vector3 shake;
 	//ムービー
@@ -111,8 +124,11 @@ private:
 	float transTime;
 	const float transTimer=1.0f;
 	float alpha;
+	float easeTime;
+	const float easeTimer = 80.0f;
 	bool isFadeOut;
 	bool isFadeIn;
+	bool isStaging;
 
 	//次シーンまでのタイマー
 	int waitTime;

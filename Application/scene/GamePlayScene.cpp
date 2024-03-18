@@ -172,8 +172,8 @@ void GamePlayScene::Initialize() {
 	//マップ
 	map = std::make_unique<Map>();
 	map->Initialize(true,modelM->GetModel(ModelData::map));
-	//map->LoadCSV(stageStr);
-	map->RandomCreate();
+	map->LoadCSV(stageStr);
+	//map->RandomCreate();
 
 	//敵
 	enemyManager = std::make_unique<EnemyManager>();
@@ -186,7 +186,7 @@ void GamePlayScene::Initialize() {
 	//壁
 	blockManager = std::make_unique<BlockManager>();
 	blockManager->Initialize(bulletManager.get(),map.get());
-	blockManager->RandomCreate();
+	//blockManager->RandomCreate();
 
 	//弾マネージャー初期化
 	bulletManager->Initialize(modelM->GetModel(ModelData::bullet),player.get(),geo.get());
@@ -215,10 +215,10 @@ void GamePlayScene::Initialize() {
 			enemyManager->Add(objectData.fileName,model,modelM->GetModel(ModelData::parachute),player.get(),objectData.translation,objectData.rotation,bulletManager.get());
 		}
 		//ブロック
-		/*if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
+		if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
 		{
 			blockManager->Add(objectData.fileName,model,objectData.translation,objectData.rotation,objectData.scaling);
-		}*/
+		}
 	}
 
 	//スカイドーム
@@ -226,16 +226,6 @@ void GamePlayScene::Initialize() {
 	objSkydome->Initialize();
 	objSkydome->SetModel(modelM->GetModel(ModelData::skydome));
 	objSkydome->SetScale({ 250.0f,200.0f,250.0f });
-	/*objSkydome->SetColor({ 0.1f,0.6f,0.9f,1.0f });
-
-	obj = std::make_unique<Object3d>();
-	obj->Initialize();
-	obj->SetModel(under.get());
-	obj->SetScale({ 300.0f,100.0f,300.0f });
-	obj->SetPosition({ 0.0f,-50.0f,0.0f });*/
-
-
-
 
 	//スプライト
 	rPosEndY = (static_cast<float>( WinApp::height) / 2.0f ) + 50.0f;
@@ -271,8 +261,6 @@ void GamePlayScene::Initialize() {
 }
 
 void GamePlayScene::Update() {
-	/*obj->SetPosition({ player->GetPos().x/2,-50.0f,player->GetPos().z/2 });
-	obj->Update();*/
 	shake = { 0.0f,0.0f,0.0f };
 	if(player->IsShake() )
 	{
@@ -361,7 +349,6 @@ void GamePlayScene::ObjDraw(){
 	player->ObjDraw();
 	map->Draw();
 	particle->Draw();
-	//obj->Draw();
 }
 
 void GamePlayScene::GeometryDraw()

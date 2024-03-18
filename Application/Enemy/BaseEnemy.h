@@ -153,8 +153,8 @@ protected://メンバ変数
 	Vector3 parachutePos;
 	//距離
 	Vector3 len;
-	//乱数値格納
-	Vector3 value;
+	//位置加算
+	Vector3 addPos;
 	//フェーズ
 	Phase phase = Phase::move;
 	MovePhase movePhase = MovePhase::approach;
@@ -175,8 +175,7 @@ protected://メンバ変数
 	const int16_t  shotTime = 50;
 	//待機時間
 	float waitTime;
-	//std::array<float>
-	float waitTimer[ 2 ] = { 5,60 };
+	std::array<float,2> waitTimer = { 5,60 };
 
 	//hp
 	BaseHp hp;
