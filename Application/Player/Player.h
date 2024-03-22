@@ -15,18 +15,21 @@
 #include<MyMath.h>
 #include<BaseHp.h>
 #include"BulletManager.h"
+#include"Map.h"
 
 class Player
 {
 public://メンバ関数
 
 	/// /// <summary>
-	/// プレイ初期化
+	/// 初期化
 	/// </summary>
 	/// <param name="tankModel_">自機</param>
 	/// <param name="parachuteModel_">パラシュート</param>
 	/// <param name="input_">キー操作</param>
-	void Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_,Input* input_,BulletManager* bulletManager_);
+	/// <param name="bulletManager_">バレットマネジャー</param>
+	void Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_,
+					Input* input_,BulletManager* bulletManager_,Map*map_);
 
 	/// <summary>
 	/// リセット
@@ -95,9 +98,6 @@ public://メンバ関数
 
 	//デスフラグの取得
 	bool IsDead()const { return hp.isDead; }
-
-	//共通パラメータの初期化
-	void ParameterCommonInitialeze();
 
 	//共通モデルの初期化
 	void ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_);

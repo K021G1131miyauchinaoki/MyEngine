@@ -56,14 +56,14 @@ void BlockManager::RandomCreate()
 	std::mt19937_64 engine(seed_gen());
 
 	//std::uniform_real_distribution<float> rotDist(-shift, shift);
-	std::uniform_int_distribution<int16_t> numDist(1,1);
+	std::uniform_int_distribution<int16_t> numDist(3,6);
 	int16_t num = numDist(engine);
 	for ( int16_t i = 0; i < num; i++ )
 	{
 		std::unique_ptr<BaseBlock> b;
 		
 		std::uniform_int_distribution<int16_t> htDist(0,Map::height-1);
-		std::uniform_int_distribution<int16_t> wDist(Map::width - 1,Map::width - 1);
+		std::uniform_int_distribution<int16_t> wDist(0,Map::width - 1);
 		std::uniform_int_distribution<int16_t> dDist(0, 100);
 		
 		//置く位置の設定

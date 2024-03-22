@@ -15,6 +15,7 @@
 #include"Player.h"
 #include"BulletManager.h"
 #include<SoundManager.h>
+#include<random>
 
 
 void Player::ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_) {
@@ -34,7 +35,8 @@ void Player::ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_) {
 	tankBody->Update();
 }
 
-void Player::Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_, Input* input_,BulletManager* bulletManager_) {
+void Player::Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_,
+						Input* input_,BulletManager* bulletManager_,Map*map_) {
 	assert(tankHadModel_);
 	assert(tankBodyModel_);
 	assert(parachuteModel_);
@@ -42,6 +44,14 @@ void Player::Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parach
 	
 	input = input_;
 
+	//乱数シード生成器
+	std::random_device seed_gen;
+	//メルセンヌ・ツイスターの乱数エンジン
+	std::mt19937_64 engine(seed_gen());
+	std::uniform_int_distribution<int16_t> hDist(0,Map::height - 1);
+	std::uniform_int_distribution<int16_t> wDist(0,Map::width - 1);
+	int16_t h = hDist(engine);
+	int16_t w = wDist(engine);
 	//サイズ
 	tankScale = { radius,radius,radius };
 	isTitleStaging = false;
@@ -50,7 +60,8 @@ void Player::Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parach
 	//位置
 	startPosY = 120.0f;
 	endPosY = radius;
-	tankPos = { 0.0f,startPosY,0.0f };
+	tankPos = map_->GetBlocks(w,h).GetPos();
+	tankPos.y=startPosY;
 	parachutePosY = 6.0f;
 	parachutePos = tankPos;
 	parachutePos.y += parachutePosY;

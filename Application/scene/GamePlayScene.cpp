@@ -182,7 +182,7 @@ void GamePlayScene::Initialize() {
 	player->Initialeze(modelM->GetModel(ModelData::had),
 						   modelM->GetModel(ModelData::body),
 						   modelM->GetModel(ModelData::parachute),
-						   input,bulletManager.get());
+						   input,bulletManager.get(),map.get());
 	//壁
 	blockManager = std::make_unique<BlockManager>();
 	blockManager->Initialize(bulletManager.get(),map.get());
