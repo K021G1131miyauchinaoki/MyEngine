@@ -179,7 +179,7 @@ void GamePlayScene::Initialize() {
 	enemyManager = std::make_unique<EnemyManager>();
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->PlayInitialeze(modelM->GetModel(ModelData::had),
+	player->Initialeze(modelM->GetModel(ModelData::had),
 						   modelM->GetModel(ModelData::body),
 						   modelM->GetModel(ModelData::parachute),
 						   input,bulletManager.get());

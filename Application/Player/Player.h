@@ -19,12 +19,6 @@
 class Player
 {
 public://メンバ関数
-	/// <summary>
-	/// タイトル初期化
-	/// </summary>
-	/// <param name="tankModel_">自機</param>
-	/// <param name="input_">キー操作</param>
-	void TitleInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Input* input_);
 
 	/// /// <summary>
 	/// プレイ初期化
@@ -32,7 +26,7 @@ public://メンバ関数
 	/// <param name="tankModel_">自機</param>
 	/// <param name="parachuteModel_">パラシュート</param>
 	/// <param name="input_">キー操作</param>
-	void PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_,Input* input_,BulletManager* bulletManager_);
+	void Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_,Input* input_,BulletManager* bulletManager_);
 
 	/// <summary>
 	/// リセット

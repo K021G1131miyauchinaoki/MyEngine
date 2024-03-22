@@ -16,15 +16,6 @@
 #include"BulletManager.h"
 #include<SoundManager.h>
 
-void Player::ParameterCommonInitialeze() {
-	//位置
-	startPosY = 120.0f;
-	endPosY = radius;
-	//サイズ
-	tankScale = { radius,radius,radius };
-	isTitleStaging = false;
-	isInvincible = false;
-}
 
 void Player::ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_) {
 	//タンクオブジェクトの初期化
@@ -43,34 +34,7 @@ void Player::ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_) {
 	tankBody->Update();
 }
 
-void Player::TitleInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Input* input_) {
-	assert(tankHadModel_);
-	assert(tankBodyModel_);
-	assert(input_);
-
-	input=input_;
-	//共通のパラメータ初期化
-	ParameterCommonInitialeze();
-
-	//位置
-	tankPos = { 0.0f,0.0f,0.0f };
-	
-	//モデル
-	ModelCommonInitialeze(tankHadModel_,tankBodyModel_);
-	parachute = nullptr;
-
-	//タイム
-	startEaseTime = 0;
-	coolTime = 0;
-	invincibleTimer = invincibleTime;
-	//体力
-	hp.value = NULL;
-	hp.isDead = false;
-
-	drawHp.clear();
-}
-
-void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_, Input* input_,BulletManager* bulletManager_) {
+void Player::Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_, Input* input_,BulletManager* bulletManager_) {
 	assert(tankHadModel_);
 	assert(tankBodyModel_);
 	assert(parachuteModel_);
@@ -78,9 +42,14 @@ void Player::PlayInitialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* pa
 	
 	input = input_;
 
-	//共通のパラメータ初期化
-	ParameterCommonInitialeze();
+	//サイズ
+	tankScale = { radius,radius,radius };
+	isTitleStaging = false;
+	isInvincible = false;
+	
 	//位置
+	startPosY = 120.0f;
+	endPosY = radius;
 	tankPos = { 0.0f,startPosY,0.0f };
 	parachutePosY = 6.0f;
 	parachutePos = tankPos;
