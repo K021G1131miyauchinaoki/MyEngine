@@ -93,32 +93,34 @@ void BlockManager::RandomCreate()
 		}
 		pos = map->GetBlocks(w,h).GetPos();
 		//マップ端に置くように設定
+		int16_t half = (Map::height - 1)/2;
 		/*ｚ*/
-		if ( h==0 )
-		{
-			pos.z -= scale.z;
-		}
-		if ( h == Map::height - 1 )
+		if ( h >half )
 		{
 			pos.z += scale.z;
 		}
-		/*ｘ*/
-		if ( w == 0 )
+		else
 		{
-			pos.x -= scale.x;
+			pos.z -= scale.z;
 		}
-		if ( w == Map::width - 1 )
+		/*ｘ*/
+		half= ( Map::width - 1 ) / 2;
+		if ( w >half)
 		{
 			pos.x += scale.x;
 		}
+		else
+		{
+			pos.x -= scale.x;
+		}
 		pos.y = 5.0f;
-		LineCreate(pos,scale);
+		LineCreate(pos,scale,w,h);
 		b->Initialize(pos,rot,scale,model);
 		blocks.push_back(std::move(b));
 	}
 }
 
-void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_)
+void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const int16_t& w_,const int16_t& h_)
 {
 
 	Model* model;
@@ -131,6 +133,23 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_)
 	std::uniform_int_distribution<int16_t> directionDist(0,3);
 	int16_t num = numDist(engine);
 	int16_t direction = directionDist(engine);
+	//HかWが端にある場合方向を調整
+	if ( h_==Map::height-1 )
+	{
+		direction = 0;
+	}
+	if ( h_ == 0 )
+	{
+		direction = 1;
+	if ( w_ ==Map::width-1)
+	{
+		direction = 2;
+	}
+	if ( w_ ==0)
+	{
+		direction = 3;
+	}
+	}
 	std::unique_ptr<BaseBlock> b;
 	for ( int16_t i = 1; i < num; i++ )
 	{
@@ -151,19 +170,22 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_)
 			model = ModelManager::GetInstance()->GetModel(ModelData::fixedgun);
 			b->SetBulletManager(bulletManager);
 		}
-		
+		//下
 		if ( direction == 0 )
 		{
 			p.z -= ( scale_.z * 2.0f ) * i;
 		}
+		//上
 		else if ( direction == 1 )
 		{
 			p.z += ( scale_.z * 2.0f ) * i;
 		}
+		//左
 		else if ( direction == 2 )
 		{
 			p.x -= ( scale_.z * 2.0f ) * i;
 		}
+		//右
 		else if ( direction == 3 )
 		{
 			p.x += ( scale_.z * 2.0f ) * i;

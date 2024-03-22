@@ -204,7 +204,9 @@
     <ClCompile Include="Engine\3d\model\ModelManager.cpp">
       <Filter>ソースファイル\Engine\3D\obj</Filter>
     </ClCompile>
-    <ClCompile Include="RapidEnemy.cpp" />
+    <ClCompile Include="Application\Enemy\RapidEnemy.cpp">
+      <Filter>ソースファイル\Application\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\NormalEnemy.h">
@@ -378,7 +380,9 @@
     <ClInclude Include="Engine\3d\model\ModelManager.h">
       <Filter>ヘッダーファイル\Engine\3D\obj</Filter>
     </ClInclude>
-    <ClInclude Include="RapidEnemy.h" />
+    <ClInclude Include="Application\Enemy\RapidEnemy.h">
+      <Filter>ヘッダーファイル\Application\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
@@ -570,6 +574,12 @@
     </Filter>
     <Filter Include="ヘッダーファイル\Engine\3D\Billboard">
       <UniqueIdentifier>{d03437ff-c177-402e-ab08-93dadbbcbe48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Application\Collision">
+      <UniqueIdentifier>{65b5c185-9c1a-436c-8a15-328dc333e84a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Application\Collision">
+      <UniqueIdentifier>{c8f365ba-ebd2-41a8-aa45-683680b33130}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

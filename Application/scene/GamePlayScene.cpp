@@ -172,8 +172,8 @@ void GamePlayScene::Initialize() {
 	//マップ
 	map = std::make_unique<Map>();
 	map->Initialize(true,modelM->GetModel(ModelData::map));
-	map->LoadCSV(stageStr);
-	//map->RandomCreate();
+	//map->LoadCSV(stageStr);
+	map->RandomCreate();
 
 	//敵
 	enemyManager = std::make_unique<EnemyManager>();
@@ -186,7 +186,7 @@ void GamePlayScene::Initialize() {
 	//壁
 	blockManager = std::make_unique<BlockManager>();
 	blockManager->Initialize(bulletManager.get(),map.get());
-	//blockManager->RandomCreate();
+	blockManager->RandomCreate();
 
 	//弾マネージャー初期化
 	bulletManager->Initialize(modelM->GetModel(ModelData::bullet),player.get(),geo.get());
@@ -215,10 +215,10 @@ void GamePlayScene::Initialize() {
 			enemyManager->Add(objectData.fileName,model,modelM->GetModel(ModelData::parachute),player.get(),objectData.translation,objectData.rotation,bulletManager.get());
 		}
 		//ブロック
-		if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
+		/*if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
 		{
 			blockManager->Add(objectData.fileName,model,objectData.translation,objectData.rotation,objectData.scaling);
-		}
+		}*/
 	}
 
 	//スカイドーム

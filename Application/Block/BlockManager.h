@@ -38,7 +38,7 @@ public:
 	/// <summary>
 	/// ライン生成
 	/// </summary>
-	void LineCreate(const Vector3&pos_,const Vector3 &scale_);
+	void LineCreate(const Vector3&pos_,const Vector3 &scale_,const int16_t &w,const int16_t&h);
 
 	// リストを取得
 	std::list<std::unique_ptr<BaseBlock>>& GetBlocks() {
