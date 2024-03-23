@@ -44,6 +44,9 @@ public://メンバ関数
 	//ランダム発生
 	void RandomCreate();
 
+	//プレイヤーの位置から中心のマップチップを取得
+	void CenterMapChip(const Vector3& playerPos_);
+
 	//準備
 	void Preparation();
 	//演出
@@ -89,10 +92,11 @@ private://メンバ変数
 	int16_t provisionTime = 0;
 	int16_t nowMax;
 	int16_t setPoint;
-	int16_t numH;
-	int16_t numW;
+	int16_t centerH;
+	int16_t centerW;
 	bool change;
 	bool flag;
-	int8_t count;
+	size_t count;
+	size_t totalCount;
 };
 

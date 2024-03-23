@@ -25,6 +25,7 @@ void Map::Initialize(bool isStaging_,Model* model_) {
 	model = model_;
 	//変数の初期化
 	nowMax = 0;
+	totalCount = 0;
 	//スケール
 	scaleEnd += 10.0f;
 	scaleStart += 0.1f;
@@ -38,17 +39,26 @@ void Map::Initialize(bool isStaging_,Model* model_) {
 	isStaging = isStaging_;
 	provisionTime = provisionTimer;
 	change = false;
-	flag = false;
+	flag = true;
 }
 
 void Map::Update() {
 	Preparation();
+	count = 0;
 	for (size_t i = 0; i < height; i++)
 	{
 
 		for (size_t j = 0; j < width; j++)
 		{
 			Staging(i, j);
+			if ( posEndY<=blocks[ i ][ j ].GetPos().y&& !blocks[i][j].GetIsStaging()&&flag)
+			{
+				count++;
+				if ( count >= totalCount )
+				{
+					flag = false;
+				}
+			}
 			blocks[i][j].Update();
 		}
 	}
@@ -96,10 +106,6 @@ void Map::LoadCSV(const std::string& num_) {
 	height = (int16_t)std::atof(num.c_str());
 	std::getline(line_stream, num, ',');
 	width = (int16_t)std::atof(num.c_str());
-	numW = (width / 2);
-	numH = (height / 2);
-	
-	
 	
 	// 二次元配列のサイズを初期化
 	blocks.resize(height);
@@ -172,6 +178,11 @@ void Map::LoadCSV(const std::string& num_) {
 	moveLimitH = static_cast<float>(height) * scaleEnd.z;
 	mapScaleW = scaleEnd.x;
 	mapScaleH = scaleEnd.z;
+
+	for ( const auto& innerVec : blocks )
+	{
+		totalCount += innerVec.size();
+	}
 }
 
 void Map::RandomCreate()
@@ -188,8 +199,6 @@ void Map::RandomCreate()
 
 	height = Dist(engine);
 	width = Dist(engine);
-	numW = (width / 2);
-	numH = (height / 2);
 
 	// 二次元配列のサイズを初期化
 	blocks.resize(height);
@@ -238,16 +247,34 @@ void Map::RandomCreate()
 	moveLimitH = static_cast<float>(height) * scaleEnd.z;
 	mapScaleW = scaleEnd.x;
 	mapScaleH = scaleEnd.z;
+
+	for ( const auto& innerVec : blocks )
+	{
+		totalCount += innerVec.size();
+	}
+}
+
+void Map::CenterMapChip(const Vector3& playerPos_)
+{
+	//プレイヤーがマップ上のどの位置にいるかを調べる
+	float diameterW = mapScaleW * 2.0f;
+	float diameterH = mapScaleH * 2.0f;
+	
+	centerW = static_cast< int16_t >( ( playerPos_.x + moveLimitW ) / diameterW );
+	centerH = static_cast< int16_t >( ( playerPos_.z + moveLimitH ) / diameterH );
+
+
+
 }
 
 void Map::Preparation() {
-	if (isStaging&&!flag)
+	if (isStaging&&flag)
 	{
 		provisionTime--;
 		if (provisionTime < 0)
 		{
 			provisionTime = provisionTimer;
-			if (nowMax <= numW || nowMax <= numH)
+			if (nowMax <width || nowMax <height)
 			{
 				setPoint = -nowMax;
 
@@ -255,8 +282,8 @@ void Map::Preparation() {
 				{
 					for (int16_t j = setPoint; j <= nowMax; j++)
 					{
-						int16_t h = numH + i;
-						int16_t w = numW + j;
+						int16_t h = centerH + i;
+						int16_t w = centerW + j;
 
 						if (h < 0)	h = 0;
 						if (h >= height)h = height - 1;
@@ -279,7 +306,7 @@ void Map::Preparation() {
 void Map::Staging(size_t y_, size_t x_) {
 	float time = blocks[ y_ ][ x_ ].GetTime();
 	//フラグが立っていたら
-	if (blocks[y_][x_].GetIsStaging() &&isStaging&&!flag)
+	if (blocks[y_][x_].GetIsStaging() &&isStaging&&flag)
 	{
 		//スケール
 		Vector3 easeScale = blocks[y_][x_].GetScale();
@@ -301,19 +328,6 @@ void Map::Staging(size_t y_, size_t x_) {
 		else
 		{
 			blocks[y_][x_].SetIsStaging(false);
-			if ( x_==0||x_==width-1 )
-			{
-				if ( y_ == 0 || y_ == height - 1 )
-				{
-					count++;
-					if ( count>=4 )
-					{
-						flag = true;
-					}
-				}
-			}
 		}
 	}
-	
-
 }

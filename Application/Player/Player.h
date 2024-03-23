@@ -70,7 +70,7 @@ public://メンバ関数
 	/// 位置
 	/// </summary>
 	/// <returns></returns>
-	const	Vector3 GetPos() {return tankHad->GetPosition(); }
+	Vector3 GetPos() {return tankHad->GetPosition(); }
 
 	/// <summary>
 	/// スケール取得

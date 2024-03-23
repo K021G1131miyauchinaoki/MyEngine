@@ -175,14 +175,19 @@ void GamePlayScene::Initialize() {
 	//map->LoadCSV(stageStr);
 	map->RandomCreate();
 
-	//敵
-	enemyManager = std::make_unique<EnemyManager>();
 	//プレイヤー
 	player = std::make_unique<Player>();
 	player->Initialeze(modelM->GetModel(ModelData::had),
 						   modelM->GetModel(ModelData::body),
 						   modelM->GetModel(ModelData::parachute),
 						   input,bulletManager.get(),map.get());
+	//プレイヤーの初期化とマップの生成後にマップチップの中心を算出
+	map->CenterMapChip(player->GetPos());
+
+	//敵
+	enemyManager = std::make_unique<EnemyManager>();
+	enemyManager->Initialize(player.get(),bulletManager.get());
+	enemyManager->RandomCreate(map.get());
 	//壁
 	blockManager = std::make_unique<BlockManager>();
 	blockManager->Initialize(bulletManager.get(),map.get());
@@ -210,10 +215,11 @@ void GamePlayScene::Initialize() {
 		}
 
 		//エネミー
-		if (objectData.fileName == "Shotgun" || objectData.fileName == "Normal" )
+		/*if (objectData.fileName == "Shotgun" || objectData.fileName == "Normal" )
 		{
-			enemyManager->Add(objectData.fileName,model,modelM->GetModel(ModelData::parachute),player.get(),objectData.translation,objectData.rotation,bulletManager.get());
-		}
+			enemyManager->Add(objectData.fileName,model,
+				objectData.translation,objectData.rotation);
+		}*/
 		//ブロック
 		/*if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
 		{
