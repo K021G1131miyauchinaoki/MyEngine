@@ -39,7 +39,7 @@ void Map::Initialize(bool isStaging_,Model* model_) {
 	isStaging = isStaging_;
 	provisionTime = provisionTimer;
 	change = false;
-	flag = true;
+	isPreparation = true;
 }
 
 void Map::Update() {
@@ -51,12 +51,12 @@ void Map::Update() {
 		for (size_t j = 0; j < width; j++)
 		{
 			Staging(i, j);
-			if ( posEndY<=blocks[ i ][ j ].GetPos().y&& !blocks[i][j].GetIsStaging()&&flag)
+			if ( posEndY<=blocks[ i ][ j ].GetPos().y&& !blocks[i][j].GetIsStaging()&&isPreparation)
 			{
 				count++;
 				if ( count >= totalCount )
 				{
-					flag = false;
+					isPreparation = false;
 				}
 			}
 			blocks[i][j].Update();
@@ -268,7 +268,7 @@ void Map::CenterMapChip(const Vector3& playerPos_)
 }
 
 void Map::Preparation() {
-	if (isStaging&&flag)
+	if (isStaging&&isPreparation)
 	{
 		provisionTime--;
 		if (provisionTime < 0)
@@ -306,7 +306,7 @@ void Map::Preparation() {
 void Map::Staging(size_t y_, size_t x_) {
 	float time = blocks[ y_ ][ x_ ].GetTime();
 	//フラグが立っていたら
-	if (blocks[y_][x_].GetIsStaging() &&isStaging&&flag)
+	if (blocks[y_][x_].GetIsStaging() &&isStaging&&isPreparation)
 	{
 		//スケール
 		Vector3 easeScale = blocks[y_][x_].GetScale();

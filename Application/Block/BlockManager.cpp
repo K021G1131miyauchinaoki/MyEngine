@@ -182,8 +182,9 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const in
 		{
 			p.x += ( scale_.z * 2.0f ) * i;
 		}
+		//マップ外に出たら
 		if ( p.x<=-Map::moveLimitW|| p.x >= Map::moveLimitW
-			||p.z <= -Map::moveLimitH || p.x >= Map::moveLimitH )
+			||p.z <= -Map::moveLimitH || p.z >= Map::moveLimitH )
 		{
 			continue;
 

@@ -68,9 +68,10 @@ void EnemyManager::RandomCreate(Map* map_)
 	//プレイヤーがマップ上のどの位置にいるかを調べる
 	float diameterW = Map::mapScaleW * 2.0f;
 	float diameterH = Map::mapScaleH * 2.0f;
-	int16_t playerW,playerH;
+	int16_t playerW,playerH,shift;
 	playerW = static_cast< int16_t >( ( player->GetPos().x + Map::moveLimitW ) / diameterW );
 	playerH = static_cast< int16_t >( ( player->GetPos().z + Map::moveLimitH ) / diameterH );
+	shift = 1;
 
 	//num分敵を生成する
 	for ( size_t i = 0; i < num; i++ )
@@ -98,7 +99,9 @@ void EnemyManager::RandomCreate(Map* map_)
 		{
 			h = hDist(engine);
 			w = wDist(engine);
-			while( playerH == h && playerW == w )
+			//プレイヤーのH,Wから±shiftの範囲に入っていたら
+			while( playerH-shift <= h&& playerH + shift >= h
+				&& playerW-shift <= w&& playerW + shift >= w )
 			{
 				h = hDist(engine);
 				w = wDist(engine);

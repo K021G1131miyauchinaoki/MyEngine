@@ -95,7 +95,7 @@ private://メンバ変数
 	int16_t centerH;
 	int16_t centerW;
 	bool change;
-	bool flag;
+	bool isPreparation;
 	size_t count;
 	size_t totalCount;
 };
