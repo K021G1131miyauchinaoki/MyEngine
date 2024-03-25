@@ -30,7 +30,7 @@ void BaseBlock::SetIsStaging(const bool& isStaging_) {
 }
 
 void BaseBlock::Staging() {
-	if ( stagingTime < stagingTimer && GamePlayScene::startCount >= GamePlayScene::Wait )
+	if ( stagingTime < stagingTimer && GamePlayScene::startCount >= GamePlayScene::Redy )
 	{
 		Vector3 rot = obj->GetRotation();
 		Vector3 scale = obj->GetScale();

@@ -88,8 +88,8 @@ public://メンバ関数
 		Down,
 		Bound1,
 		Bound2,
-		Wait,
 		Redy,
+		Wait,
 		Go,
 	};
 
@@ -146,11 +146,11 @@ private:
 	//スプライトイージング
 	float spriteEaseTime;
 
-	const float spriteEaseTimer = 30;
+	const float spriteEaseTimer = 40;
 	float spriteWaitTime;
-	const float spriteWaitTimer = 60;
+	const float spriteWaitTimer = 120;
 	float waitTime;
-	const float waitTimer = 160;
+	const float waitTimer = 10;
 	float rPosStartY;
 	float sPosStartY;
 	float mPosStartX;
