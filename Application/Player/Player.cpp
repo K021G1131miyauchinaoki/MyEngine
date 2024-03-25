@@ -442,18 +442,7 @@ void Player::StartStaging() {
 			bound = 2.0f;
 		}
 	}
-	//待ち状態
-	else if ( GamePlayScene::startCount == GamePlayScene::Wait )
-	{
-		if ( pLeaveTime >= pLeaveTimer )
-		{
-			GamePlayScene::startCount++;
-		}
-	}
-	else
-	{
-		startEaseTime = 0;
-	}
+	
 	//パラシュート
 	//タイマーが80％以下なら
 	const float percent = 0.8f;

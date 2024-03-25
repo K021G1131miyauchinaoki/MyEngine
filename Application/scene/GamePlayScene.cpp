@@ -775,47 +775,51 @@ void GamePlayScene::CheckAllCollision() {
 }
 
 void GamePlayScene::StartStaging() {
-	if ( startCount >= start::Go)
-	{
-		isStart = false;
-	}
-	if ( startCount== start::Redy )
+	if ( startCount==start::Wait )
 	{
 		waitTime++;
 		if ( waitTime >= waitTimer )
 		{
-			XMFLOAT2 readyPos = ready->GetPosition();
-			XMFLOAT2 stagePos = stage->GetPosition();
-			XMFLOAT2 memoPos = memo->GetPosition();
-
-			//イージングを一時的に止める
-			if ( spriteEaseTime == spriteEaseTimer )
-			{
-				spriteWaitTime++;
-			}
-			//イージング
-			if ( spriteWaitTime >= spriteWaitTimer || spriteWaitTime == 0.0f )
-			{
-				spriteEaseTime++;
-				readyPos.y = rPosStartY + ( rPosEndY - rPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
-				stagePos.y = sPosStartY + ( sPosEndY - sPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
-				if ( spriteEaseTime <= spriteEaseTimer )
-				{
-					memoPos.x = mPosStartX + ( mPosEndX - mPosStartX ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
-				}
-				//スプライトが画面外にいく時間になったら
-				if ( spriteEaseTime == ( spriteEaseTimer * 2.0f ) )
-				{
-					startCount++;
-					spriteWaitTime = 0;
-					spriteEaseTime = spriteEaseTimer;
-					isDisplay = true;
-				}
-			}			
-			ready->SetPosition(readyPos);
-			stage->SetPosition(stagePos);
-			memo->SetPosition(memoPos);
+			startCount++;
 		}
+	}
+	else if ( startCount== start::Redy )
+	{		
+		XMFLOAT2 readyPos = ready->GetPosition();
+		XMFLOAT2 stagePos = stage->GetPosition();
+		XMFLOAT2 memoPos = memo->GetPosition();
+
+		//イージングを一時的に止める
+		if ( spriteEaseTime == spriteEaseTimer )
+		{
+			spriteWaitTime++;
+		}
+		//イージング
+		if ( spriteWaitTime >= spriteWaitTimer || spriteWaitTime == 0.0f )
+		{
+			spriteEaseTime++;
+			readyPos.y = rPosStartY + ( rPosEndY - rPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+			stagePos.y = sPosStartY + ( sPosEndY - sPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+			if ( spriteEaseTime <= spriteEaseTimer )
+			{
+				memoPos.x = mPosStartX + ( mPosEndX - mPosStartX ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+			}
+			//スプライトが画面外にいく時間になったら
+			if ( spriteEaseTime == ( spriteEaseTimer * 2.0f ) )
+			{
+				startCount++;
+				spriteWaitTime = 0;
+				spriteEaseTime = spriteEaseTimer;
+				isDisplay = true;
+			}
+		}			
+		ready->SetPosition(readyPos);
+		stage->SetPosition(stagePos);
+		memo->SetPosition(memoPos);
+	}
+	else if ( startCount >= start::Go)
+	{
+		isStart = false;
 	}
 	stage->Update();
 	ready->Update();

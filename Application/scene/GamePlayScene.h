@@ -150,7 +150,7 @@ private:
 	float spriteWaitTime;
 	const float spriteWaitTimer = 60;
 	float waitTime;
-	const float waitTimer = 100;
+	const float waitTimer = 160;
 	float rPosStartY;
 	float sPosStartY;
 	float mPosStartX;
