@@ -128,7 +128,7 @@ void Player::Update() {
 		StartStaging();
 	}
 	//プレイ
-	else
+	else if(!GamePlayScene::isOut )
 	{
 		//マウスカーソルの位置取得
 		mausePos = input->GetMausePos();
@@ -170,6 +170,10 @@ void Player::Update() {
 				isShake = false;
 			}
 		}
+	}
+	else
+	{
+
 	}
 	
 	//オブジェクト

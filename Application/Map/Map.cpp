@@ -337,10 +337,12 @@ void Map::StartStaging(size_t y_, size_t x_) {
 
 void Map::OutStaging(size_t y_,size_t x_) {
 	float time = blocks[ y_ ][ x_ ].GetTime();
+	bool flag = centerH == y_ && centerW == x_;
 	//フラグが立っていたら
 	if ( blocks[ y_ ][ x_ ].GetIsStaging() &&
 		GamePlayScene::isOut &&
-		GamePlayScene::outCount >= GamePlayScene::Fall )
+		GamePlayScene::outCount >= GamePlayScene::Fall &&
+		 !flag)
 	{
 		//スケール
 		Vector3 easeScale = blocks[ y_ ][ x_ ].GetScale();
