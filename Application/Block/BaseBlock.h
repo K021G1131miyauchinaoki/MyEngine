@@ -17,7 +17,9 @@ public:
 	//パラメータのセット
 	virtual void SetParameter(const Vector3& pos_,const Vector3& rot_,const Vector3& scale_);
 
-	virtual void Staging();
+	void StartStaging();
+
+	void OutStaging();
 
 	//演出セッター
 	void SetIsStaging(const bool& isStaging_);

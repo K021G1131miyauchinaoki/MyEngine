@@ -9,6 +9,7 @@
 #include<Easing.h>
 #include<sstream>
 #include<random>
+#include<GamePlayScene.h>
 
 float Map::moveLimitW;
 float Map::moveLimitH;
@@ -50,13 +51,15 @@ void Map::Update() {
 
 		for (size_t j = 0; j < width; j++)
 		{
-			Staging(i, j);
+			StartStaging(i,j);
+			OutStaging(i, j);
 			if ( posEndY<=blocks[ i ][ j ].GetPos().y&& !blocks[i][j].GetIsStaging()&&isPreparation)
 			{
 				count++;
 				if ( count >= totalCount )
 				{
 					isPreparation = false;
+					Reset();
 				}
 			}
 			blocks[i][j].Update();
@@ -263,12 +266,11 @@ void Map::CenterMapChip(const Vector3& playerPos_)
 	centerW = static_cast< int16_t >( ( playerPos_.x + moveLimitW ) / diameterW );
 	centerH = static_cast< int16_t >( ( playerPos_.z + moveLimitH ) / diameterH );
 
-
-
 }
 
 void Map::Preparation() {
-	if (isStaging&&isPreparation)
+	if ((isStaging&&isPreparation)||
+		(GamePlayScene::isOut&&GamePlayScene::outCount>=GamePlayScene::Fall))
 	{
 		provisionTime--;
 		if (provisionTime < 0)
@@ -303,7 +305,7 @@ void Map::Preparation() {
 	}
 }
 
-void Map::Staging(size_t y_, size_t x_) {
+void Map::StartStaging(size_t y_, size_t x_) {
 	float time = blocks[ y_ ][ x_ ].GetTime();
 	//フラグが立っていたら
 	if (blocks[y_][x_].GetIsStaging() &&isStaging&&isPreparation)
@@ -327,7 +329,53 @@ void Map::Staging(size_t y_, size_t x_) {
 		}
 		else
 		{
+			//フラグの変更
 			blocks[y_][x_].SetIsStaging(false);
+		}
+	}
+}
+
+void Map::OutStaging(size_t y_,size_t x_) {
+	float time = blocks[ y_ ][ x_ ].GetTime();
+	//フラグが立っていたら
+	if ( blocks[ y_ ][ x_ ].GetIsStaging() &&
+		GamePlayScene::isOut &&
+		GamePlayScene::outCount >= GamePlayScene::Fall )
+	{
+		//スケール
+		Vector3 easeScale = blocks[ y_ ][ x_ ].GetScale();
+		easeScale = scaleEnd + ( scaleStart - scaleEnd  ) * Easing::easeInQuint(time / stagingTimer);
+		//回転
+		Vector3 easeRot = blocks[ y_ ][ x_ ].GetRot();
+		easeRot.z = rotEndZ + ( rotStartZ - rotEndZ ) * Easing::easeInSine(time / stagingTimer);
+		//座標
+		Vector3 easePos = blocks[ y_ ][ x_ ].GetPos();
+		easePos.y = posEndY + ( posStartY - posEndY ) * Easing::easeInSine(time / stagingTimer);
+
+		blocks[ y_ ][ x_ ].SetParameter(easePos,easeRot,easeScale);
+		//1.0fまで加算
+		if ( time < stagingTimer )
+		{
+			time++;
+			blocks[ y_ ][ x_ ].SetTime(time);
+		}
+		else
+		{
+			blocks[ y_ ][ x_ ].SetIsStaging(false);
+		}
+	}
+}
+
+void Map::Reset()
+{
+	//変数
+	nowMax = 0;
+
+	for ( size_t i = 0; i < height; i++ )
+	{
+		for ( size_t j = 0; j < width; j++ )
+		{
+			blocks[i][j].SetTime(0);//タイマー	
 		}
 	}
 }

@@ -47,15 +47,20 @@ public://メンバ関数
 	//プレイヤーの位置から中心のマップチップを取得
 	void CenterMapChip(const Vector3& playerPos_);
 
-	//準備
-	void Preparation();
-	//演出
-	void Staging(size_t y_,size_t x_);
-
 	BaseBlock& GetBlocks(const int32_t&w,const int32_t& h) {
 		return blocks[h][w];
 	}
 	
+private:
+	//準備
+	void Preparation();
+	//スタート演出
+	void StartStaging(size_t y_,size_t x_);
+	//スタート演出
+	void OutStaging(size_t y_,size_t x_);
+	//リセット
+	void Reset();
+
 public:
 	//移動の上限
 	static float moveLimitW;

@@ -15,6 +15,8 @@
 
 int8_t GamePlayScene::startCount = 0;
 bool GamePlayScene::isStart = true;
+int8_t GamePlayScene::outCount = 0;
+bool GamePlayScene::isOut = false;
 /// <summary>
 /// 矩形の判定
 /// </summary>
@@ -137,6 +139,8 @@ void GamePlayScene::Initialize() {
 	//変数
 	startCount = 0;
 	isStart = true;
+	outCount = Out::None;
+	isOut = false;
 	spriteEaseTime = 0.0f;
 	spriteWaitTime = 0.0f;
 	rPosStartY=WinApp::height+150.0f;
@@ -286,7 +290,7 @@ void GamePlayScene::Update() {
 	  { player->GetPos().x+ shake.x,
 		cameraY,
 		player->GetPos().z - 30.0f+ shake.z };
-	if ( !player->IsDead() && enemyManager->GetSize()!=0 )
+	if ( !player->IsDead() )
 	{
 		sight->SetPosition({ input->GetMausePos().x,input->GetMausePos().y });
 		sight->Update();
@@ -329,13 +333,19 @@ void GamePlayScene::Update() {
 		{
 			SceneManager::GetInstance()->ChangeScene("GAMEOVER");
 		}
-		if (enemyManager->GetSize()==0)
+		/*if (enemyManager->GetSize()==0)
 		{
 			SceneManager::playerHP = player->GetHp();
 			SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
-		}
+		}*/
+	}
+
+	if ( enemyManager->GetSize() == 0 )
+	{
+		isOut = true;
 	}
 	StartStaging();
+	OutStaging();
 	MemoDisplay();
 }
 
@@ -389,7 +399,7 @@ void GamePlayScene::CheckAllCollision() {
 			if ( dis <= radius )
 			{
 				//自キャラのコールバックを呼び出し
-				player->OnCollision();
+				//player->OnCollision();
 				//敵弾のコールバックを呼び出し
 				e_bullet->OnCollision();
 				particle->Add("explosion",30,15,player->GetPos(),1.0f,0.0f);
@@ -800,6 +810,7 @@ void GamePlayScene::StartStaging() {
 			spriteEaseTime++;
 			readyPos.y = rPosStartY + ( rPosEndY - rPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
 			stagePos.y = sPosStartY + ( sPosEndY - sPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
+			//操作説明の画像のイージング
 			if ( spriteEaseTime <= spriteEaseTimer )
 			{
 				memoPos.x = mPosStartX + ( mPosEndX - mPosStartX ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
@@ -824,6 +835,19 @@ void GamePlayScene::StartStaging() {
 	stage->Update();
 	ready->Update();
 	memo->Update();
+}
+
+void GamePlayScene::OutStaging()
+{
+	if ( isOut )
+	{
+		if ( outCount==Out::None )
+		{
+			outCount++;
+			map->CenterMapChip(player->GetPos());
+		}
+
+	}
 }
 
 void GamePlayScene::MemoDisplay()

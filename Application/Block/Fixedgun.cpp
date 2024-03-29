@@ -24,9 +24,10 @@ void Fixedgun::Initialize(const Vector3& pos_,const Vector3& rot_,const Vector3&
 }
 
 void Fixedgun::Update() {
-	BaseBlock::Staging();
+	BaseBlock::StartStaging();
+	BaseBlock::OutStaging();
 	BaseBlock::Update();
-	if ( !GamePlayScene::isStart )
+	if ( !GamePlayScene::isStart&& !GamePlayScene::isOut )
 	{
 		waitTime++;
 		if ( waitTime>waitTimer )

@@ -13,7 +13,8 @@ void Wall::Initialize(const Vector3& pos_,const Vector3& rot_,const Vector3& sca
 }
 
 void Wall::Update() {
-	BaseBlock::Staging();
+	BaseBlock::StartStaging();
+	BaseBlock::OutStaging();
 	BaseBlock::Update();
 }
 

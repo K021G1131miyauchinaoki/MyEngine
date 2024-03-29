@@ -57,20 +57,6 @@ public://メンバ関数
 	/// </summary>
 	void Finalize()override;
 
-	/// <summary>
-	/// 当たり判定
-	/// </summary>
-	void CheckAllCollision();
-
-	/// <summary>
-	/// スタート演出
-	/// </summary>
-	void StartStaging();
-
-	/// <summary>
-	/// 操作UIの表示
-	/// </summary>
-	void MemoDisplay();
 
 	/// <summary>
 	/// コンストラクタ
@@ -93,14 +79,48 @@ public://メンバ関数
 		Go,
 	};
 
+	enum Out
+	{
+		None,
+		Roll,
+		Fall,
+		Create,
+		Up,
+	};
+private:
 	//ステージの文字列を取得
 	void StageString();
+
+	/// <summary>
+	/// 当たり判定
+	/// </summary>
+	void CheckAllCollision();
+
+	/// <summary>
+	/// スタート演出
+	/// </summary>
+	void StartStaging();
+
+	/// <summary>
+	/// 消える演出
+	/// </summary>
+	void OutStaging();
+
+	/// <summary>
+	/// 操作UIの表示
+	/// </summary>
+	void MemoDisplay();
+
 	
 public:
 	//スタート演出のカウント
 	static int8_t startCount;
 	//スタートフラグ
 	static  bool isStart;
+	//消える演出のカウント
+	static int8_t outCount;
+	//消えるフラグ
+	static  bool isOut;
 
 private:
 	//インプット
