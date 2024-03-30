@@ -109,7 +109,7 @@ public://メンバ関数
 	bool IsShake()const {
 		return isShake;
 	}
-
+	void LocationMapChip(Map*map_);
 
 private://メンバ変数
 	Input*input = nullptr;
@@ -153,6 +153,12 @@ private://メンバ変数
 	float pPosX;
 	const float rotTimer = 10;
 	float rotTime;
+	int16_t locationW;
+	int16_t locationH;
+	Vector3 locStart;
+	Vector3 locEnd;
+	const float locEaseTimer = 40;
+	float locEaseTime;
 	int8_t shakeTimer;
 	const int8_t shakeTime = 20;
 

@@ -845,6 +845,7 @@ void GamePlayScene::OutStaging()
 		{
 			outCount++;
 			map->CenterMapChip(player->GetPos());
+			player->LocationMapChip(map.get());
 		}
 
 	}

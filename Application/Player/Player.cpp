@@ -35,6 +35,18 @@ void Player::ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_) {
 	tankBody->Update();
 }
 
+void Player::LocationMapChip(Map* map_)
+{
+	//プレイヤーがマップ上のどの位置にいるかを調べる
+	float diameterW = Map::mapScaleW * 2.0f;
+	float diameterH = Map::mapScaleH * 2.0f;
+
+	locationW = static_cast< int16_t >( ( tankBody->GetPosition().x + Map::moveLimitW ) / diameterW );
+	locationH = static_cast< int16_t >( ( tankBody->GetPosition().z + Map::moveLimitH ) / diameterH );
+	locStart = tankBody->GetPosition();
+	locEnd = map_->GetBlocks(locationW,locationH).GetPos();
+}
+
 void Player::Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_,
 						Input* input_,BulletManager* bulletManager_,Map*map_) {
 	assert(tankHadModel_);
@@ -173,7 +185,23 @@ void Player::Update() {
 	}
 	else
 	{
-
+		if ( GamePlayScene::outCount>=GamePlayScene::Move
+			&&locEaseTime<locEaseTimer)
+		{
+			Vector3 pos = tankHad->GetPosition();
+			Vector3 rot = parachute->GetRotation();
+			Vector3 scale = parachute->GetScale();
+			//移動
+			locEaseTime++;
+			pos.x = locStart.x + ( locEnd.x - locStart.x ) * Easing::easeOutSine(locEaseTime / locEaseTimer);
+			pos.z = locStart.z + ( locEnd.z - locStart.z ) * Easing::easeOutSine(locEaseTime / locEaseTimer);
+			tankHad->SetPosition(pos);
+			tankBody->SetPosition(pos);
+			if ( locEaseTime >= locEaseTimer )
+			{
+				GamePlayScene::outCount++;
+			}
+		}
 	}
 	
 	//オブジェクト

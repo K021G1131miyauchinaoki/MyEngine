@@ -82,6 +82,7 @@ public://メンバ関数
 	enum Out
 	{
 		None,
+		Move,
 		Roll,
 		Fall,
 		Create,
