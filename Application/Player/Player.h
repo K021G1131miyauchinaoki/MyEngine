@@ -109,7 +109,11 @@ public://メンバ関数
 	bool IsShake()const {
 		return isShake;
 	}
+	//現在のマップチップ位置を取得
 	void LocationMapChip(Map*map_);
+
+	//ランダム生成
+	void RandomDeployment(Map* map_);
 
 private://メンバ変数
 	Input*input = nullptr;

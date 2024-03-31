@@ -30,17 +30,19 @@ void BaseBlock::SetIsStaging(const bool& isStaging_) {
 }
 
 void BaseBlock::StartStaging() {
-	if (GamePlayScene::isStart&&
-		GamePlayScene::startCount >= GamePlayScene::Redy&&
-		stagingTime < stagingTimer)
+	if (stagingTime < stagingTimer)
 	{
-		Vector3 rot = obj->GetRotation();
-		Vector3 scale = obj->GetScale();
-		rot = rotStart + ( rotEnd - rotStart ) * Easing::easeOutQuint(stagingTime / stagingTimer);
-		scale = scaleStart + ( scaleEnd - scaleStart ) * Easing::easeOutQuint(stagingTime / stagingTimer);
-		obj->SetRotation(rot);
-		obj->SetScale(scale);
-		stagingTime++;
+		if ( ( GamePlayScene::isStart && GamePlayScene::startCount >= GamePlayScene::Redy ) ||
+			( GamePlayScene::isOut && GamePlayScene::outCount >= GamePlayScene::RollIn ) )
+		{
+			Vector3 rot = obj->GetRotation();
+			Vector3 scale = obj->GetScale();
+			rot = rotStart + ( rotEnd - rotStart ) * Easing::easeOutQuint(stagingTime / stagingTimer);
+			scale = scaleStart + ( scaleEnd - scaleStart ) * Easing::easeOutQuint(stagingTime / stagingTimer);
+			obj->SetRotation(rot);
+			obj->SetScale(scale);
+			stagingTime++;
+		}
 	}
 	//タイマーのリセット
 	if (!GamePlayScene::isStart&&
@@ -53,7 +55,7 @@ void BaseBlock::StartStaging() {
 void BaseBlock::OutStaging()
 {
 	if ( GamePlayScene::isOut &&
-		GamePlayScene::outCount >= GamePlayScene::Roll &&
+		GamePlayScene::outCount == GamePlayScene::RollOut &&
 		stagingTime < stagingTimer )
 	{
 		//回転、スケールをイージング
@@ -64,10 +66,5 @@ void BaseBlock::OutStaging()
 		obj->SetRotation(rot);
 		obj->SetScale(scale);
 		stagingTime++;
-		//タイマーが一定値超えたらカウントを進める
-		if ( stagingTime >= stagingTimer )
-		{
-			GamePlayScene::outCount++;
-		}
 	}
 }

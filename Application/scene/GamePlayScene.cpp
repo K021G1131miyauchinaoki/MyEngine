@@ -139,7 +139,7 @@ void GamePlayScene::Initialize() {
 	//変数
 	startCount = 0;
 	isStart = true;
-	outCount = Out::None;
+	outCount = Serial::None;
 	isOut = false;
 	spriteEaseTime = 0.0f;
 	spriteWaitTime = 0.0f;
@@ -271,6 +271,9 @@ void GamePlayScene::Initialize() {
 }
 
 void GamePlayScene::Update() {
+	StartStaging();
+	OutStaging();
+	MemoDisplay();
 	shake = { 0.0f,0.0f,0.0f };
 	if(player->IsShake() )
 	{
@@ -308,7 +311,7 @@ void GamePlayScene::Update() {
 		particle->Update();
 		geo->Update();
 
-		if (!isStart)
+		if (!isStart&&!isOut)
 		{
 			CheckAllCollision();
 		}
@@ -344,9 +347,6 @@ void GamePlayScene::Update() {
 	{
 		isOut = true;
 	}
-	StartStaging();
-	OutStaging();
-	MemoDisplay();
 }
 
 void GamePlayScene::SpriteDraw() {
@@ -841,11 +841,29 @@ void GamePlayScene::OutStaging()
 {
 	if ( isOut )
 	{
-		if ( outCount==Out::None )
+		if ( outCount==Serial::None )
 		{
 			outCount++;
 			map->CenterMapChip(player->GetPos());
 			player->LocationMapChip(map.get());
+		}
+		else if ( outCount == Serial::Create )
+		{
+			startCount = start::Redy;
+			spriteEaseTime = 0.0f;
+			//ランダム生成、配置
+			map->RandomCreate();
+			player->RandomDeployment(map.get());
+			//プレイヤーの初期化とマップの生成後にマップチップの中心を算出
+			map->CenterMapChip(player->GetPos());
+			enemyManager->RandomCreate(map.get());
+			blockManager->RandomCreate();
+			outCount++;
+		}
+		else if ( outCount>=Serial::Max )
+		{
+			isOut = false;
+			outCount = Serial::None;
 		}
 
 	}

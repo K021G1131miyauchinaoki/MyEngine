@@ -79,7 +79,7 @@ void BaseEnemy::Initialize(Model* model_,Model* parachuteModel_,Player* player_,
 
 void BaseEnemy::Update() {
 	//スタート演出
-	if ( GamePlayScene::isStart )
+	if ( GamePlayScene::isStart|| GamePlayScene::isOut)
 	{
 		StartStaging();
 	}
@@ -114,7 +114,7 @@ void BaseEnemy::Update() {
 }
 
 void BaseEnemy::Draw() {
-	if ( GamePlayScene::startCount >= GamePlayScene::Bound2 )
+	if ( GamePlayScene::startCount >= GamePlayScene::Bound2 || GamePlayScene::outCount >= GamePlayScene::FallEnemy )
 	{
 		if ( invincibleTime % 2 == 1 )
 		{
@@ -291,20 +291,25 @@ void BaseEnemy::StartStaging() {
 	Vector3 pRot = parachute->GetRotation();
 	float percent = 0.9f;
 
-	if ( startEaseTime < startEaseTimer
-		&& GamePlayScene::startCount >= GamePlayScene::Bound2 )
+	if ( startEaseTime <= startEaseTimer)
 	{
-		startEaseTime++;
-		if ( startEaseTime < (startEaseTimer*percent))
+		if ( (GamePlayScene::isStart &&GamePlayScene::startCount >= GamePlayScene::Bound2) ||
+			(GamePlayScene::isOut&&GamePlayScene::outCount >= GamePlayScene::FallEnemy ))
 		{
-			pos.y = startPosY + ( endPosY - startPosY ) * Easing::easeInSine(startEaseTime / (startEaseTimer*percent));
+			startEaseTime++;
+			if ( startEaseTime < ( startEaseTimer * percent ) )
+			{
+				pos.y = startPosY + ( endPosY - startPosY ) * Easing::easeInSine(startEaseTime / ( startEaseTimer * percent ));
+			}
+			else
+			{
+				pos.y = startPosY + ( endPosY - startPosY ) * Easing::easeOutBounce(startEaseTime / startEaseTimer);
+			}
+			if ( startEaseTime >  startEaseTimer&& GamePlayScene::outCount >= GamePlayScene::FallEnemy )
+			{
+				GamePlayScene::outCount++;
+			}
 		}
-		else
-		{
-			pos.y = startPosY + ( endPosY - startPosY ) * Easing::easeOutBounce(startEaseTime / startEaseTimer);
-		}
-		
-		
 	}
 	//パラシュート
 	//タイマーが50％以下なら

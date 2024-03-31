@@ -50,6 +50,8 @@ public:
 		return blocks.size();
 	}
 
+	//カウント
+	void Count();
 
 private:
 	// ブロック

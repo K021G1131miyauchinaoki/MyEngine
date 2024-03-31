@@ -3,6 +3,7 @@
 #include"Wall.h"
 #include<random>
 #include<ModelManager.h>
+#include<GamePlayScene.h>
 
 void BlockManager::Initialize(BulletManager* bulletManager_,Map* map_) {
 	bulletManager = bulletManager_;
@@ -15,6 +16,7 @@ void BlockManager::Update()
 	{
 		block->Update();
 	}
+	Count();
 }
 
 void BlockManager::Draw() {
@@ -45,7 +47,9 @@ void BlockManager::Add(const std::string name_,Model* model_,const Vector3& pos_
 
 void BlockManager::RandomCreate()
 {
-	
+	//要素をクリア
+	blocks.clear();
+
 	scale = { 5.0f,5.0f,5.0f };
 	rot = { 0.0f,0.0f,0.0f };
 	int16_t h,w;
@@ -56,7 +60,7 @@ void BlockManager::RandomCreate()
 	std::mt19937_64 engine(seed_gen());
 
 	//std::uniform_real_distribution<float> rotDist(-shift, shift);
-	std::uniform_int_distribution<int16_t> numDist(3,6);
+	std::uniform_int_distribution<int16_t> numDist(3,3);
 	int16_t num = numDist(engine);
 	for ( int16_t i = 0; i < num; i++ )
 	{
@@ -114,7 +118,7 @@ void BlockManager::RandomCreate()
 			pos.x -= scale.x;
 		}
 		pos.y = 5.0f;
-		LineCreate(pos,scale,w,h);
+		//LineCreate(pos,scale,w,h);
 		b->Initialize(pos,rot,scale,model);
 		blocks.push_back(std::move(b));
 	}
@@ -193,4 +197,24 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const in
 		blocks.push_back(std::move(b));
 	}
 	
+}
+
+void BlockManager::Count()
+{
+	if (GamePlayScene::isOut)
+	{
+		int8_t count=0;
+		for ( std::unique_ptr<BaseBlock>& block : blocks )
+		{
+			if ((block->GetScale().x<=0.0f&&block->GetScale().y <= 0.0f&&block->GetScale().z <= 0.0f&& GamePlayScene::outCount==GamePlayScene::RollOut )||
+				(block->GetScale().x >= scale.x && block->GetScale().y >= scale.y && block->GetScale().z >= scale.z&& GamePlayScene::outCount == GamePlayScene::RollIn ))
+			{
+				count++;
+			}
+		}
+		if ( count == blocks.size() )
+		{
+			GamePlayScene::outCount++;
+		}
+	}
 }

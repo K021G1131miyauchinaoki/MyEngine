@@ -79,14 +79,17 @@ public://メンバ関数
 		Go,
 	};
 
-	enum Out
+	enum Serial
 	{
 		None,
 		Move,
-		Roll,
-		Fall,
+		RollOut,
+		FallMap,
 		Create,
 		Up,
+		RollIn,
+		FallEnemy,
+		Max,
 	};
 private:
 	//ステージの文字列を取得

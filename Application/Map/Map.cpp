@@ -53,15 +53,25 @@ void Map::Update() {
 		{
 			StartStaging(i,j);
 			OutStaging(i, j);
-			if ( posEndY<=blocks[ i ][ j ].GetPos().y&& !blocks[i][j].GetIsStaging()&&isPreparation)
+			if ((posEndY-plus<=blocks[ i ][ j ].GetPos().y&& !blocks[i][j].GetIsStaging()&&isPreparation)||//スタート演出
+				( posStartY+plus >= blocks[ i ][ j ].GetPos().y && GamePlayScene::isOut && GamePlayScene::outCount == GamePlayScene::FallMap ) )//落ちる演出
 			{
 				count++;
+				if (count >= totalCount-1&& GamePlayScene::outCount == GamePlayScene::FallMap )
+				{
+					GamePlayScene::outCount++;
+				}
 				if ( count >= totalCount )
 				{
+					if ( GamePlayScene::outCount == GamePlayScene::Up )
+					{
+						GamePlayScene::outCount++;
+					}
 					isPreparation = false;
 					Reset();
 				}
 			}
+
 			blocks[i][j].Update();
 		}
 	}
@@ -182,6 +192,8 @@ void Map::LoadCSV(const std::string& num_) {
 	mapScaleW = scaleEnd.x;
 	mapScaleH = scaleEnd.z;
 
+	//ブロックの総数を数える
+	totalCount = 0;
 	for ( const auto& innerVec : blocks )
 	{
 		totalCount += innerVec.size();
@@ -190,6 +202,11 @@ void Map::LoadCSV(const std::string& num_) {
 
 void Map::RandomCreate()
 {
+	for (auto& innerVec : blocks )
+	{
+		innerVec.clear();
+	}
+	blocks.clear();
 	//乱数シード生成器
 	std::random_device seed_gen;
 	//メルセンヌ・ツイスターの乱数エンジン
@@ -197,7 +214,7 @@ void Map::RandomCreate()
 
 
 	//std::uniform_real_distribution<float> rotDist(-shift, shift);
-	std::uniform_int_distribution<int16_t> Dist(7, 16);
+	std::uniform_int_distribution<int16_t> Dist(4, 7);
 	//ブロックのサイズを設定
 
 	height = Dist(engine);
@@ -251,6 +268,8 @@ void Map::RandomCreate()
 	mapScaleW = scaleEnd.x;
 	mapScaleH = scaleEnd.z;
 
+	//ブロックの総数を数える
+	totalCount = 0;
 	for ( const auto& innerVec : blocks )
 	{
 		totalCount += innerVec.size();
@@ -263,14 +282,31 @@ void Map::CenterMapChip(const Vector3& playerPos_)
 	float diameterW = mapScaleW * 2.0f;
 	float diameterH = mapScaleH * 2.0f;
 	
-	centerW = static_cast< int16_t >( ( playerPos_.x + moveLimitW ) / diameterW );
 	centerH = static_cast< int16_t >( ( playerPos_.z + moveLimitH ) / diameterH );
+	centerW = static_cast< int16_t >( ( playerPos_.x + moveLimitW ) / diameterW );
 
+	if ( GamePlayScene::isOut )
+	{
+		Vector3 pos = blocks[ centerH ][ centerW ].GetPos();
+		pos.y = posEndY;
+		blocks[ centerH ][ centerW ].SetTime(stagingTimer);
+		blocks[ centerH ][ centerW ].SetPos(pos);
+		blocks[ centerH ][ centerW ].SetRot({rotEndZ,rotEndZ, rotEndZ});
+		blocks[ centerH ][ centerW ].SetScale(scaleEnd);
+		blocks[ centerH ][ centerW ].Update();
+	}
+	//フラグをオンに
+	if ( GamePlayScene::outCount==GamePlayScene::Create )
+	{
+		isStaging = true;
+		isPreparation = true;
+	}
+	nowMax = 0;
 }
 
 void Map::Preparation() {
 	if ((isStaging&&isPreparation)||
-		(GamePlayScene::isOut&&GamePlayScene::outCount>=GamePlayScene::Fall))
+		(GamePlayScene::isOut&&GamePlayScene::outCount==GamePlayScene::FallMap))
 	{
 		provisionTime--;
 		if (provisionTime < 0)
@@ -322,7 +358,7 @@ void Map::StartStaging(size_t y_, size_t x_) {
 
 		blocks[ y_ ][ x_ ].SetParameter(easePos,easeRot,easeScale);
 		//1.0fまで加算
-		if ( time < stagingTimer )
+		if ( time <= stagingTimer )
 		{
 			time++;
 			blocks[ y_ ][ x_ ].SetTime(time);
@@ -341,7 +377,7 @@ void Map::OutStaging(size_t y_,size_t x_) {
 	//フラグが立っていたら
 	if ( blocks[ y_ ][ x_ ].GetIsStaging() &&
 		GamePlayScene::isOut &&
-		GamePlayScene::outCount >= GamePlayScene::Fall &&
+		GamePlayScene::outCount == GamePlayScene::FallMap &&
 		 !flag)
 	{
 		//スケール
@@ -356,7 +392,7 @@ void Map::OutStaging(size_t y_,size_t x_) {
 
 		blocks[ y_ ][ x_ ].SetParameter(easePos,easeRot,easeScale);
 		//1.0fまで加算
-		if ( time < stagingTimer )
+		if ( time <= stagingTimer )
 		{
 			time++;
 			blocks[ y_ ][ x_ ].SetTime(time);

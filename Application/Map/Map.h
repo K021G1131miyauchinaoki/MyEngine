@@ -91,8 +91,8 @@ private://メンバ変数
 	const float constStartY = -400;
 	
 	int16_t lineNum;
-
-	const int16_t stagingTimer = 50;
+	const float plus=1.0f;
+	const float stagingTimer = 50;
 	const int16_t provisionTimer = 20;
 	int16_t provisionTime = 0;
 	int16_t nowMax;

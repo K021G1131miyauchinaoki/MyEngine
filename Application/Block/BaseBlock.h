@@ -40,10 +40,20 @@ public:
 	//弾マネージャーのセット
 	virtual void SetBulletManager(BulletManager* bulletManager_) {bulletManager = bulletManager_;}
 	//色
-	void SetColor(const XMFLOAT4 color_) {obj->SetColor(color_);}
+	void SetColor(const XMFLOAT4& color_) {obj->SetColor(color_);}
 	/*マップチップ*/
 	void SetDrawNum(const int32_t& num) {drawNum = num;}
 	int32_t GetDrawNum() {return drawNum;}
+	//位置
+	void SetPos(const Vector3& pos_) {obj->SetPosition(pos_);	}
+	//回転
+	void SetRot(const Vector3& rot_) {
+		obj->SetRotation(rot_);
+	}
+	//スケール
+	void SetScale(const Vector3& scale_) {
+		obj->SetScale(scale_);
+	}
 protected://メンバ変数
 	std::unique_ptr<Object3d> obj;
 	BulletManager* bulletManager;
