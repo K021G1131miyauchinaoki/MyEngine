@@ -802,7 +802,26 @@ void GamePlayScene::StartStaging() {
 		//イージングを一時的に止める
 		if ( spriteEaseTime == spriteEaseTimer )
 		{
-			spriteWaitTime++;
+			//一番最初のスタート演出
+			if ( !isOut )
+			{
+				spriteWaitTime++;
+			}
+			//落ちて上がってを繰り返す方の演出
+			else
+			{
+				if ( outCount > Serial::FallEnemy )
+				{
+					//イージングのタイマーを動かさないようにするために1.0fを代入
+					spriteWaitTime = 1.0f;
+				}
+				else
+				{
+					//敵の落ち始めてからタイマーを動かす
+					spriteWaitTime++;
+				}
+			}
+
 		}
 		//イージング
 		if ( spriteWaitTime >= spriteWaitTimer || spriteWaitTime == 0.0f )
@@ -811,7 +830,7 @@ void GamePlayScene::StartStaging() {
 			readyPos.y = rPosStartY + ( rPosEndY - rPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
 			stagePos.y = sPosStartY + ( sPosEndY - sPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
 			//操作説明の画像のイージング
-			if ( spriteEaseTime <= spriteEaseTimer )
+			if ( spriteEaseTime <= spriteEaseTimer&&!isOut )
 			{
 				memoPos.x = mPosStartX + ( mPosEndX - mPosStartX ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
 			}
