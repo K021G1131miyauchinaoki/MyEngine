@@ -207,6 +207,7 @@
     <ClCompile Include="Application\Enemy\RapidEnemy.cpp">
       <Filter>ソースファイル\Application\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\base\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\NormalEnemy.h">
@@ -383,6 +384,7 @@
     <ClInclude Include="Application\Enemy\RapidEnemy.h">
       <Filter>ヘッダーファイル\Application\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\base\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

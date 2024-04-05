@@ -41,6 +41,8 @@ void DirectXCommon::Initialize(WinApp* winApp_) {
 	//フェンスの初期化
 	InitializeFence();
 
+	ExecuteCommand(false);
+
 #ifdef _DEBUG
 
 
@@ -308,6 +310,7 @@ void DirectXCommon::InitializeFence() {
 
 //描画前処理
 void DirectXCommon::PreDraw() {
+	ResetCommand();
 	// バックバッファの番号を取得(2つなので0番か1番)
 	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
 
@@ -354,41 +357,57 @@ void DirectXCommon::PreDraw() {
 }
 //描画後処理
 void DirectXCommon::PostDraw(){
-	// バックバッファの番号を取得(2つなので0番か1番)
-	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
+	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;//描画状態から
+	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;//表示状態へ
+	cmdList->ResourceBarrier(1,&barrierDesc);
 
-	barrierDesc.Transition.pResource = backBuffers[bbIndex].Get(); // バックバッファを指定
-	// リソースバリアを戻す
-	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
-	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
-	cmdList->ResourceBarrier(1, &barrierDesc);
+	ExecuteCommand();
+	//FPS固定
+	UpdateFixFPS();
+}
 
+void DirectXCommon::ExecuteCommand(bool flip)
+{
 	// 命令のクローズ
 	result = cmdList->Close();
 	assert(SUCCEEDED(result));
-	// コマンドリストの実行
-	ID3D12CommandList* commandLists[] = { cmdList.Get() };
-	commandQueue->ExecuteCommandLists(1, commandLists);
-	// 画面に表示するバッファをフリップ(裏表の入替え)
-	
-	result = swapChain->Present(1, 0);
-	//assert(SUCCEEDED(result));
+	//コマンドリストの実行
+	ID3D12CommandList* commandListts[ ] = { cmdList.Get() };
+	commandQueue->ExecuteCommandLists(1,commandListts);
 
-	// コマンドの実行完了を待つ
-	commandQueue->Signal(fence.Get(), ++fenceVal);
-	if (fence->GetCompletedValue() != fenceVal) {
-		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
-		fence->SetEventOnCompletion(fenceVal, event);
-		WaitForSingleObject(event, INFINITE);
-		CloseHandle(event);
+	if ( flip )
+	{
+		// フリップ
+		result = swapChain->Present(1,0);
+		assert(SUCCEEDED(result));
 	}
-	//FPS固定
-	UpdateFixFPS();
+
+	//コマンド実行完了を待つ
+	commandQueue->Signal(fence.Get(),++fenceVal);
+	if ( fence->GetCompletedValue() != fenceVal )
+	{
+		HANDLE event = CreateEvent(nullptr,false,false,nullptr);
+		fence->SetEventOnCompletion(fenceVal,event);
+		if ( event != 0 )
+		{
+			WaitForSingleObject(event,INFINITE);
+			CloseHandle(event);
+		}
+	}
+}
+void DirectXCommon::ResetCommand()
+{
 	// キューをクリア
 	result = cmdAllocator->Reset();
 	assert(SUCCEEDED(result));
-	// 再びコマンドリストを貯める準備
-	result = cmdList->Reset(cmdAllocator.Get(), nullptr);
-	assert(SUCCEEDED(result));
+	// コマンドリストを貯める準備
+	if ( cmdList != 0 )
+	{
+		result = cmdList->Reset(cmdAllocator.Get(),nullptr);
+		assert(SUCCEEDED(result));
+	}
+	else
+	{
+		assert(SUCCEEDED(0));
+	}
 }
-

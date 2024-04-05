@@ -64,7 +64,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Bullet;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Bullet;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,7 +91,7 @@
       <Optimization>Full</Optimization>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Bullet;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Bullet;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -119,6 +119,7 @@
     <ClCompile Include="Application\Bullet\EnemyBullet.cpp" />
     <ClCompile Include="Engine\base\scene\BaseScene.cpp" />
     <ClCompile Include="Application\particle\BaseModelParticle.cpp" />
+    <ClCompile Include="Engine\base\TextureManager.cpp" />
     <ClCompile Include="Engine\easing\Easing.cpp" />
     <ClCompile Include="Engine\3d\camera\Camera.cpp" />
     <ClCompile Include="Engine\3d\model\Object3d.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="Engine\base\scene\BaseScene.h" />
     <ClInclude Include="Application\struct\BaseHp.h" />
     <ClInclude Include="Application\particle\BaseModelParticle.h" />
+    <ClInclude Include="Engine\base\TextureManager.h" />
     <ClInclude Include="Engine\easing\Easing.h" />
     <ClInclude Include="Engine\3d\camera\Camera.h" />
     <ClInclude Include="Engine\3d\model\Object3d.h" />

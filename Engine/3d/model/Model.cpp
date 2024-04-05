@@ -146,84 +146,10 @@ void Model::LoadFromOBJInternal(const	std::string& modelname_,bool smoothing) {
 }
 
 void Model::LoadTexture(const	std::string& directoryPath_, const std::string& filename_) {
-	HRESULT result = S_FALSE;
-
-	TexMetadata metadata{};
-	ScratchImage scratchImg{};
-
 	//ファイルパスを結合
 	std::string	filepath = directoryPath_ + filename_;
 
-	//ユニコード文字列に変更する
-	wchar_t	wfilepath[128];
-	iBufferSize = MultiByteToWideChar(
-		CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
-
-	// WICテクスチャのロード
-	//result = LoadFromWICFile( L"Resources/tex1.png", WIC_FLAGS_NONE, &metadata, scratchImg);
-
-	result = LoadFromWICFile(wfilepath, WIC_FLAGS_NONE, &metadata, scratchImg);
-
-	assert(SUCCEEDED(result));
-
-	ScratchImage mipChain{};
-	// ミップマップ生成
-	result = GenerateMipMaps(
-		scratchImg.GetImages(), scratchImg.GetImageCount(), scratchImg.GetMetadata(),
-		TEX_FILTER_DEFAULT, 0, mipChain);
-	if (SUCCEEDED(result)) {
-		scratchImg = std::move(mipChain);
-		metadata = scratchImg.GetMetadata();
-	}
-
-	// 読み込んだディフューズテクスチャをSRGBとして扱う
-	metadata.format = MakeSRGB(metadata.format);
-
-	// リソース設定
-	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
-		metadata.format, metadata.width, (UINT)metadata.height, (UINT16)metadata.arraySize,
-		(UINT16)metadata.mipLevels);
-
-	// ヒーププロパティ
-	CD3DX12_HEAP_PROPERTIES heapProps =
-		CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);
-
-	// テクスチャ用バッファの生成
-	result = device->CreateCommittedResource(
-		&heapProps, D3D12_HEAP_FLAG_NONE, &texresDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ, // テクスチャ用指定
-		nullptr, IID_PPV_ARGS(&texbuff));
-	assert(SUCCEEDED(result));
-
-	// テクスチャバッファにデータ転送
-	for (size_t i = 0; i < metadata.mipLevels; i++) {
-		const Image* img = scratchImg.GetImage(i, 0, 0); // 生データ抽出
-		result = texbuff->WriteToSubresource(
-			(UINT)i,
-			nullptr,              // 全領域へコピー
-			img->pixels,          // 元データアドレス
-			(UINT)img->rowPitch,  // 1ラインサイズ
-			(UINT)img->slicePitch // 1枚サイズ
-		);
-		assert(SUCCEEDED(result));
-	}
-
-	// シェーダリソースビュー作成
-	cpuDescHandleSRV = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize);
-	gpuDescHandleSRV = CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeap->GetGPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize);
-
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; // 設定構造体
-	D3D12_RESOURCE_DESC resDesc = texbuff->GetDesc();
-
-	srvDesc.Format = resDesc.Format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
-	srvDesc.Texture2D.MipLevels = 1;
-
-	device->CreateShaderResourceView(texbuff.Get(), //ビューと関連付けるバッファ
-		&srvDesc, //テクスチャ設定情報
-		cpuDescHandleSRV
-	);
+	textureData = TextureManager::GetInstance()->LoadTexture(filepath);
 }
 
 void Model::LoadMaterial(const std::string& directoryPath_, const std::string& filename_) {
@@ -399,7 +325,7 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList_, UINT rootParamIndexMateria
 		constBuffB1->GetGPUVirtualAddress());
 
 	// デスクリプタヒープの配列
-	ID3D12DescriptorHeap* ppHeaps[] = { descHeap.Get() };
+	ID3D12DescriptorHeap* ppHeaps[] = { textureData.srvHeap.Get() };
 	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	//// 定数バッファビューをセット
@@ -409,7 +335,7 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList_, UINT rootParamIndexMateria
 	if (material.textureFilename.size() > 0)
 	{
 		// シェーダリソースビューをセット
-		cmdList_->SetGraphicsRootDescriptorTable(2, gpuDescHandleSRV);
+		cmdList_->SetGraphicsRootDescriptorTable(2,textureData.srvGpuHandle);
 	}
 	// 描画コマンド
 	//cmdList_->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);

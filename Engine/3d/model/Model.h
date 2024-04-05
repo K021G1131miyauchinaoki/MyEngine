@@ -3,6 +3,7 @@
  * @brief　モデル生成
  */
 #pragma once
+#include"TextureManager.h"
 #include<fstream>
 #include<sstream>
 #include<string>
@@ -128,5 +129,6 @@ namespace MyEngin
 		UINT descriptorHandleIncrementSize;
 		int	iBufferSize;
 		std::vector<unsigned short>indices;
+		TextureData textureData;
 	};
 }

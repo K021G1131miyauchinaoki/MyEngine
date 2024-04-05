@@ -44,6 +44,8 @@ namespace MyEngin
 		void InitializeDepthBuffer();
 		//フェンスの初期化
 		void InitializeFence();
+		void ExecuteCommand(bool flip=true);
+		void ResetCommand();
 
 		//描画前処理
 		void PreDraw();

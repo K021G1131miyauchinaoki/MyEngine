@@ -4,6 +4,7 @@
  */
 
 #include "Framework.h"
+#include"TextureManager.h"
 
 void Framework::Initialize(){
 	winApp=WinApp::GetInstance();
@@ -14,6 +15,8 @@ void Framework::Initialize(){
 
 	Input::GetInstance()->Initialize();
 	input=Input::GetInstance();
+	TextureManager::GetInstance()->Initialize(dxCommon.get());
+
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 	//デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
