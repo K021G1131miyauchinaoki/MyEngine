@@ -1,6 +1,6 @@
 # Blender v3.2.1 OBJ File: 'tank.blend'
 # www.blender.org
-mtllib tank.mtl
+mtllib enemy.mtl
 o Cube
 v -0.555817 0.083283 -0.262846
 v -1.000000 -1.000000 -1.000000

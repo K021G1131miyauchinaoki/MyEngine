@@ -72,23 +72,23 @@ void GameClear::Initialize() {
 	//スカイドーム
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
-	objSkydome->SetModel(modelM->GetModel(ModelData::skydome));
+	objSkydome->SetModel(modelM->GetModel("skydome"));
 	objSkydome->SetScale({ 150.0f,150.0f,150.0f });
 
 	tankBody = std::make_unique<Object3d>();
 	tankBody->Initialize();
-	tankBody->SetModel(modelM->GetModel(ModelData::body));
+	tankBody->SetModel(modelM->GetModel("TankBody"));
 	tankBody->SetPosition({ 0.0f,5.0f,0.0f });
 	tankBody->SetScale({ 5.0f,5.0f,5.0f });
 	tankHad = std::make_unique<Object3d>();
 	tankHad->Initialize();
-	tankHad->SetModel(modelM->GetModel(ModelData::had));
+	tankHad->SetModel(modelM->GetModel("TankHad"));
 	tankHad->SetPosition({ 0.0f,5.0f,0.0f });
 	tankHad->SetScale({ 5.0f,5.0f,5.0f });
 
 	//マップ
 	map = std::make_unique<Map>();
-	map->Initialize(false,modelM->GetModel(ModelData::map));
+	map->Initialize(false,modelM->GetModel("map"));
 	map->LoadCSV("title");
 
 	flashTime = 0;

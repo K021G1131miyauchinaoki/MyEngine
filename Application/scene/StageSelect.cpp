@@ -84,7 +84,7 @@ void StageSelect::Initialize() {
 	//スカイドーム
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
-	objSkydome->SetModel(modelM->GetModel(ModelData::skydome));
+	objSkydome->SetModel(modelM->GetModel("skydome"));
 	objSkydome->SetScale({ 150.0f,150.0f,150.0f });
 
 	//ターゲットの設定

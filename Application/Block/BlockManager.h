@@ -2,6 +2,8 @@
 #include<BaseBlock.h>
 #include<BulletManager.h>
 #include"Map.h"
+#include"EnemyManager.h"
+#include"Player.h"
 
 class BlockManager
 {
@@ -9,7 +11,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(BulletManager* bulletManager_,Map*map_);
+	void Initialize(BulletManager* bulletManager_,Map* map_,EnemyManager* enemyManager_,Player*player_);
 	/// <summary>
 	/// 更新
 	/// </summary>
@@ -60,6 +62,8 @@ private:
 	BulletManager* bulletManager;
 	//マップ
 	Map* map;
+	EnemyManager* enemyManager;
+	Player* player;
 	//境界値
 	int16_t border;
 	//境界フラグ

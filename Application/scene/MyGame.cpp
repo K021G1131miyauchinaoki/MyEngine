@@ -41,7 +41,18 @@ void MyGame::Initialize() {
 	SoundManager::GetInstance()->LoadWave("SE/decision.wav");
 	ImguiManager::GetInstance()->Initialize(winApp, dxCommon.get());
 	//モデル
-	ModelManager::GetInstance()->LoadModel();
+	ModelManager::GetInstance()->LoadModel("skydome",true);
+	ModelManager::GetInstance()->LoadModel("cube");
+	ModelManager::GetInstance()->LoadModel("TankBody");
+	ModelManager::GetInstance()->LoadModel("TankHad");
+	ModelManager::GetInstance()->LoadModel("map");
+	ModelManager::GetInstance()->LoadModel("enemy");
+	ModelManager::GetInstance()->LoadModel("parachute");
+	ModelManager::GetInstance()->LoadModel("fixedgun");
+	ModelManager::GetInstance()->LoadModel("wall");
+	ModelManager::GetInstance()->LoadModel("bullet");
+	ModelManager::GetInstance()->LoadModel("bom");
+	ModelManager::GetInstance()->LoadModel("smoke");
 	
 	//シーンマネージャーに最初のシーンをセット
 	sceneFactory = new SceneFactory();

@@ -8,7 +8,7 @@
 void EnemyManager::Initialize(Player* player_,BulletManager* bulletManager_)
 {
 	player = player_;
-	parachuteModel = ModelManager::GetInstance()->GetModel(ModelData::parachute);
+	parachuteModel = ModelManager::GetInstance()->GetModel("parachute");
 	bulletManager = bulletManager_;
 }
 
@@ -124,7 +124,7 @@ void EnemyManager::RandomCreate(Map* map_)
 			}
 			
 		}
-		e->Initialize(ModelManager::GetInstance()->GetModel(ModelData::enemy),parachuteModel,player,pos,rot,bulletManager);
+		e->Initialize(ModelManager::GetInstance()->GetModel("enemy"),parachuteModel,player,pos,rot,bulletManager);
 		enemys.push_back(std::move(e));
 	}
 	

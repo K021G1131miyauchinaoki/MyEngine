@@ -169,21 +169,21 @@ void GamePlayScene::Initialize() {
 
 	//パーティクル
 	particle = std::make_unique <ModelParticleManager>();
-	particle->Initialize(modelM->GetModel(ModelData::cube));
+	particle->Initialize(modelM->GetModel("cube"));
 
 	//弾マネージャー
 	bulletManager=std::make_unique<BulletManager>();
 	//マップ
 	map = std::make_unique<Map>();
-	map->Initialize(true,modelM->GetModel(ModelData::map));
+	map->Initialize(true,modelM->GetModel("map"));
 	//map->LoadCSV(stageStr);
 	map->RandomCreate();
 
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->Initialeze(modelM->GetModel(ModelData::had),
-						   modelM->GetModel(ModelData::body),
-						   modelM->GetModel(ModelData::parachute),
+	player->Initialeze(modelM->GetModel("TankHad"),
+						   modelM->GetModel("TankBody"),
+						   modelM->GetModel("parachute"),
 						   input,bulletManager.get(),map.get());
 	//プレイヤーの初期化とマップの生成後にマップチップの中心を算出
 	map->CenterMapChip(player->GetPos());
@@ -194,18 +194,18 @@ void GamePlayScene::Initialize() {
 	enemyManager->RandomCreate(map.get());
 	//壁
 	blockManager = std::make_unique<BlockManager>();
-	blockManager->Initialize(bulletManager.get(),map.get());
+	blockManager->Initialize(bulletManager.get(),map.get(),enemyManager.get(),player.get());
 	blockManager->RandomCreate();
 
 	//弾マネージャー初期化
-	bulletManager->Initialize(modelM->GetModel(ModelData::bullet),player.get(),geo.get());
+	bulletManager->Initialize(modelM->GetModel("bullet"),player.get(),geo.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson(stageStr));
-	models.insert(std::make_pair("Normal",modelM->GetModel(ModelData::enemy)));
-	models.insert(std::make_pair("Shotgun",modelM->GetModel(ModelData::enemy)));
-	models.insert(std::make_pair("block",modelM->GetModel(ModelData::wall)));
-	models.insert(std::make_pair("fixedgun",modelM->GetModel(ModelData::fixedgun)));
+	models.insert(std::make_pair("Normal",modelM->GetModel("enemy")));
+	models.insert(std::make_pair("Shotgun",modelM->GetModel("enemy")));
+	models.insert(std::make_pair("block",modelM->GetModel("wall")));
+	models.insert(std::make_pair("fixedgun",modelM->GetModel("fixedgun")));
 
 	// レベルデータからオブジェクトを生成、配置
 	for ( auto& objectData : jsonLoader->objects )
@@ -234,7 +234,7 @@ void GamePlayScene::Initialize() {
 	//スカイドーム
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
-	objSkydome->SetModel(modelM->GetModel(ModelData::skydome));
+	objSkydome->SetModel(modelM->GetModel("skydome"));
 	objSkydome->SetScale({ 250.0f,200.0f,250.0f });
 
 	//スプライト

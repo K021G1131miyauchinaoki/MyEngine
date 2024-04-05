@@ -54,18 +54,18 @@ void TitleScene::Initialize() {
 	{
 		obj[ i ].reset(Object3d::Create());
 	}
-	obj[OBJ::skydome]->SetModel(modelM->GetModel(ModelData::skydome));
+	obj[ OBJ::skydome ]->SetModel(modelM->GetModel("skydome"));
 	obj[OBJ::skydome]->SetScale({ 150.0f,150.0f,150.0f });
 
-	obj[ OBJ::had ]->SetModel(modelM->GetModel(ModelData::had));
+	obj[ OBJ::had ]->SetModel(modelM->GetModel("TankHad"));
 	obj[ OBJ::had ]->SetScale(tankScale);
 
-	obj[ OBJ::body ]->SetModel(modelM->GetModel(ModelData::body));
+	obj[ OBJ::body ]->SetModel(modelM->GetModel("TankBody"));
 	obj[ OBJ::body ]->SetScale(tankScale);
 
 	//マップ
 	map = std::make_unique<Map>();
-	map->Initialize(false,modelM->GetModel(ModelData::map));
+	map->Initialize(false,modelM->GetModel("map"));
 	map->LoadCSV("title");
 
 	isMovie = true;

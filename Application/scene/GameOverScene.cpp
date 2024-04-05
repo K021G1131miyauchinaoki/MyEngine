@@ -40,29 +40,29 @@ void GameOverScene::Initialize() {
 	//スカイドーム
 	objSkydome = std::make_unique<Object3d>();
 	objSkydome->Initialize();
-	objSkydome->SetModel(modelM->GetModel(ModelData::skydome));
+	objSkydome->SetModel(modelM->GetModel("skydome"));
 	objSkydome->SetScale({ 150.0f,150.0f,150.0f });
 	//タンク
 	tankBody = std::make_unique<Object3d>();
 	tankBody->Initialize();
-	tankBody->SetModel(modelM->GetModel(ModelData::body));
+	tankBody->SetModel(modelM->GetModel("TankBody"));
 	tankBody->SetPosition({ -5.0f,5.0f,8.0f });
 	tankBody->SetScale({ 5.0f,5.0f,5.0f });
 	tankHad = std::make_unique<Object3d>();
 	tankHad->Initialize();
-	tankHad->SetModel(modelM->GetModel(ModelData::had));
+	tankHad->SetModel(modelM->GetModel("TankHad"));
 	tankHad->SetPosition({ -1.9f,3.5f,2.0f });
 	tankHad->SetScale({ 5.0f,5.0f,5.0f });
 	tankHad->SetRotation({ -1.5f,40.0f,-22.0f });
 
 	//マップ
 	map = std::make_unique<Map>();
-	map->Initialize(false,modelM->GetModel(ModelData::map));
+	map->Initialize(false,modelM->GetModel("map"));
 	map->LoadCSV("title");
 
 	//パーティクルマネージャー
 	particle = std::make_unique<ModelParticleManager>();
-	particle->Initialize(modelM->GetModel(ModelData::smoke));
+	particle->Initialize(modelM->GetModel("smoke"));
 
 	//ターゲットの設定
 	camera->SetTarget({ tankBody->GetPosition().x, tankBody->GetPosition().y, tankBody->GetPosition().z });

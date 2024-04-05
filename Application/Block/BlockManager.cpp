@@ -5,9 +5,11 @@
 #include<ModelManager.h>
 #include<GamePlayScene.h>
 
-void BlockManager::Initialize(BulletManager* bulletManager_,Map* map_) {
+void BlockManager::Initialize(BulletManager* bulletManager_,Map* map_,EnemyManager* enemyManager_,Player* player_) {
 	bulletManager = bulletManager_;
 	map = map_;
+	enemyManager = enemyManager_;
+	player = player_;
 }
 
 void BlockManager::Update()
@@ -69,13 +71,46 @@ void BlockManager::RandomCreate()
 		std::uniform_int_distribution<int16_t> htDist(0,Map::height-1);
 		std::uniform_int_distribution<int16_t> wDist(0,Map::width - 1);
 		std::uniform_int_distribution<int16_t> dDist(0, 100);
-		
+
+		bool isOverlap = false;
+
 		//置く位置の設定
 		h = htDist(engine);
 		w = wDist(engine);
 		while ( h == 0 && w == 0 ||
 		h == Map::height - 1 && w == Map::width - 1 )
 		{
+			//プレイヤーの範囲に入っていたら回し続ける
+			isOverlap = true;
+			while ( isOverlap )
+			{
+				h = htDist(engine);
+				w = wDist(engine);
+				//プレイヤーのH,Wから±shiftの範囲に入っていたら
+				/*while ( playerH - shift <= h && playerH + shift >= h
+					&& playerW - shift <= w && playerW + shift >= w )
+				{
+					h = hDist(engine);
+					w = wDist(engine);
+				}*/
+				//プレイヤーに重なっていないので
+				//falseにする
+				isOverlap = false;
+				//位置を代入する
+				pos = map->GetBlocks(w,h).GetPos();
+				pos.y = 5.0f;//csvなどに落とし込む
+				//敵同士が一度でも重なっていたら
+				for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys())
+				{
+					if ( enemy->GetPos().x == pos.x
+					  && enemy->GetPos().z == pos.z )
+					{
+						isOverlap = true;
+						break;
+					}
+				}
+
+			}
 			h = htDist(engine);
 			w = wDist(engine);
 		}
@@ -87,12 +122,12 @@ void BlockManager::RandomCreate()
 		if ( isBorder )
 		{
 			b = std::make_unique<Wall>();
-			model = ModelManager::GetInstance()->GetModel(ModelData::wall);
+			model = ModelManager::GetInstance()->GetModel("wall");
 		}
 		else
 		{
 			b = std::make_unique<Fixedgun>();
-			model = ModelManager::GetInstance()->GetModel(ModelData::fixedgun);
+			model = ModelManager::GetInstance()->GetModel("fixedgun");
 			b->SetBulletManager(bulletManager);
 		}
 		pos = map->GetBlocks(w,h).GetPos();
@@ -158,12 +193,12 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const in
 		if ( isBorder )
 		{
 			b = std::make_unique<Wall>();
-			model = ModelManager::GetInstance()->GetModel(ModelData::wall);
+			model = ModelManager::GetInstance()->GetModel("wall");
 		}
 		else
 		{
 			b = std::make_unique<Fixedgun>();
-			model = ModelManager::GetInstance()->GetModel(ModelData::fixedgun);
+			model = ModelManager::GetInstance()->GetModel("fixedgun");
 			b->SetBulletManager(bulletManager);
 		}
 		//下

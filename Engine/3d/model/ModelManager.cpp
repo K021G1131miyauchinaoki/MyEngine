@@ -6,23 +6,20 @@ ModelManager* ModelManager::GetInstance()
 	return &instance;
 }
 
-void ModelManager::LoadModel()
+void ModelManager::LoadModel(const std::string& key_,bool smoothing_)
 {
-	models.emplace(skydome,Model::LoadFromOBJ("skydome",true));
-	models.emplace(cube,Model::LoadFromOBJ("cube"));
-	models.emplace(body,Model::LoadFromOBJ("TankBody"));
-	models.emplace(had,Model::LoadFromOBJ("TankHad"));
-	models.emplace(map,Model::LoadFromOBJ("map"));
-	models.emplace(enemy,Model::LoadFromOBJ("tank"));
-	models.emplace(parachute,Model::LoadFromOBJ("parachute"));
-	models.emplace(fixedgun,Model::LoadFromOBJ("fixedgun"));
-	models.emplace(wall,Model::LoadFromOBJ("wall"));
-	models.emplace(bullet,Model::LoadFromOBJ("bullet"));
-	models.emplace(bom,Model::LoadFromOBJ("bom"));
-	models.emplace(smoke,Model::LoadFromOBJ("smoke"));
+	if ( models.contains(key_) )
+	{
+		//読み込み済みなら早期return
+		return;
+	}
+	else
+	{
+		models.emplace(key_,Model::LoadFromOBJ(key_,smoothing_));
+	}
 }
 
-Model* ModelManager::GetModel(const ModelData& key_)
+Model* ModelManager::GetModel(const std::string& key_)
 {
 	auto it = models.find(key_);
 	if ( it != models.end() )
@@ -31,7 +28,8 @@ Model* ModelManager::GetModel(const ModelData& key_)
 	}
 	else
 	{
-		return nullptr; // キーが見つからなかった場合は nullptr を返す
+		models.emplace(key_,Model::LoadFromOBJ(key_));
+		return models.at(key_).get(); // キーが見つからなかった場合は nullptr を返す
 	}
 }
 
