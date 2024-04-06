@@ -59,7 +59,7 @@ void EnemyManager::RandomCreate(Map* map_)
 	std::mt19937_64 engine(seed_gen());
 	std::uniform_int_distribution<int16_t> hDist(0,Map::height - 1);
 	std::uniform_int_distribution<int16_t> wDist(0,Map::width - 1);
-	std::uniform_int_distribution<int16_t> numDist(1,1);
+	std::uniform_int_distribution<int16_t> numDist(1,5);
 
 	bool isOverlap = false;
 	int16_t num = numDist(engine);

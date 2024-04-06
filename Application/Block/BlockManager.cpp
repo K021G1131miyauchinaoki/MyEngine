@@ -87,6 +87,7 @@ void BlockManager::RandomCreate()
 		isOverlap = true;
 		while ( isOverlap )
 		{
+			//四隅にいたら
 			while ( ( h == 0 && w == 0 ) ||							//左下
 					( h == 0 && w == Map::width - 1 ) ||			//右下
 					( h == Map::height - 1 && w == 0) ||			//左上
@@ -186,6 +187,7 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const in
 	std::mt19937_64 engine(seed_gen());
 	std::uniform_int_distribution<int16_t> numDist(4,6);
 	std::uniform_int_distribution<int16_t> directionDist(0,3);
+
 	int16_t num = numDist(engine);
 	int16_t direction = directionDist(engine);
 	bool isOverlap = false;
