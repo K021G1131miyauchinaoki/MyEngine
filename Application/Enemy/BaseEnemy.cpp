@@ -114,13 +114,17 @@ void BaseEnemy::Update() {
 }
 
 void BaseEnemy::Draw() {
-	if ( GamePlayScene::startCount >= GamePlayScene::Bound2 || GamePlayScene::outCount >= GamePlayScene::FallEnemy )
+	if ( (GamePlayScene::startCount >= GamePlayScene::Bound2&&!GamePlayScene::isOut ) ||
+		GamePlayScene::outCount >= GamePlayScene::FallEnemy )
 	{
 		if ( invincibleTime % 2 == 1 )
 		{
 			obj->Draw();
 		}
-		parachute->Draw();
+		if ( GamePlayScene::isOut||GamePlayScene::isStart )
+		{
+			parachute->Draw();
+		}
 	}
 }
 
@@ -291,7 +295,7 @@ void BaseEnemy::StartStaging() {
 	Vector3 pRot = parachute->GetRotation();
 	float percent = 0.9f;
 
-	if ( startEaseTime <= startEaseTimer)
+	if ( startEaseTime < startEaseTimer)
 	{
 		if ( (GamePlayScene::isStart &&GamePlayScene::startCount >= GamePlayScene::Bound2) ||
 			(GamePlayScene::isOut&&GamePlayScene::outCount >= GamePlayScene::FallEnemy ))
@@ -305,7 +309,7 @@ void BaseEnemy::StartStaging() {
 			{
 				pos.y = startPosY + ( endPosY - startPosY ) * Easing::easeOutBounce(startEaseTime / startEaseTimer);
 			}
-			if ( startEaseTime >  startEaseTimer&& GamePlayScene::outCount >= GamePlayScene::FallEnemy )
+			if ( startEaseTime >=  startEaseTimer&& GamePlayScene::outCount >= GamePlayScene::FallEnemy )
 			{
 				GamePlayScene::outCount++;
 			}

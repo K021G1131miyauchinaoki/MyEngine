@@ -343,9 +343,10 @@ void GamePlayScene::Update() {
 		}*/
 	}
 
-	if ( enemyManager->GetSize() == 0 )
+	if ( enemyManager->GetSize() == 0 &&!isOut)
 	{
 		isOut = true;
+		outCount = Serial::None;
 	}
 }
 
@@ -810,7 +811,7 @@ void GamePlayScene::StartStaging() {
 			//落ちて上がってを繰り返す方の演出
 			else
 			{
-				if ( outCount > Serial::FallEnemy )
+				if ( outCount < Serial::FallEnemy )
 				{
 					//イージングのタイマーを動かさないようにするために1.0fを代入
 					spriteWaitTime = 1.0f;
@@ -879,10 +880,10 @@ void GamePlayScene::OutStaging()
 			blockManager->RandomCreate();
 			outCount++;
 		}
-		else if ( outCount>=Serial::Max )
+		else if ( outCount>=Serial::Max&& startCount >= start::Go )
 		{
 			isOut = false;
-			outCount = Serial::None;
+			
 		}
 
 	}

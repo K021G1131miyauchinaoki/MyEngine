@@ -10,6 +10,7 @@ void BlockManager::Initialize(BulletManager* bulletManager_,Map* map_,EnemyManag
 	map = map_;
 	enemyManager = enemyManager_;
 	player = player_;
+	shift = 1;
 }
 
 void BlockManager::Update()
@@ -51,6 +52,10 @@ void BlockManager::RandomCreate()
 {
 	//要素をクリア
 	blocks.clear();
+	diameterW = Map::mapScaleW * 2.0f;
+	diameterH = Map::mapScaleH * 2.0f;
+	playerW = static_cast< int16_t >( ( player->GetPos().x + Map::moveLimitW ) / diameterW );
+	playerH = static_cast< int16_t >( ( player->GetPos().z + Map::moveLimitH ) / diameterH );
 
 	scale = { 5.0f,5.0f,5.0f };
 	rot = { 0.0f,0.0f,0.0f };
@@ -77,43 +82,54 @@ void BlockManager::RandomCreate()
 		//置く位置の設定
 		h = htDist(engine);
 		w = wDist(engine);
-		while ( h == 0 && w == 0 ||
-		h == Map::height - 1 && w == Map::width - 1 )
+		
+		//プレイヤーの範囲に入っていたら回し続ける
+		isOverlap = true;
+		while ( isOverlap )
 		{
-			//プレイヤーの範囲に入っていたら回し続ける
-			isOverlap = true;
-			while ( isOverlap )
+			while ( ( h == 0 && w == 0 ) ||							//左下
+					( h == 0 && w == Map::width - 1 ) ||			//右下
+					( h == Map::height - 1 && w == 0) ||			//左上
+					(h == Map::height - 1 && w == Map::width - 1) )	//右上
 			{
 				h = htDist(engine);
 				w = wDist(engine);
-				//プレイヤーのH,Wから±shiftの範囲に入っていたら
-				/*while ( playerH - shift <= h && playerH + shift >= h
-					&& playerW - shift <= w && playerW + shift >= w )
-				{
-					h = hDist(engine);
-					w = wDist(engine);
-				}*/
-				//プレイヤーに重なっていないので
-				//falseにする
-				isOverlap = false;
-				//位置を代入する
-				pos = map->GetBlocks(w,h).GetPos();
-				pos.y = 5.0f;//csvなどに落とし込む
-				//敵同士が一度でも重なっていたら
-				for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys())
-				{
-					if ( enemy->GetPos().x == pos.x
-					  && enemy->GetPos().z == pos.z )
-					{
-						isOverlap = true;
-						break;
-					}
-				}
-
 			}
-			h = htDist(engine);
-			w = wDist(engine);
+			//プレイヤーのH,Wと同じなら
+			while ( playerH== h && playerW== w )
+			{
+				h = htDist(engine);
+				w = wDist(engine);
+			}
+			//プレイヤーに重なっていないので
+			//falseにする
+			isOverlap = false;
+			//位置を代入する
+			pos = map->GetBlocks(w,h).GetPos();
+			pos.y = 5.0f;//csvなどに落とし込む
+			//敵同士が一度でも重なっていたら
+			for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys())
+			{
+				enemyW = static_cast< int16_t >( ( enemy->GetPos().x + Map::moveLimitW ) / diameterW );
+				enemyH = static_cast< int16_t >( ( enemy->GetPos().z + Map::moveLimitH ) / diameterH );
+				if ( enemyW == w
+				  && enemyH == h )
+				{
+					isOverlap = true;
+					break;
+				}
+			}
+			for ( std::unique_ptr<BaseBlock>& block : blocks )
+			{
+				if ( block->GetPos().x == pos.x
+					  && block->GetPos().z == pos.z )
+				{
+					isOverlap = true;
+					break;
+				}
+			}
 		}
+		
 		
 		border =dDist(engine);
 		
@@ -153,7 +169,7 @@ void BlockManager::RandomCreate()
 			pos.x -= scale.x;
 		}
 		pos.y = 5.0f;
-		//LineCreate(pos,scale,w,h);
+		LineCreate(pos,scale,w,h);
 		b->Initialize(pos,rot,scale,model);
 		blocks.push_back(std::move(b));
 	}
@@ -172,18 +188,29 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const in
 	std::uniform_int_distribution<int16_t> directionDist(0,3);
 	int16_t num = numDist(engine);
 	int16_t direction = directionDist(engine);
+	bool isOverlap = false;
 	//HかWが端にある場合方向を調整
-	if ( h_==Map::height-1 )direction = 0;
+	if ( h_ == Map::height - 1 )
+	{
+		direction = 0;
+	}
 
-	if ( h_ == 0 )direction = 1;
-	
-	if ( w_ ==Map::width-1)direction = 2;
-
-	if ( w_ ==0)direction = 3;
+	if ( h_ == 0 )
+	{
+		direction = 1;
+	}
+	if ( w_ == Map::width - 1 )
+	{
+		direction = 2;
+	}
+	if ( w_ == 0 ){
+		direction = 3;
+	}
 	
 	std::unique_ptr<BaseBlock> b;
 	for ( int16_t i = 1; i < num; i++ )
 	{
+		isOverlap = false;
 		p = pos_;
 		std::uniform_int_distribution<int16_t> dDist(0,100);
 		border = dDist(engine);
@@ -221,6 +248,32 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const in
 		{
 			p.x += ( scale_.z * 2.0f ) * i;
 		}
+		
+		int16_t blockW = static_cast< int16_t >( ( p.x + Map::moveLimitW ) / diameterW );
+		int16_t blockH = static_cast< int16_t >( ( p.z + Map::moveLimitH ) / diameterH );
+		//プレイヤーのH,Wと同じなら
+		if( playerH == blockH&& playerW == blockW)
+		{
+			isOverlap = true;
+		}
+		//敵同士が一度でも重なっていたら
+		for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys() )
+		{
+			enemyW = static_cast< int16_t >( ( enemy->GetPos().x + Map::moveLimitW ) / diameterW );
+			enemyH = static_cast< int16_t >( ( enemy->GetPos().z + Map::moveLimitH ) / diameterH );
+			if ( enemyW == blockW&& enemyH == blockH )
+			{
+				isOverlap = true;
+			}
+		}
+		for ( std::unique_ptr<BaseBlock>& block : blocks)
+		{
+			if ( block->GetPos().x == pos.x
+				  && block->GetPos().z == pos.z )
+			{
+				isOverlap = true;
+			}
+		}
 		//マップ外に出たら
 		if ( p.x<=-Map::moveLimitW|| p.x >= Map::moveLimitW
 			||p.z <= -Map::moveLimitH || p.z >= Map::moveLimitH )
@@ -228,8 +281,12 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const in
 			continue;
 
 		}
-		b->Initialize(p,rot,scale,model);
-		blocks.push_back(std::move(b));
+		//重なっていなければ追加
+		if ( !isOverlap )
+		{
+			b->Initialize(p,rot,scale,model);
+			blocks.push_back(std::move(b));
+		}
 	}
 	
 }
