@@ -58,7 +58,6 @@ void BlockManager::RandomCreate()
 	playerH = static_cast< int16_t >( ( player->GetPos().z + Map::moveLimitH ) / diameterH );
 
 	scale = { 5.0f,5.0f,5.0f };
-	rot = { 0.0f,0.0f,0.0f };
 	int16_t h,w;
 	Model* model;
 	//乱数シード生成器
@@ -71,18 +70,30 @@ void BlockManager::RandomCreate()
 	int16_t num = numDist(engine);
 	for ( int16_t i = 0; i < num; i++ )
 	{
+		rot = { 0.0f,0.0f,0.0f };
 		std::unique_ptr<BaseBlock> b;
 		
 		std::uniform_int_distribution<int16_t> htDist(0,Map::height-1);
 		std::uniform_int_distribution<int16_t> wDist(0,Map::width - 1);
 		std::uniform_int_distribution<int16_t> dDist(0, 100);
-
+		std::uniform_int_distribution<int16_t> directionDist(0,3);
+		std::uniform_int_distribution<int16_t> rotDist(0,1);
+		
 		bool isOverlap = false;
 
 		//置く位置の設定
 		h = htDist(engine);
 		w = wDist(engine);
 		
+		//方向の設定
+		direction = directionDist(engine);
+		//HかWが端にある場合方向を調整
+		if ( h == Map::height - 1 )direction = 0;
+		if ( h == 0 )direction = 1;		
+		if ( w == Map::width - 1 )direction = 2;
+		if ( w == 0 )direction = 3;
+		
+
 		//プレイヤーの範囲に入っていたら回し続ける
 		isOverlap = true;
 		while ( isOverlap )
@@ -146,19 +157,24 @@ void BlockManager::RandomCreate()
 			b = std::make_unique<Fixedgun>();
 			model = ModelManager::GetInstance()->GetModel("fixedgun");
 			b->SetBulletManager(bulletManager);
+			//上下
+			if ( direction <= 1 )rot.y=90.0f;
+			//左右
+			else if ( direction >= 2 )rot.y=0.0f;
+
+			//回転
+			isRot = rotDist(engine);
+			if ( isRot )rot.y += fixedValue;
+			else rot.y -= fixedValue;
+
 		}
 		pos = map->GetBlocks(w,h).GetPos();
-		//マップ端に置くように設定
+		//ブロック端に置くように設定
 		int16_t half = (Map::height - 1)/2;
 		/*ｚ*/
-		if ( h >half )
-		{
-			pos.z += scale.z;
-		}
-		else
-		{
-			pos.z -= scale.z;
-		}
+		if ( h >half )pos.z += scale.z;
+
+		else pos.z -= scale.z;
 		/*ｘ*/
 		half= ( Map::width - 1 ) / 2;
 		if ( w >half)
@@ -170,13 +186,13 @@ void BlockManager::RandomCreate()
 			pos.x -= scale.x;
 		}
 		pos.y = 5.0f;
-		LineCreate(pos,scale,w,h);
+		LineCreate(pos,scale);
 		b->Initialize(pos,rot,scale,model);
 		blocks.push_back(std::move(b));
 	}
 }
 
-void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const int16_t& w_,const int16_t& h_)
+void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_)
 {
 
 	Model* model;
@@ -186,28 +202,11 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const in
 	//メルセンヌ・ツイスターの乱数エンジン
 	std::mt19937_64 engine(seed_gen());
 	std::uniform_int_distribution<int16_t> numDist(4,6);
-	std::uniform_int_distribution<int16_t> directionDist(0,3);
+	std::uniform_int_distribution<int16_t> rotDist(0,1);
 
 	int16_t num = numDist(engine);
-	int16_t direction = directionDist(engine);
 	bool isOverlap = false;
-	//HかWが端にある場合方向を調整
-	if ( h_ == Map::height - 1 )
-	{
-		direction = 0;
-	}
-
-	if ( h_ == 0 )
-	{
-		direction = 1;
-	}
-	if ( w_ == Map::width - 1 )
-	{
-		direction = 2;
-	}
-	if ( w_ == 0 ){
-		direction = 3;
-	}
+	
 	
 	std::unique_ptr<BaseBlock> b;
 	for ( int16_t i = 1; i < num; i++ )
@@ -229,27 +228,23 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const in
 			b = std::make_unique<Fixedgun>();
 			model = ModelManager::GetInstance()->GetModel("fixedgun");
 			b->SetBulletManager(bulletManager);
+			//回転
+			//上下
+			if ( direction <= 1 )rot.y = 90.0f;
+			//左右
+			else if ( direction >= 2 )rot.y = 0.0f;
+			isRot = rotDist(engine);
+			if ( isRot )rot.y += fixedValue;
+			else rot.y -= fixedValue;
 		}
 		//下
-		if ( direction == 0 )
-		{
-			p.z -= ( scale_.z * 2.0f ) * i;
-		}
+		if ( direction == 0 )p.z -= ( scale_.z * 2.0f ) * i;
 		//上
-		else if ( direction == 1 )
-		{
-			p.z += ( scale_.z * 2.0f ) * i;
-		}
+		else if ( direction == 1 )p.z += ( scale_.z * 2.0f ) * i;
 		//左
-		else if ( direction == 2 )
-		{
-			p.x -= ( scale_.z * 2.0f ) * i;
-		}
+		else if ( direction == 2 )p.x -= ( scale_.z * 2.0f ) * i;
 		//右
-		else if ( direction == 3 )
-		{
-			p.x += ( scale_.z * 2.0f ) * i;
-		}
+		else if ( direction == 3 )p.x += ( scale_.z * 2.0f ) * i;
 		
 		int16_t blockW = static_cast< int16_t >( ( p.x + Map::moveLimitW ) / diameterW );
 		int16_t blockH = static_cast< int16_t >( ( p.z + Map::moveLimitH ) / diameterH );
@@ -258,7 +253,7 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const in
 		{
 			isOverlap = true;
 		}
-		//敵同士が一度でも重なっていたら
+		//敵が一度でも重なっていたらfor文を抜ける
 		for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys() )
 		{
 			enemyW = static_cast< int16_t >( ( enemy->GetPos().x + Map::moveLimitW ) / diameterW );
@@ -266,17 +261,20 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_,const in
 			if ( enemyW == blockW&& enemyH == blockH )
 			{
 				isOverlap = true;
+				break;
 			}
 		}
+		//ブロック同士が一度でも重なっていたらfor文を抜ける
 		for ( std::unique_ptr<BaseBlock>& block : blocks)
 		{
 			if ( block->GetPos().x == pos.x
 				  && block->GetPos().z == pos.z )
 			{
 				isOverlap = true;
+				break;
 			}
 		}
-		//マップ外に出たら
+		//マップ外に出ていたら生成をやめる
 		if ( p.x<=-Map::moveLimitW|| p.x >= Map::moveLimitW
 			||p.z <= -Map::moveLimitH || p.z >= Map::moveLimitH )
 		{

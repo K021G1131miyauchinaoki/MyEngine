@@ -40,7 +40,7 @@ public:
 	/// <summary>
 	/// ライン生成
 	/// </summary>
-	void LineCreate(const Vector3&pos_,const Vector3 &scale_,const int16_t &w,const int16_t&h);
+	void LineCreate(const Vector3&pos_,const Vector3 &scale_);
 
 	// リストを取得
 	std::list<std::unique_ptr<BaseBlock>>& GetBlocks() {
@@ -66,11 +66,16 @@ private:
 	Player* player;
 	//境界値
 	int16_t border;
+	//方向
+	int16_t direction;
+	//回転　
+	bool isRot;
 	//境界フラグ
 	bool isBorder;
 	//位置、回転、サイズ
 	Vector3 pos,rot,scale;
 	int16_t playerH,playerW,enemyH,enemyW,shift;
 	float diameterW,diameterH;
+	const float fixedValue = 90.0f;
 };
 
