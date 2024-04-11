@@ -66,7 +66,7 @@ void BlockManager::RandomCreate()
 	std::mt19937_64 engine(seed_gen());
 
 	//std::uniform_real_distribution<float> rotDist(-shift, shift);
-	std::uniform_int_distribution<int16_t> numDist(3,3);
+	std::uniform_int_distribution<int16_t> numDist(1,3);
 	int16_t num = numDist(engine);
 	for ( int16_t i = 0; i < num; i++ )
 	{
@@ -186,7 +186,7 @@ void BlockManager::RandomCreate()
 			pos.x -= scale.x;
 		}
 		pos.y = 5.0f;
-		LineCreate(pos,scale);
+		//LineCreate(pos,scale);
 		b->Initialize(pos,rot,scale,model);
 		blocks.push_back(std::move(b));
 	}
