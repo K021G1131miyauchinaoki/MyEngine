@@ -66,7 +66,7 @@ void BlockManager::RandomCreate()
 	std::mt19937_64 engine(seed_gen());
 
 	//std::uniform_real_distribution<float> rotDist(-shift, shift);
-	std::uniform_int_distribution<int16_t> numDist(1,3);
+	std::uniform_int_distribution<int16_t> numDist(3,3);
 	int16_t num = numDist(engine);
 	for ( int16_t i = 0; i < num; i++ )
 	{
@@ -80,24 +80,18 @@ void BlockManager::RandomCreate()
 		std::uniform_int_distribution<int16_t> rotDist(0,1);
 		
 		bool isOverlap = false;
-
-		//置く位置の設定
-		h = htDist(engine);
-		w = wDist(engine);
-		
+		h = w = 0;
 		//方向の設定
 		direction = directionDist(engine);
-		//HかWが端にある場合方向を調整
-		if ( h == Map::height - 1 )direction = 0;
-		if ( h == 0 )direction = 1;		
-		if ( w == Map::width - 1 )direction = 2;
-		if ( w == 0 )direction = 3;
 		
 
 		//プレイヤーの範囲に入っていたら回し続ける
 		isOverlap = true;
 		while ( isOverlap )
 		{
+			//置く位置の設定
+			h = htDist(engine);
+			w = wDist(engine);
 			//四隅にいたら
 			while ( ( h == 0 && w == 0 ) ||							//左下
 					( h == 0 && w == Map::width - 1 ) ||			//右下
@@ -142,6 +136,11 @@ void BlockManager::RandomCreate()
 			}
 		}
 		
+		//HかWが端にある場合方向を調整
+		if ( h == Map::height - 1 )direction = 0;
+		if ( h == 0 )direction = 1;		
+		if ( w == Map::width - 1 )direction = 2;
+		if ( w == 0 )direction = 3;
 		
 		border =dDist(engine);
 		
@@ -186,7 +185,7 @@ void BlockManager::RandomCreate()
 			pos.x -= scale.x;
 		}
 		pos.y = 5.0f;
-		//LineCreate(pos,scale);
+		LineCreate(pos,scale);
 		b->Initialize(pos,rot,scale,model);
 		blocks.push_back(std::move(b));
 	}

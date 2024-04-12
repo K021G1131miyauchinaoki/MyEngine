@@ -30,12 +30,12 @@ void AStar::Initialize(BlockManager* blockManager_)
 		{
 			for ( const std::unique_ptr<BaseBlock>& block : blockManager_->GetBlocks() )
 			{
-				Vector2 pos;
-				Vector3 p;
-				p = block->GetPos();
+				Vector2 pos,p2;
+				p2.x = block->GetPos().x;
+				p2.y = block->GetPos().z;
 				//float shift = 1.0f;
-				pos.x = initialPos.x + ( diameter * j );
-				pos.y = initialPos.y + ( diameter * i );
+				pos.x = initialPos.x + ( (diameter*2.0f) * j );
+				pos.y = initialPos.y + ( ( diameter * 2.0f ) * i );
 				//ブロックの位置に
 				if ( pos.x == block->GetPos().x &&
 					 pos.y == block->GetPos().z )
@@ -51,9 +51,9 @@ void AStar::Initialize(BlockManager* blockManager_)
 			}
 			float size = 10.0f;
 			s[ i ][ j ]->SetSize({ size,size });
-
+			float size2 = 12.0f;
 			
-			s[ i ][ j ]->SetPosition({10.0f+( size *j ),400.0f - ( size * i ) });
+			s[ i ][ j ]->SetPosition({10.0f+( size2 *j ),400.0f - ( size2 * i ) });
 			s[ i ][ j ]->Update();
 		}
 	}
