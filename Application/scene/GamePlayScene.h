@@ -24,6 +24,7 @@
 #include<BillboardParticle.h>
 #include<ModelManager.h>
 #include<string>
+#include"AStar.h"
 
 class GamePlayScene:public BaseScene
 {
@@ -191,5 +192,8 @@ private:
 	std::string stageStr;
 
 	size_t count;
+
+	//A*
+	std::unique_ptr<AStar>aStar;
 };
 

@@ -268,6 +268,10 @@ void GamePlayScene::Initialize() {
 	SoundManager::GetInstance()->PlayWave("BGM/play.wav",0.2f,true);
 
 	count = 0;
+
+	//A*
+	aStar = std::make_unique<AStar>();
+	aStar->Initialize(blockManager.get());
 }
 
 void GamePlayScene::Update() {
@@ -356,6 +360,7 @@ void GamePlayScene::SpriteDraw() {
 	ready->Draw();
 	memo->Draw();
 	sight->Draw();
+	aStar->Draw();
 }
 
 void GamePlayScene::ObjDraw(){

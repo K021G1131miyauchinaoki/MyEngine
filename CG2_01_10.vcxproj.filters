@@ -208,7 +208,7 @@
       <Filter>ソースファイル\Application\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Engine\base\TextureManager.cpp" />
-    <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="Application\Enemy\AStar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\NormalEnemy.h">
@@ -386,7 +386,7 @@
       <Filter>ヘッダーファイル\Application\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Engine\base\TextureManager.h" />
-    <ClInclude Include="AStar.h" />
+    <ClInclude Include="Application\Enemy\AStar.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

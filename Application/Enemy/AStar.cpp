@@ -1,5 +1,6 @@
 #include "AStar.h"
 #include"Map.h"
+#include"Vector3.h"
 #include<SpriteCommon.h>
 void AStar::Initialize(BlockManager* blockManager_)
 {
@@ -29,20 +30,42 @@ void AStar::Initialize(BlockManager* blockManager_)
 		{
 			for ( const std::unique_ptr<BaseBlock>& block : blockManager_->GetBlocks() )
 			{
+				Vector2 pos;
+				Vector3 p;
+				p = block->GetPos();
+				//float shift = 1.0f;
+				pos.x = initialPos.x + ( diameter * j );
+				pos.y = initialPos.y + ( diameter * i );
 				//ブロックの位置に
-				if ( initialPos.x + ( diameter * j ) == block->GetPos().x &&
-					initialPos.y + ( diameter * i ) == block->GetPos().z )
+				if ( pos.x == block->GetPos().x &&
+					 pos.y == block->GetPos().z )
 				{
 					graph[ i ][ j ].isObstacle = true;
 				}
 			}
 			s[ i ][ j ] = std::make_unique<Sprite>();
 			s[ i ][ j ]->Initialize(SpriteCommon::GetInstance(),5);
+			if ( graph[ i ][ j ].isObstacle )
+			{
+				s[ i ][ j ]->SetColor({ 0.0f,0.0f, 0.0f, 0.0f });
+			}
+			float size = 10.0f;
+			s[ i ][ j ]->SetSize({ size,size });
+
 			
+			s[ i ][ j ]->SetPosition({10.0f+( size *j ),400.0f - ( size * i ) });
+			s[ i ][ j ]->Update();
 		}
 	}
 }
 
 void AStar::Draw()
 {
+	for ( int i = 0; i < height; ++i )
+	{
+		for ( int j = 0; j < width; ++j )
+		{
+			s[ i ][ j ]->Draw();
+		}
+	}
 }
