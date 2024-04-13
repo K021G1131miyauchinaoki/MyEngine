@@ -19,7 +19,7 @@ void BlockManager::Update()
 	{
 		block->Update();
 	}
-	Count();
+    Count();
 }
 
 void BlockManager::Draw() {
@@ -266,8 +266,8 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_)
 		//ブロック同士が一度でも重なっていたらfor文を抜ける
 		for ( std::unique_ptr<BaseBlock>& block : blocks)
 		{
-			if ( block->GetPos().x == pos.x
-				  && block->GetPos().z == pos.z )
+			if ( block->GetPos().x == p.x
+				  && block->GetPos().z == p.z )
 			{
 				isOverlap = true;
 				break;
