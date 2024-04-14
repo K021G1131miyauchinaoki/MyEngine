@@ -26,8 +26,10 @@ struct AStarNode
 	//親ノード
 	AStarVec2 parentNode{};
 	//距離
-	float distance{};
-	//コスト
+	int32_t distance{};
+	//推定コスト
+	int32_t estimateCost = 0;
+	//実コスト
 	int32_t cost{};
 	//障害物フラグ
 	bool isObstacle = false;
