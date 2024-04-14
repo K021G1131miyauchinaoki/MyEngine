@@ -17,11 +17,11 @@ void AStar::Initialize(BlockManager* blockManager_)
 
 	// 二次元配列のサイズを初期化
 	graph.resize(height);
-	s.resize(height);
+	//s.resize(height);
 	for ( int i = 0; i < height; ++i )
 	{
 		graph[ i ].resize(width);
-		s[ i ].resize(width);
+		//s[ i ].resize(width);
 	}
 	//フラグのオンオフ設定
 	for ( int i = 0; i < height; ++i )
@@ -43,7 +43,7 @@ void AStar::Initialize(BlockManager* blockManager_)
 					graph[ i ][ j ].isObstacle = true;
 				}
 			}
-			s[ i ][ j ] = std::make_unique<Sprite>();
+			/*s[ i ][ j ] = std::make_unique<Sprite>();
 			s[ i ][ j ]->Initialize(SpriteCommon::GetInstance(),5);
 			if ( graph[ i ][ j ].isObstacle )
 			{
@@ -54,18 +54,18 @@ void AStar::Initialize(BlockManager* blockManager_)
 			float size2 = 12.0f;
 			
 			s[ i ][ j ]->SetPosition({10.0f+( size2 *j ),400.0f - ( size2 * i ) });
-			s[ i ][ j ]->Update();
+			s[ i ][ j ]->Update();*/
 		}
 	}
 }
 
 void AStar::Draw()
 {
-	for ( int i = 0; i < height; ++i )
+	/*for ( int i = 0; i < height; ++i )
 	{
 		for ( int j = 0; j < width; ++j )
 		{
 			s[ i ][ j ]->Draw();
 		}
-	}
+	}*/
 }

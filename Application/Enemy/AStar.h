@@ -46,7 +46,7 @@ private://変数
 	std::list<AStarNode> open{};
 	std::list<AStarNode> closed{};
 	std::vector<std::vector<AStarNode>>graph;
-	std::vector < std::vector < std::unique_ptr<Sprite>>> s;
+	//std::vector < std::vector < std::unique_ptr<Sprite>>> s;
 	float diameter = 5.0f;
 	Vector2 initialPos;
 	int16_t width,height;

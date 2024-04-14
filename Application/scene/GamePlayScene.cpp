@@ -883,6 +883,7 @@ void GamePlayScene::OutStaging()
 			map->CenterMapChip(player->GetPos());
 			enemyManager->RandomCreate(map.get());
 			blockManager->RandomCreate();
+			aStar->Initialize(blockManager.get());
 			outCount++;
 		}
 		else if ( outCount>=Serial::Max&& startCount >= start::Go )
