@@ -113,7 +113,23 @@ void BlockManager::RandomCreate()
 			//位置を代入する
 			pos = map->GetBlocks(w,h).GetPos();
 			pos.y = 5.0f;//csvなどに落とし込む
-			//敵同士が一度でも重なっていたら
+			//ブロック端に置くように設定
+			int16_t half = ( Map::height - 1 ) / 2;
+			/*ｚ*/
+			if ( h > half )pos.z += scale.z;
+
+			else pos.z -= scale.z;
+			/*ｘ*/
+			half = ( Map::width - 1 ) / 2;
+			if ( w > half )
+			{
+				pos.x += scale.x;
+			}
+			else
+			{
+				pos.x -= scale.x;
+			}
+			//敵に一度でも重なっていたら
 			for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys())
 			{
 				enemyW = static_cast< int16_t >( ( enemy->GetPos().x + Map::moveLimitW ) / diameterW );
@@ -167,24 +183,7 @@ void BlockManager::RandomCreate()
 			else rot.y -= fixedValue;
 
 		}
-		pos = map->GetBlocks(w,h).GetPos();
-		//ブロック端に置くように設定
-		int16_t half = (Map::height - 1)/2;
-		/*ｚ*/
-		if ( h >half )pos.z += scale.z;
-
-		else pos.z -= scale.z;
-		/*ｘ*/
-		half= ( Map::width - 1 ) / 2;
-		if ( w >half)
-		{
-			pos.x += scale.x;
-		}
-		else
-		{
-			pos.x -= scale.x;
-		}
-		pos.y = 5.0f;
+		
 		LineCreate(pos,scale);
 		b->Initialize(pos,rot,scale,model);
 		blocks.push_back(std::move(b));
