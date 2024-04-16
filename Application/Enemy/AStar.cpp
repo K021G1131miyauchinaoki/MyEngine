@@ -86,3 +86,10 @@ void AStar::Draw()
 		}
 	}*/
 }
+
+int32_t AStar::CalculateEstimate(AStarVec2 vec_)
+{
+	int32_t x = endVec2.x - vec_.x;
+	int32_t y = endVec2.y - vec_.y;
+	return ( x >= y ) ? x : y;
+}

@@ -46,12 +46,13 @@ public:
 	void ResetValue();
 	//スプライト描画
 	void Draw();
-
+	//推定コストの算出
+	int32_t CalculateEstimate(AStarVec2 vec_);
 private://変数
 //始点
-	Vector2 startVec2{};
+	AStarVec2 startVec2{};
    //終点
-	Vector2 endVec2{};
+	AStarVec2 endVec2{};
 	std::list<AStarNode> open{};
 	std::list<AStarNode> closed{};
 	std::vector<std::vector<AStarNode>>graph;
