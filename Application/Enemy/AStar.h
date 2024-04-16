@@ -22,15 +22,17 @@ struct AStarVec2
 struct AStarNode
 {
 	//位置
-	AStarVec2 pos{};
+	Vector2 pos{};
+	//マップチップ位置
+	AStarVec2 mapPos{};
 	//親ノード
 	AStarVec2 parentNode{};
-	//距離
-	int32_t distance{};
+	//スコア
+	int32_t score = NULL;
 	//推定コスト
-	int32_t estimateCost = 0;
+	int32_t estimateCost = NULL;
 	//実コスト
-	int32_t cost{};
+	int32_t cost = NULL;
 	//障害物フラグ
 	bool isObstacle = false;
 };
@@ -38,8 +40,13 @@ struct AStarNode
 class AStar
 {
 public:
+	//初期化
 	void Initialize(BlockManager*blockManager_);
+	//コスト、スコアのリセット
+	void ResetValue();
+	//スプライト描画
 	void Draw();
+
 private://変数
 //始点
 	Vector2 startVec2{};

@@ -28,21 +28,24 @@ void AStar::Initialize(BlockManager* blockManager_)
 	{
 		for ( int j = 0; j < width; ++j )
 		{
+			graph[ i ][ j ].pos.x = initialPos.x + ( ( diameter * 2.0f ) * j );
+			graph[ i ][ j ].pos.y = initialPos.y + ( ( diameter * 2.0f ) * i );
+			//重なっているかの処理
 			for ( const std::unique_ptr<BaseBlock>& block : blockManager_->GetBlocks() )
 			{
-				Vector2 pos,p2;
-				p2.x = block->GetPos().x;
-				p2.y = block->GetPos().z;
+				Vector2 pos;
 				//float shift = 1.0f;
-				pos.x = initialPos.x + ( (diameter*2.0f) * j );
-				pos.y = initialPos.y + ( ( diameter * 2.0f ) * i );
+				pos = graph[ i ][ j ].pos;
 				//ブロックの位置に
 				if ( pos.x == block->GetPos().x &&
 					 pos.y == block->GetPos().z )
 				{
+					//重なってたらbreakする
 					graph[ i ][ j ].isObstacle = true;
+					break;
 				}
 			}
+
 			/*s[ i ][ j ] = std::make_unique<Sprite>();
 			s[ i ][ j ]->Initialize(SpriteCommon::GetInstance(),5);
 			if ( graph[ i ][ j ].isObstacle )
@@ -57,6 +60,20 @@ void AStar::Initialize(BlockManager* blockManager_)
 			s[ i ][ j ]->Update();*/
 		}
 	}
+	//値のリセット
+	ResetValue();
+}
+
+void AStar::ResetValue()
+{	for 
+( int i = 0; i < height; ++i )
+	{
+		for ( int j = 0; j < width; ++j )
+		{
+			graph[ i ][ j ].cost = graph[ i ][ j ].estimateCost = graph[ i ][ j ].score = NULL;
+		}
+	}
+
 }
 
 void AStar::Draw()
