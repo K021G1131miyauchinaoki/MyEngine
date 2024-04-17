@@ -1,5 +1,6 @@
 #pragma once
 #include"Vector2.h"
+#include"Vector3.h"
 #include<array>
 #include<list>
 #include<vector>
@@ -48,6 +49,15 @@ public:
 	void Draw();
 	//推定コストの算出
 	int32_t CalculateEstimate(AStarVec2 vec_);
+	//スタート、エンド位置の取得
+	void SetPositions(const Vector3& pos);
+
+private:
+
+	//エンド位置のランダム取得
+	void SetRondomEnd();
+	//スタート位置の取得
+	void SetStart(const Vector3& pos);
 private://変数
 //始点
 	AStarVec2 startVec2{};
@@ -58,6 +68,9 @@ private://変数
 	std::vector<std::vector<AStarNode>>graph;
 	//std::vector < std::vector < std::unique_ptr<Sprite>>> s;
 	float diameter = 5.0f;
+	float diameterW;
+	float diameterH;
+
 	Vector2 initialPos;
 	int16_t width,height;
 };
