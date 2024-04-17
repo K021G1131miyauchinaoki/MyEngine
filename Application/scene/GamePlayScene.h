@@ -144,7 +144,7 @@ private:
 	//モデルマネージャー
 	ModelManager* modelM;
 	//ジオメトリ
-	std::unique_ptr <BillboardParticle> geo = nullptr;
+	std::unique_ptr <BillboardParticle> billParticle = nullptr;
 	//天球
 	std::unique_ptr <Object3d> objSkydome = nullptr;
 	//std::unique_ptr <Object3d> obj = nullptr;

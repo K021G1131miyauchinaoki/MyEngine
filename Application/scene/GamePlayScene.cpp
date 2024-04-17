@@ -164,8 +164,8 @@ void GamePlayScene::Initialize() {
 	Object3d::SetLight(light.get());
 
 	//ジオメトリ
-	geo.reset(BillboardParticle::Create());
-	geo->SetCamera(camera.get());
+	billParticle.reset(BillboardParticle::Create());
+	billParticle->SetCamera(camera.get());
 
 	//パーティクル
 	particle = std::make_unique <ModelParticleManager>();
@@ -188,6 +188,8 @@ void GamePlayScene::Initialize() {
 	//プレイヤーの初期化とマップの生成後にマップチップの中心を算出
 	map->CenterMapChip(player->GetPos());
 
+	//A*
+	aStar = std::make_unique<AStar>();
 	//敵
 	enemyManager = std::make_unique<EnemyManager>();
 	enemyManager->Initialize(player.get(),bulletManager.get());
@@ -196,9 +198,11 @@ void GamePlayScene::Initialize() {
 	blockManager = std::make_unique<BlockManager>();
 	blockManager->Initialize(bulletManager.get(),map.get(),enemyManager.get(),player.get());
 	blockManager->RandomCreate();
+	//ブロック生成後にポインタを渡す
+	aStar->Initialize(blockManager.get());
 
 	//弾マネージャー初期化
-	bulletManager->Initialize(modelM->GetModel("bullet"),player.get(),geo.get());
+	bulletManager->Initialize(modelM->GetModel("bullet"),player.get(),billParticle.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson(stageStr));
@@ -269,9 +273,6 @@ void GamePlayScene::Initialize() {
 
 	count = 0;
 
-	//A*
-	aStar = std::make_unique<AStar>();
-	aStar->Initialize(blockManager.get());
 }
 
 void GamePlayScene::Update() {
@@ -313,7 +314,7 @@ void GamePlayScene::Update() {
 		objSkydome->SetPosition(player->GetPos());
 		objSkydome->Update();
 		particle->Update();
-		geo->Update();
+		billParticle->Update();
 
 		if (!isStart&&!isOut)
 		{
@@ -375,7 +376,7 @@ void GamePlayScene::ObjDraw(){
 
 void GamePlayScene::GeometryDraw()
 {
-	geo->Draw();
+	billParticle->Draw();
 }
 
 void GamePlayScene::CheckAllCollision() {
