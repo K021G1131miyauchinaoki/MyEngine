@@ -175,7 +175,7 @@ protected://メンバ変数
 	const int16_t  shotTime = 50;
 	//待機時間
 	float waitTime;
-	std::array<float,2> waitTimer = { 5,60 };
+	std::array<float,2> waitTimer = { 20,60 };
 
 	//hp
 	BaseHp hp;

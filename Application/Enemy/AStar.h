@@ -2,7 +2,7 @@
 #include"Vector2.h"
 #include"Vector3.h"
 #include<array>
-#include<list>
+#include<map>
 #include<vector>
 #include"BlockManager.h"
 #include<Sprite.h>
@@ -28,11 +28,7 @@ struct AStarNode
 	AStarVec2 mapPos{};
 	//親ノード
 	AStarVec2 parentNode{};
-	//スコア
-	int32_t score = NULL;
-	//推定コスト
-	int32_t estimateCost = NULL;
-	//実コスト
+	//コスト
 	int32_t cost = NULL;
 	//障害物フラグ
 	bool isObstacle = false;
@@ -52,6 +48,10 @@ public:
 	//スタート、エンド位置の取得
 	void SetPositions(const Vector3& pos);
 
+	int32_t Search(int32_t cost_);
+
+	AStarNode* SetNode(AStarNode* n_,AStarVec2 mapPos_,AStarVec2 parent_,int32_t cost_);
+
 private:
 
 	//エンド位置のランダム取得
@@ -63,8 +63,9 @@ private://変数
 	AStarVec2 startVec2{};
    //終点
 	AStarVec2 endVec2{};
-	std::list<AStarNode> open{};
-	std::list<AStarNode> closed{};
+	std::map<int32_t,AStarNode> open{};
+	std::map<int32_t,AStarNode> closed{};
+	std::vector<AStarNode>root;
 	std::vector<std::vector<AStarNode>>graph;
 	//std::vector < std::vector < std::unique_ptr<Sprite>>> s;
 	float diameter = 5.0f;
