@@ -32,6 +32,8 @@ public:
 	virtual Vector3 GetRot() {return obj->GetRotation();}
 	//スケール
 	virtual Vector3 GetScale() {return obj->GetScale();}
+	//当たったら
+	virtual void OnCollision();
 	/*タイム*/
 	//getter
 	float GetTime() {return stagingTime;}
@@ -54,6 +56,8 @@ public:
 	void SetScale(const Vector3& scale_) {
 		obj->SetScale(scale_);
 	}
+	//フラグの取得
+	bool IsDead() {return isDead;}
 protected://メンバ変数
 	std::unique_ptr<Object3d> obj;
 	BulletManager* bulletManager;
@@ -62,6 +66,7 @@ protected://メンバ変数
 	 const float stagingTimer = 40;
 	float stagingTime;
 	bool isStaging = false;
+	bool isDead = false;
 	int32_t drawNum=1;
 };
 

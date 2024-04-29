@@ -10,6 +10,7 @@ void BaseBlock::Initialize(const Vector3& pos_,const Vector3& rot_,const Vector3
 	obj->SetRotation(rot_);
 	obj->SetScale(scale_);
 	obj->Update();
+	isDead = false;
 }
 
 void BaseBlock::Update() {
@@ -27,6 +28,11 @@ void BaseBlock::SetParameter(const Vector3& pos_,const Vector3& rot_,const Vecto
 
 void BaseBlock::SetIsStaging(const bool& isStaging_) {
 	isStaging = isStaging_;
+}
+
+void BaseBlock::OnCollision()
+{
+
 }
 
 void BaseBlock::StartStaging() {

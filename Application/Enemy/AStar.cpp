@@ -123,7 +123,7 @@ int32_t AStar::Search(int32_t cost_)
 	//最小コスト
 	int32_t costMin=9999;
 	//移動コスト
-	int32_t moveCost = 0;
+	//int32_t moveCost = 0;
 	while ( it!=open.end() )
 	{
 		//openの中から最小コストを算出

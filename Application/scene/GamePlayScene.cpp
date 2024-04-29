@@ -448,8 +448,9 @@ void GamePlayScene::CheckAllCollision() {
 				//判定
 				if ( CheckBoxXZ(posA,e_bullet->GetScale(),posB,block->GetScale()) )
 				{
-					//自弾のコールバックを呼び出し
+					//敵弾のコールバックを呼び出し
 					e_bullet->OnCollision();
+					
 					//パーティクルの呼び出し
 					particle->Add("explosion",5,10,e_bullet->GetPos(),1.0f,0.0f);
 				}
@@ -664,6 +665,8 @@ void GamePlayScene::CheckAllCollision() {
 				{
 					//自弾のコールバックを呼び出し
 					p_bullet->OnCollision();
+					//ブロックのコールバックを呼び出し
+					block->OnCollision();
 					//パーティクルの呼び出し
 					particle->Add("1",5,10,p_bullet->GetPos(),1.0f,0.0f);
 				}

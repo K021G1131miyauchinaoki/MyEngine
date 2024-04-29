@@ -1,6 +1,7 @@
 #include "BlockManager.h"
 #include"Fixedgun.h"
 #include"Wall.h"
+#include"BreakBlock.h"
 #include<random>
 #include<ModelManager.h>
 #include<GamePlayScene.h>
@@ -15,6 +16,11 @@ void BlockManager::Initialize(BulletManager* bulletManager_,Map* map_,EnemyManag
 
 void BlockManager::Update()
 {
+	//フラグが立ったら削除
+	blocks.remove_if([ ] (std::unique_ptr<BaseBlock>& e)
+{	return e->IsDead();
+	});
+
 	for (std::unique_ptr<BaseBlock>&block:blocks)
 	{
 		block->Update();
@@ -33,7 +39,7 @@ void BlockManager::Add(const std::string name_,Model* model_,const Vector3& pos_
 	std::unique_ptr<BaseBlock> b;
 	if ( name_=="block" )
 	{
-		b = std::make_unique<Wall>();
+		b = std::make_unique<BreakBlock>();
 	}
 	else if ( name_=="fixedgun" )
 	{
@@ -42,7 +48,7 @@ void BlockManager::Add(const std::string name_,Model* model_,const Vector3& pos_
 	}
 	else
 	{
-		b = std::make_unique<BaseBlock>();
+		b = std::make_unique<BreakBlock>();
 	}
 	b->Initialize(pos_,rot_,scale_,model_);
 	blocks.push_back(std::move(b));
@@ -164,7 +170,7 @@ void BlockManager::RandomCreate()
 		isBorder = border >= 40;
 		if ( isBorder )
 		{
-			b = std::make_unique<Wall>();
+			b = std::make_unique<BreakBlock>();
 			model = ModelManager::GetInstance()->GetModel("wall");
 		}
 		else
@@ -218,7 +224,7 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_)
 		isBorder = border >= 20;
 		if ( isBorder )
 		{
-			b = std::make_unique<Wall>();
+			b = std::make_unique<BreakBlock>();
 			model = ModelManager::GetInstance()->GetModel("wall");
 		}
 		else

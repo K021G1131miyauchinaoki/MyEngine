@@ -209,6 +209,7 @@
     </ClCompile>
     <ClCompile Include="Engine\base\TextureManager.cpp" />
     <ClCompile Include="Application\Enemy\AStar.cpp" />
+    <ClCompile Include="Application\Block\BreakBlock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\NormalEnemy.h">
@@ -387,6 +388,7 @@
     </ClInclude>
     <ClInclude Include="Engine\base\TextureManager.h" />
     <ClInclude Include="Application\Enemy\AStar.h" />
+    <ClInclude Include="Application\Block\BreakBlock.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />
