@@ -167,8 +167,12 @@ void BlockManager::RandomCreate()
 		border =dDist(engine);
 		
 		//あとでデータを分離する
-		isBorder = border >= 40;
-		if ( isBorder )
+		if ( border >= 40 )
+		{
+			b = std::make_unique<Wall>();
+			model = ModelManager::GetInstance()->GetModel("wall");
+		}
+		else if ( border >= 20 )
 		{
 			b = std::make_unique<BreakBlock>();
 			model = ModelManager::GetInstance()->GetModel("wall");
@@ -220,9 +224,13 @@ void BlockManager::LineCreate(const Vector3& pos_,const Vector3& scale_)
 		std::uniform_int_distribution<int16_t> dDist(0,100);
 		border = dDist(engine);
 
-		//あとでデータを分離する
-		isBorder = border >= 20;
-		if ( isBorder )
+		//あとでマジックナンバーを分離する
+		if ( border >= 20 )
+		{
+			b = std::make_unique<Wall>();
+			model = ModelManager::GetInstance()->GetModel("wall");
+		}
+		else if ( border >= 10 )
 		{
 			b = std::make_unique<BreakBlock>();
 			model = ModelManager::GetInstance()->GetModel("wall");

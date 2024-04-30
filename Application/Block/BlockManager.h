@@ -70,8 +70,6 @@ private:
 	int16_t direction;
 	//回転　
 	bool isRot;
-	//境界フラグ
-	bool isBorder;
 	//位置、回転、サイズ
 	Vector3 pos,rot,scale;
 	int16_t playerH,playerW,enemyH,enemyW,shift;
