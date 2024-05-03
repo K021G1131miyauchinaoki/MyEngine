@@ -4,9 +4,20 @@
 #include"Map.h"
 #include"EnemyManager.h"
 #include"Player.h"
+#include<vector>
 
 class BlockManager
 {
+private:
+	struct Node
+	{
+		Vector3 pos;//位置
+		int32_t ConnectCount;//上下左右にあるブロック数
+		bool isExistLR;//左右どちらかにあれば立つ
+		bool isExistUD;//上下どちらかにあれば立つ
+
+	};
+	//分岐してる場合
 public:
 	/// <summary>
 	/// 初期化
@@ -40,7 +51,7 @@ public:
 	/// <summary>
 	/// ライン生成
 	/// </summary>
-	void LineCreate(const Vector3&pos_,const Vector3 &scale_);
+	void LineCreate(std::vector<Node>&node ,const Vector3&pos_,const Vector3 &scale_);
 
 	// リストを取得
 	std::list<std::unique_ptr<BaseBlock>>& GetBlocks() {
@@ -55,7 +66,12 @@ public:
 	//カウント
 	void Count();
 
+	//探索
+	void Search();
 private:
+	std::vector<std::vector<Node>>open;
+	std::vector<bool>isLimit;
+
 	// ブロック
 	std::list<std::unique_ptr<BaseBlock>> blocks;
 	//弾マネージャー
@@ -72,8 +88,9 @@ private:
 	bool isRot;
 	//位置、回転、サイズ
 	Vector3 pos,rot,scale;
+	int16_t h,w;
 	int16_t playerH,playerW,enemyH,enemyW,shift;
-	float diameterW,diameterH;
+	float diameterW,diameterH,diameterMW,diameterMH,limitW,limitH;
 	const float fixedValue = 90.0f;
 };
 

@@ -159,7 +159,7 @@ protected://メンバ変数
 	Phase phase = Phase::move;
 	MovePhase movePhase = MovePhase::approach;
 	//半径
-	float radius = 5.0f;
+	float radius = 4.0f;
 
 	//点滅時間
 	const int16_t invincibleTimer = 11;

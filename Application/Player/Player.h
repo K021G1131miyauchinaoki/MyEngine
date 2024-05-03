@@ -141,7 +141,7 @@ private://メンバ変数
 	std::vector<DrawHp> drawHp;
 
 	//半径
-	float radius = 5.0f;
+	float radius = 4.0f;
 	float angle = 0.0f;
 	float startPosY,endPosY;
 	float bound;
