@@ -171,9 +171,6 @@
     <ClCompile Include="Application\Bullet\Homing.cpp">
       <Filter>ソースファイル\Application\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="Application\scene\StageSelect.cpp">
-      <Filter>ソースファイル\Application\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\base\scene\SceneManager.cpp">
       <Filter>ソースファイル\Engine\Base\Scene</Filter>
     </ClCompile>
@@ -352,9 +349,6 @@
     </ClInclude>
     <ClInclude Include="Application\Bullet\Homing.h">
       <Filter>ヘッダーファイル\Application\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\scene\StageSelect.h">
-      <Filter>ヘッダーファイル\Application\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\EnemyManager.h">
       <Filter>ヘッダーファイル\Application\Enemy</Filter>

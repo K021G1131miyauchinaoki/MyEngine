@@ -165,7 +165,6 @@
     <ClCompile Include="Application\Block\Wall.cpp" />
     <ClCompile Include="Application\Bullet\Homing.cpp" />
     <ClCompile Include="Engine\3d\Billboard\BillboardParticle.cpp" />
-    <ClCompile Include="Application\scene\StageSelect.cpp" />
     <ClCompile Include="Engine\3d\model\ModelManager.cpp" />
     <ClCompile Include="Application\Enemy\RapidEnemy.cpp" />
   </ItemGroup>
@@ -301,7 +300,6 @@
     <ClInclude Include="Application\particle\Smoke.h" />
     <ClInclude Include="Application\Enemy\ShotgunEnemy.h" />
     <ClInclude Include="Application\Block\Wall.h" />
-    <ClInclude Include="Application\scene\StageSelect.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CG2.rc" />

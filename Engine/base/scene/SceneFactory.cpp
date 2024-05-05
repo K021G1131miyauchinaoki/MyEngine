@@ -8,7 +8,6 @@
 #include<GamePlayScene.h>
 #include<GameOverScene.h>
 #include<GameClear.h>
-#include<StageSelect.h>
 #include<SceneManager.h>
 using namespace MyEngin;
 
@@ -18,10 +17,6 @@ BaseScene* SceneFactory::CreateScene(const std::string& sceneName) {
 	if (sceneName=="TITLE")
 	{
 		newScene = new TitleScene();
-	}
-	else if ( sceneName == "Select" )
-	{
-		newScene = new StageSelect();
 	}
 	else if (sceneName == "GAMEPLAY")
 	{

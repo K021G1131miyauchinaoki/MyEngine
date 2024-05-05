@@ -26,10 +26,6 @@ void MyGame::Initialize() {
 	SpriteCommon::GetInstance()->Loadtexture(9,"star.png");
 	SpriteCommon::GetInstance()->Loadtexture(10,"pushkey.png");
 	SpriteCommon::GetInstance()->Loadtexture(11,"memo.png");
-	SpriteCommon::GetInstance()->Loadtexture(12,"slide.png");
-	SpriteCommon::GetInstance()->Loadtexture(13,"select.png");
-	SpriteCommon::GetInstance()->Loadtexture(20,"stage/1.png");
-	SpriteCommon::GetInstance()->Loadtexture(21,"stage/2.png");
 	//音
 	SoundManager::GetInstance()->LoadWave("BGM/title.wav");
 	SoundManager::GetInstance()->LoadWave("BGM/play.wav");

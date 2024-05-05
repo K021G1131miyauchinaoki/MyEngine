@@ -172,7 +172,7 @@ void TitleScene::Update() {
 		SceneTransition::GetInstance()->GetIsFadeIn() )
 	{
 		//シーンの切り替え
-		SceneManager::GetInstance()->ChangeScene("Select");
+		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 		//音停止
 		SoundManager::GetInstance()->StopWave("BGM/title.wav");
 	}
