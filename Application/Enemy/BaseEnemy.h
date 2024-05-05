@@ -181,7 +181,7 @@ protected://メンバ変数
 	BaseHp hp;
 	float startPosY,endPosY;
 	//イージング変数
-	const float startEaseTimer = 70;
+	const float startEaseTimer = 80;
 	float startEaseTime;
 	//パラシュート用変数
 	float parachutePosY;

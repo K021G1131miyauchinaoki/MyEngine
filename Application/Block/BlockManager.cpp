@@ -39,7 +39,7 @@ void BlockManager::Add(const std::string name_,Model* model_,const Vector3& pos_
 	std::unique_ptr<BaseBlock> b;
 	if ( name_=="block" )
 	{
-		b = std::make_unique<BreakBlock>();
+		b = std::make_unique<Wall>();
 	}
 	else if ( name_=="fixedgun" )
 	{
@@ -48,7 +48,7 @@ void BlockManager::Add(const std::string name_,Model* model_,const Vector3& pos_
 	}
 	else
 	{
-		b = std::make_unique<BreakBlock>();
+		b = std::make_unique<Wall>();
 	}
 	b->Initialize(pos_,rot_,scale_,model_);
 	blocks.push_back(std::move(b));
@@ -169,7 +169,7 @@ void BlockManager::RandomCreate()
 		else if ( border >= 20 )
 		{
 			b = std::make_unique<BreakBlock>();
-			model = ModelManager::GetInstance()->GetModel("wall");
+			model = ModelManager::GetInstance()->GetModel("BreakBlock");
 		}
 		else
 		{
@@ -233,7 +233,7 @@ void BlockManager::LineCreate(std::vector<Node>& node,const Vector3& pos_,const 
 		else if ( border >= 10 )
 		{
 			b = std::make_unique<BreakBlock>();
-			model = ModelManager::GetInstance()->GetModel("wall");
+			model = ModelManager::GetInstance()->GetModel("BreakBlock");
 		}
 		else
 		{
@@ -429,7 +429,7 @@ void BlockManager::Search()
 					it= blocks.erase(it);
 					//要素の追加
 					std::unique_ptr<BaseBlock> b=std::make_unique<BreakBlock>();
-					b->Initialize(pos,rot,scale,ModelManager::GetInstance()->GetModel("wall"));
+					b->Initialize(pos,rot,scale,ModelManager::GetInstance()->GetModel("BreakBlock"));
 					blocks.insert(blocks.begin(), std::move(b));
 				}
 				else

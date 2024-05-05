@@ -53,6 +53,7 @@ void MyGame::Initialize() {
 	ModelManager::GetInstance()->LoadModel("bullet");
 	ModelManager::GetInstance()->LoadModel("bom");
 	ModelManager::GetInstance()->LoadModel("smoke");
+	ModelManager::GetInstance()->LoadModel("BreakBlock");
 	
 	//シーンマネージャーに最初のシーンをセット
 	sceneFactory = new SceneFactory();
