@@ -6,25 +6,30 @@
 #include<ModelManager.h>
 #include<GamePlayScene.h>
 
-void BlockManager::Initialize(BulletManager* bulletManager_,Map* map_,EnemyManager* enemyManager_,Player* player_) {
+void BlockManager::Initialize(BulletManager* bulletManager_,Map* map_,EnemyManager* enemyManager_,Player* player_,ModelParticleManager* particle_) {
 	bulletManager = bulletManager_;
 	map = map_;
 	enemyManager = enemyManager_;
 	player = player_;
+	particle = particle_;
 	shift = 1;
 }
 
 void BlockManager::Update()
 {
+	for (std::unique_ptr<BaseBlock>&block:blocks)
+	{
+		block->Update();
+		if ( block->IsDead() )
+		{
+			particle->Add("explosion",10,20,block->GetPos(),2.0f,0.0f);
+		}
+	}
 	//フラグが立ったら削除
 	blocks.remove_if([ ] (std::unique_ptr<BaseBlock>& e)
 {	return e->IsDead();
 	});
 	
-	for (std::unique_ptr<BaseBlock>&block:blocks)
-	{
-		block->Update();
-	}
     Count();
 }
 

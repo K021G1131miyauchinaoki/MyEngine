@@ -4,6 +4,7 @@
 #include"Map.h"
 #include"EnemyManager.h"
 #include"Player.h"
+#include"ModelParticleManager.h"
 #include<vector>
 
 class BlockManager
@@ -22,7 +23,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(BulletManager* bulletManager_,Map* map_,EnemyManager* enemyManager_,Player*player_);
+	void Initialize(BulletManager* bulletManager_,Map* map_,EnemyManager* enemyManager_,Player* player_,ModelParticleManager* particle_);
 	/// <summary>
 	/// 更新
 	/// </summary>
@@ -80,6 +81,7 @@ private:
 	Map* map;
 	EnemyManager* enemyManager;
 	Player* player;
+	ModelParticleManager* particle;
 	//境界値
 	int16_t border;
 	//方向

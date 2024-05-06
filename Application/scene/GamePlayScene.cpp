@@ -196,7 +196,7 @@ void GamePlayScene::Initialize() {
 	enemyManager->RandomCreate(map.get());
 	//壁
 	blockManager = std::make_unique<BlockManager>();
-	blockManager->Initialize(bulletManager.get(),map.get(),enemyManager.get(),player.get());
+	blockManager->Initialize(bulletManager.get(),map.get(),enemyManager.get(),player.get(),particle.get());
 	blockManager->RandomCreate();
 	//ブロック生成後にポインタを渡す
 	aStar->Initialize(blockManager.get());
