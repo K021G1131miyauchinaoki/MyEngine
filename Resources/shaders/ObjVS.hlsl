@@ -9,11 +9,11 @@ VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOOR
 	VSOutput output; // ピクセルシェーダーに渡す値
     output.svpos = mul(mul(viewproj, world),pos);
 	//環境反射光
-    float3 ambient = color.rgb *m_ambient;
+    float3 ambient = color.rgb * m_ambient * lightcolor;
 	//拡散反射光
     float3 diffuse = dot(lightv, wnormal.xyz) * m_diffuse;
 	//光沢度
-    const float shininess = 1000.0f;
+    const float shininess = 20.0f;
 	//頂点から視点への方向ベクトル
     float3 eyedir = normalize(cameraPos - wpos.xyz);
 	//反射光ベクトル
@@ -22,7 +22,7 @@ VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOOR
     float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 	
 	//output.normal = normal;
-    output.color.rgb = (ambient + diffuse + specular) * lightcolor;
+    output.color.rgb = (ambient + diffuse + specular);
     output.color.a = color.a*m_alpha;
 	output.uv = uv;
 	return output;
