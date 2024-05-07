@@ -29,5 +29,6 @@ public:
 	void Draw()override;
 
 private:
+	Vector3 rotation = { 0,0,0 };
 };
 

@@ -22,7 +22,7 @@ void BlockManager::Update()
 		block->Update();
 		if ( block->IsDead() )
 		{
-			particle->Add("explosion",10,20,block->GetPos(),2.0f,0.0f);
+			particle->Add("explosion",10,20,block->GetPos(),2.0f,0.0f,{0.0f,0.5f,0.1f});
 		}
 	}
 	//フラグが立ったら削除

@@ -31,6 +31,13 @@ void Explosion::Initialize(Model* model_,int32_t life_,Vector3 position_,float s
 
 	velocity = value;
 
+
+	
+	const float rnd_rot = 5.0f;
+	rotation.x = ( float ) rand() / RAND_MAX * rnd_rot - rnd_rot / 2.0f;
+	rotation.y = ( float ) rand() / RAND_MAX * rnd_rot - rnd_rot / 2.0f;
+	rotation.z = ( float ) rand() / RAND_MAX * rnd_rot - rnd_rot / 2.0f;
+
 	//乱数　（スケール）
 	//stratScale = 1.0f;
 #pragma endregion
@@ -49,9 +56,12 @@ void Explosion::Update() {
 	//スケールの線形補間
 	scale = (endScale - stratScale) * f;
 	scale += stratScale;
+	//回転
+	rot += rotation;
 
 	obj->SetPosition(pos);
 	obj->SetScale({ scale, scale, scale });
+	obj->SetRotation(rot);
 	BaseModelParticle::Update();
 }
 
