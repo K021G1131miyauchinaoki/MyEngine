@@ -115,6 +115,8 @@ public://メンバ関数
 	//ランダム生成
 	void RandomDeployment(Map* map_);
 
+	void SetParameter(const Vector3&pos_,const Vector3&rot_);
+
 private://メンバ変数
 	Input*input = nullptr;
 	std::unique_ptr<Object3d>tankHad = nullptr;

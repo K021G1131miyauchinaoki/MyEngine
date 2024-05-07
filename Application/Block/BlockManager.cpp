@@ -276,6 +276,7 @@ void BlockManager::LineCreate(std::vector<Node>& node,const Vector3& pos_,const 
 			enemyH = static_cast< int16_t >( ( enemy->GetPos().z + Map::moveLimitH ) / diameterMH );
 			if ( enemyW == blockW&& enemyH == blockH )
 			{
+
 				isOverlap = true;
 				break;
 			}

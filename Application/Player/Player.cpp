@@ -71,6 +71,19 @@ void Player::RandomDeployment(Map* map_)
 	}
 }
 
+void Player::SetParameter(const Vector3& pos_,const Vector3& rot_)
+{
+	tankPos = pos_;
+	if ( GamePlayScene::isStart )
+	{
+		tankPos.y = startPosY;
+	}
+	tankHad->SetPosition(tankPos);
+	tankBody->SetPosition(tankPos);
+	tankHad->SetRotation(rot_);
+	tankBody->SetRotation(rot_);
+}
+
 void Player::Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_,
 						Input* input_,BulletManager* bulletManager_,Map*map_) {
 	assert(tankHadModel_);

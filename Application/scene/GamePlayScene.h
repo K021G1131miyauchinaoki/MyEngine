@@ -93,9 +93,6 @@ public://メンバ関数
 		Max,
 	};
 private:
-	//ステージの文字列を取得
-	void StageString();
-
 	/// <summary>
 	/// 当たり判定
 	/// </summary>
@@ -188,8 +185,6 @@ private:
 	//操作UIフラグ
 	bool isDisplay = false;
 	bool isSlide = false;
-	//ステージの文字列
-	std::string stageStr;
 
 	size_t count;
 

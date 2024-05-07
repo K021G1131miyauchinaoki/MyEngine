@@ -133,9 +133,6 @@ bool HitLine(Vector3 startA,Vector3 endA,Vector3 startB,Vector3 endB)//aが直�
 void GamePlayScene::Initialize() {
 	modelM = ModelManager::GetInstance();
 
-	//ステージ番号
-	StageString();
-
 	//変数
 	startCount = 0;
 	isStart = true;
@@ -176,28 +173,25 @@ void GamePlayScene::Initialize() {
 	//マップ
 	map = std::make_unique<Map>();
 	map->Initialize(true,modelM->GetModel("map"));
-	//map->LoadCSV(stageStr);
-	map->RandomCreate();
-
+	map->LoadCSV("1");
+	
 	//プレイヤー
 	player = std::make_unique<Player>();
 	player->Initialeze(modelM->GetModel("TankHad"),
 						   modelM->GetModel("TankBody"),
 						   modelM->GetModel("parachute"),
 						   input,bulletManager.get(),map.get());
-	//プレイヤーの初期化とマップの生成後にマップチップの中心を算出
-	map->CenterMapChip(player->GetPos());
+	
 
 	//A*
 	aStar = std::make_unique<AStar>();
 	//敵
 	enemyManager = std::make_unique<EnemyManager>();
 	enemyManager->Initialize(player.get(),bulletManager.get());
-	enemyManager->RandomCreate(map.get());
 	//壁
 	blockManager = std::make_unique<BlockManager>();
 	blockManager->Initialize(bulletManager.get(),map.get(),enemyManager.get(),player.get(),particle.get());
-	blockManager->RandomCreate();
+	
 	//ブロック生成後にポインタを渡す
 	aStar->Initialize(blockManager.get());
 
@@ -205,9 +199,9 @@ void GamePlayScene::Initialize() {
 	bulletManager->Initialize(modelM->GetModel("bullet"),player.get(),billParticle.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
-	jsonLoader.reset(LevelLoader::LoadJson(stageStr));
-	models.insert(std::make_pair("Normal",modelM->GetModel("enemy")));
-	models.insert(std::make_pair("Shotgun",modelM->GetModel("enemy")));
+	jsonLoader.reset(LevelLoader::LoadJson("1"));
+	models.insert(std::make_pair("normal",modelM->GetModel("enemy")));
+	models.insert(std::make_pair("shotgun",modelM->GetModel("enemy")));
 	models.insert(std::make_pair("block",modelM->GetModel("wall")));
 	models.insert(std::make_pair("fixedgun",modelM->GetModel("fixedgun")));
 
@@ -221,18 +215,25 @@ void GamePlayScene::Initialize() {
 		{
 			model = it->second;
 		}
+		//自機
+		if ( objectData.fileName == "player")
+		{
+			player->SetParameter(objectData.translation,objectData.rotation);
+			//マップの中心を算出
+			map->CenterMapChip(player->GetPos());
+		}
 
 		//エネミー
-		/*if (objectData.fileName == "Shotgun" || objectData.fileName == "Normal" )
+		if (objectData.fileName == "shotgun" || objectData.fileName == "normal" )
 		{
 			enemyManager->Add(objectData.fileName,model,
 				objectData.translation,objectData.rotation);
-		}*/
+		}
 		//ブロック
-		/*if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
+		if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
 		{
 			blockManager->Add(objectData.fileName,model,objectData.translation,objectData.rotation,objectData.scaling);
-		}*/
+		}
 	}
 
 	//スカイドーム
@@ -945,20 +946,4 @@ void GamePlayScene::Finalize(){}
 GamePlayScene::GamePlayScene() {}
 GamePlayScene::~GamePlayScene() {
 	Finalize();
-}
-
-void GamePlayScene::StageString()
-{
-	if ( SceneManager::stage == 0 )
-	{
-		stageStr = "1";
-	}
-	else if ( SceneManager::stage == 1 )
-	{
-		stageStr = "2";
-	}
-	else
-	{
-		stageStr = "1";
-	}
 }

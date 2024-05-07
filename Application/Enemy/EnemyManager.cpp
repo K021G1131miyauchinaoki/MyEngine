@@ -34,11 +34,11 @@ void EnemyManager::Draw() {
 void EnemyManager::Add(const std::string& name_,Model* model_,const Vector3& pos_,const Vector3& rot_) {
 
 	std::unique_ptr <BaseEnemy> e;
-	if ( name_ == "Normal" )
+	if ( name_ == "normal" )
 	{
 		e = std::make_unique <NormalEnemy>();
 	}
-	else if(name_=="Shotgun" )
+	else if(name_=="shotgun" )
 	{
 		e = std::make_unique<ShotgunEnemy>();
 	}

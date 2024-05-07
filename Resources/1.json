@@ -58,25 +58,25 @@
                     0.0
                 ],
                 "scaling": [
-                    100.0,
-                    100.0,
+                    110.0,
+                    110.0,
                     1.0
                 ]
             }
         },
         {
             "type": "MESH",
-            "name": "enemy",
+            "name": "enemy.003",
             "transform": {
                 "translation": [
-                    0.13582611083984375,
-                    45.0,
+                    0.0,
+                    0.0,
                     5.0
                 ],
                 "rotation": [
                     0.0,
-                    0.0,
-                    -90.00000762939453
+                    -0.0,
+                    90.00000762939453
                 ],
                 "scaling": [
                     5.0,
@@ -84,7 +84,7 @@
                     5.0
                 ]
             },
-            "file_name": "Normal"
+            "file_name": "player"
         },
         {
             "type": "MESH",
@@ -113,7 +113,7 @@
             "name": "立方体.003",
             "transform": {
                 "translation": [
-                    30.0,
+                    40.0,
                     20.0,
                     5.0
                 ],
@@ -221,6 +221,72 @@
         {
             "type": "MESH",
             "name": "立方体.009",
+            "transform": {
+                "translation": [
+                    -40.0,
+                    20.0,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "block"
+        },
+        {
+            "type": "MESH",
+            "name": "enemy.004",
+            "transform": {
+                "translation": [
+                    0.0,
+                    45.0,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    -90.00000762939453
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "normal"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.001",
+            "transform": {
+                "translation": [
+                    30.0,
+                    20.0,
+                    5.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "block"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.007",
             "transform": {
                 "translation": [
                     -30.0,

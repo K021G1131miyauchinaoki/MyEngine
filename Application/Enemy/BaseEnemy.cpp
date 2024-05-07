@@ -59,7 +59,7 @@ void BaseEnemy::Initialize(Model* model_,Model* parachuteModel_,Player* player_,
 	waitAngle = 0.0f;
 	moveAngle = 0.0f;
 	//体力
-	hp.value = 1;
+	hp.value = 3;
 	hp.isDead = false;
 	bulletManager = bulletManager_;
 
@@ -86,7 +86,7 @@ void BaseEnemy::Update() {
 	//プレイ中
 	else
 	{
-		/*switch ( phase )
+		switch ( phase )
 		{
 		case Phase::wait:
 			Wait();
@@ -97,7 +97,7 @@ void BaseEnemy::Update() {
 		case Phase::atack:
 			Shot();
 			break;
-		}*/
+		}
 	}
 	obj->Update();
 	parachute->Update();
