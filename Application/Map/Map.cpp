@@ -214,7 +214,7 @@ void Map::RandomCreate()
 
 
 	//std::uniform_real_distribution<float> rotDist(-shift, shift);
-	std::uniform_int_distribution<int16_t> Dist(5,10);
+	std::uniform_int_distribution<int16_t> Dist(6,10);
 	//ブロックのサイズを設定
 
 	height = Dist(engine);

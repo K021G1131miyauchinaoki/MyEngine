@@ -77,6 +77,9 @@ void Player::SetParameter(const Vector3& pos_,const Vector3& rot_)
 	if ( GamePlayScene::isStart )
 	{
 		tankPos.y = startPosY;
+		parachutePos = tankPos;
+		parachutePos.y += parachutePosY;
+		pPosX = parachutePos.x + 3.0f;
 	}
 	tankHad->SetPosition(tankPos);
 	tankBody->SetPosition(tankPos);
