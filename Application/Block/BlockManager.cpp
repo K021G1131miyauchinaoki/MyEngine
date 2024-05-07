@@ -97,24 +97,20 @@ void BlockManager::RandomCreate()
 		//方向の設定
 		direction = directionDist(engine);
 
-		//プレイヤーの範囲に入っていたら回し続ける
+		
 		isOverlap = true;
+		//他のオブジェクトに重なっていたら回す
 		while ( isOverlap )
 		{
 			//置く位置の設定
 			h = htDist(engine);
 			w = wDist(engine);
-			//四隅にいたら
+			//四隅とプレイヤーの位置にいたら
 			while ( ( h == 0 && w == 0 ) ||							//左下
 					( h == 0 && w == Map::width - 1 ) ||			//右下
 					( h == Map::height - 1 && w == 0 ) ||			//左上
-					( h == Map::height - 1 && w == Map::width - 1 ) )	//右上
-			{
-				h = htDist(engine);
-				w = wDist(engine);
-			}
-			//プレイヤーのH,Wと同じなら
-			while ( playerH == h && playerW == w )
+					( h == Map::height - 1 && w == Map::width - 1 ) ||//右上
+					playerH == h && playerW == w )
 			{
 				h = htDist(engine);
 				w = wDist(engine);
@@ -125,7 +121,7 @@ void BlockManager::RandomCreate()
 			//位置を代入する
 			pos = map->GetBlocks(w,h).GetPos();
 			pos.y = 5.0f;//csvなどに落とし込む
-			//ブロック端に置くように設定
+			//マップのブロック端に置くように設定
 			int16_t half = ( Map::height - 1 ) / 2;
 			/*ｚ*/
 			if ( h > half )pos.z += scale.z;
@@ -134,7 +130,7 @@ void BlockManager::RandomCreate()
 			half = ( Map::width - 1 ) / 2;
 			if ( w > half )pos.x += scale.x;
 			else pos.x -= scale.x;
-			
+
 			//敵に一度でも重なっていたら
 			for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys() )
 			{
@@ -156,14 +152,15 @@ void BlockManager::RandomCreate()
 					break;
 				}
 			}
+		}
+		/*ここから生成*/
+		//HかWが端にある場合方向を調整
+		if ( h == Map::height - 1 )direction = 0;
+		if ( h == 0 )direction = 1;
+		if ( w == Map::width - 1 )direction = 2;
+		if ( w == 0 )direction = 3;
 
-			//HかWが端にある場合方向を調整
-			if ( h == Map::height - 1 )direction = 0;
-			if ( h == 0 )direction = 1;
-			if ( w == Map::width - 1 )direction = 2;
-			if ( w == 0 )direction = 3;
-
-			border = dDist(engine);
+		border = dDist(engine);
 
 		//あとでデータを分離する
 		if ( border >= 40 )
@@ -182,9 +179,9 @@ void BlockManager::RandomCreate()
 			model = ModelManager::GetInstance()->GetModel("fixedgun");
 			b->SetBulletManager(bulletManager);
 			//上下
-			if ( direction <= 1 )rot.y=90.0f;
+			if ( direction <= 1 )rot.y = 90.0f;
 			//左右
-			else if ( direction >= 2 )rot.y=0.0f;
+			else if ( direction >= 2 )rot.y = 0.0f;
 
 			//回転
 			isRot = rotDist(engine);
@@ -193,11 +190,12 @@ void BlockManager::RandomCreate()
 
 		}
 
-			LineCreate(open[ i ],pos,scale);
-			open[ i ][ 0 ].pos = pos;
-			b->Initialize(pos,rot,scale,model);
-			blocks.push_back(std::move(b));
-		}
+		//起点となるブロックをlistに入れる
+		b->Initialize(pos,rot,scale,model);
+		blocks.push_back(std::move(b));
+		//起点からブロックを伸ばす
+		LineCreate(open[ i ],pos,scale);
+		open[ i ][ 0 ].pos = pos;
 
 	}
 	Search();
@@ -229,11 +227,11 @@ void BlockManager::LineCreate(std::vector<Node>& node,const Vector3& pos_,const 
 		std::uniform_int_distribution<int16_t> dDist(0,100);
 		border = dDist(engine);
 
-		b = std::make_unique<Wall>();
-		model = ModelManager::GetInstance()->GetModel("wall");
 		//あとでマジックナンバーを分離する
 		if ( border >= 20 )
 		{
+			b = std::make_unique<Wall>();
+			model = ModelManager::GetInstance()->GetModel("wall");
 		}
 		else if ( border >= 10 )
 		{
@@ -254,14 +252,15 @@ void BlockManager::LineCreate(std::vector<Node>& node,const Vector3& pos_,const 
 			if ( isRot )rot.y += fixedValue;
 			else rot.y -= fixedValue;
 		}
+		/*方向にシフトする*/
 		//下
 		if ( direction == 0 )p.z -= ( scale_.z * 2.0f ) * i;
 		//上
 		else if ( direction == 1 )p.z += ( scale_.z * 2.0f ) * i;
 		//左
-		else if ( direction == 2 )p.x -= ( scale_.z * 2.0f ) * i;
+		else if ( direction == 2 )p.x -= ( scale_.x * 2.0f ) * i;
 		//右
-		else if ( direction == 3 )p.x += ( scale_.z * 2.0f ) * i;
+		else if ( direction == 3 )p.x += ( scale_.x * 2.0f ) * i;
 		
 		int16_t blockW = static_cast< int16_t >( ( p.x + Map::moveLimitW ) / diameterMW );
 		int16_t blockH = static_cast< int16_t >( ( p.z + Map::moveLimitH ) / diameterMH );
