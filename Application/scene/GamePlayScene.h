@@ -113,6 +113,10 @@ private:
 	/// </summary>
 	void MemoDisplay();
 
+	/// <summary>
+	/// jsonの使用
+	/// </summary>
+	void UseJson();
 	
 public:
 	//スタート演出のカウント
@@ -123,6 +127,8 @@ public:
 	static int8_t outCount;
 	//消えるフラグ
 	static  bool isOut;
+	//クリアした数
+	static int32_t clearCount;
 
 private:
 	//インプット
@@ -185,8 +191,6 @@ private:
 	//操作UIフラグ
 	bool isDisplay = false;
 	bool isSlide = false;
-
-	size_t count;
 
 	//A*
 	std::unique_ptr<AStar>aStar;

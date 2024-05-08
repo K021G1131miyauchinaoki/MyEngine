@@ -15,7 +15,6 @@
 #include<Map.h>
 #include<BaseScene.h>
 #include<Object3d.h>
-#include<ModelParticleManager.h>
 #include<BillboardParticle.h>
 #include<ModelManager.h>
 
@@ -76,8 +75,7 @@ private:
 	//マップ
 	std::unique_ptr<Map>map;
 	//パーティクル
-	std::unique_ptr < ModelParticleManager> particle;
-	//int8_t 
+	std::unique_ptr < BillboardParticle> particle;
 
 	//スプライト
 	std::unique_ptr<Sprite> overSprite;
@@ -90,6 +88,9 @@ private:
 	//ライト
 	XMVECTOR lightDir = { 25,-100,10,0 };
 
+	//パーティクル変数
+	XMFLOAT3 particlePos;
+	size_t num;
 	//点滅
 	int8_t flashTime;
 	const int8_t flashTimer = 45;

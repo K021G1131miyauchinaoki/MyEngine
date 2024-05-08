@@ -17,6 +17,7 @@ int8_t GamePlayScene::startCount = 0;
 bool GamePlayScene::isStart = true;
 int8_t GamePlayScene::outCount = 0;
 bool GamePlayScene::isOut = false;
+int32_t GamePlayScene::clearCount = 0;
 /// <summary>
 /// 矩形の判定
 /// </summary>
@@ -144,6 +145,7 @@ void GamePlayScene::Initialize() {
 	sPosStartY=-100.0f;
 	mPosEndX = 50.0f;
 	mPosStartX = -200.0f;
+	clearCount = 0;
 
 	//キー
 	input=Input::GetInstance();
@@ -199,7 +201,7 @@ void GamePlayScene::Initialize() {
 	bulletManager->Initialize(modelM->GetModel("bullet"),player.get(),billParticle.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
-	jsonLoader.reset(LevelLoader::LoadJson("1"));
+	jsonLoader.reset(LevelLoader::LoadJson("2"));
 	models.insert(std::make_pair("normal",modelM->GetModel("enemy")));
 	models.insert(std::make_pair("shotgun",modelM->GetModel("enemy")));
 	models.insert(std::make_pair("block",modelM->GetModel("wall")));
@@ -271,9 +273,6 @@ void GamePlayScene::Initialize() {
 
 	//音
 	SoundManager::GetInstance()->PlayWave("BGM/play.wav",0.2f,true);
-
-	count = 0;
-
 }
 
 void GamePlayScene::Update() {
@@ -470,6 +469,7 @@ void GamePlayScene::CheckAllCollision() {
 		for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys() )
 		{
 			Vector3 topLE,topRE,bottomRE,bottomLE;
+			size_t count = 0;
 			#pragma region 自弾との当たり判定
 			for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
 			{
@@ -581,7 +581,6 @@ void GamePlayScene::CheckAllCollision() {
 			{
 				enemy->OffCollisionShot();
 			}
-			count = 0;
 			#pragma endregion
 
 			#pragma region マップとの当たり判定
@@ -887,6 +886,7 @@ void GamePlayScene::OutStaging()
 		}
 		else if ( outCount == Serial::Create )
 		{
+			clearCount++;
 			startCount = start::Redy;
 			spriteEaseTime = 0.0f;
 			//ランダム生成、配置
@@ -939,6 +939,10 @@ void GamePlayScene::MemoDisplay()
 			memo->Update();
 		}
 	}
+}
+
+void GamePlayScene::UseJson()
+{
 }
 
 void GamePlayScene::Finalize(){}

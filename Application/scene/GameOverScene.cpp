@@ -7,6 +7,7 @@
 #include"SceneTransition.h"
 #include<SceneManager.h>
 #include<Vector3.h>
+#include<random>
 
 void GameOverScene::Initialize() {
 	modelM = ModelManager::GetInstance();
@@ -61,8 +62,16 @@ void GameOverScene::Initialize() {
 	map->LoadCSV("title");
 
 	//パーティクルマネージャー
-	particle = std::make_unique<ModelParticleManager>();
-	particle->Initialize(modelM->GetModel("smoke"));
+	particle = std::make_unique<BillboardParticle>();
+	particle->Initialize();
+
+	particlePos.x = tankBody->GetPosition().x;
+	particlePos.x -= 2.0f;
+	particlePos.y = tankBody->GetPosition().y;
+	particlePos.y -= 3.0f;
+	particlePos.z = tankBody->GetPosition().z;
+
+	num =2;
 
 	//ターゲットの設定
 	camera->SetTarget({ tankBody->GetPosition().x, tankBody->GetPosition().y, tankBody->GetPosition().z });
@@ -110,12 +119,26 @@ void GameOverScene::Update() {
 		SoundManager::GetInstance()->StopWave("BGM/over.wav");
 	}
 	
-	Vector3 particlePos= tankBody->GetPosition();
-	particlePos.x -= 2.0f;
+	for ( size_t i = 0; i < num; i++ )
+	{
+	//乱数シード生成器
+		std::random_device seed_gen;
+		//メルセンヌ・ツイスターの乱数エンジン
+		std::mt19937_64 engine(seed_gen());
+		std::uniform_real_distribution<float> velDist(-0.1f,0.1f);
+		std::uniform_real_distribution<float> velDistY(0.1f,0.12f);
+		//XYZ全てにランダムに分布
+		XMFLOAT3	vel{};
+		vel.x = velDist(engine);
+		vel.y = velDistY(engine);
+		vel.z = velDist(engine);
 
-	particlePos.y -= 2.0f;
-	particle->Add("smoke",2,50,particlePos,2.0f,5.0f);
+		//重力に見立ててでランダムに分布
+		XMFLOAT3	acc{ 0.0f,0.0f,0.0f };
 
+		//追加
+		particle->Add(80,particlePos,vel,acc,0.5f,2.0f,{ 0.1f,0.1f, 0.1f,0.8f },{ 0.1f,0.1f, 0.1f,0.0f });
+	}
 	flashTime++;
 	if ( flashTime >= flashTimer )
 	{
@@ -135,7 +158,6 @@ void GameOverScene::SpriteDraw() {
 void GameOverScene::ObjDraw() {
 	objSkydome->Draw();
 	map->Draw();
-	particle->Draw();
 	tankBody->Draw();
 	tankHad->Draw();
 }
@@ -143,6 +165,7 @@ void GameOverScene::ObjDraw() {
 void GameOverScene::GeometryDraw()
 {
 
+	particle->Draw();
 }
 
 void GameOverScene::Finalize() {}
