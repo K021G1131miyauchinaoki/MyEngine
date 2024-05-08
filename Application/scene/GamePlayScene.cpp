@@ -943,6 +943,21 @@ void GamePlayScene::MemoDisplay()
 
 void GamePlayScene::UseJson()
 {
+	//int32_t num = 3;
+	//int32_t stage = 1;
+	//bool flag = false;
+	////３回クリアするごとに新しいものを追加
+	//if ( clearCount % num == 0 && clearCount / num == 0 )
+	//{
+	//	flag = true;
+	//	stage++;
+	//}
+	//if ( flag )
+	//{
+	//	//データをクリア
+	//	jsonLoader->objects.clear();
+
+	//}
 }
 
 void GamePlayScene::Finalize(){}
