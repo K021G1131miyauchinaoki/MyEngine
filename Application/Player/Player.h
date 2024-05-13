@@ -28,8 +28,7 @@ public://メンバ関数
 	/// <param name="parachuteModel_">パラシュート</param>
 	/// <param name="input_">キー操作</param>
 	/// <param name="bulletManager_">バレットマネジャー</param>
-	void Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_,
-					Input* input_,BulletManager* bulletManager_,Map*map_);
+	void Initialeze(Input* input_,BulletManager* bulletManager_,Map*map_);
 
 	/// <summary>
 	/// リセット
@@ -100,7 +99,7 @@ public://メンバ関数
 	bool IsDead()const { return hp.isDead; }
 
 	//共通モデルの初期化
-	void ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_);
+	void ModelCommonInitialeze();
 
 	//HPの取得
 	int8_t GetHp() {return hp.value;}

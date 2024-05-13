@@ -64,7 +64,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Bullet;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\base;$(ProjectDir)\Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Bullet;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\base;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\3D\Model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,7 +91,7 @@
       <Optimization>Full</Optimization>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Bullet;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\base;$(ProjectDir)\Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Application\struct;$(ProjectDir)\Application\Block;$(ProjectDir)\Application\Enemy;$(ProjectDir)\Application\particle;$(ProjectDir)\Application\Player;$(ProjectDir)\Application\Bullet;$(ProjectDir)\Application\Map;$(ProjectDir)\Application\Scene;$(ProjectDir)\Application;$(ProjectDir)\Engine\base;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\3D\Model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

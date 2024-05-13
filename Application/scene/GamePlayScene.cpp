@@ -179,10 +179,7 @@ void GamePlayScene::Initialize() {
 	
 	//プレイヤー
 	player = std::make_unique<Player>();
-	player->Initialeze(modelM->GetModel("TankHad"),
-						   modelM->GetModel("TankBody"),
-						   modelM->GetModel("parachute"),
-						   input,bulletManager.get(),map.get());
+	player->Initialeze(input,bulletManager.get(),map.get());
 	
 
 	//A*

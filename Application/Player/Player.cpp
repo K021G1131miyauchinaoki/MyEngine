@@ -8,7 +8,6 @@
 #include<cassert>
 #include<SpriteCommon.h>
 #include<Map.h>
-#include<SceneManager.h>
 #include "GamePlayScene.h"
 #include"TitleScene.h"
 #include"Easing.h"
@@ -16,23 +15,32 @@
 #include"BulletManager.h"
 #include<SoundManager.h>
 #include<random>
+#include"ModelManager.h"
 
-
-void Player::ModelCommonInitialeze(Model* tankHadModel_,Model* tankBodyModel_) {
+void Player::ModelCommonInitialeze() {
 	//タンクオブジェクトの初期化
 	tankHad = std::make_unique<Object3d>();
 	tankHad->Initialize();
-	tankHad->SetModel(tankHadModel_);
+	tankHad->SetModel(ModelManager::GetInstance()->GetModel("TankHad"));
 	tankHad->SetPosition(tankPos);
 	tankHad->SetScale(tankScale);
 	tankHad->Update();
 
 	tankBody = std::make_unique<Object3d>();
 	tankBody->Initialize();
-	tankBody->SetModel(tankBodyModel_);
+	tankBody->SetModel(ModelManager::GetInstance()->GetModel("TankBody"));
 	tankBody->SetPosition(tankPos);
 	tankBody->SetScale(tankScale);
 	tankBody->Update();
+
+	//パラシュートオブジェクトの初期化
+	parachute = std::make_unique<Object3d>();
+	parachute->Initialize();
+	parachute->SetModel(ModelManager::GetInstance()->GetModel("parachute"));
+	parachute->SetPosition(parachutePos);
+	parachute->SetScale({ pStartScaleXZ,4.0f,pStartScaleXZ });
+	parachute->SetRotation({ 0.0f,0.0f,0.0f });
+	parachute->Update();
 }
 
 void Player::LocationMapChip(Map* map_)
@@ -87,16 +95,11 @@ void Player::SetParameter(const Vector3& pos_,const Vector3& rot_)
 	tankBody->SetRotation(rot_);
 }
 
-void Player::Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parachuteModel_,
-						Input* input_,BulletManager* bulletManager_,Map*map_) {
-	assert(tankHadModel_);
-	assert(tankBodyModel_);
-	assert(parachuteModel_);
+void Player::Initialeze(Input* input_,BulletManager* bulletManager_,Map*map_) {
 	assert(input_);
 	
 	input = input_;
 
-	
 	//サイズ
 	tankScale = { radius,radius,radius };
 	isTitleStaging = false;
@@ -120,15 +123,7 @@ void Player::Initialeze(Model* tankHadModel_,Model* tankBodyModel_,Model* parach
 	pEndRotZ = -90;
 	bodyRot = { 0.0f,-90.0f,0.0f };
 	//モデル
-	ModelCommonInitialeze(tankHadModel_,tankBodyModel_);
-
-	parachute = std::make_unique<Object3d>();
-	parachute->Initialize();
-	parachute->SetModel(parachuteModel_);
-	parachute->SetPosition(parachutePos);
-	parachute->SetScale({ pStartScaleXZ,4.0f,pStartScaleXZ });
-	parachute->SetRotation({ 0.0f,0.0f,0.0f });
-	parachute->Update();
+	ModelCommonInitialeze();
 
 	//タイム
 	startEaseTime = 0;

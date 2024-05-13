@@ -116,6 +116,14 @@ public:
 		return hp.isDead;
 	}
 
+	/// <summary>
+	/// HPの取得
+	/// </summary>
+	/// <returns></returns>
+	int8_t GetHP()const {
+		return hp.value;
+	}
+
 protected://メンバ変数
 	//行動フェーズ
 	enum class Phase
