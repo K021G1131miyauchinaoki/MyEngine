@@ -54,6 +54,9 @@ public://メンバ関数
 	/// </summary>
 	float GetRadius() { return r; }
 
+	//モーションタイマーをセット　デフォルトで1.0f
+	void SetMotionSpeed(const float& mSpeed_ = 1.0f);
+
 private:
 	std::unique_ptr<Object3d>obj = nullptr;
 	//速度
@@ -67,5 +70,7 @@ private:
 
 	//半径
 	const float r = 1.0f;
+
+	float mSpeed;
 };
 

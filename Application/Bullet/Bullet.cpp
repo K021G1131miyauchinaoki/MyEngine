@@ -6,6 +6,7 @@
 #include<Model.h>
 #include "Bullet.h"
 #include<assert.h>
+#include<GamePlayScene.h>
 
 void Bullet::Initialize(Model* model_,const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_){
 	//NULLポインタチェック
@@ -23,18 +24,17 @@ void Bullet::Initialize(Model* model_,const Vector3& position_,const Vector3& ve
 	deathTimer = kLifeTime;
 	const float speed = 1.0f;
 	velocity *= speed;
+	mSpeed = 1.0f;
 }
 
 void Bullet::Update() {
 
 	Vector3 pos=obj->GetPosition();
-	pos.x += velocity.x;
-	pos.y += velocity.y;
-	pos.z += velocity.z;
+	pos += velocity * mSpeed;
 	obj->SetPosition(pos);
 	
 	//時間経過で消滅
-	if (--deathTimer <= 0) {
+	if (--deathTimer <= 0&&!GamePlayScene::isSlow) {
 		isDead = true;
 	}
 	obj->Update();
@@ -48,6 +48,11 @@ Vector3 Bullet::GetPos() {
 	worldPos = obj->GetPosition();
 
 	return worldPos;
+}
+
+void Bullet::SetMotionSpeed(const float& mSpeed_)
+{
+	mSpeed = mSpeed_;
 }
 
 Vector3 Bullet::GetScale() {

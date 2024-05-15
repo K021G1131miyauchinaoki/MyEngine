@@ -14,6 +14,7 @@ void BulletManager::Initialize(Model* model_,Player*player_,BillboardParticle* g
 	accel = { 0.0f,0.0f,0.0f };
 	startScale = 2.5f;
 	endScale = 1.0f;
+	mSpeed = 1.0f;
 }
 
 void BulletManager::Update() {
@@ -60,6 +61,7 @@ void BulletManager::PlayerBulletCreate(const Vector3& pos_,const Vector3& vec_,c
 	// 弾生成
 	std::unique_ptr<Bullet> newBullet=std::make_unique<Bullet>();
 	newBullet->Initialize(playerBulletModel.get(),pos_,vec_,rot_);
+	newBullet->SetMotionSpeed(mSpeed);
 	// 登録
 	playerBullets.push_back(std::move(newBullet));
 }
@@ -82,6 +84,8 @@ void BulletManager::EnemyBulletCreate(const Vector3& pos_,const Vector3& vec_,co
 		newBullet = std::make_unique<EnemyBullet>();
 		newBullet->Initialize(enemyBulletModel.get(),pos_,vec_,rot_);
 	}
+	newBullet->SetMotionSpeed(mSpeed);
+
 	// 登録
 	enemyBullets.push_back(std::move(newBullet));
 }
@@ -90,4 +94,18 @@ void BulletManager::EnemyBulletCreate(const Vector3& pos_,const Vector3& vec_,co
 void BulletManager::AllBulletDelete(){
 	playerBullets.clear();
 	enemyBullets.clear();
+}
+
+void BulletManager::SetMotionSpeed(const float& mSpeed_)
+{
+	mSpeed = mSpeed_;
+	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets )
+	{
+		playerBullet->SetMotionSpeed(mSpeed);
+	}
+
+	for ( std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets )
+	{
+		enemyBullet->SetMotionSpeed(mSpeed);
+	}
 }

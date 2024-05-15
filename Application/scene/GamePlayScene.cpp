@@ -17,6 +17,7 @@ int8_t GamePlayScene::startCount = 0;
 bool GamePlayScene::isStart = true;
 int8_t GamePlayScene::outCount = 0;
 bool GamePlayScene::isOut = false;
+bool GamePlayScene::isSlow = false;
 int32_t GamePlayScene::clearCount = 0;
 /// <summary>
 /// 矩形の判定
@@ -139,6 +140,7 @@ void GamePlayScene::Initialize() {
 	isStart = true;
 	outCount = Serial::None;
 	isOut = false;
+	isSlow = false;
 	spriteEaseTime = 0.0f;
 	spriteWaitTime = 0.0f;
 	rPosStartY=WinApp::height+150.0f;
@@ -146,7 +148,7 @@ void GamePlayScene::Initialize() {
 	mPosEndX = 50.0f;
 	mPosStartX = -200.0f;
 	clearCount = 0;
-
+	mSpeed = 1.0f;
 	//キー
 	input=Input::GetInstance();
 	
@@ -198,7 +200,7 @@ void GamePlayScene::Initialize() {
 	bulletManager->Initialize(modelM->GetModel("bullet"),player.get(),billParticle.get());
 	//json読み込み
 	jsonLoader = std::make_unique<LevelData>();
-	jsonLoader.reset(LevelLoader::LoadJson("2"));
+	jsonLoader.reset(LevelLoader::LoadJson("1"));
 	models.insert(std::make_pair("normal",modelM->GetModel("enemy")));
 	models.insert(std::make_pair("shotgun",modelM->GetModel("enemy")));
 	models.insert(std::make_pair("block",modelM->GetModel("wall")));
@@ -276,6 +278,7 @@ void GamePlayScene::Update() {
 	StartStaging();
 	OutStaging();
 	MemoDisplay();
+	SlowMotion();
 	shake = { 0.0f,0.0f,0.0f };
 	if(player->IsShake() )
 	{
@@ -291,16 +294,24 @@ void GamePlayScene::Update() {
 		//乱数エンジンを渡し、指定範囲かっランダムな数値を得る
 		shake = { posDist(engine),0.0f,posDist(engine) };
 	}
-	const XMFLOAT3 cameraPos =
-	  { player->GetPos().x+ shake.x,
-		cameraY,
-		player->GetPos().z - 30.0f+ shake.z };
+	cameraPos ={ player->GetPos().x+ shake.x,cameraY,player->GetPos().z - 30.0f+ shake.z };
+	if ( !isEnemy )
+	{
+		camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
+	}
+	else
+	{
+		for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys() )
+		{
+			camera->SetTarget({ enemy->GetPos().x, enemy->GetPos().y, enemy->GetPos().z });
+		}
+	
+	}
+
 	if ( !player->IsDead() )
 	{
 		sight->SetPosition({ input->GetMausePos().x,input->GetMausePos().y });
 		sight->Update();
-		
-		camera->SetTarget({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
 		camera->SetEye(cameraPos);
 		camera->Update();
 		player->Update();
@@ -312,15 +323,7 @@ void GamePlayScene::Update() {
 		objSkydome->Update();
 		particle->Update();
 		billParticle->Update();
-		/*if ( input->TriggerKey(DIK_F) )
-		{
-			for ( std::unique_ptr<BaseEnemy>& enemy : enemyManager->GetEnemys() )
-			{
-				enemy->OnCollision();
-			}
-		}*/
-
-		if (!isStart&&!isOut)
+		if (!isStart&&!isOut&&!isSlow)
 		{
 			CheckAllCollision();
 		}
@@ -352,7 +355,7 @@ void GamePlayScene::Update() {
 		}*/
 	}
 
-	if ( enemyManager->GetSize() == 0 &&!isOut)
+	if ( enemyManager->GetSize() == 0 &&!isOut&&!isSlow)
 	{
 		isOut = true;
 		outCount = Serial::None;
@@ -484,10 +487,33 @@ void GamePlayScene::CheckAllCollision() {
 				//判定
 				if ( dis <= radius )
 				{
-					//敵キャラのコールバックを呼び出し
-					enemy->OnCollision();
-					//自弾のコールバックを呼び出し
-					p_bullet->OnCollision();
+					//２体以上いれば
+					if ( enemyManager->GetSize()>=2 )
+					{
+						//敵キャラのコールバックを呼び出し
+						enemy->OnCollision();
+						//自弾のコールバックを呼び出し
+						p_bullet->OnCollision();
+
+					}
+					else//残り1体で
+					{
+						//HPが2以上であれば
+						if ( enemy->GetHP()>1 )
+						{
+							//敵キャラのコールバックを呼び出し
+							enemy->OnCollision();
+							//自弾のコールバックを呼び出し
+							p_bullet->OnCollision();
+						}
+						else
+						{
+							pickEnemy = enemy.get();
+							bullet = p_bullet.get();
+							isSlow = true;
+							isEnemy = true;
+						}
+					}
 
 					particle->Add("explosion",30,15,enemy->GetPos(),1.0f,0.0f);
 				}
@@ -941,18 +967,63 @@ void GamePlayScene::MemoDisplay()
 void GamePlayScene::UseJson()
 {
 	int32_t num = 3;
-	int32_t stage = 1;
+	//int32_t stage = 1;
 	bool flag = false;
 	//３回クリアするごとに新しいものを追加
 	if ( clearCount % num == 0 && clearCount / num == 0 )
 	{
 		flag = true;
-		stage++;
+		//stage++;
 	}
 	if ( flag )
 	{
 		//データをクリア
 		jsonLoader->objects.clear();
+
+	}
+}
+
+void GamePlayScene::SlowMotion()
+{
+	if ( isSlow )
+	{
+		mSpeed = 0.0f;
+		player->SetMotionSpeed(mSpeed);
+		enemyManager->SetMotionSpeed(mSpeed);
+		bulletManager->SetMotionSpeed(mSpeed);
+		//イージングを一時的に止める
+		if ( slowTime == slowTimer )
+		{
+			slowWaitTime++;
+			//止めているタイマーが半分になったら
+			if ( slowWaitTime == slowWaitTimer /2.0f )
+			{
+				particle->Add("explosion",30,15,pickEnemy->GetPos(),1.0f,0.0f);
+				pickEnemy->OnCollision();
+				bullet->OnCollision();
+			}
+		}
+		if ( slowWaitTime >= slowWaitTimer || slowWaitTime == 0.0f )
+		{
+			slowTime++;
+			float fovAngle;
+			//画角のイージング			
+			fovAngle = startFovAngle + ( endFovAngle - startFovAngle ) * Easing::easeOutCirc(slowTime / slowTimer);
+			camera->SetFovAngle(fovAngle);
+			//画角が元に戻ったら
+			if ( slowTime == ( slowTimer * 2.0f ) )
+			{
+				slowWaitTime = 0;
+				slowTime = 0.0f;
+				isSlow = false;
+				isEnemy = false;
+				isPlayer = false;
+				mSpeed = 1.0f;
+				player->SetMotionSpeed(mSpeed);
+				enemyManager->SetMotionSpeed(mSpeed);
+				bulletManager->SetMotionSpeed(mSpeed);
+			}
+		}
 
 	}
 }

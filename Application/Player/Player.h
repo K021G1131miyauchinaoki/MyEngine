@@ -114,6 +114,9 @@ public://メンバ関数
 	//ランダム生成
 	void RandomDeployment(Map* map_);
 
+	//モーションタイマーをセット　デフォルトで1.0f
+	void SetMotionSpeed(const float& mSpeed_=1.0f);
+
 	void SetParameter(const Vector3&pos_,const Vector3&rot_);
 
 private://メンバ変数
@@ -158,6 +161,7 @@ private://メンバ変数
 	float pPosX;
 	const float rotTimer = 10;
 	float rotTime;
+	float mSpeed;
 	int16_t locationW;
 	int16_t locationH;
 	Vector3 locStart;

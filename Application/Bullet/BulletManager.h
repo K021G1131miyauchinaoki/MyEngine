@@ -65,6 +65,8 @@ public:
 		return enemyBullets;
 	}
 
+	//モーションタイマーをセット　デフォルトで1.0f
+	void SetMotionSpeed(const float& mSpeed_ = 1.0f);
 private:
 	// プレイヤーの弾
 	std::list<std::unique_ptr<Bullet>> playerBullets;
@@ -84,5 +86,6 @@ private:
 	XMFLOAT3 pos,vec,accel;
 	int8_t life = 20;
 	float startScale,endScale;
+	float mSpeed;
 };
 

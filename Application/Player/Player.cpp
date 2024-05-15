@@ -79,6 +79,11 @@ void Player::RandomDeployment(Map* map_)
 	}
 }
 
+void Player::SetMotionSpeed(const float& mSpeed_)
+{
+	mSpeed = mSpeed_;
+}
+
 void Player::SetParameter(const Vector3& pos_,const Vector3& rot_)
 {
 	tankPos = pos_;
@@ -135,6 +140,9 @@ void Player::Initialeze(Input* input_,BulletManager* bulletManager_,Map*map_) {
 	//体力
 	hp.value = 3;
 	hp.isDead = false;
+
+	//モーションスピード
+	mSpeed = 1.0f;
 
 	//サイズを決定
 	drawHp.resize(hp.value);
@@ -283,21 +291,21 @@ void Player::Move() {
 	{
 		if (input->PushKey(DIK_A)|| input->PushKey(DIK_D))
 		{
-			speed = speed / obliques;
+			speed = (speed / obliques)*mSpeed;
 		}
 	}
 	//キーが押されたら
 	if (input->PushKey(DIK_W)) {
-		move.z += speed;
+		move.z += speed * mSpeed;
 	}
 	if (input->PushKey(DIK_S)){
-		move.z += -speed;
+		move.z += -speed * mSpeed;
 	}
 	if (input->PushKey(DIK_A)) {
-		move.x += -speed;
+		move.x += -speed * mSpeed;
 	}
 	if (input->PushKey(DIK_D) ){
-		move.x += speed;
+		move.x += speed * mSpeed;
 	}
 	
 	oldPos = tankHad->GetPosition();

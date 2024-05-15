@@ -10,6 +10,7 @@ void EnemyManager::Initialize(Player* player_,BulletManager* bulletManager_)
 	player = player_;
 	parachuteModel = ModelManager::GetInstance()->GetModel("parachute");
 	bulletManager = bulletManager_;
+	mSpeed = 1.0f;
 }
 
 void EnemyManager::Update() {
@@ -47,7 +48,7 @@ void EnemyManager::Add(const std::string& name_,Model* model_,const Vector3& pos
 		e = std::make_unique <NormalEnemy>();
 	}
 	e->Initialize(model_,parachuteModel,player,pos_,rot_,bulletManager);
-
+	e->SetMotionSpeed(mSpeed);
 	enemys.push_back(std::move(e));
 }
 
@@ -125,8 +126,17 @@ void EnemyManager::RandomCreate(Map* map_)
 			
 		}
 		e->Initialize(ModelManager::GetInstance()->GetModel("enemy"),parachuteModel,player,pos,rot,bulletManager);
+		e->SetMotionSpeed(mSpeed);
 		enemys.push_back(std::move(e));
 	}
 	
 
+}
+
+void EnemyManager::SetMotionSpeed(const float& mSpeed_)
+{
+	for ( std::unique_ptr<BaseEnemy>& enemy : enemys )
+	{
+		enemy->SetMotionSpeed(mSpeed_);
+	}
 }

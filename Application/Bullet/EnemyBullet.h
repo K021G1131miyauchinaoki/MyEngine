@@ -65,6 +65,9 @@ public://メンバ関数
 	//半径を取得
 	virtual float GetRadius();
 
+	//モーションタイマーをセット　デフォルトで1.0f
+	void SetMotionSpeed(const float& mSpeed_ = 1.0f);
+
 protected://メンバ変数
 	//消滅
 	static const int32_t lifeTime = 60;
@@ -78,7 +81,7 @@ protected://メンバ変数
 	//デスフラグ
 	bool isDead = false;
 	const float kBulletSpeed = 1.5f;
-
+	float mSpeed;
 	Player* player = nullptr;
 };
 

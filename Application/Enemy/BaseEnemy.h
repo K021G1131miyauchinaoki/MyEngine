@@ -124,6 +124,9 @@ public:
 		return hp.value;
 	}
 
+	//モーションタイマーをセット　デフォルトで1.0f
+	void SetMotionSpeed(const float& mSpeed_ = 1.0f);
+
 protected://メンバ変数
 	//行動フェーズ
 	enum class Phase
@@ -200,6 +203,8 @@ protected://メンバ変数
 	//角度
 	float waitAngle;
 	float moveAngle;
+	//モーション速度
+	float mSpeed;
 	//移動フラグ
 	bool isMove = false;
 	//待機フラグ

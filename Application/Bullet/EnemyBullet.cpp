@@ -6,9 +6,15 @@
 #include "EnemyBullet.h"
 #include<Model.h>
 #include<assert.h>
+#include<GamePlayScene.h>
 
 bool EnemyBullet::IsDead() const { return isDead; }
 float EnemyBullet::GetRadius() {return r;}
+
+void EnemyBullet::SetMotionSpeed(const float& mSpeed_)
+{
+	mSpeed = mSpeed_;
+}
 
 void EnemyBullet::Initialize(Model* model_,const Vector3& position_,const Vector3& veclocity_,const Vector3& rotation_,Player* player_) {
 	//NULLポインタチェック
@@ -29,18 +35,17 @@ void EnemyBullet::Initialize(Model* model_,const Vector3& position_,const Vector
 	obj->Update();
 
 	deathTimer = lifeTime;
+	mSpeed = 1.0f;
 }
 
 void EnemyBullet::Update() {
 	
 	Vector3 pos = obj->GetPosition();
-	pos.x += velocity.x;
-	pos.y += velocity.y;
-	pos.z += velocity.z;
+	pos += velocity * mSpeed;
 	obj->SetPosition(pos);
 	
 	//時間経過で消滅
-	if (--deathTimer <= 0) {
+	if (--deathTimer <= 0&&!GamePlayScene::isSlow) {
 		isDead = true;
 	}
 	obj->Update();

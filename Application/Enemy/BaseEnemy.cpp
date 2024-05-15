@@ -86,17 +86,20 @@ void BaseEnemy::Update() {
 	//プレイ中
 	else
 	{
-		switch ( phase )
+		if (! GamePlayScene::isSlow )
 		{
-		case Phase::wait:
-			Wait();
-			break;
-		case Phase::move:
-			Move();
-			break;
-		case Phase::atack:
-			Shot();
-			break;
+			switch ( phase )
+			{
+			case Phase::wait:
+				Wait();
+				break;
+			case Phase::move:
+				Move();
+				break;
+			case Phase::atack:
+				Shot();
+				break;
+			}
 		}
 	}
 	obj->Update();
@@ -133,7 +136,7 @@ void BaseEnemy::Move() {
 	rot={0.0f,0.0f,0.0f};
 	float r;
 	//敵の速度
-	const float speed = 0.5f;
+	const float speed = 0.5f*mSpeed;
 	//加算用角度
 	const float addAngle = 1.0f;
 	//パーセント
@@ -190,7 +193,7 @@ void BaseEnemy::Move() {
 	moveAngle = MyMath::AngleCorrection(moveAngle);//角度の補正
 	r = MyMath::RadianTransform(moveAngle);
 
-	addPos = { std::cos(r) * speed,0.0f,std::sin(r) * speed };
+	addPos = { ( std::cos(r) * speed ),0.0f,( std::sin(r) * speed )};
 	pos += addPos;
 	rot.y -= moveAngle;
 	obj->SetRotation(rot);
@@ -369,6 +372,11 @@ void BaseEnemy::OnCollisionPos(const std::string& hitDirection)
 void BaseEnemy::OffCollisionShot()
 {
 	isShot = true;
+}
+
+void BaseEnemy::SetMotionSpeed(const float& mSpeed_)
+{
+	mSpeed = mSpeed_;
 }
 
 void BaseEnemy::SetBulletParameter(Vector3 rot_,Vector3 velocity_,std::string type_) {

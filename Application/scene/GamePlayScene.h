@@ -25,6 +25,7 @@
 #include<ModelManager.h>
 #include<string>
 #include"AStar.h"
+#include<array>
 
 class GamePlayScene:public BaseScene
 {
@@ -117,6 +118,8 @@ private:
 	/// jsonの使用
 	/// </summary>
 	void UseJson();
+
+	void SlowMotion();
 	
 public:
 	//スタート演出のカウント
@@ -129,7 +132,8 @@ public:
 	static  bool isOut;
 	//クリアした数
 	static int32_t clearCount;
-
+	//スローモーションフラグ
+	static bool isSlow;
 private:
 	//インプット
 	Input* input = nullptr;
@@ -191,8 +195,21 @@ private:
 	//操作UIフラグ
 	bool isDisplay = false;
 	bool isSlide = false;
-
+	//モーション速度
+	float mSpeed;
+	bool isPlayer;
+	bool isEnemy;
+	float slowTime;
+	float slowTimer=60;
+	float slowWaitTime;
+	float slowWaitTimer = 60;
+	//画角
+	float startFovAngle=60.0f;
+	float endFovAngle=20.0f;
+	XMFLOAT3 cameraPos;
 	//A*
 	std::unique_ptr<AStar>aStar;
+	BaseEnemy* pickEnemy;
+	Bullet* bullet;
 };
 

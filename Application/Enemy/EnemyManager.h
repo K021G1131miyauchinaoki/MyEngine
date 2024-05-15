@@ -45,10 +45,14 @@ public:
 
 	void RandomCreate(Map*map_);
 
+	//モーションタイマーをセット　デフォルトで1.0f
+	void SetMotionSpeed(const float& mSpeed_ = 1.0f);
+
 private:
 	std::list<std::unique_ptr<BaseEnemy>>enemys;
 	Player* player;
 	Model* parachuteModel;
 	BulletManager* bulletManager;
+	float mSpeed;
 };
 
