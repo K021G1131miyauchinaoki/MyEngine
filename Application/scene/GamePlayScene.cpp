@@ -307,22 +307,22 @@ void GamePlayScene::Update() {
 		}
 	
 	}
+	camera->SetEye(cameraPos);
+	camera->Update();
+	bulletManager->Update();
+	player->Update();
+	enemyManager->Update();
+	blockManager->Update();
+	map->Update();
+	objSkydome->SetPosition(player->GetPos());
+	objSkydome->Update();
+	particle->Update();
+	billParticle->Update();
 
 	if ( !player->IsDead() )
 	{
 		sight->SetPosition({ input->GetMausePos().x,input->GetMausePos().y });
 		sight->Update();
-		camera->SetEye(cameraPos);
-		camera->Update();
-		player->Update();
-		bulletManager->Update();
-		enemyManager->Update();
-		blockManager->Update();
-		map->Update();
-		objSkydome->SetPosition(player->GetPos());
-		objSkydome->Update();
-		particle->Update();
-		billParticle->Update();
 		if (!isStart&&!isOut&&!isSlow)
 		{
 			CheckAllCollision();
@@ -330,7 +330,8 @@ void GamePlayScene::Update() {
 	}
 	//シーン遷移のフラグを立てる
 	else if ( !SceneTransition::GetInstance()->GetIsFadeOut() &&
-		!SceneTransition::GetInstance()->GetIsFadeIn() )
+		!SceneTransition::GetInstance()->GetIsFadeIn()
+		&& !isSlow )
 	{
 		SceneTransition::GetInstance()->IsFadeOutTrue();
 	}
@@ -412,11 +413,21 @@ void GamePlayScene::CheckAllCollision() {
 			//判定
 			if ( dis <= radius )
 			{
-				//自キャラのコールバックを呼び出し
-				player->OnCollision();
-				//敵弾のコールバックを呼び出し
-				e_bullet->OnCollision();
-				particle->Add("explosion",30,15,player->GetPos(),1.0f,0.0f);
+				//HPが2以上であれば
+				if ( player->GetHp() > 1 )
+				{
+					//自キャラのコールバックを呼び出し
+					player->OnCollision();
+					//敵弾のコールバックを呼び出し
+					e_bullet->OnCollision();
+					particle->Add("explosion",30,15,player->GetPos(),1.0f,0.0f);
+				}
+				else
+				{
+					eBullet = e_bullet.get();
+					isSlow = true;
+					isPlayer = true;
+				}
 			}
 			#pragma	endregion
 
@@ -998,17 +1009,29 @@ void GamePlayScene::SlowMotion()
 			//止めているタイマーが半分になったら
 			if ( slowWaitTime == slowWaitTimer /2.0f )
 			{
-				particle->Add("explosion",30,15,pickEnemy->GetPos(),1.0f,0.0f);
-				pickEnemy->OnCollision();
-				bullet->OnCollision();
+				if ( isEnemy )
+				{
+					particle->Add("explosion",30,15,pickEnemy->GetPos(),1.0f,0.0f);
+					pickEnemy->OnCollision();
+					bullet->OnCollision();
+				}
+				if ( isPlayer )
+				{
+					particle->Add("explosion",30,15,player->GetPos(),1.0f,0.0f);
+					player->OnCollision();
+					eBullet->OnCollision();
+				}
 			}
 		}
 		if ( slowWaitTime >= slowWaitTimer || slowWaitTime == 0.0f )
 		{
 			slowTime++;
 			float fovAngle;
-			//画角のイージング			
-			fovAngle = startFovAngle + ( endFovAngle - startFovAngle ) * Easing::easeOutCirc(slowTime / slowTimer);
+			//固定
+			if ( isPlayer && slowTime >= slowTimer )fovAngle = endFovAngle;
+			//画角のイージング
+			else fovAngle = startFovAngle + ( endFovAngle - startFovAngle ) * Easing::easeOutCirc(slowTime / slowTimer);
+			
 			camera->SetFovAngle(fovAngle);
 			//画角が元に戻ったら
 			if ( slowTime == ( slowTimer * 2.0f ) )

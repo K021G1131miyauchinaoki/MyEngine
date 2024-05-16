@@ -211,5 +211,6 @@ private:
 	std::unique_ptr<AStar>aStar;
 	BaseEnemy* pickEnemy;
 	Bullet* bullet;
+	EnemyBullet* eBullet;
 };
 

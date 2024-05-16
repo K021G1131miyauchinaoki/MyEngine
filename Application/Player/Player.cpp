@@ -189,10 +189,13 @@ void Player::Update() {
 		//角度を算出
 		angle = atan2(mouseVec.y,mouseVec.x);
 
-		Rotate();
-		Shot();
-		Move();
-		
+		if ( !GamePlayScene::isSlow )
+		{
+			Rotate();
+			Shot();
+			Move();
+		}
+				
 		//HPのスプライト
 		for ( size_t i = 0; i < hp.value; i++ )
 		{
