@@ -390,17 +390,7 @@ void BlockManager::Search()
 								 open[ j ][ l ].pos.z == pos.z )
 							{
 								open[ j ][ l ].ConnectCount++;
-								for ( size_t n = 0; n < open[j].size(); n++ )
-								{
-									if ( n == l )continue;
-									if (open[ j ][ n ].pos.x == limitW ||
-										open[ j ][ n ].pos.x == -limitW||
-										open[ j ][ n ].pos.z == limitH ||
-										open[ j ][ n ].pos.z == -limitH  )
-									{
-										isLimit[ j ] = true;
-									}
-								}
+								isLimit[ j ] = true;
 							}
 						}
 					}

@@ -199,7 +199,6 @@ void GamePlayScene::Initialize() {
 	//弾マネージャー初期化
 	bulletManager->Initialize(modelM->GetModel("bullet"),player.get(),billParticle.get());
 	//json読み込み
-	jsonLoader = std::make_unique<LevelData>();
 	jsonLoader.reset(LevelLoader::LoadJson("1"));
 	models.insert(std::make_pair("normal",modelM->GetModel("enemy")));
 	models.insert(std::make_pair("shotgun",modelM->GetModel("enemy")));
