@@ -119,8 +119,16 @@ private:
 	/// </summary>
 	void UseJson();
 
+	/// <summary>
+	/// スローモーション
+	/// </summary>
 	void SlowMotion();
-	
+
+	/// <summary>
+	/// 暗転
+	/// </summary>
+	void BlackOut();
+
 public:
 	//スタート演出のカウント
 	static int8_t startCount;
@@ -143,7 +151,6 @@ private:
 	std::unique_ptr <Light>light;
 	XMVECTOR lightDir = { 0.73f,-30.0f,-0.21f,0.0f };
 	//スプライト
-	std::unique_ptr <Sprite>stage = nullptr;
 	std::unique_ptr <Sprite>ready = nullptr;
 	std::unique_ptr <Sprite>sight = nullptr;
 	std::unique_ptr <Sprite>memo = nullptr;
@@ -184,10 +191,8 @@ private:
 	float waitTime;
 	const float waitTimer = 10;
 	float rPosStartY;
-	float sPosStartY;
 	float mPosStartX;
 	float rPosEndY;
-	float sPosEndY;
 	float mPosEndX;
 	//カメラのy座標
 	const float cameraY=100.0f;

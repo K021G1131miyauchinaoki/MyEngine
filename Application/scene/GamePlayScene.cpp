@@ -144,7 +144,6 @@ void GamePlayScene::Initialize() {
 	spriteEaseTime = 0.0f;
 	spriteWaitTime = 0.0f;
 	rPosStartY=WinApp::height+150.0f;
-	sPosStartY=-100.0f;
 	mPosEndX = 50.0f;
 	mPosStartX = -200.0f;
 	clearCount = 0;
@@ -244,19 +243,12 @@ void GamePlayScene::Initialize() {
 
 	//スプライト
 	rPosEndY = (static_cast<float>( WinApp::height) / 2.0f ) + 50.0f;
-	sPosEndY= ( static_cast< float >( WinApp::height ) / 2.0f ) - 50.0f;
 
 	//準備
 	ready = std::make_unique<Sprite>();
 	ready->Initialize(SpriteCommon::GetInstance(),7);
 	ready->SetAnchorPoint({ 0.5f,0.5f });
 	ready->SetPosition({ WinApp::width / 2.0f,rPosStartY });
-
-	//ステージ
-	stage = std::make_unique<Sprite>();
-	stage->Initialize(SpriteCommon::GetInstance(),8);
-	stage->SetAnchorPoint({ 0.5f,0.5f });
-	stage->SetPosition({ 640.0f,sPosStartY });
 
 	//照準
 	sight = std::make_unique<Sprite>();
@@ -327,33 +319,8 @@ void GamePlayScene::Update() {
 			CheckAllCollision();
 		}
 	}
-	//シーン遷移のフラグを立てる
-	else if ( !SceneTransition::GetInstance()->GetIsFadeOut() &&
-		!SceneTransition::GetInstance()->GetIsFadeIn()
-		&& !isSlow )
-	{
-		SceneTransition::GetInstance()->IsFadeOutTrue();
-	}
-	//画面真っ暗になったら
-	else if (!SceneTransition::GetInstance()->GetIsFadeOut()&&
-		SceneTransition::GetInstance()->GetIsFadeIn() )
-	{
-		//弾全削除
-		bulletManager->AllBulletDelete();
-		//音を止める
-		SoundManager::GetInstance()->StopWave("BGM/play.wav");
 
-		//シーンの切り替え
-		if (player->IsDead())
-		{
-			SceneManager::GetInstance()->ChangeScene("GAMEOVER");
-		}
-		/*if (enemyManager->GetSize()==0)
-		{
-			SceneManager::playerHP = player->GetHp();
-			SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
-		}*/
-	}
+	BlackOut();
 
 	if ( enemyManager->GetSize() == 0 &&!isOut&&!isSlow)
 	{
@@ -364,7 +331,6 @@ void GamePlayScene::Update() {
 
 void GamePlayScene::SpriteDraw() {
 	player->SpriteDraw();
-	stage->Draw();
 	ready->Draw();
 	memo->Draw();
 	sight->Draw();
@@ -847,7 +813,6 @@ void GamePlayScene::StartStaging() {
 	else if ( startCount== start::Redy )
 	{		
 		XMFLOAT2 readyPos = ready->GetPosition();
-		XMFLOAT2 stagePos = stage->GetPosition();
 		XMFLOAT2 memoPos = memo->GetPosition();
 
 		//イージングを一時的に止める
@@ -879,7 +844,6 @@ void GamePlayScene::StartStaging() {
 		{
 			spriteEaseTime++;
 			readyPos.y = rPosStartY + ( rPosEndY - rPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
-			stagePos.y = sPosStartY + ( sPosEndY - sPosStartY ) * Easing::easeOutCirc(spriteEaseTime / spriteEaseTimer);
 			//操作説明の画像のイージング
 			if ( spriteEaseTime <= spriteEaseTimer&&!isOut )
 			{
@@ -895,14 +859,12 @@ void GamePlayScene::StartStaging() {
 			}
 		}			
 		ready->SetPosition(readyPos);
-		stage->SetPosition(stagePos);
 		memo->SetPosition(memoPos);
 	}
 	else if ( startCount >= start::Go)
 	{
 		isStart = false;
 	}
-	stage->Update();
 	ready->Update();
 	memo->Update();
 }
@@ -1047,6 +1009,40 @@ void GamePlayScene::SlowMotion()
 			}
 		}
 
+	}
+}
+
+void GamePlayScene::BlackOut()
+{
+	if ( player->IsDead() )
+	{
+	//シーン遷移のフラグを立てる
+		if ( !SceneTransition::GetInstance()->GetIsFadeOut() &&
+			!SceneTransition::GetInstance()->GetIsFadeIn()
+			&& !isSlow )
+		{
+			SceneTransition::GetInstance()->IsFadeOutTrue();
+		}
+		//画面真っ暗になったら
+		else if ( !SceneTransition::GetInstance()->GetIsFadeOut() &&
+			SceneTransition::GetInstance()->GetIsFadeIn() )
+		{
+			//弾全削除
+			bulletManager->AllBulletDelete();
+			//音を止める
+			SoundManager::GetInstance()->StopWave("BGM/play.wav");
+
+			//シーンの切り替え
+			if ( player->IsDead() )
+			{
+				SceneManager::GetInstance()->ChangeScene("GAMEOVER");
+			}
+			/*if (enemyManager->GetSize()==0)
+			{
+				SceneManager::playerHP = player->GetHp();
+				SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
+			}*/
+		}
 	}
 }
 
