@@ -16,7 +16,7 @@
 #include<Map.h>
 #include<BaseScene.h>
 #include<ModelParticleManager.h>
-#include<LevelLoader.h>
+#include"LevelLoader.h"
 #include<list>
 #include "EnemyManager.h"
 #include"BlockManager.h"
@@ -118,6 +118,11 @@ private:
 	/// jsonの使用
 	/// </summary>
 	void UseJson();
+
+	/// <summary>
+	/// jsonの使用
+	/// </summary>
+	void PlaceObj();
 
 	/// <summary>
 	/// スローモーション

@@ -91,6 +91,7 @@ void Map::Draw() {
 }
 
 void Map::LoadCSV(const std::string& num_) {
+	Clear();
 	//ステージの読み込み
 	std::stringstream mapLoad;
 	//ファイルを開く
@@ -202,11 +203,7 @@ void Map::LoadCSV(const std::string& num_) {
 
 void Map::RandomCreate()
 {
-	for (auto& innerVec : blocks )
-	{
-		innerVec.clear();
-	}
-	blocks.clear();
+	Clear();
 	//乱数シード生成器
 	std::random_device seed_gen;
 	//メルセンヌ・ツイスターの乱数エンジン
@@ -416,4 +413,13 @@ void Map::Reset()
 			blocks[i][j].SetTime(0);//タイマー	
 		}
 	}
+}
+
+void Map::Clear()
+{
+	for ( auto& innerVec : blocks )
+	{
+		innerVec.clear();
+	}
+	blocks.clear();
 }

@@ -204,36 +204,8 @@ void GamePlayScene::Initialize() {
 	models.insert(std::make_pair("block",modelM->GetModel("wall")));
 	models.insert(std::make_pair("fixedgun",modelM->GetModel("fixedgun")));
 
-	// レベルデータからオブジェクトを生成、配置
-	for ( auto& objectData : jsonLoader->objects )
-	{
-		// ファイル名から登録済みモデルを検索
-		Model* model = nullptr;
-		decltype( models )::iterator it = models.find(objectData.fileName);
-		if ( it != models.end() )
-		{
-			model = it->second;
-		}
-		//自機
-		if ( objectData.fileName == "player")
-		{
-			player->SetParameter(objectData.translation,objectData.rotation);
-			//マップの中心を算出
-			map->CenterMapChip(player->GetPos());
-		}
-
-		//エネミー
-		if (objectData.fileName == "shotgun" || objectData.fileName == "normal" )
-		{
-			enemyManager->Add(objectData.fileName,model,
-				objectData.translation,objectData.rotation);
-		}
-		//ブロック
-		if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
-		{
-			blockManager->Add(objectData.fileName,model,objectData.translation,objectData.rotation,objectData.scaling);
-		}
-	}
+	//配置
+	PlaceObj();
 
 	//スカイドーム
 	objSkydome = std::make_unique<Object3d>();
@@ -884,13 +856,10 @@ void GamePlayScene::OutStaging()
 			clearCount++;
 			startCount = start::Redy;
 			spriteEaseTime = 0.0f;
-			//ランダム生成、配置
-			map->RandomCreate();
-			player->RandomDeployment(map.get());
-			//プレイヤーの初期化とマップの生成後にマップチップの中心を算出
-			map->CenterMapChip(player->GetPos());
-			enemyManager->RandomCreate(map.get());
-			blockManager->RandomCreate();
+
+			//生成と配置
+			UseJson();
+
 			aStar->Initialize(blockManager.get());
 			outCount++;
 		}
@@ -939,19 +908,70 @@ void GamePlayScene::MemoDisplay()
 void GamePlayScene::UseJson()
 {
 	int32_t num = 3;
+	int32_t max = 2;
 	//int32_t stage = 1;
 	bool flag = false;
 	//３回クリアするごとに新しいものを追加
-	if ( clearCount % num == 0 && clearCount / num == 0 )
+	if ( clearCount % num == 0  )
 	{
 		flag = true;
 		//stage++;
 	}
-	if ( flag )
+	if ( flag && clearCount / num <=max)
 	{
 		//データをクリア
 		jsonLoader->objects.clear();
+		//読み込みと配置
+		map->LoadCSV("1");
+		//プレイヤーの初期化とマップの生成後にマップチップの中心を算出
+		jsonLoader.reset(LevelLoader::LoadJson("1"));
+		PlaceObj();
+		map->CenterMapChip(player->GetPos());
 
+	}
+	else
+	{
+		//ランダム生成、配置
+		map->RandomCreate();
+		player->RandomDeployment(map.get());
+		//プレイヤーの初期化とマップの生成後にマップチップの中心を算出
+		map->CenterMapChip(player->GetPos());
+		enemyManager->RandomCreate(map.get());
+		blockManager->RandomCreate();
+	}
+}
+
+void GamePlayScene::PlaceObj()
+{
+	// レベルデータからオブジェクトを生成、配置
+	for ( auto& objectData : jsonLoader->objects )
+	{
+		// ファイル名から登録済みモデルを検索
+		Model* model = nullptr;
+		decltype( models )::iterator it = models.find(objectData.fileName);
+		if ( it != models.end() )
+		{
+			model = it->second;
+		}
+		//自機
+		if ( objectData.fileName == "player" )
+		{
+			player->SetParameter(objectData.translation,objectData.rotation);
+			//マップの中心を算出
+			map->CenterMapChip(player->GetPos());
+		}
+
+		//エネミー
+		if ( objectData.fileName == "shotgun" || objectData.fileName == "normal" )
+		{
+			enemyManager->Add(objectData.fileName,model,
+				objectData.translation,objectData.rotation);
+		}
+		//ブロック
+		if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
+		{
+			blockManager->Add(objectData.fileName,model,objectData.translation,objectData.rotation,objectData.scaling);
+		}
 	}
 }
 

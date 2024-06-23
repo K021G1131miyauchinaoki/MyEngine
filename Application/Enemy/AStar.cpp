@@ -10,7 +10,7 @@
 #define SX	(1)
 #define SY	(1)
 
-//縦横99まで対応
+//縦横99まで対応(9999まで)
 #define	KEY(x,y) (x*100+y)
 #define	KEYDATA(x,y,n) std::make_pair((x*100+y),n)
 
@@ -49,13 +49,13 @@ void AStar::Initialize(BlockManager* blockManager_)
 			for ( const std::unique_ptr<BaseBlock>& block : blockManager_->GetBlocks() )
 			{
 				Vector2 pos;
+				Vector2 max,min;
 				//float shift = 1.0f;
 				pos = graph[ i ][ j ].pos;
-				//ブロックの位置に
+				//ブロックの範囲にいたら
 				if ( pos.x == block->GetPos().x &&
 					 pos.y == block->GetPos().z )
 				{
-					//重なってたらbreakする
 					graph[ i ][ j ].isObstacle = true;
 					break;
 				}

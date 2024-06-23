@@ -60,6 +60,8 @@ private:
 	void OutStaging(size_t y_,size_t x_);
 	//リセット
 	void Reset();
+	//クリア
+	void Clear();
 
 public:
 	//移動の上限
