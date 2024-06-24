@@ -921,6 +921,7 @@ void GamePlayScene::UseJson()
 	{
 		//データをクリア
 		jsonLoader->objects.clear();
+		blockManager->Clear();
 		//読み込みと配置
 		map->LoadCSV("1");
 		//プレイヤーの初期化とマップの生成後にマップチップの中心を算出

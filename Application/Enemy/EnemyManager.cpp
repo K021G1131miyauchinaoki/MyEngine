@@ -54,6 +54,7 @@ void EnemyManager::Add(const std::string& name_,Model* model_,const Vector3& pos
 
 void EnemyManager::RandomCreate(Map* map_)
 {
+	enemys.clear();
 	std::string name= "Normal";//後でランダムに
 	std::random_device seed_gen;
 	//メルセンヌ・ツイスターの乱数エンジン
@@ -140,3 +141,4 @@ void EnemyManager::SetMotionSpeed(const float& mSpeed_)
 		enemy->SetMotionSpeed(mSpeed_);
 	}
 }
+

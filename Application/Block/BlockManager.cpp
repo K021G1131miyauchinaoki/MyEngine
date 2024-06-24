@@ -62,7 +62,7 @@ void BlockManager::Add(const std::string name_,Model* model_,const Vector3& pos_
 void BlockManager::RandomCreate()
 {
 	//要素をクリア
-	blocks.clear();
+	Clear();
 	diameterMW = Map::mapScaleW * 2.0f;
 	diameterMH = Map::mapScaleH * 2.0f;
 	playerW = static_cast< int16_t >( ( player->GetPos().x + Map::moveLimitW ) / diameterMW );
@@ -439,4 +439,9 @@ void BlockManager::Search()
 	{
 		open[ i ].clear();
 	}
+}
+
+void BlockManager::Clear()
+{
+	blocks.clear();
 }

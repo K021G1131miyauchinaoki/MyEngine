@@ -69,6 +69,9 @@ public:
 
 	//探索
 	void Search();
+
+	//クリア
+	void Clear();
 private:
 	std::vector<std::vector<Node>>open;
 	std::vector<bool>isLimit;
