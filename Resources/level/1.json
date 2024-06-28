@@ -128,7 +128,7 @@
                     5.0
                 ]
             },
-            "file_name": "block"
+            "file_name": "fixedgun"
         },
         {
             "type": "MESH",
@@ -229,8 +229,8 @@
                 ],
                 "rotation": [
                     0.0,
-                    -0.0,
-                    0.0
+                    0.0,
+                    180.0
                 ],
                 "scaling": [
                     5.0,
@@ -238,7 +238,7 @@
                     5.0
                 ]
             },
-            "file_name": "block"
+            "file_name": "fixedgun"
         },
         {
             "type": "MESH",

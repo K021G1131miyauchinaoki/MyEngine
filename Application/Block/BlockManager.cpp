@@ -51,6 +51,11 @@ void BlockManager::Add(const std::string name_,Model* model_,const Vector3& pos_
 		b = std::make_unique<Fixedgun>();
 		b->SetBulletManager(bulletManager);
 	}
+	else if ( name_ == "breakblock" )
+	{
+		b = std::make_unique<BreakBlock>();
+		b->SetBulletManager(bulletManager);
+	}
 	else
 	{
 		b = std::make_unique<Wall>();
@@ -61,6 +66,16 @@ void BlockManager::Add(const std::string name_,Model* model_,const Vector3& pos_
 
 void BlockManager::RandomCreate()
 {
+	if ( GamePlayScene::gimmickCount==Gimmick::Normal )
+	{
+		num1 = 40;
+		num2 = 0;
+	}
+	else if ( GamePlayScene::gimmickCount == Gimmick::Fixed )
+	{
+		num1 = 40;
+		num2 = 20;
+	}
 	//要素をクリア
 	Clear();
 	diameterMW = Map::mapScaleW * 2.0f;
@@ -163,12 +178,12 @@ void BlockManager::RandomCreate()
 		border = dDist(engine);
 
 		//あとでデータを分離する
-		if ( border >= 40 )
+		if ( border >= num1 )
 		{
 			b = std::make_unique<Wall>();
 			model = ModelManager::GetInstance()->GetModel("wall");
 		}
-		else if ( border >= 20 )
+		else if ( border >= num2 )
 		{
 			b = std::make_unique<BreakBlock>();
 			model = ModelManager::GetInstance()->GetModel("BreakBlock");
@@ -228,12 +243,12 @@ void BlockManager::LineCreate(std::vector<Node>& node,const Vector3& pos_,const 
 		border = dDist(engine);
 
 		//あとでマジックナンバーを分離する
-		if ( border >= 20 )
+		if ( border >= num1/2 )
 		{
 			b = std::make_unique<Wall>();
 			model = ModelManager::GetInstance()->GetModel("wall");
 		}
-		else if ( border >= 10 )
+		else if ( border >= num2/2 )
 		{
 			b = std::make_unique<BreakBlock>();
 			model = ModelManager::GetInstance()->GetModel("BreakBlock");

@@ -19,6 +19,7 @@ int8_t GamePlayScene::outCount = 0;
 bool GamePlayScene::isOut = false;
 bool GamePlayScene::isSlow = false;
 int32_t GamePlayScene::clearCount = 0;
+Gimmick GamePlayScene::gimmickCount = Gimmick::Normal;
 /// <summary>
 /// 矩形の判定
 /// </summary>
@@ -147,6 +148,7 @@ void GamePlayScene::Initialize() {
 	mPosEndX = 50.0f;
 	mPosStartX = -200.0f;
 	clearCount = 0;
+	gimmickCount = Gimmick::Normal;
 	mSpeed = 1.0f;
 	//キー
 	input=Input::GetInstance();
@@ -176,7 +178,7 @@ void GamePlayScene::Initialize() {
 	//マップ
 	map = std::make_unique<Map>();
 	map->Initialize(true,modelM->GetModel("map"));
-	map->LoadCSV("1");
+	map->LoadCSV("0");
 	
 	//プレイヤー
 	player = std::make_unique<Player>();
@@ -198,11 +200,12 @@ void GamePlayScene::Initialize() {
 	//弾マネージャー初期化
 	bulletManager->Initialize(modelM->GetModel("bullet"),player.get(),billParticle.get());
 	//json読み込み
-	jsonLoader.reset(LevelLoader::LoadJson("1"));
+	jsonLoader.reset(LevelLoader::LoadJson("level/0"));
 	models.insert(std::make_pair("normal",modelM->GetModel("enemy")));
 	models.insert(std::make_pair("shotgun",modelM->GetModel("enemy")));
 	models.insert(std::make_pair("block",modelM->GetModel("wall")));
 	models.insert(std::make_pair("fixedgun",modelM->GetModel("fixedgun")));
+	models.insert(std::make_pair("breakblock",modelM->GetModel("BreakBlock")));
 
 	//配置
 	PlaceObj();
@@ -907,7 +910,7 @@ void GamePlayScene::MemoDisplay()
 
 void GamePlayScene::UseJson()
 {
-	int32_t num = 3;
+	int32_t num = 2;
 	int32_t max = 2;
 	//int32_t stage = 1;
 	bool flag = false;
@@ -919,19 +922,30 @@ void GamePlayScene::UseJson()
 	}
 	if ( flag && clearCount / num <=max)
 	{
+		std::string stage = std::to_string(clearCount / num);
 		//データをクリア
 		jsonLoader->objects.clear();
 		blockManager->Clear();
 		//読み込みと配置
-		map->LoadCSV("1");
+		map->LoadCSV(stage);
 		//プレイヤーの初期化とマップの生成後にマップチップの中心を算出
-		jsonLoader.reset(LevelLoader::LoadJson("1"));
+		stage = "level/" + std::to_string(clearCount / num);
+		jsonLoader.reset(LevelLoader::LoadJson(stage));
 		PlaceObj();
 		map->CenterMapChip(player->GetPos());
 
 	}
 	else
 	{
+		if ( clearCount / num==1 )
+		{
+			gimmickCount = Gimmick::Fixed;
+		}
+		else if( clearCount / num==2 )
+		{
+			gimmickCount = Gimmick::Shotgun;
+		}
+		
 		//ランダム生成、配置
 		map->RandomCreate();
 		player->RandomDeployment(map.get());
@@ -955,7 +969,7 @@ void GamePlayScene::PlaceObj()
 			model = it->second;
 		}
 		//自機
-		if ( objectData.fileName == "player" )
+		if ( objectData.fileName == "player")
 		{
 			player->SetParameter(objectData.translation,objectData.rotation);
 			//マップの中心を算出
@@ -969,7 +983,7 @@ void GamePlayScene::PlaceObj()
 				objectData.translation,objectData.rotation);
 		}
 		//ブロック
-		if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" )
+		if ( objectData.fileName == "block" || objectData.fileName == "fixedgun" || objectData.fileName == "breakblock" )
 		{
 			blockManager->Add(objectData.fileName,model,objectData.translation,objectData.rotation,objectData.scaling);
 		}

@@ -27,6 +27,13 @@
 #include"AStar.h"
 #include<array>
 
+enum Gimmick
+{
+	Normal,
+	Fixed,
+	Shotgun,
+};
+
 class GamePlayScene:public BaseScene
 {
 public://メンバ関数
@@ -147,6 +154,8 @@ public:
 	static int32_t clearCount;
 	//スローモーションフラグ
 	static bool isSlow;
+	//ギミックが出た数
+	static Gimmick gimmickCount;
 private:
 	//インプット
 	Input* input = nullptr;

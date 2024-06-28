@@ -97,5 +97,7 @@ private:
 	int16_t playerH,playerW,enemyH,enemyW,shift;
 	float diameterW,diameterH,diameterMW,diameterMH,limitW,limitH;
 	const float fixedValue = 90.0f;
+	int32_t num1;
+	int32_t num2;
 };
 

@@ -4,6 +4,7 @@
 #include<random>
 #include<ModelManager.h>
 #include"Player.h"
+#include"GamePlayScene.h"
 
 void EnemyManager::Initialize(Player* player_,BulletManager* bulletManager_)
 {
@@ -62,10 +63,20 @@ void EnemyManager::RandomCreate(Map* map_)
 	std::uniform_int_distribution<int16_t> hDist(0,Map::height - 1);
 	std::uniform_int_distribution<int16_t> wDist(0,Map::width - 1);
 	std::uniform_int_distribution<int16_t> numDist(1,5);
+	std::uniform_int_distribution<int16_t> nu(0,100);
 
 	bool isOverlap = false;
 	int16_t num = numDist(engine);
 	Vector3 pos,rot;
+	
+	if ( GamePlayScene::gimmickCount>=Gimmick::Shotgun )
+	{
+		nums = 50;
+	}
+	else
+	{
+		nums = 0;
+	}
 
 	//プレイヤーがマップ上のどの位置にいるかを調べる
 	float diameterW = Map::mapScaleW * 2.0f;
@@ -81,6 +92,15 @@ void EnemyManager::RandomCreate(Map* map_)
 		std::unique_ptr <BaseEnemy> e;
 		int16_t h;
 		int16_t w;
+		n = nu(engine);
+		if ( n>nums )
+		{
+			name = "Normal";
+		}
+		else
+		{
+			name = "Shotgun";
+		}
 		//敵の種類は後でランダムにする
 		if ( name == "Normal" )
 		{

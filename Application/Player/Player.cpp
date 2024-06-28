@@ -96,8 +96,11 @@ void Player::SetParameter(const Vector3& pos_,const Vector3& rot_)
 	}
 	tankHad->SetPosition(tankPos);
 	tankBody->SetPosition(tankPos);
-	tankHad->SetRotation(rot_);
-	tankBody->SetRotation(rot_);
+	if ( GamePlayScene::clearCount==0 )
+	{
+		tankHad->SetRotation(rot_);
+		tankBody->SetRotation(rot_);
+	}
 }
 
 void Player::Initialeze(Input* input_,BulletManager* bulletManager_,Map*map_) {

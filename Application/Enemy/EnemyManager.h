@@ -54,5 +54,7 @@ private:
 	Model* parachuteModel;
 	BulletManager* bulletManager;
 	float mSpeed;
+	int16_t n;
+	int16_t nums;
 };
 
