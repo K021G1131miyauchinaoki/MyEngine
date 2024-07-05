@@ -27,7 +27,7 @@ void BulletManager::Update() {
 		{
 			return playerBullet->IsDead();
 	});
-
+	//更新とパーティクル生成
 	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets )
 	{
 		playerBullet->Update();
@@ -98,6 +98,7 @@ void BulletManager::AllBulletDelete(){
 
 void BulletManager::SetMotionSpeed(const float& mSpeed_)
 {
+	//速度の調整
 	mSpeed = mSpeed_;
 	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets )
 	{

@@ -54,7 +54,6 @@ void ShotgunEnemy::Shot() {
 	//角度を格納
 	obj->SetRotation(rot);
 	//速度ベクトルを自機の向きに合わせて回転させる
-	//ImgM = Vec_rot(ImgM, worldTransform_.matWorld_);
 	for ( int8_t i = -1; i < shiftNum; i++ )
 	{
 		Vector3 bulletRot = { 0,0,0 };
