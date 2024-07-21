@@ -39,7 +39,13 @@ const Vector3& Object3d::GetRotation() const {return rotation;}
 void  Object3d::SetRotation(const Vector3& rotation_) {this->rotation = rotation_;}
 const Vector3& Object3d::GetScale() const {return scale;}
 void  Object3d::SetScale(const Vector3& scale_) {this->scale = scale_;}
-void  Object3d::SetModel(Model* model_) {model = model_;}
+void  Object3d::SetModel(Model* model_) {
+	//ポインタの中身が空なら
+	if ( model==nullptr )
+	{
+		model = model_;
+	}
+}
 void  Object3d::SetParent(Object3d* parent_) {parent = parent_;}
 void  Object3d::SetColor(XMFLOAT4 color_) {color = color_;}
 void Object3d::Finalize() {

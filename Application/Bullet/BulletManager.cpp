@@ -2,6 +2,8 @@
 #include"Homing.h"
 #include<BillboardParticle.h>
 
+int32_t BulletManager::eBulletCount = 0;
+
 void BulletManager::Initialize(Model* model_,Player*player_,BillboardParticle* geometry_) {
 	playerBulletModel.reset(model_);
 	enemyBulletModel.reset(model_);
@@ -15,98 +17,145 @@ void BulletManager::Initialize(Model* model_,Player*player_,BillboardParticle* g
 	startScale = 2.5f;
 	endScale = 1.0f;
 	mSpeed = 1.0f;
+	pBulletCount = 3;
+	playerBullets = std::make_unique<ObjectPool<Bullet>>(pBulletCount);
+	enemyBullets = std::make_unique<ObjectPool<EnemyBullet>>(50);
 }
 
 void BulletManager::Update() {
-	//要素の削除
-	enemyBullets.remove_if([ ] (std::unique_ptr<EnemyBullet>& enemyBullet)
-		{
-		return	enemyBullet->IsDead();
-	});
-	playerBullets.remove_if([ ] (std::unique_ptr<Bullet>& playerBullet)
-		{
-			return playerBullet->IsDead();
-	});
-	//更新とパーティクル生成
-	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets )
+	
+	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets->GetPool() )
 	{
-		playerBullet->Update();
-		endColor = { 0.0f,1.0f,0.0f,0.0f };
-		pos = { playerBullet->GetPos().x,playerBullet->GetPos().y,playerBullet->GetPos().z };
-		billParticle->Add(life,pos,vec,accel,startScale,endScale,startColor,endColor);
+		if ( playerBullet->IsDead() )
+		{
+			playerBullet->Update();
+			endColor = { 0.0f,1.0f,0.0f,0.0f };
+			pos = { playerBullet->GetPos().x,playerBullet->GetPos().y,playerBullet->GetPos().z };
+			billParticle->Add(life,pos,vec,accel,startScale,endScale,startColor,endColor);
+		}
 	}
 
-	for ( std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets )
+	for ( size_t i = 0; i < eBulletCount; i++ )
 	{
-		enemyBullet->Update();
-		endColor = { 1.0f,0.0f,0.0f,0.0f };                  
-		pos = { enemyBullet->GetPos().x,enemyBullet->GetPos().y,enemyBullet->GetPos().z };
-		billParticle->Add(life,pos,vec,accel,startScale,endScale,startColor,endColor);
+		if ( enemyBullets->GetPool()[i]->IsDead() )
+		{
+			enemyBullets->GetPool()[ i ]->Update();
+			endColor = { 1.0f,0.0f,0.0f,0.0f };
+			pos = { enemyBullets->GetPool()[ i ]->GetPos().x,enemyBullets->GetPool()[ i ]->GetPos().y,enemyBullets->GetPool()[ i ]->GetPos().z };
+			billParticle->Add(life,pos,vec,accel,startScale,endScale,startColor,endColor);
+		}
 	}
 }
 
 void BulletManager::Draw(){
-	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets )
+	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets->GetPool() )
 	{
-		playerBullet->Draw();
+		if ( playerBullet->IsDead() )
+		{
+			playerBullet->Draw();
+		}
 	}
 
-	for ( std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets )
+	for ( size_t i = 0; i < pBulletCount; i++ )
 	{
-		enemyBullet->Draw();
+		if ( enemyBullets->GetPool()[ i ]->IsDead() )
+		{
+			enemyBullets->GetPool()[ i ]->Draw();
+		}
 	}
 }
 
 void BulletManager::PlayerBulletCreate(const Vector3& pos_,const Vector3& vec_,const Vector3& rot_){
 	// 弾生成
-	std::unique_ptr<Bullet> newBullet=std::make_unique<Bullet>();
-	newBullet->Initialize(playerBulletModel.get(),pos_,vec_,rot_);
-	newBullet->SetMotionSpeed(mSpeed);
-	// 登録
-	playerBullets.push_back(std::move(newBullet));
+	Bullet* newBullet;
+	for ( size_t i = 0; i < pBulletCount; i++ )
+	{
+		if ( !playerBullets->GetPool()[ i ]->IsDead())
+		{
+			newBullet = playerBullets->GetPool()[ i ].get();
+			newBullet->Initialize(playerBulletModel.get(),pos_,vec_,rot_);
+			newBullet->SetMotionSpeed(mSpeed);
+			break;
+		}
+	}
 }
 
 void BulletManager::EnemyBulletCreate(const Vector3& pos_,const Vector3& vec_,const Vector3& rot_,const std::string type_){
 	// 弾生成
-	std::unique_ptr<EnemyBullet> newBullet;
-	if ( type_=="normal" )
+	EnemyBullet* newBullet;
+	for ( size_t i = 0; i < eBulletCount; i++ )
 	{
-		newBullet = std::make_unique<EnemyBullet>();
-		newBullet->Initialize(enemyBulletModel.get(),pos_,vec_,rot_);
+		if ( !enemyBullets->GetPool()[ i ]->IsDead() )
+		{
+			if ( type_ == "normal" )
+			{
+				newBullet = enemyBullets->GetPool()[ i ].get();
+				newBullet->Initialize(enemyBulletModel.get(),pos_,vec_,rot_);
+				newBullet->SetMotionSpeed(mSpeed);
+				break;
+			}
+			else if ( type_ == "homing" )
+			{
+				newBullet = enemyBullets->GetPool()[ i ].get();
+				newBullet->Initialize(enemyBulletModel.get(),pos_,vec_,rot_);
+				newBullet->SetMotionSpeed(mSpeed);
+				break;
+			}
+			else
+			{
+				newBullet = enemyBullets->GetPool()[ i ].get();
+				newBullet->Initialize(enemyBulletModel.get(),pos_,vec_,rot_);
+				newBullet->SetMotionSpeed(mSpeed);
+				break;
+			}
+			
+		}
 	}
-	else if(type_=="homing" )
-	{
-		newBullet = std::make_unique<Homing>();
-		newBullet->Initialize(enemyBulletModel.get(),pos_,vec_,rot_,player);
-	}
-	else
-	{
-		newBullet = std::make_unique<EnemyBullet>();
-		newBullet->Initialize(enemyBulletModel.get(),pos_,vec_,rot_);
-	}
-	newBullet->SetMotionSpeed(mSpeed);
-
-	// 登録
-	enemyBullets.push_back(std::move(newBullet));
+	
+	
 }
 
 
 void BulletManager::AllBulletDelete(){
-	playerBullets.clear();
-	enemyBullets.clear();
+	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets->GetPool() )
+	{
+		if ( playerBullet->IsDead() )
+		{
+			playerBullet->XORDead();
+		}
+	}
+
+	for ( size_t i = 0; i < pBulletCount; i++ )
+	{
+		if ( enemyBullets->GetPool()[ i ]->IsDead() )
+		{
+			enemyBullets->GetPool()[ i ]->XORDead();
+		}
+	}
 }
 
 void BulletManager::SetMotionSpeed(const float& mSpeed_)
 {
 	//速度の調整
 	mSpeed = mSpeed_;
-	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets )
+	for ( std::unique_ptr<Bullet>& playerBullet : playerBullets->GetPool() )
 	{
-		playerBullet->SetMotionSpeed(mSpeed);
+		if ( playerBullet->IsDead() )
+		{
+			playerBullet->SetMotionSpeed(mSpeed);
+		}
 	}
 
-	for ( std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets )
+	for ( size_t i = 0; i < pBulletCount; i++ )
 	{
-		enemyBullet->SetMotionSpeed(mSpeed);
+		if ( enemyBullets->GetPool()[ i ]->IsDead() )
+		{
+			enemyBullets->GetPool()[ i ]->SetMotionSpeed(mSpeed);
+		}
 	}
+}
+
+void BulletManager::CountReset()
+{
+	eBulletCount = 0;
 }

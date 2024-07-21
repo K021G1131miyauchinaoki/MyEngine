@@ -207,6 +207,9 @@
     <ClCompile Include="Engine\base\TextureManager.cpp" />
     <ClCompile Include="Application\Enemy\AStar.cpp" />
     <ClCompile Include="Application\Block\BreakBlock.cpp" />
+    <ClCompile Include="BulletPool.cpp">
+      <Filter>ソースファイル\Application\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Enemy\NormalEnemy.h">
@@ -383,6 +386,9 @@
     <ClInclude Include="Engine\base\TextureManager.h" />
     <ClInclude Include="Application\Enemy\AStar.h" />
     <ClInclude Include="Application\Block\BreakBlock.h" />
+    <ClInclude Include="Application\Bullet\BulletPool.h">
+      <Filter>ヘッダーファイル\Application\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md" />

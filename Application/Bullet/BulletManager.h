@@ -4,11 +4,11 @@
 */
 #pragma once
 #include"Vector3.h"
-#include<list>
 #include<memory>
 #include<Bullet.h>
 #include<EnemyBullet.h>
 #include<Model.h>
+#include"BulletPool.h"
 
 //前方宣言
 class Player;
@@ -56,24 +56,32 @@ public:
 	void AllBulletDelete();
 
 	// 自弾のリストを取得
-	std::list<std::unique_ptr<Bullet>>& GetPlayerBullets() {
-		return playerBullets;
+	std::vector< std::unique_ptr<Bullet>>& GetPlayerBullets() {
+		return playerBullets->GetPool();
 	}
 
 	// 敵弾のリストを取得
-	std::list<std::unique_ptr<EnemyBullet>>& GetEnemyBullets() {
-		return enemyBullets;
+	std::vector<std::unique_ptr<EnemyBullet>>& GetEnemyBullets() {
+		return enemyBullets->GetPool();
 	}
 
 	//モーションタイマーをセット　デフォルトで1.0f
 	void SetMotionSpeed(const float& mSpeed_ = 1.0f);
+
+	//カウントリセット
+	void CountReset();
+
+public:
+	static int32_t eBulletCount;
+
 private:
 	// プレイヤーの弾
-	std::list<std::unique_ptr<Bullet>> playerBullets;
+	int32_t pBulletCount;
+	std::unique_ptr<ObjectPool<Bullet>> playerBullets;
 	std::unique_ptr<Model> playerBulletModel = nullptr;
 
 	// 敵の弾
-	std::list<std::unique_ptr<EnemyBullet>> enemyBullets;
+	std::unique_ptr<ObjectPool<EnemyBullet>> enemyBullets;
 	std::unique_ptr<Model> enemyBulletModel = nullptr;
 
 	//プレイヤー

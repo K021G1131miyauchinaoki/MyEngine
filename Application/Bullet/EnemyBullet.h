@@ -51,6 +51,13 @@ public://メンバ関数
 	virtual bool IsDead() const;
 
 	/// <summary>
+	///デスフラグを排他的論理和 
+	/// </summary>
+	void XORDead() {
+		isDead ^= 1;
+	}
+
+	/// <summary>
 	/// 衝突時のコールバック
 	/// </summary>
 	virtual void OnCollision();

@@ -35,6 +35,13 @@ public://メンバ関数
 	bool IsDead() const { return isDead; }
 
 	/// <summary>
+	///デスフラグを排他的論理和 
+	/// </summary>
+	void XORDead()  {
+		isDead^=1;
+	}
+
+	/// <summary>
 	/// 衝突時のコールバック
 	/// </summary>
 	void OnCollision();

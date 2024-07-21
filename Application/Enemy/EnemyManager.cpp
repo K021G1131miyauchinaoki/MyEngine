@@ -5,6 +5,7 @@
 #include<ModelManager.h>
 #include"Player.h"
 #include"GamePlayScene.h"
+#include"BulletManager.h"
 
 void EnemyManager::Initialize(Player* player_,BulletManager* bulletManager_)
 {
@@ -39,10 +40,12 @@ void EnemyManager::Add(const std::string& name_,Model* model_,const Vector3& pos
 	if ( name_ == "normal" )
 	{
 		e = std::make_unique <NormalEnemy>();
+		BulletManager::eBulletCount++;
 	}
 	else if(name_=="shotgun" )
 	{
 		e = std::make_unique<ShotgunEnemy>();
+		BulletManager::eBulletCount+=3;
 	}
 	else
 	{
@@ -105,14 +108,17 @@ void EnemyManager::RandomCreate(Map* map_)
 		if ( name == "Normal" )
 		{
 			e = std::make_unique <NormalEnemy>();
+			BulletManager::eBulletCount++;
 		}
 		else if ( name == "Shotgun" )
 		{
 			e = std::make_unique<ShotgunEnemy>();
+			BulletManager::eBulletCount+=3;
 		}
 		else
 		{
 			e = std::make_unique <NormalEnemy>();
+			BulletManager::eBulletCount++;
 		}
 		rot = { 0.0f,0.0f,0.0f };
 		//プレイヤーの範囲に入っていたら回し続ける

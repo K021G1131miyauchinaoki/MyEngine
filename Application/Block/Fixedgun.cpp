@@ -50,7 +50,7 @@ void Fixedgun::SetIsUp(const bool& isUp_) {
 }
 
 void Fixedgun::Shot() {
-	bulletManager->EnemyBulletCreate(pos,velocity,GetRot(),"normale");
+	bulletManager->EnemyBulletCreate(pos,velocity,GetRot(),"normal");
 	//音
 	//SoundManager::GetInstance()->PlayWave("SE/gun.wav",0.2f);
 }

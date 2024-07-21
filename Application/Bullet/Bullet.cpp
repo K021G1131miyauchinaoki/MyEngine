@@ -25,6 +25,7 @@ void Bullet::Initialize(Model* model_,const Vector3& position_,const Vector3& ve
 	const float speed = 1.0f;
 	velocity *= speed;
 	mSpeed = 1.0f;
+	isDead = true;
 }
 
 void Bullet::Update() {
@@ -35,7 +36,7 @@ void Bullet::Update() {
 	
 	//時間経過で消滅
 	if (--deathTimer <= 0&&!GamePlayScene::isSlow) {
-		isDead = true;
+		XORDead();
 	}
 	obj->Update();
 }
@@ -64,7 +65,7 @@ Vector3 Bullet::GetScale() {
 }
 
 //衝突したら
-void Bullet::OnCollision() { isDead = true; }
+void Bullet::OnCollision() { XORDead(); }
 
 //描画
 void Bullet::Draw() {

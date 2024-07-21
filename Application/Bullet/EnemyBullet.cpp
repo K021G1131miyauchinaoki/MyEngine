@@ -36,6 +36,7 @@ void EnemyBullet::Initialize(Model* model_,const Vector3& position_,const Vector
 
 	deathTimer = lifeTime;
 	mSpeed = 1.0f;
+	isDead = true;
 }
 
 void EnemyBullet::Update() {
@@ -46,7 +47,7 @@ void EnemyBullet::Update() {
 	
 	//時間経過で消滅
 	if (--deathTimer <= 0&&!GamePlayScene::isSlow) {
-		isDead = true;
+		XORDead();
 	}
 	obj->Update();
 }
@@ -71,7 +72,7 @@ Vector3 EnemyBullet::GetScale() {
 
 
 //衝突したら
-void EnemyBullet::OnCollision() { isDead = true; }
+void EnemyBullet::OnCollision() { XORDead(); }
 
 void EnemyBullet::Draw() {
 	obj->Draw();

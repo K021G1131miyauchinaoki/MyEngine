@@ -5,6 +5,7 @@
 #include<random>
 #include<ModelManager.h>
 #include<GamePlayScene.h>
+#include"BulletManager.h"
 
 void BlockManager::Initialize(BulletManager* bulletManager_,Map* map_,EnemyManager* enemyManager_,Player* player_,ModelParticleManager* particle_) {
 	bulletManager = bulletManager_;
@@ -50,6 +51,7 @@ void BlockManager::Add(const std::string name_,Model* model_,const Vector3& pos_
 	{
 		b = std::make_unique<Fixedgun>();
 		b->SetBulletManager(bulletManager);
+		BulletManager::eBulletCount++;
 	}
 	else if ( name_ == "breakblock" )
 	{
@@ -193,6 +195,7 @@ void BlockManager::RandomCreate()
 			b = std::make_unique<Fixedgun>();
 			model = ModelManager::GetInstance()->GetModel("fixedgun");
 			b->SetBulletManager(bulletManager);
+			BulletManager::eBulletCount++;
 			//上下
 			if ( direction <= 1 )rot.y = 90.0f;
 			//左右
@@ -258,6 +261,7 @@ void BlockManager::LineCreate(std::vector<Node>& node,const Vector3& pos_,const 
 			b = std::make_unique<Fixedgun>();
 			model = ModelManager::GetInstance()->GetModel("fixedgun");
 			b->SetBulletManager(bulletManager);
+			BulletManager::eBulletCount++;
 			//回転
 			//上下
 			if ( direction <= 1 )rot.y = 90.0f;

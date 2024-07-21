@@ -331,89 +331,95 @@ void GamePlayScene::CheckAllCollision() {
 		
 	
 		//自弾リストを取得
-		const std::list<std::unique_ptr<Bullet>>& playerBullets = bulletManager->GetPlayerBullets();
+		const std::vector<std::unique_ptr<Bullet>>& playerBullets = bulletManager->GetPlayerBullets();
 		//敵弾リストを取得
-		const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = bulletManager->GetEnemyBullets();
+		const std::vector<std::unique_ptr<EnemyBullet>>& enemyBullets = bulletManager->GetEnemyBullets();
 		
 		//敵弾
 		for ( const std::unique_ptr<EnemyBullet>& e_bullet : enemyBullets )
 		{
-			#pragma	region	自キャラとの当たり判定
-			//判定対象AとBの座標
-			Vector3 posA,posB;
-			//自キャラの座標
-			posA = player->GetPos();
-			//敵弾の座標
-			posB = e_bullet->GetPos();
-			//A,Bの距離
-			Vector3 vecPos = MyMath::lens(posA,posB);
-			float dis = MyMath::Length(vecPos);
-			//
-			float	radius = player->GetRadius() + e_bullet->GetRadius();
-			//判定
-			if ( dis <= radius )
+			if ( e_bullet->IsDead() )
 			{
-				//HPが2以上であれば
-				if ( player->GetHp() > 1 )
-				{
-					//自キャラのコールバックを呼び出し
-					player->OnCollision();
-					//敵弾のコールバックを呼び出し
-					e_bullet->OnCollision();
-					particle->Add("explosion",30,15,player->GetPos(),1.0f,0.0f);
-				}
-				else
-				{
-					eBullet = e_bullet.get();
-					isSlow = true;
-					isPlayer = true;
-				}
-			}
-			#pragma	endregion
-
-			#pragma region 自弾との当たり判定
-			for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
-			{
-				//自弾の座標
-				posA = p_bullet->GetPos();
-				
-				// A,Bの距離
-				vecPos = MyMath::lens(posA,posB);
-				dis = MyMath::Length(vecPos);
-				//AとBの半径の合計
-				radius = e_bullet->GetRadius() + p_bullet->GetRadius();
+				#pragma	region	自キャラとの当たり判定
+				//判定対象AとBの座標
+				Vector3 posA,posB;
+				//自キャラの座標
+				posA = player->GetPos();
+				//敵弾の座標
+				posB = e_bullet->GetPos();
+				//A,Bの距離
+				Vector3 vecPos = MyMath::lens(posA,posB);
+				float dis = MyMath::Length(vecPos);
+				//
+				float	radius = player->GetRadius() + e_bullet->GetRadius();
 				//判定
 				if ( dis <= radius )
 				{
-					//自弾のコールバックを呼び出し
-					p_bullet->OnCollision();
-					//敵弾のコールバックを呼び出し
-					e_bullet->OnCollision();
-					particle->Add("explosion",5,10,p_bullet->GetPos(),1.0f,0.0f);
-					particle->Add("explosion",5,10,e_bullet->GetPos(),1.0f,0.0f);
+					//HPが2以上であれば
+					if ( player->GetHp() > 1 )
+					{
+						//自キャラのコールバックを呼び出し
+						player->OnCollision();
+						//敵弾のコールバックを呼び出し
+						e_bullet->OnCollision();
+						particle->Add("explosion",30,15,player->GetPos(),1.0f,0.0f);
+					}
+					else
+					{
+						eBullet = e_bullet.get();
+						isSlow = true;
+						isPlayer = true;
+					}
 				}
-			}
-			#pragma endregion
+				#pragma	endregion
 
-			#pragma region ブロックとの当たり判定	
-			for ( const std::unique_ptr<BaseBlock>& block : blockManager->GetBlocks() )
-			{
-				//自弾の座標
-				posA = e_bullet->GetPos();
-				//敵弾の座標
-				posB = block->GetPos();
-
-				//判定
-				if ( CheckBoxXZ(posA,e_bullet->GetScale(),posB,block->GetScale()) )
+				#pragma region 自弾との当たり判定
+				for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
 				{
-					//敵弾のコールバックを呼び出し
-					e_bullet->OnCollision();
-					
-					//パーティクルの呼び出し
-					particle->Add("explosion",5,10,e_bullet->GetPos(),1.0f,0.0f);
+					if ( p_bullet->IsDead() )
+					{
+					//自弾の座標
+						posA = p_bullet->GetPos();
+
+						// A,Bの距離
+						vecPos = MyMath::lens(posA,posB);
+						dis = MyMath::Length(vecPos);
+						//AとBの半径の合計
+						radius = e_bullet->GetRadius() + p_bullet->GetRadius();
+						//判定
+						if ( dis <= radius )
+						{
+							//自弾のコールバックを呼び出し
+							p_bullet->OnCollision();
+							//敵弾のコールバックを呼び出し
+							e_bullet->OnCollision();
+							particle->Add("explosion",5,10,p_bullet->GetPos(),1.0f,0.0f);
+							particle->Add("explosion",5,10,e_bullet->GetPos(),1.0f,0.0f);
+						}
+					}
 				}
+				#pragma endregion
+
+				#pragma region ブロックとの当たり判定	
+				for ( const std::unique_ptr<BaseBlock>& block : blockManager->GetBlocks() )
+				{
+					//自弾の座標
+					posA = e_bullet->GetPos();
+					//敵弾の座標
+					posB = block->GetPos();
+
+					//判定
+					if ( CheckBoxXZ(posA,e_bullet->GetScale(),posB,block->GetScale()) )
+					{
+						//敵弾のコールバックを呼び出し
+						e_bullet->OnCollision();
+
+						//パーティクルの呼び出し
+						particle->Add("explosion",5,10,e_bullet->GetPos(),1.0f,0.0f);
+					}
+				}
+				#pragma endregion
 			}
-			#pragma endregion
 		}
 
 		//敵
@@ -424,49 +430,52 @@ void GamePlayScene::CheckAllCollision() {
 			#pragma region 自弾との当たり判定
 			for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
 			{
-				//判定対象AとBの座標
-				Vector3 posA,posB;
-				//敵弾の座標
-				posA = enemy->GetPos();
-				//自弾の座標
-				posB = p_bullet->GetPos();
-				// A,Bの距離
-				Vector3 vecPos = MyMath::lens(posA,posB);
-				float dis = MyMath::Length(vecPos);
-				//
-				float radius = enemy->GetRadius() + p_bullet->GetRadius();
-				//判定
-				if ( dis <= radius )
+				if ( p_bullet->IsDead() )
 				{
-					//２体以上いれば
-					if ( enemyManager->GetSize()>=2 )
+					//判定対象AとBの座標
+					Vector3 posA,posB;
+					//敵弾の座標
+					posA = enemy->GetPos();
+					//自弾の座標
+					posB = p_bullet->GetPos();
+					// A,Bの距離
+					Vector3 vecPos = MyMath::lens(posA,posB);
+					float dis = MyMath::Length(vecPos);
+					//
+					float radius = enemy->GetRadius() + p_bullet->GetRadius();
+					//判定
+					if ( dis <= radius )
 					{
-						//敵キャラのコールバックを呼び出し
-						enemy->OnCollision();
-						//自弾のコールバックを呼び出し
-						p_bullet->OnCollision();
-
-					}
-					else//残り1体で
-					{
-						//HPが2以上であれば
-						if ( enemy->GetHP()>1 )
+						//２体以上いれば
+						if ( enemyManager->GetSize() >= 2 )
 						{
 							//敵キャラのコールバックを呼び出し
 							enemy->OnCollision();
 							//自弾のコールバックを呼び出し
 							p_bullet->OnCollision();
-						}
-						else
-						{
-							pickEnemy = enemy.get();
-							bullet = p_bullet.get();
-							isSlow = true;
-							isEnemy = true;
-						}
-					}
 
-					particle->Add("explosion",30,15,enemy->GetPos(),1.0f,0.0f);
+						}
+						else//残り1体で
+						{
+							//HPが2以上であれば
+							if ( enemy->GetHP() > 1 )
+							{
+								//敵キャラのコールバックを呼び出し
+								enemy->OnCollision();
+								//自弾のコールバックを呼び出し
+								p_bullet->OnCollision();
+							}
+							else
+							{
+								pickEnemy = enemy.get();
+								bullet = p_bullet.get();
+								isSlow = true;
+								isEnemy = true;
+							}
+						}
+
+						particle->Add("explosion",30,15,enemy->GetPos(),1.0f,0.0f);
+					}
 				}
 			}
 			#pragma endregion
@@ -635,22 +644,25 @@ void GamePlayScene::CheckAllCollision() {
 			#pragma region 自弾との当たり判定
 			for ( const std::unique_ptr<Bullet>& p_bullet : playerBullets )
 			{
-				//判定対象AとBの座標
-				Vector3 posA,posB;
-				//自弾の座標
-				posA = p_bullet->GetPos();
-				//ブロック
-				posB = block->GetPos();				
-				
-				//判定
-				if ( CheckBoxXZ(posA,p_bullet->GetScale(),posB,block->GetScale()) )
+				if ( p_bullet->IsDead() )
 				{
-					//自弾のコールバックを呼び出し
-					p_bullet->OnCollision();
-					//ブロックのコールバックを呼び出し
-					block->OnCollision();
-					//パーティクルの呼び出し
-					particle->Add("1",5,10,p_bullet->GetPos(),1.0f,0.0f);
+				//判定対象AとBの座標
+					Vector3 posA,posB;
+					//自弾の座標
+					posA = p_bullet->GetPos();
+					//ブロック
+					posB = block->GetPos();
+
+					//判定
+					if ( CheckBoxXZ(posA,p_bullet->GetScale(),posB,block->GetScale()) )
+					{
+						//自弾のコールバックを呼び出し
+						p_bullet->OnCollision();
+						//ブロックのコールバックを呼び出し
+						block->OnCollision();
+						//パーティクルの呼び出し
+						particle->Add("1",5,10,p_bullet->GetPos(),1.0f,0.0f);
+					}
 				}
 			}
 			#pragma endregion
@@ -790,7 +802,8 @@ void GamePlayScene::OutStaging()
 			clearCount++;
 			startCount = start::Redy;
 			spriteEaseTime = 0.0f;
-
+			//リセット
+			bulletManager->CountReset();
 			//生成と配置
 			UseJson();
 

@@ -115,6 +115,7 @@
     <ClCompile Include="Application\Block\BlockManager.cpp" />
     <ClCompile Include="Application\Enemy\AStar.cpp" />
     <ClCompile Include="Application\Block\BreakBlock.cpp" />
+    <ClCompile Include="BulletPool.cpp" />
     <ClCompile Include="Engine\base\scene\AbstractSceneFactory.cpp" />
     <ClCompile Include="Application\Enemy\NormalEnemy.cpp" />
     <ClCompile Include="Application\Bullet\Bullet.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="Application\Block\BlockManager.h" />
     <ClInclude Include="Application\Enemy\AStar.h" />
     <ClInclude Include="Application\Block\BreakBlock.h" />
+    <ClInclude Include="Application\Bullet\BulletPool.h" />
     <ClInclude Include="Engine\base\scene\AbstractSceneFactory.h" />
     <ClInclude Include="Application\Enemy\NormalEnemy.h" />
     <ClInclude Include="Application\Bullet\Bullet.h" />
